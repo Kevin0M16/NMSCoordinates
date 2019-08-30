@@ -66,6 +66,7 @@ namespace NMSCoordinates
             this.button4 = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.textBox27 = new System.Windows.Forms.TextBox();
             this.groupBox17 = new System.Windows.Forms.GroupBox();
             this.button5 = new System.Windows.Forms.Button();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
@@ -532,6 +533,7 @@ namespace NMSCoordinates
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.textBox27);
             this.tabPage2.Controls.Add(this.groupBox17);
             this.tabPage2.Controls.Add(this.groupBox7);
             this.tabPage2.Controls.Add(this.label23);
@@ -549,19 +551,27 @@ namespace NMSCoordinates
             this.tabPage2.Text = "Base and Space Station";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // textBox27
+            // 
+            this.textBox27.Location = new System.Drawing.Point(589, 655);
+            this.textBox27.Multiline = true;
+            this.textBox27.Name = "textBox27";
+            this.textBox27.Size = new System.Drawing.Size(272, 161);
+            this.textBox27.TabIndex = 32;
+            // 
             // groupBox17
             // 
             this.groupBox17.Controls.Add(this.button5);
-            this.groupBox17.Location = new System.Drawing.Point(621, 655);
+            this.groupBox17.Location = new System.Drawing.Point(333, 382);
             this.groupBox17.Name = "groupBox17";
-            this.groupBox17.Size = new System.Drawing.Size(200, 93);
+            this.groupBox17.Size = new System.Drawing.Size(200, 57);
             this.groupBox17.TabIndex = 72;
             this.groupBox17.TabStop = false;
             this.groupBox17.Text = "Fast Travel";
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(35, 33);
+            this.button5.Location = new System.Drawing.Point(46, 19);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(114, 28);
             this.button5.TabIndex = 0;
@@ -574,9 +584,9 @@ namespace NMSCoordinates
             this.groupBox7.Controls.Add(this.textBox12);
             this.groupBox7.Controls.Add(this.button3);
             this.groupBox7.Controls.Add(this.label9);
-            this.groupBox7.Location = new System.Drawing.Point(334, 382);
+            this.groupBox7.Location = new System.Drawing.Point(334, 445);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(199, 94);
+            this.groupBox7.Size = new System.Drawing.Size(199, 91);
             this.groupBox7.TabIndex = 67;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Portal Interference Status";
@@ -589,6 +599,7 @@ namespace NMSCoordinates
             this.textBox12.ReadOnly = true;
             this.textBox12.Size = new System.Drawing.Size(75, 23);
             this.textBox12.TabIndex = 25;
+            this.textBox12.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // button3
             // 
@@ -613,7 +624,7 @@ namespace NMSCoordinates
             // 
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.Location = new System.Drawing.Point(338, 493);
+            this.label23.Location = new System.Drawing.Point(117, 511);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(183, 15);
             this.label23.TabIndex = 70;
@@ -640,6 +651,7 @@ namespace NMSCoordinates
             this.textBox2.ReadOnly = true;
             this.textBox2.Size = new System.Drawing.Size(134, 23);
             this.textBox2.TabIndex = 29;
+            this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label10
             // 
@@ -667,6 +679,7 @@ namespace NMSCoordinates
             this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(134, 23);
             this.textBox1.TabIndex = 1;
+            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // groupBox5
             // 
@@ -918,6 +931,7 @@ namespace NMSCoordinates
             this.textBox5.ReadOnly = true;
             this.textBox5.Size = new System.Drawing.Size(66, 23);
             this.textBox5.TabIndex = 9;
+            this.textBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBox10
             // 
@@ -927,6 +941,7 @@ namespace NMSCoordinates
             this.textBox10.ReadOnly = true;
             this.textBox10.Size = new System.Drawing.Size(86, 23);
             this.textBox10.TabIndex = 21;
+            this.textBox10.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBox6
             // 
@@ -936,6 +951,7 @@ namespace NMSCoordinates
             this.textBox6.ReadOnly = true;
             this.textBox6.Size = new System.Drawing.Size(66, 23);
             this.textBox6.TabIndex = 10;
+            this.textBox6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBox4
             // 
@@ -945,6 +961,7 @@ namespace NMSCoordinates
             this.textBox4.ReadOnly = true;
             this.textBox4.Size = new System.Drawing.Size(66, 23);
             this.textBox4.TabIndex = 8;
+            this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBox7
             // 
@@ -954,6 +971,7 @@ namespace NMSCoordinates
             this.textBox7.ReadOnly = true;
             this.textBox7.Size = new System.Drawing.Size(66, 23);
             this.textBox7.TabIndex = 11;
+            this.textBox7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label6
             // 
@@ -972,6 +990,7 @@ namespace NMSCoordinates
             this.textBox8.ReadOnly = true;
             this.textBox8.Size = new System.Drawing.Size(66, 23);
             this.textBox8.TabIndex = 12;
+            this.textBox8.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBox9
             // 
@@ -981,6 +1000,7 @@ namespace NMSCoordinates
             this.textBox9.ReadOnly = true;
             this.textBox9.Size = new System.Drawing.Size(66, 23);
             this.textBox9.TabIndex = 18;
+            this.textBox9.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label1
             // 
@@ -1439,6 +1459,15 @@ namespace NMSCoordinates
         public dynamic jsonObj;
         public dynamic jsonArray;
 
+        public string rxPatternP;
+        public string rxValP;
+        public string rxPatternSt;
+        public string rxValSt;
+        public string rxPatternPs;
+        public string rxValPs;
+        public string rxPatternPrtl;
+        public string rxValPrtl;
+
         public string rxPatternG;
         public string rxValG;
         public string rxPatternX;
@@ -1587,6 +1616,7 @@ namespace NMSCoordinates
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.TextBox textBox26;
+        private System.Windows.Forms.TextBox textBox27;
     }
 }
 

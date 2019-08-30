@@ -55,7 +55,7 @@ namespace NMSCoordinates
 
                 //comboBox1.SelectedIndex = 0;
                 AppendLine(textBox16, Path.GetDirectoryName(Files[0].FullName));
-                AppendLine(textBox26, Files[0].LastWriteTime.ToLongDateString() + " " + Files[0].LastWriteTime.ToLongTimeString());
+                //AppendLine(textBox26, Files[0].LastWriteTime.ToLongDateString() + " " + Files[0].LastWriteTime.ToLongTimeString());
 
             }
             else
@@ -848,13 +848,11 @@ namespace NMSCoordinates
             {                
                 string decrypt = @"/c .\nmssavetool\nmssavetool.exe decrypt -g2 -f .\nmssavetool\save1.json";
                 ProcessStartInfo startInfo = new ProcessStartInfo(@"Powershell.exe");
-                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                //Process.Start(startInfo);
+                startInfo.WindowStyle = ProcessWindowStyle.Hidden;                
                 startInfo.Arguments = decrypt;
                 Process.Start(startInfo);
                 Thread.Sleep(2000);
 
-                //Process.Start(@"Powershell.exe", decrypt);
                 string jsons = File.ReadAllText(@".\nmssavetool\save1.json");
 
                 jsons = jsons.Replace("\"DaC\": true", "\"DaC\": false");
@@ -863,8 +861,7 @@ namespace NMSCoordinates
                 Thread.Sleep(2000);
 
                 string encrypt = @"/c .\nmssavetool\nmssavetool.exe encrypt -g2 -f .\nmssavetool\save1.json";
-                //Process.Start("Powershell.exe -WindowStyle Hidden", encrypt);
-                //Process.Start(startInfo);
+                
                 startInfo.Arguments = encrypt;
                 Process.Start(startInfo);
                 Thread.Sleep(2000);
@@ -890,18 +887,23 @@ namespace NMSCoordinates
             //nms.The6F.YhJ.OZw;
         }
         private void JsonKey()
-        {
-            rxPatternG = "\"Iis\".*?$";
+        {            
+            rxPatternG = "\"Iis\".*?,";
             rxPatternX = "\"dZj\".*?$";
             rxPatternY = "\"IyE\".*?$";
             rxPatternZ = "\"uXE\".*?$";
             rxPatternSSI = "\"vby\".*?$";
             rxPatternPI = "\"jsv\".*?$";
+
+            rxPatternP = "\"6f=\".*?}";
+            rxPatternSt = "\"rnc\".*?}";
+            rxPatternPs = "\"jk4\".*?,";
+            rxPatternPrtl = "\"DaC\".*?,";
         }
         private void JsonSet(string value)
         {
             switch(value)
-            {
+            {                
                 case "g":                    
                     rxValG = "\"Iis\": " + textBox4.Text + ",";
                     break;
@@ -920,52 +922,83 @@ namespace NMSCoordinates
                 case "pi":                    
                     rxValPI = "\"jsv\": " + textBox9.Text + ",";
                     break;
-                case "all": ///
+                case "all": 
                     rxValG = "\"Iis\": " + galaxy + ",";
                     rxValX = "\"dZj\": " + X + ",";
                     rxValY = "\"IyE\": " + Y + ",";
                     rxValZ = "\"uXE\": " + Z + ",";
                     rxValSSI = "\"vby\": " + SSI + ",";
                     rxValPI = "\"jsv\": 0";
+                    rxValPs = "\"jk4\": \"InShip\",";
+                    rxValPrtl = "\"DaC\": false,";
                     break;
             }            
         }
         private void Button5_Click(object sender, EventArgs e)
         {
-            string jsons = File.ReadAllText(@".\nmssavetool\save1.json");
-            //Match m = myRegex.Match(json);   // m is the first match
+            //Set all Regex values
             JsonSet("all");
+            
+            //Read all the JSON text from nmssavetool decrypt
+            string jsons = File.ReadAllText(@".\nmssavetool\save1.json");
+
+            //Set Player Location
+            Regex myRegex = new Regex(rxPatternP, RegexOptions.Singleline);
+            Match m = myRegex.Match(jsons);   // m is the first match
+            rxValP = m.ToString();            
+
             Regex myRegex1 = new Regex(rxPatternG, RegexOptions.Multiline);
-            jsons = Regex.Replace(jsons, rxPatternG, rxValG);
+            rxValP = Regex.Replace(rxValP, rxPatternG, rxValG, RegexOptions.Multiline);
 
             Regex myRegex2 = new Regex(rxPatternX, RegexOptions.Multiline);
-            jsons = Regex.Replace(jsons, rxPatternX, rxValX, RegexOptions.Multiline);
+            rxValP = Regex.Replace(rxValP, rxPatternX, rxValX, RegexOptions.Multiline);
 
             Regex myRegex3 = new Regex(rxPatternY, RegexOptions.Multiline);
-            jsons = Regex.Replace(jsons, rxPatternY, rxValY, RegexOptions.Multiline);
+            rxValP = Regex.Replace(rxValP, rxPatternY, rxValY, RegexOptions.Multiline);
 
             Regex myRegex4 = new Regex(rxPatternZ, RegexOptions.Multiline);
-            jsons = Regex.Replace(jsons, rxPatternZ, rxValZ, RegexOptions.Multiline);
+            rxValP = Regex.Replace(rxValP, rxPatternZ, rxValZ, RegexOptions.Multiline);
 
             Regex myRegex5 = new Regex(rxPatternSSI, RegexOptions.Multiline);
-            jsons = Regex.Replace(jsons, rxPatternSSI, rxValSSI, RegexOptions.Multiline);
+            rxValP = Regex.Replace(rxValP, rxPatternSSI, rxValSSI, RegexOptions.Multiline);
 
             Regex myRegex6 = new Regex(rxPatternPI, RegexOptions.Multiline);
-            jsons = Regex.Replace(jsons, rxPatternPI, rxValPI, RegexOptions.Multiline);
+            rxValP = Regex.Replace(rxValP, rxPatternPI, rxValPI, RegexOptions.Multiline);
+            
+            jsons = Regex.Replace(jsons, rxPatternP, rxValP, RegexOptions.Singleline);
 
-            File.WriteAllText(@".\nmssavetool\save1.json", jsons);
+            //Set Spawn State
+            Regex myRegexs = new Regex(rxPatternSt, RegexOptions.Singleline);
+            Match ms = myRegexs.Match(jsons);   // m is the first match
+            rxValSt = ms.ToString();
+            //AppendLine(textBox3, rxValSt);
 
+            Regex myRegexps = new Regex(rxPatternPs, RegexOptions.Multiline);
+            rxValSt = Regex.Replace(rxValSt, rxPatternPs, rxValPs, RegexOptions.Multiline);
+
+            jsons = Regex.Replace(jsons, rxPatternSt, rxValSt, RegexOptions.Singleline);
+
+            //Set Portal Interference false DaC
+            Regex myRegexPrtl = new Regex(rxPatternPrtl, RegexOptions.Multiline);
+            Match prtl = myRegexPrtl.Match(jsons);
+            rxValPrtl = prtl.ToString();
+
+            jsons = Regex.Replace(jsons, rxPatternPrtl, rxValPrtl, RegexOptions.Multiline);
+                       
+            //Write all modifications of file to save2.json
+            File.WriteAllText(@".\nmssavetool\save2.json", jsons);
+
+            //Show log of changes in txtbox
             Match g = myRegex1.Match(jsons);
             Match x = myRegex2.Match(jsons);
             Match y = myRegex3.Match(jsons);
             Match z = myRegex4.Match(jsons);
             Match ssi = myRegex5.Match(jsons);
             Match pi = myRegex6.Match(jsons);
-
-            AppendLine(textBox3, g.ToString() + x.ToString() + y.ToString() + z.ToString() + ssi.ToString() + pi.ToString());
+            Match ps = myRegexps.Match(jsons);
+            AppendLine(textBox3, g.ToString() + x.ToString() + y.ToString() + z.ToString() + ssi.ToString() + pi.ToString() + ps.ToString());
 
         }
-
         private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             textBox26.Clear();
