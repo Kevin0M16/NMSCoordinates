@@ -126,21 +126,9 @@ namespace NMSCoordinates
             this.textBox20 = new System.Windows.Forms.TextBox();
             this.listBox2 = new System.Windows.Forms.ListBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.label22 = new System.Windows.Forms.Label();
-            this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.textBox13 = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.textBox11 = new System.Windows.Forms.TextBox();
-            this.textBox15 = new System.Windows.Forms.TextBox();
-            this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.textBox14 = new System.Windows.Forms.TextBox();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.textBox18 = new System.Windows.Forms.TextBox();
             this.listBox3 = new System.Windows.Forms.ListBox();
+            this.button6 = new System.Windows.Forms.Button();
+            this.textBox11 = new System.Windows.Forms.TextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectSaveFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -154,8 +142,7 @@ namespace NMSCoordinates
             this.screenshotPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.screenshotPageToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.screenshotPageToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.groupBox16 = new System.Windows.Forms.GroupBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.button7 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox25)).BeginInit();
@@ -198,11 +185,7 @@ namespace NMSCoordinates
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            this.groupBox10.SuspendLayout();
-            this.groupBox9.SuspendLayout();
-            this.groupBox8.SuspendLayout();
             this.menuStrip1.SuspendLayout();
-            this.groupBox16.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -644,10 +627,10 @@ namespace NMSCoordinates
             // 
             this.textBox27.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox27.ForeColor = System.Drawing.Color.Azure;
-            this.textBox27.Location = new System.Drawing.Point(429, 717);
+            this.textBox27.Location = new System.Drawing.Point(382, 707);
             this.textBox27.Multiline = true;
             this.textBox27.Name = "textBox27";
-            this.textBox27.Size = new System.Drawing.Size(392, 86);
+            this.textBox27.Size = new System.Drawing.Size(469, 86);
             this.textBox27.TabIndex = 32;
             // 
             // groupBox17
@@ -1264,11 +1247,10 @@ namespace NMSCoordinates
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.tabPage3.Controls.Add(this.groupBox16);
-            this.tabPage3.Controls.Add(this.label22);
-            this.tabPage3.Controls.Add(this.groupBox10);
-            this.tabPage3.Controls.Add(this.groupBox9);
-            this.tabPage3.Controls.Add(this.groupBox8);
+            this.tabPage3.Controls.Add(this.button7);
+            this.tabPage3.Controls.Add(this.listBox3);
+            this.tabPage3.Controls.Add(this.button6);
+            this.tabPage3.Controls.Add(this.textBox11);
             this.tabPage3.Location = new System.Drawing.Point(4, 24);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -1276,173 +1258,37 @@ namespace NMSCoordinates
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Other";
             // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.ForeColor = System.Drawing.Color.White;
-            this.label22.Location = new System.Drawing.Point(460, 69);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(228, 25);
-            this.label22.TabIndex = 64;
-            this.label22.Text = "*** EXPERIMENTAL***";
-            // 
-            // groupBox10
-            // 
-            this.groupBox10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
-            this.groupBox10.Controls.Add(this.textBox13);
-            this.groupBox10.Controls.Add(this.label12);
-            this.groupBox10.Controls.Add(this.label15);
-            this.groupBox10.Controls.Add(this.label11);
-            this.groupBox10.Controls.Add(this.textBox11);
-            this.groupBox10.Controls.Add(this.textBox15);
-            this.groupBox10.ForeColor = System.Drawing.Color.Azure;
-            this.groupBox10.Location = new System.Drawing.Point(423, 130);
-            this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(424, 271);
-            this.groupBox10.TabIndex = 63;
-            this.groupBox10.TabStop = false;
-            this.groupBox10.Text = "Base Coordinates";
-            // 
-            // textBox13
-            // 
-            this.textBox13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.textBox13.ForeColor = System.Drawing.Color.Azure;
-            this.textBox13.Location = new System.Drawing.Point(62, 100);
-            this.textBox13.Multiline = true;
-            this.textBox13.Name = "textBox13";
-            this.textBox13.ReadOnly = true;
-            this.textBox13.Size = new System.Drawing.Size(276, 24);
-            this.textBox13.TabIndex = 50;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(344, 103);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(37, 15);
-            this.label12.TabIndex = 51;
-            this.label12.Text = "Voxel";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(202, 140);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(120, 15);
-            this.label15.TabIndex = 56;
-            this.label15.Text = "Galactic Coordinates";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(202, 72);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(60, 15);
-            this.label11.TabIndex = 45;
-            this.label11.Text = "Base Hex";
-            // 
-            // textBox11
-            // 
-            this.textBox11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.textBox11.ForeColor = System.Drawing.Color.Azure;
-            this.textBox11.Location = new System.Drawing.Point(62, 69);
-            this.textBox11.Multiline = true;
-            this.textBox11.Name = "textBox11";
-            this.textBox11.ReadOnly = true;
-            this.textBox11.Size = new System.Drawing.Size(134, 24);
-            this.textBox11.TabIndex = 44;
-            // 
-            // textBox15
-            // 
-            this.textBox15.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.textBox15.ForeColor = System.Drawing.Color.Azure;
-            this.textBox15.Location = new System.Drawing.Point(62, 137);
-            this.textBox15.Multiline = true;
-            this.textBox15.Name = "textBox15";
-            this.textBox15.ReadOnly = true;
-            this.textBox15.Size = new System.Drawing.Size(134, 24);
-            this.textBox15.TabIndex = 55;
-            // 
-            // groupBox9
-            // 
-            this.groupBox9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
-            this.groupBox9.Controls.Add(this.label14);
-            this.groupBox9.Controls.Add(this.textBox14);
-            this.groupBox9.ForeColor = System.Drawing.Color.Azure;
-            this.groupBox9.Location = new System.Drawing.Point(20, 555);
-            this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(508, 174);
-            this.groupBox9.TabIndex = 62;
-            this.groupBox9.TabStop = false;
-            this.groupBox9.Text = "Calculations Log";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(163, 17);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(159, 15);
-            this.label14.TabIndex = 54;
-            this.label14.Text = "Bottom / Lower Calculations";
-            // 
-            // textBox14
-            // 
-            this.textBox14.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.textBox14.ForeColor = System.Drawing.Color.Azure;
-            this.textBox14.Location = new System.Drawing.Point(19, 34);
-            this.textBox14.Multiline = true;
-            this.textBox14.Name = "textBox14";
-            this.textBox14.ReadOnly = true;
-            this.textBox14.Size = new System.Drawing.Size(470, 106);
-            this.textBox14.TabIndex = 52;
-            // 
-            // groupBox8
-            // 
-            this.groupBox8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
-            this.groupBox8.Controls.Add(this.label13);
-            this.groupBox8.Controls.Add(this.textBox18);
-            this.groupBox8.Controls.Add(this.listBox3);
-            this.groupBox8.ForeColor = System.Drawing.Color.Azure;
-            this.groupBox8.Location = new System.Drawing.Point(20, 25);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(356, 507);
-            this.groupBox8.TabIndex = 61;
-            this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "Base List";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(255, 456);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(70, 15);
-            this.label13.TabIndex = 57;
-            this.label13.Text = "Base Count";
-            // 
-            // textBox18
-            // 
-            this.textBox18.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.textBox18.ForeColor = System.Drawing.Color.Azure;
-            this.textBox18.Location = new System.Drawing.Point(219, 451);
-            this.textBox18.Multiline = true;
-            this.textBox18.Name = "textBox18";
-            this.textBox18.ReadOnly = true;
-            this.textBox18.Size = new System.Drawing.Size(30, 21);
-            this.textBox18.TabIndex = 50;
-            this.textBox18.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // listBox3
             // 
             this.listBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.listBox3.ForeColor = System.Drawing.Color.Azure;
             this.listBox3.FormattingEnabled = true;
             this.listBox3.ItemHeight = 15;
-            this.listBox3.Location = new System.Drawing.Point(40, 32);
+            this.listBox3.Location = new System.Drawing.Point(19, 16);
             this.listBox3.Name = "listBox3";
-            this.listBox3.Size = new System.Drawing.Size(277, 409);
-            this.listBox3.TabIndex = 48;
+            this.listBox3.Size = new System.Drawing.Size(824, 454);
+            this.listBox3.TabIndex = 35;
             this.listBox3.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ListBox3_MouseClick);
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(344, 510);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(142, 42);
+            this.button6.TabIndex = 34;
+            this.button6.Text = "button6";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.Button6_Click);
+            // 
+            // textBox11
+            // 
+            this.textBox11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.textBox11.ForeColor = System.Drawing.Color.Azure;
+            this.textBox11.Location = new System.Drawing.Point(19, 597);
+            this.textBox11.Multiline = true;
+            this.textBox11.Name = "textBox11";
+            this.textBox11.Size = new System.Drawing.Size(824, 142);
+            this.textBox11.TabIndex = 33;
             // 
             // menuStrip1
             // 
@@ -1550,27 +1396,15 @@ namespace NMSCoordinates
             this.screenshotPageToolStripMenuItem2.Text = "Set Screenshot Path";
             this.screenshotPageToolStripMenuItem2.Click += new System.EventHandler(this.ScreenshotPageToolStripMenuItem2_Click);
             // 
-            // groupBox16
+            // button7
             // 
-            this.groupBox16.Controls.Add(this.comboBox3);
-            this.groupBox16.ForeColor = System.Drawing.Color.White;
-            this.groupBox16.Location = new System.Drawing.Point(576, 534);
-            this.groupBox16.Name = "groupBox16";
-            this.groupBox16.Size = new System.Drawing.Size(208, 195);
-            this.groupBox16.TabIndex = 70;
-            this.groupBox16.TabStop = false;
-            this.groupBox16.Text = "Change Galaxy";
-            // 
-            // comboBox3
-            // 
-            this.comboBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox3.ForeColor = System.Drawing.Color.Azure;
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(35, 53);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(125, 23);
-            this.comboBox3.TabIndex = 34;
+            this.button7.Location = new System.Drawing.Point(344, 779);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(142, 42);
+            this.button7.TabIndex = 36;
+            this.button7.Text = "button7";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.Button7_Click);
             // 
             // Form1
             // 
@@ -1640,15 +1474,8 @@ namespace NMSCoordinates
             this.groupBox1.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
-            this.groupBox10.ResumeLayout(false);
-            this.groupBox10.PerformLayout();
-            this.groupBox9.ResumeLayout(false);
-            this.groupBox9.PerformLayout();
-            this.groupBox8.ResumeLayout(false);
-            this.groupBox8.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.groupBox16.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1789,29 +1616,15 @@ namespace NMSCoordinates
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ListBox listBox2;
-        private System.Windows.Forms.GroupBox groupBox10;
-        private System.Windows.Forms.TextBox textBox13;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox textBox11;
-        private System.Windows.Forms.TextBox textBox15;
-        private System.Windows.Forms.GroupBox groupBox9;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.TextBox textBox14;
-        private System.Windows.Forms.GroupBox groupBox8;
-        private System.Windows.Forms.ListBox listBox3;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.TextBox textBox16;
         private System.Windows.Forms.TextBox textBox17;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.TextBox textBox18;
         private System.Windows.Forms.TextBox textBox19;
         private System.Windows.Forms.TextBox textBox20;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.ToolStripMenuItem selectSaveFolderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem appDataDefaultToolStripMenuItem;
@@ -1828,7 +1641,6 @@ namespace NMSCoordinates
         private System.Windows.Forms.GroupBox groupBox14;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.TextBox textBox23;
-        private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textBox24;
         private System.Windows.Forms.Button button2;
@@ -1875,8 +1687,10 @@ namespace NMSCoordinates
         private System.Windows.Forms.PictureBox pictureBox9;
         private System.Windows.Forms.ToolStripMenuItem screenshotPageToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem screenshotPageToolStripMenuItem2;
-        private System.Windows.Forms.GroupBox groupBox16;
-        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.ListBox listBox3;
+        private System.Windows.Forms.Button button7;
     }
 }
 

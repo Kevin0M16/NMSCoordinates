@@ -24,12 +24,8 @@ namespace NMSCoordinates
         {
             InitializeComponent();
             
-            string hgFilePath = "save4.hg";
-            string json = File.ReadAllText(hgFilePath);
-            //var nms = JsonConvert.SerializeObject(json, Formatting.Indented);
-            //var nms = JsonConvert.DeserializeObject(json);
-            //textBox2.Text = nms.ToString();
-            JsonTreeViewLoader.LoadJsonToTreeView(treeView1, json);
+            //string hgFilePath = "save4.hg";
+            
 
         }
         private List<TreeNode> CurrentNodeMatches = new List<TreeNode>();
@@ -37,7 +33,7 @@ namespace NMSCoordinates
         private int LastNodeIndex = 0;
 
         private string LastSearchText;
-
+        private string hgFilePath;
 
         private void Button1_Click_1(object sender, EventArgs e)
         {
@@ -91,6 +87,14 @@ namespace NMSCoordinates
         {
             //treeView1.Dispose();
             Close();
+        }
+
+        private void Form2_Shown(object sender, EventArgs e)
+        {
+            hgFilePath = MyProperty3;
+            string json = File.ReadAllText(hgFilePath);
+
+            JsonTreeViewLoader.LoadJsonToTreeView(treeView1, json);
         }
     }
 }

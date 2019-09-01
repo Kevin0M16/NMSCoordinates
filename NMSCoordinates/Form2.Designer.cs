@@ -69,12 +69,14 @@
             this.Controls.Add(this.textBox1);
             this.Name = "Form2";
             this.Text = "Form2";
+            this.Shown += new System.EventHandler(this.Form2_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
+        public string MyProperty3 { get; set; }
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TreeView treeView1;
