@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.treeView1 = new System.Windows.Forms.TreeView();
@@ -67,6 +68,7 @@
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form2";
             this.Text = "Form2";
             this.Shown += new System.EventHandler(this.Form2_Shown);

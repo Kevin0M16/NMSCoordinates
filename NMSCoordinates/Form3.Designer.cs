@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form3));
             this.button1 = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -89,6 +90,7 @@
             // textBox1
             // 
             this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.textBox1.ForeColor = System.Drawing.Color.Azure;
             this.textBox1.Location = new System.Drawing.Point(582, 586);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
@@ -109,6 +111,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form3";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Screen Shot Preview";

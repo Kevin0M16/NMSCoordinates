@@ -29,7 +29,7 @@ namespace NMSCoordinates
         public void LoadCmbx()
         {
             //Load save file names in combobox1
-            comboBox1.Items.Clear();
+            //comboBox1.Items.Clear();
 
             if (!Directory.Exists(nmsPath))
             {
@@ -102,12 +102,13 @@ namespace NMSCoordinates
                 comboBox2.DisplayMember = "VALUE";
                 comboBox2.ValueMember = "KEY";
 
-                comboBox2.SelectedIndex = 0;
+                //comboBox2.SelectedIndex = 0;                
+
                 hgFileDir = Path.GetDirectoryName(Files[0].FullName);                
                 
-                AppendLine(textBox16, Path.GetDirectoryName(Files[0].FullName));
+                //AppendLine(textBox16, Path.GetDirectoryName(Files[0].FullName));
                 //AppendLine(textBox26, Files[0].LastWriteTime.ToLongDateString() + " " + Files[0].LastWriteTime.ToLongTimeString());
-                //await BackupSave();
+                
             }
             else
             {
@@ -673,12 +674,12 @@ namespace NMSCoordinates
             Loadlsb3();
             GetPlayerCoord();
 
-            int previous = comboBox2.SelectedIndex;
-            comboBox1.DataSource = null;
-            comboBox2.DataSource = null;
+            //int previous = comboBox2.SelectedIndex;
+            //comboBox1.DataSource = null;
+            //comboBox2.DataSource = null;
             //ClearAll();
-            LoadCmbx();
-            comboBox2.SelectedIndex = previous;
+            //LoadCmbx();
+            //comboBox2.SelectedIndex = previous;
         }
         private void SetSavePath()
         {
@@ -761,6 +762,11 @@ namespace NMSCoordinates
         }
         private async Task ReadSave(int slot)
         {
+            File.SetLastWriteTime(hgFilePath, DateTime.Now);
+            string newFilePath = hgFilePath;
+            newFilePath = String.Format("{0}{1}{2}{3}", Path.GetDirectoryName(newFilePath) + @"\", "mf_",Path.GetFileNameWithoutExtension(newFilePath), Path.GetExtension(newFilePath));
+            File.SetLastWriteTime(newFilePath, DateTime.Now);
+
             switch (slot)
             {
                 case 1:
@@ -930,6 +936,7 @@ namespace NMSCoordinates
                 //await BackupSave();
 
                 progressBar1.Invoke((Action)(() => progressBar1.Value = 15));
+
                 //Read and decrypt save (?)
                 await ReadSave(saveslot);
 
@@ -941,40 +948,50 @@ namespace NMSCoordinates
                 //Read all the JSON text from nmssavetool decrypt
                 string jsons = File.ReadAllText(@".\nmssavetool\save.json");
 
-                //Set Player Location
+                ////Set Player Location
+                //Get the Player location text array
                 Regex myRegex = new Regex(rxPatternP, RegexOptions.Singleline);
-                Match m = myRegex.Match(jsons);   // m is the first match
+                Match m = myRegex.Match(jsons);   
                 rxValP = m.ToString();
 
+                //Get and Set Galaxy
                 Regex myRegex1 = new Regex(rxPatternG, RegexOptions.Multiline);
                 rxValP = Regex.Replace(rxValP, rxPatternG, rxValG, RegexOptions.Multiline);
 
+                //Get and Set X
                 Regex myRegex2 = new Regex(rxPatternX, RegexOptions.Multiline);
                 rxValP = Regex.Replace(rxValP, rxPatternX, rxValX, RegexOptions.Multiline);
 
+                //Get amd Set Y
                 Regex myRegex3 = new Regex(rxPatternY, RegexOptions.Multiline);
                 rxValP = Regex.Replace(rxValP, rxPatternY, rxValY, RegexOptions.Multiline);
 
+                //Get and Set Z
                 Regex myRegex4 = new Regex(rxPatternZ, RegexOptions.Multiline);
                 rxValP = Regex.Replace(rxValP, rxPatternZ, rxValZ, RegexOptions.Multiline);
 
+                //Get and Set Solar System index (SSI)
                 Regex myRegex5 = new Regex(rxPatternSSI, RegexOptions.Multiline);
                 rxValP = Regex.Replace(rxValP, rxPatternSSI, rxValSSI, RegexOptions.Multiline);
 
+                //Get and Set Planet Index
                 Regex myRegex6 = new Regex(rxPatternPI, RegexOptions.Multiline);
                 rxValP = Regex.Replace(rxValP, rxPatternPI, rxValPI, RegexOptions.Multiline);
 
+                //Set the player location array after changes made
                 jsons = Regex.Replace(jsons, rxPatternP, rxValP, RegexOptions.Singleline);
 
-                //Set Spawn State
+                ////Set Spawn State
+                // Get the Spawn state array
                 Regex myRegexs = new Regex(rxPatternSt, RegexOptions.Singleline);
-                Match ms = myRegexs.Match(jsons);   // m is the first match
+                Match ms = myRegexs.Match(jsons);   
                 rxValSt = ms.ToString();
-                //AppendLine(textBox3, rxValSt);
 
+                //Get and set Player last known location in Spwn state array
                 Regex myRegexps = new Regex(rxPatternPs, RegexOptions.Multiline);
                 rxValSt = Regex.Replace(rxValSt, rxPatternPs, rxValPs, RegexOptions.Multiline);
 
+                //Set the spawn state array after changes made
                 jsons = Regex.Replace(jsons, rxPatternSt, rxValSt, RegexOptions.Singleline);
 
                 //Set Portal Interference false DaC
@@ -983,11 +1000,12 @@ namespace NMSCoordinates
                 //rxValPrtl = prtl.ToString();
                 //AppendLine(textBox3, rxValPrtl);
 
+                //Set Portal Interference state rxValPrtl preset to false
                 jsons = Regex.Replace(jsons, rxPatternPrtl, rxValPrtl, RegexOptions.Multiline);
 
                 progressBar1.Invoke((Action)(() => progressBar1.Value = 40));
 
-                //Write all modifications of file to save2.json
+                //Write all modifications of file to saveedit.json
                 File.WriteAllText(@".\nmssavetool\saveedit.json", jsons);
 
                 //Show log of changes in txtbox
@@ -1002,9 +1020,13 @@ namespace NMSCoordinates
 
                 progressBar1.Invoke((Action)(() => progressBar1.Value = 70));
 
+                //Write the new save file 
                 await WriteSave(saveslot);
 
+                //Set json to the new modified hg file
                 json = File.ReadAllText(hgFilePath);
+
+                //Read the new json and check portal interference state
                 var nms = Nms.FromJson(json);
                 textBox12.Clear();
                 textBox12.Text = nms.The6F.DaC.ToString();
@@ -1013,6 +1035,7 @@ namespace NMSCoordinates
                 progressBar1.Invoke((Action)(() => progressBar1.Value = 100));
                 progressBar1.Visible = false;
 
+                //set the last write time box
                 textBox26.Clear();
                 FileInfo hgfile = new FileInfo(hgFilePath);
                 AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
@@ -1024,47 +1047,54 @@ namespace NMSCoordinates
                 MessageBox.Show("Please click a location!", "Confirmation", MessageBoxButtons.OK);
             }
         }
-        private void ComboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBox2_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            if(comboBox2.SelectedIndex == 1)
+            //Gets the dictionarys set in loadcmbbx and sets the data source for save dropdown
+            if (comboBox2.SelectedIndex == 1)
             {
                 saveslot = 1;
-                comboBox1.DataSource = sn1.ToArray();
                 comboBox1.DisplayMember = "VALUE";
                 comboBox1.ValueMember = "KEY";
+                comboBox1.DataSource = sn1.ToArray();    
             }
             if (comboBox2.SelectedIndex == 2)
             {
                 saveslot = 2;
-                comboBox1.DataSource = sn2.ToArray();
                 comboBox1.DisplayMember = "VALUE";
                 comboBox1.ValueMember = "KEY";
+                comboBox1.DataSource = sn2.ToArray();
+                
             }
             if (comboBox2.SelectedIndex == 3)
             {
                 saveslot = 3;
-                comboBox1.DataSource = sn3.ToArray();
                 comboBox1.DisplayMember = "VALUE";
                 comboBox1.ValueMember = "KEY";
+                comboBox1.DataSource = sn3.ToArray();                
             }
             if (comboBox2.SelectedIndex == 4)
             {
                 saveslot = 4;
-                comboBox1.DataSource = sn4.ToArray();
                 comboBox1.DisplayMember = "VALUE";
                 comboBox1.ValueMember = "KEY";
+                comboBox1.DataSource = sn4.ToArray();
+                
             }
             if (comboBox2.SelectedIndex == 5)
             {
                 saveslot = 5;
-                comboBox1.DataSource = sn5.ToArray();
                 comboBox1.DisplayMember = "VALUE";
                 comboBox1.ValueMember = "KEY";
+                comboBox1.DataSource = sn5.ToArray();                
             }
         }
+        private void ComboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+           
+        }        
         private void GetSaveFile(string selected)
         {
-            DirectoryInfo dinfo = new DirectoryInfo(nmsPath);
+            DirectoryInfo dinfo = new DirectoryInfo(hgFileDir);
             FileInfo[] Files = dinfo.GetFiles(selected, SearchOption.AllDirectories);
 
             //This is a weird loop but it works lol
@@ -1072,44 +1102,32 @@ namespace NMSCoordinates
             {
                 foreach (FileInfo file in Files)
                 {
-                    hgFilePath = file.FullName;
-                    AppendLine(textBox16, file.FullName);
+                    hgFilePath = file.FullName;                    
                 }
             }
             else
             {
-                //AppendLine(textBox17, "** Code 3 ** " + selected);
+                AppendLine(textBox17, "** Code 3 ** " + selected);
                 return;
             }
+
+            textBox16.Clear();
+            AppendLine(textBox16, hgFilePath);
             FileInfo hgfile = new FileInfo(hgFilePath);
+            textBox26.Clear();
             AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
             json = File.ReadAllText(hgFilePath);
+        }
+        private void ComboBox1_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            
         }
         private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ClearAll();
-            string selected = this.comboBox1.GetItemText(this.comboBox1.SelectedItem);  
-            
-            DirectoryInfo dinfo = new DirectoryInfo(nmsPath);
-            FileInfo[] Files = dinfo.GetFiles(selected, SearchOption.AllDirectories);
+            string selected = this.comboBox1.GetItemText(this.comboBox1.SelectedItem);
 
-            //This is a weird loop but it works lol
-            if (Files.Length != 0)
-            {
-                foreach (FileInfo file in Files)
-                {
-                    hgFilePath = file.FullName;
-                    AppendLine(textBox16, file.FullName);
-                }
-            }
-            else
-            {
-                //AppendLine(textBox17, "** Code 3 ** " + selected);
-                return;
-            }
-            FileInfo hgfile = new FileInfo(hgFilePath);
-            AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
-            json = File.ReadAllText(hgFilePath);            
+            GetSaveFile(selected);
 
             Loadlsb1();
             Loadlsb3();
@@ -1121,16 +1139,15 @@ namespace NMSCoordinates
             GIndex();
             JsonKey();
             nmsPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HelloGames"), "NMS");
-            LoadCmbx();            
+            LoadCmbx();
             SetSShot();
             LoadSS();
             DiscList = new List<string>();
             BaseList = new List<string>();
 
             //Toggle for testing
-            //await BackupSave();
+            await BackupSave();
         }
-
         private async Task BackupSave()
         {
             progressBar2.Visible = true;
@@ -1256,9 +1273,9 @@ namespace NMSCoordinates
             pictureBox25.ImageLocation = ssPath;
             pictureBox25.SizeMode = PictureBoxSizeMode.StretchImage;
 
-            tabPage1.BackgroundImage = Image.FromFile(ssPath);
-            tabPage1.BackgroundImageLayout = ImageLayout.Center;
-            tabPage1.BackgroundImageLayout = ImageLayout.Stretch;
+            //tabPage1.BackgroundImage = Image.FromFile(ssPath);
+            //tabPage1.BackgroundImageLayout = ImageLayout.Center;
+            //tabPage1.BackgroundImageLayout = ImageLayout.Stretch;
         }
         private void SetSSPath()
         {
@@ -1330,16 +1347,17 @@ namespace NMSCoordinates
             SetSSPath();
             LoadSS();
         }
+        
         private void Button6_Click(object sender, EventArgs e)
         {
             string[] locFile = File.ReadAllLines(@".\backup\locbackup.txt");
             listBox3.DataSource = locFile;
-            //textBox11.Text = locFile;
+            listBox3.SelectedIndex = 0;
+            
         }
-        private void ListBox3_MouseClick(object sender, MouseEventArgs e)
+        private void ListBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
             //string locFile = File.ReadAllText(@".\backup\locbackup.txt");
-
             Regex myRegex1 = new Regex("GC:.*?$", RegexOptions.Multiline);
             Match m1 = myRegex1.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
             string line1 = m1.ToString();
@@ -1358,6 +1376,7 @@ namespace NMSCoordinates
             string line3 = m3.ToString();
             line3 = line3.Replace("Loc: ", "");
             AppendLine(textBox11, line3);
+            AppendLine(textBox11, "---------------------");
 
         }
 
@@ -1366,6 +1385,8 @@ namespace NMSCoordinates
             Form5 f5 = new Form5();
             f5.ShowDialog();
         }
+
+        
     }
 
 }

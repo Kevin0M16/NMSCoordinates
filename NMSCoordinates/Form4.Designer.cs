@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form4));
             this.button1 = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -59,6 +60,7 @@
             this.ClientSize = new System.Drawing.Size(901, 677);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form4";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Screen Shot";
