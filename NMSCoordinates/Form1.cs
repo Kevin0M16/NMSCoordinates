@@ -20,20 +20,13 @@ using System.Runtime.InteropServices;
 namespace NMSCoordinates
 {
     public partial class Form1 : Form
-    {
+    {        
         public Form1()
         {
             InitializeComponent();
-            Glyphs();
-            GIndex();
-            JsonKey();
-            nmsPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HelloGames"), "NMS");
-            LoadCmbx();
-
-            DiscList = new List<string>();
-            BaseList = new List<string>();
+                       
         }
-        private void LoadCmbx()
+        public void LoadCmbx()
         {
             //Load save file names in combobox1
             comboBox1.Items.Clear();
@@ -44,19 +37,77 @@ namespace NMSCoordinates
             }
             DirectoryInfo dinfo = new DirectoryInfo(nmsPath);
             FileInfo[] Files = dinfo.GetFiles("save*.hg", SearchOption.AllDirectories);
+            
             if (Files.Length != 0)
             {
-                //hgFilePath = Files[0].FullName;
+                Dictionary<int, string> sl1 = new Dictionary<int, string>();
+                sn1 = new Dictionary<int, string>();
+                sn2 = new Dictionary<int, string>();
+                sn3 = new Dictionary<int, string>();
+                sn4 = new Dictionary<int, string>();
+                sn5 = new Dictionary<int, string>();
+
                 foreach (FileInfo file in Files.OrderByDescending(f => f.LastWriteTime))
                 {
-                    comboBox1.Items.Add(file);
-                    
+                    if(file.Name == "save.hg" | file.Name == "save2.hg")
+                    {
+                        if (!sn1.ContainsKey(1))
+                            sn1.Add(1, file.Name);
+                        else sn1.Add(2, file.Name);
+                                                  
+                        if (!sl1.ContainsValue("Slot 1"))
+                            sl1.Add(1, "Slot 1");
+
+                    }
+                    if (file.Name == "save3.hg" | file.Name == "save4.hg")
+                    {
+                        if (!sn2.ContainsKey(3))
+                            sn2.Add(3, file.Name);
+                        else sn2.Add(4, file.Name);
+
+                        if (!sl1.ContainsValue("Slot 2"))
+                            sl1.Add(2, "Slot 2");
+                    }
+                    if (file.Name == "save5.hg" | file.Name == "save6.hg")
+                    {
+                        if (!sn3.ContainsKey(5))
+                            sn3.Add(5, file.Name);
+                        else sn3.Add(6, file.Name);
+
+                        if (!sl1.ContainsValue("Slot 3"))
+                            sl1.Add(3, "Slot 3");
+                    }
+                    if (file.Name == "save7.hg" | file.Name == "save8.hg")
+                    {
+                        if (!sn4.ContainsKey(7))
+                            sn4.Add(7, file.Name);
+                        else sn4.Add(8, file.Name);
+
+                        if (!sl1.ContainsValue("Slot 4"))
+                            sl1.Add(4, "Slot 4");
+                    }
+                    if (file.Name == "save9.hg" | file.Name == "save10.hg")
+                    {
+                        if (!sn5.ContainsKey(9))
+                            sn5.Add(9, file.Name);
+                        else sn5.Add(10, file.Name);
+
+                        if (!sl1.ContainsValue("Slot 5"))
+                            sl1.Add(5, "Slot 5");
+                    }                    
                 }                
 
-                //comboBox1.SelectedIndex = 0;
+                sl1.Add(0, "(Select Save Slot)");
+                comboBox2.DataSource = sl1.ToArray();
+                comboBox2.DisplayMember = "VALUE";
+                comboBox2.ValueMember = "KEY";
+
+                comboBox2.SelectedIndex = 0;
+                hgFileDir = Path.GetDirectoryName(Files[0].FullName);                
+                
                 AppendLine(textBox16, Path.GetDirectoryName(Files[0].FullName));
                 //AppendLine(textBox26, Files[0].LastWriteTime.ToLongDateString() + " " + Files[0].LastWriteTime.ToLongTimeString());
-
+                //await BackupSave();
             }
             else
             {
@@ -71,10 +122,10 @@ namespace NMSCoordinates
                 JsonMap(i);
                 GetPortalCoord(iX, iY, iZ, iSSI);
                 GetGalacticCoord(iX, iY, iZ, iSSI);
-                Backuplist.Add("Loc: " + DiscList[i] + " - PC: " + PortalCode + " -- GC: " + GalacticCoord);                
+                Backuplist.Add("Loc: " + DiscList[i] + " - PC: " + PortalCode + " -- GC: " + GalacticCoord);
             }
             File.WriteAllLines(path, Backuplist);
-            Process.Start("backup.txt");
+            Process.Start(@".\backup\locbackup.txt");
         }
         public static void AppendLine(TextBox source, string value)
         {
@@ -83,26 +134,7 @@ namespace NMSCoordinates
                 source.Text = value;
             else
                 source.AppendText("\r\n" + value);
-        }
-        private void SetPlayerCoord()
-        {   
-            //won't work need replace text
-            ipgalaxy = Convert.ToInt32(textBox4.Text);
-            ipX = Convert.ToInt32(textBox5.Text);
-            ipY = Convert.ToInt32(textBox6.Text);
-            ipZ = Convert.ToInt32(textBox7.Text);
-            ipSSI = Convert.ToInt32(textBox8.Text);
-            ipPI = Convert.ToInt32(textBox9.Text);
-
-            var nms = Nms.FromJson(json);
-
-            nms.The6F.YhJ.Iis = ipgalaxy;
-            nms.The6F.YhJ.OZw["dZj"] = ipX;
-            nms.The6F.YhJ.OZw["IyE"] = ipY;
-            nms.The6F.YhJ.OZw["uXE"] = ipZ;
-            nms.The6F.YhJ.OZw["vby"] = ipSSI;
-            nms.The6F.YhJ.OZw["jsv"] = ipPI;
-        }
+        }        
         private void GetPlayerCoord()
         {
             //Gets the player position off the save file and prints the info on tab1
@@ -124,7 +156,8 @@ namespace NMSCoordinates
             GetPortalCoord(Convert.ToInt32(pX), Convert.ToInt32(pY), Convert.ToInt32(pZ), Convert.ToInt32(pSSI));
             ShowPGlyphs();
             AppendLine(textBox21, PortalCode);
-            AppendLine(textBox23, galaxyDict[pgalaxy]);
+            //AppendLine(textBox23, galaxyDict[pgalaxy]);
+            GalaxyLookup(textBox23, pgalaxy);
         }
         private void Clearforsearch()
         {
@@ -172,6 +205,7 @@ namespace NMSCoordinates
             textBox22.Clear();
             textBox21.Clear();
             textBox23.Clear();
+            textBox26.Clear();
 
             pictureBox1.Image = null;
             pictureBox2.Image = null;
@@ -220,6 +254,7 @@ namespace NMSCoordinates
         }
         private void TextBoxes()
         {
+            textBox1.Clear();
             textBox2.Clear();
             textBox4.Clear();
             textBox5.Clear();
@@ -287,28 +322,29 @@ namespace NMSCoordinates
             galaxyDict.Add(new KeyValuePair<string, string>("0", "Euclid"));
             galaxyDict.Add(new KeyValuePair<string, string>("1", "Hilbert"));
             galaxyDict.Add(new KeyValuePair<string, string>("2", "Calypso"));
-            galaxyDict.Add(new KeyValuePair<string, string>("3", "unknown"));
-            galaxyDict.Add(new KeyValuePair<string, string>("4", "unknown"));
-            galaxyDict.Add(new KeyValuePair<string, string>("5", "Haydes"));
-            galaxyDict.Add(new KeyValuePair<string, string>("6", "unknown"));
-            galaxyDict.Add(new KeyValuePair<string, string>("7", "unknown"));
-            galaxyDict.Add(new KeyValuePair<string, string>("8", "unknown"));
+            galaxyDict.Add(new KeyValuePair<string, string>("3", "Hesperius"));
+            galaxyDict.Add(new KeyValuePair<string, string>("4", "Hyades"));
+            galaxyDict.Add(new KeyValuePair<string, string>("5", "Ickjamatew"));
+            galaxyDict.Add(new KeyValuePair<string, string>("6", "Bullangr"));
+            galaxyDict.Add(new KeyValuePair<string, string>("7", "Kikolgallr"));
+            galaxyDict.Add(new KeyValuePair<string, string>("8", "Eltiensleem"));
             galaxyDict.Add(new KeyValuePair<string, string>("9", "Eissentam"));
-            galaxyDict.Add(new KeyValuePair<string, string>("10", "unknown"));
-            galaxyDict.Add(new KeyValuePair<string, string>("11", "unknown"));
-            galaxyDict.Add(new KeyValuePair<string, string>("12", "unknown"));
-            galaxyDict.Add(new KeyValuePair<string, string>("13", "unknown"));
-            galaxyDict.Add(new KeyValuePair<string, string>("14", "unknown"));
-            galaxyDict.Add(new KeyValuePair<string, string>("15", "unknown"));
+            galaxyDict.Add(new KeyValuePair<string, string>("10", "Elkupalos"));
+            galaxyDict.Add(new KeyValuePair<string, string>("11", "Aptarkaba"));
+            galaxyDict.Add(new KeyValuePair<string, string>("12", "Ontiniangp"));
+            galaxyDict.Add(new KeyValuePair<string, string>("13", "Odiwagiri"));
+            galaxyDict.Add(new KeyValuePair<string, string>("14", "Ogtialabi"));
+            galaxyDict.Add(new KeyValuePair<string, string>("15", "Muhacksonto"));
             galaxyDict.Add(new KeyValuePair<string, string>("16", "Hitonskyer"));
-            galaxyDict.Add(new KeyValuePair<string, string>("17", "unknown"));
+            galaxyDict.Add(new KeyValuePair<string, string>("17", "Rerasmutul"));
             galaxyDict.Add(new KeyValuePair<string, string>("18", "Isdoraijung"));
-            galaxyDict.Add(new KeyValuePair<string, string>("19", "unknown"));
-            galaxyDict.Add(new KeyValuePair<string, string>("20", "unknown"));
-            galaxyDict.Add(new KeyValuePair<string, string>("21", "unknown"));
-            galaxyDict.Add(new KeyValuePair<string, string>("22", "unknown"));
-            galaxyDict.Add(new KeyValuePair<string, string>("23", "unknown"));
+            galaxyDict.Add(new KeyValuePair<string, string>("19", "Doctinawyra"));
+            galaxyDict.Add(new KeyValuePair<string, string>("20", "Loychazinq"));
+            galaxyDict.Add(new KeyValuePair<string, string>("21", "Zukasizawa"));
+            galaxyDict.Add(new KeyValuePair<string, string>("22", "Ekwathore"));
+            galaxyDict.Add(new KeyValuePair<string, string>("23", "Yeberhahne"));
             galaxyDict.Add(new KeyValuePair<string, string>("24", "Twerbetek"));
+            galaxyDict.Add(new KeyValuePair<string, string>("25", "Sivarates"));
             galaxyDict.Add(new KeyValuePair<string, string>("140", "Kimycuristh"));
             //galaxyDict.Add(new KeyValuePair<string, string>("24", "Twerbetek"));
         }
@@ -321,7 +357,7 @@ namespace NMSCoordinates
             var nms = Nms.FromJson(json);
             try
             {
-                for (int i = 0; i < 500; i++)
+                for (int i = 0; i < nms.The6F.NlG.Length; i++)
                 {
                     //string discd = jsonObj["6f="]["nlG"][i]["NKm"];
                     string discd = nms.The6F.NlG[i].NKm;
@@ -341,29 +377,29 @@ namespace NMSCoordinates
             }
             catch
             {
-                listBox1.DataSource = DiscList;
-                textBox19.Text = listBox1.Items.Count.ToString();
-                textBox20.Text = listBox2.Items.Count.ToString();
-                listBox1.SelectedIndex = -1;
-
-                if (nms.The6F.DaC == true)
-                {
-                    textBox12.Text = "True";
-                }
-                else
-                {
-                    textBox12.Text = "False";
-                }
-
+                AppendLine(textBox17, "** Code 111 **");
                 return;
-            }                     
+            }
+            listBox1.DataSource = DiscList;
+            textBox19.Text = listBox1.Items.Count.ToString();
+            textBox20.Text = listBox2.Items.Count.ToString();
+            listBox1.SelectedIndex = -1;
+
+            if (nms.The6F.DaC == true)
+            {
+                textBox12.Text = "True";
+            }
+            else
+            {
+                textBox12.Text = "False";
+            }
         }
         private void Loadlsb3()
         {
             var nms = Nms.FromJson(json);
             try
             {
-                for (int i = 0; i < 500; i++)
+                for (int i = 0; i < nms.The6F.F0.Length; i++)
                 {
                     string baseN = nms.The6F.F0[i].NKm;
                     if (baseN != "")
@@ -378,9 +414,24 @@ namespace NMSCoordinates
             }
             catch
             {
-                listBox3.DataSource = BaseList;
-                textBox18.Text = listBox3.Items.Count.ToString();
+                AppendLine(textBox17, "** Code 11 **");
                 return;
+            }
+            listBox3.DataSource = BaseList;
+            textBox18.Text = listBox3.Items.Count.ToString();
+
+
+        }
+        private void GalaxyLookup(TextBox source, string galaxy)
+        {
+            try
+            {
+                source.Text = galaxyDict[galaxy];
+            }
+            catch
+            {
+                source.Text = "Unknown";
+                AppendLine(textBox27, "Galaxy Not Found, update needed.");
             }
         }
         private void ListBox1_MouseClick(object sender, EventArgs e)
@@ -393,7 +444,8 @@ namespace NMSCoordinates
                     int i = listBox1.SelectedIndex;
                     JsonMap(i);
                     TextBoxes();
-                    textBox10.Text = galaxyDict[galaxy];
+                    //textBox10.Text = galaxyDict[galaxy];
+                    GalaxyLookup(textBox10, galaxy);
                     GetGalacticCoord(iX, iY, iZ, iSSI);
                     GetPortalCoord(iX, iY, iZ, iSSI);
                     ShowGlyphs();
@@ -420,13 +472,13 @@ namespace NMSCoordinates
                     var nms = Nms.FromJson(json);
                     try
                     {
-                        for (int i = 0; i < 500; i++)
+                        for (int i = 0; i < nms.The6F.NlG.Length; i++)
                         {
                             if (nms.The6F.NlG[i].NKm.ToString() == si)
                             {
                                 JsonMap(i);
                                 TextBoxes();
-                                textBox10.Text = galaxyDict[galaxy];
+                                GalaxyLookup(textBox10, galaxy);
                                 GetGalacticCoord(iX, iY, iZ, iSSI);
                                 GetPortalCoord(iX, iY, iZ, iSSI);
                                 ShowGlyphs();
@@ -437,6 +489,7 @@ namespace NMSCoordinates
                     }
                     catch
                     {
+                        AppendLine(textBox17, "** Code 51 **");
                         return;
                     }
                 }
@@ -474,7 +527,7 @@ namespace NMSCoordinates
         private void GetGalacticCoord(int X, int Y, int Z, int SSI)
         {
             //Voxel Coordinates to Galactic Coordinate
-            textBox1.Clear();
+            //textBox1.Clear();
             textBox3.Clear();
 
             //Note: iX, iY, iZ, iSSI already Convert.ToInt32(X) in JSONMap()
@@ -727,7 +780,7 @@ namespace NMSCoordinates
         {
             for (int i = startIndex; i < lb.Items.Count; ++i)
             {
-                string lbString = lb.Items[i].ToString();
+                //string lbString = lb.Items[i].ToString();
                 if (lb.Items[i].ToString().IndexOf(searchString, StringComparison.OrdinalIgnoreCase) >= 0)
                     return i;
             }
@@ -737,30 +790,18 @@ namespace NMSCoordinates
         {
             ClearAll();
             string selected = this.comboBox1.GetItemText(this.comboBox1.SelectedItem);
-            DirectoryInfo dinfo = new DirectoryInfo(nmsPath);
-            FileInfo[] Files = dinfo.GetFiles(selected, SearchOption.AllDirectories);
-
-            if (Files.Length != 0)
-            {
-                foreach (FileInfo file in Files)
-                {
-                    hgFilePath = file.FullName;
-                    AppendLine(textBox16, file.FullName);
-                }
-            }
-            else
-            {
-                AppendLine(textBox17, "** Code 3 **");
-                return;
-            }
-            FileInfo hgfile = new FileInfo(hgFilePath);
-            AppendLine(textBox26, hgfile.LastWriteTime.ToLongDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
-            json = File.ReadAllText(hgFilePath);           
+            GetSaveFile(selected);         
 
             Loadlsb1();
             Loadlsb3();
-            GetPlayerCoord();          
+            GetPlayerCoord();
 
+            int previous = comboBox2.SelectedIndex;
+            comboBox1.DataSource = null;
+            comboBox2.DataSource = null;
+            //ClearAll();
+            LoadCmbx();
+            comboBox2.SelectedIndex = previous;
         }
         private void SetSavePath()
         {
@@ -800,12 +841,16 @@ namespace NMSCoordinates
         private void AppDataDefaultToolStripMenuItem_Click(object sender, EventArgs e)
         {
             nmsPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HelloGames"), "NMS");
+            comboBox1.DataSource = null;
+            comboBox2.DataSource = null;
             ClearAll();
             LoadCmbx();
         }
         private void ManuallySelectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SetSavePath();
+            comboBox1.DataSource = null;
+            comboBox2.DataSource = null;
             ClearAll();
             LoadCmbx();
         }
@@ -821,7 +866,7 @@ namespace NMSCoordinates
         private void Button2_Click(object sender, EventArgs e)
         {
             Clearforsearch();
-            listBox2.SelectedIndex =  Find(listBox2, textBox25.Text, 0);
+            listBox2.SelectedIndex = Find(listBox2, textBox25.Text, 0);
         }
         private void TextBox24_KeyUp(object sender, KeyEventArgs e)
         {
@@ -837,7 +882,67 @@ namespace NMSCoordinates
                 Button2_Click(this, new EventArgs());
             }
         }
-        private void Button3_Click(object sender, EventArgs e)
+        private async Task ReadSave(int slot)
+        {
+            switch (slot)
+            {
+                case 1:
+                    decrypt = @"/c .\nmssavetool\nmssavetool.exe decrypt -g1 -f .\nmssavetool\save.json";
+                    break;
+                case 2:
+                    decrypt = @"/c .\nmssavetool\nmssavetool.exe decrypt -g2 -f .\nmssavetool\save.json";
+                    break;
+                case 3:
+                    decrypt = @"/c .\nmssavetool\nmssavetool.exe decrypt -g3 -f .\nmssavetool\save.json";
+                    break;
+                case 4:
+                    decrypt = @"/c .\nmssavetool\nmssavetool.exe decrypt -g4 -f .\nmssavetool\save.json";
+                    break;
+                case 5:
+                    decrypt = @"/c .\nmssavetool\nmssavetool.exe decrypt -g5 -f .\nmssavetool\save.json";
+                    break;
+            }
+                
+            ProcessStartInfo startInfo = new ProcessStartInfo(@"Powershell.exe");
+            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            startInfo.Arguments = decrypt;
+            Process.Start(startInfo);
+            
+            await Task.Delay(2000);
+            
+        }
+        private async Task WriteSave(int slot)
+        {
+            switch (slot)
+            {
+                case 1:
+                    encrypt = @"/c .\nmssavetool\nmssavetool.exe encrypt -g1 -f .\nmssavetool\saveedit.json -b .\backup\";
+                    break;
+                case 2:
+                    encrypt = @"/c .\nmssavetool\nmssavetool.exe encrypt -g2 -f .\nmssavetool\saveedit.json -b .\backup\";
+                    break;
+                case 3:
+                    encrypt = @"/c .\nmssavetool\nmssavetool.exe encrypt -g3 -f .\nmssavetool\saveedit.json -b .\backup\";
+                    break;
+                case 4:
+                    encrypt = @"/c .\nmssavetool\nmssavetool.exe encrypt -g4 -f .\nmssavetool\saveedit.json -b .\backup\";
+                    break;
+                case 5:
+                    encrypt = @"/c .\nmssavetool\nmssavetool.exe encrypt -g5 -f .\nmssavetool\saveedit.json -b .\backup\";
+                    break;
+            }
+
+            ProcessStartInfo startInfo = new ProcessStartInfo(@"Powershell.exe");
+            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            startInfo.Arguments = encrypt;
+            Process.Start(startInfo);
+
+            await Task.Delay(2000);
+
+            AppendLine(textBox27, "Save file on Slot: ( " + saveslot + " ) backed up to \\backup folder...");
+        }
+
+        private async void Button3_Click(object sender, EventArgs e)
         {
             if (textBox12.Text == "False" || textBox12.Text == "false")
             {
@@ -845,46 +950,50 @@ namespace NMSCoordinates
                 return;
             }
             else
-            {                
-                string decrypt = @"/c .\nmssavetool\nmssavetool.exe decrypt -g2 -f .\nmssavetool\save1.json";
-                ProcessStartInfo startInfo = new ProcessStartInfo(@"Powershell.exe");
-                startInfo.WindowStyle = ProcessWindowStyle.Hidden;                
-                startInfo.Arguments = decrypt;
-                Process.Start(startInfo);
-                Thread.Sleep(2000);
+            {
+                progressBar1.Visible = true;
+                progressBar1.Invoke((Action)(() => progressBar1.Value = 5));
 
-                string jsons = File.ReadAllText(@".\nmssavetool\save1.json");
+                await ReadSave(saveslot);
+
+                progressBar1.Invoke((Action)(() => progressBar1.Value = 30));
+
+                string jsons = File.ReadAllText(@".\nmssavetool\save.json");
+
+                progressBar1.Invoke((Action)(() => progressBar1.Value = 45));
 
                 jsons = jsons.Replace("\"DaC\": true", "\"DaC\": false");
+                File.WriteAllText(@".\nmssavetool\saveedit.json", jsons);
 
-                File.WriteAllText(@".\nmssavetool\save1.json", jsons);
-                Thread.Sleep(2000);
+                progressBar1.Invoke((Action)(() => progressBar1.Value = 60));
 
-                string encrypt = @"/c .\nmssavetool\nmssavetool.exe encrypt -g2 -f .\nmssavetool\save1.json";
-                
-                startInfo.Arguments = encrypt;
-                Process.Start(startInfo);
-                Thread.Sleep(2000);
+                await WriteSave(saveslot);
+
+                progressBar1.Invoke((Action)(() => progressBar1.Value = 90));
 
                 json = File.ReadAllText(hgFilePath);
+
                 var nms = Nms.FromJson(json);
                 textBox12.Clear();
                 textBox12.Text = nms.The6F.DaC.ToString();
+
+                Regex myRegexPrtl = new Regex(rxPatternPrtl, RegexOptions.Multiline);
+                Match prtl = myRegexPrtl.Match(jsons);
+                AppendLine(textBox27, prtl.ToString());
+
                 if (textBox12.Text == "False" || textBox12.Text == "false")
-                {   
+                {
+                    progressBar1.Invoke((Action)(() => progressBar1.Value = 100));
+                    progressBar1.Visible = false;
+
                     MessageBox.Show("Portal Interference removal successful!", "Confirmation", MessageBoxButtons.OK);
                 }                
             }
         }
         private void DiscoveriesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            BackupLoc("backup.txt");
-            MessageBox.Show("Backup successful!", "Confirmation", MessageBoxButtons.OK);
-        }
-        private void FastTr(int X, int Y, int Z, int galaxy)
-        {
-            //var nms = Nms.FromJson(json);
-            //nms.The6F.YhJ.OZw;
+            BackupLoc(@".\backup\locbackup.txt");            
+            MessageBox.Show("Backup successful!", "Confirmation", MessageBoxButtons.OK);            
         }
         private void JsonKey()
         {            
@@ -933,85 +1042,430 @@ namespace NMSCoordinates
                     rxValPrtl = "\"DaC\": false,";
                     break;
             }            
-        }
-        private void Button5_Click(object sender, EventArgs e)
+        }        
+        private async void Button5_ClickAsync(object sender, EventArgs e)
         {
-            //Set all Regex values
-            JsonSet("all");
-            
-            //Read all the JSON text from nmssavetool decrypt
-            string jsons = File.ReadAllText(@".\nmssavetool\save1.json");
+            if (galaxy != "" && X != "" && Y != "" && Z != "" && SSI != "")
+            {
+                progressBar1.Visible = true;
+                progressBar1.Invoke((Action)(() => progressBar1.Value = 5));
 
-            //Set Player Location
-            Regex myRegex = new Regex(rxPatternP, RegexOptions.Singleline);
-            Match m = myRegex.Match(jsons);   // m is the first match
-            rxValP = m.ToString();            
+                //await BackupSave();
 
-            Regex myRegex1 = new Regex(rxPatternG, RegexOptions.Multiline);
-            rxValP = Regex.Replace(rxValP, rxPatternG, rxValG, RegexOptions.Multiline);
+                progressBar1.Invoke((Action)(() => progressBar1.Value = 15));
+                //Read and decrypt save (?)
+                await ReadSave(saveslot);
 
-            Regex myRegex2 = new Regex(rxPatternX, RegexOptions.Multiline);
-            rxValP = Regex.Replace(rxValP, rxPatternX, rxValX, RegexOptions.Multiline);
+                //Set all Regex values
+                JsonSet("all");
 
-            Regex myRegex3 = new Regex(rxPatternY, RegexOptions.Multiline);
-            rxValP = Regex.Replace(rxValP, rxPatternY, rxValY, RegexOptions.Multiline);
+                progressBar1.Invoke((Action)(() => progressBar1.Value = 25));
 
-            Regex myRegex4 = new Regex(rxPatternZ, RegexOptions.Multiline);
-            rxValP = Regex.Replace(rxValP, rxPatternZ, rxValZ, RegexOptions.Multiline);
+                //Read all the JSON text from nmssavetool decrypt
+                string jsons = File.ReadAllText(@".\nmssavetool\save.json");
 
-            Regex myRegex5 = new Regex(rxPatternSSI, RegexOptions.Multiline);
-            rxValP = Regex.Replace(rxValP, rxPatternSSI, rxValSSI, RegexOptions.Multiline);
+                //Set Player Location
+                Regex myRegex = new Regex(rxPatternP, RegexOptions.Singleline);
+                Match m = myRegex.Match(jsons);   // m is the first match
+                rxValP = m.ToString();
 
-            Regex myRegex6 = new Regex(rxPatternPI, RegexOptions.Multiline);
-            rxValP = Regex.Replace(rxValP, rxPatternPI, rxValPI, RegexOptions.Multiline);
-            
-            jsons = Regex.Replace(jsons, rxPatternP, rxValP, RegexOptions.Singleline);
+                Regex myRegex1 = new Regex(rxPatternG, RegexOptions.Multiline);
+                rxValP = Regex.Replace(rxValP, rxPatternG, rxValG, RegexOptions.Multiline);
 
-            //Set Spawn State
-            Regex myRegexs = new Regex(rxPatternSt, RegexOptions.Singleline);
-            Match ms = myRegexs.Match(jsons);   // m is the first match
-            rxValSt = ms.ToString();
-            //AppendLine(textBox3, rxValSt);
+                Regex myRegex2 = new Regex(rxPatternX, RegexOptions.Multiline);
+                rxValP = Regex.Replace(rxValP, rxPatternX, rxValX, RegexOptions.Multiline);
 
-            Regex myRegexps = new Regex(rxPatternPs, RegexOptions.Multiline);
-            rxValSt = Regex.Replace(rxValSt, rxPatternPs, rxValPs, RegexOptions.Multiline);
+                Regex myRegex3 = new Regex(rxPatternY, RegexOptions.Multiline);
+                rxValP = Regex.Replace(rxValP, rxPatternY, rxValY, RegexOptions.Multiline);
 
-            jsons = Regex.Replace(jsons, rxPatternSt, rxValSt, RegexOptions.Singleline);
+                Regex myRegex4 = new Regex(rxPatternZ, RegexOptions.Multiline);
+                rxValP = Regex.Replace(rxValP, rxPatternZ, rxValZ, RegexOptions.Multiline);
 
-            //Set Portal Interference false DaC
-            Regex myRegexPrtl = new Regex(rxPatternPrtl, RegexOptions.Multiline);
-            Match prtl = myRegexPrtl.Match(jsons);
-            rxValPrtl = prtl.ToString();
+                Regex myRegex5 = new Regex(rxPatternSSI, RegexOptions.Multiline);
+                rxValP = Regex.Replace(rxValP, rxPatternSSI, rxValSSI, RegexOptions.Multiline);
 
-            jsons = Regex.Replace(jsons, rxPatternPrtl, rxValPrtl, RegexOptions.Multiline);
-                       
-            //Write all modifications of file to save2.json
-            File.WriteAllText(@".\nmssavetool\save2.json", jsons);
+                Regex myRegex6 = new Regex(rxPatternPI, RegexOptions.Multiline);
+                rxValP = Regex.Replace(rxValP, rxPatternPI, rxValPI, RegexOptions.Multiline);
 
-            //Show log of changes in txtbox
-            Match g = myRegex1.Match(jsons);
-            Match x = myRegex2.Match(jsons);
-            Match y = myRegex3.Match(jsons);
-            Match z = myRegex4.Match(jsons);
-            Match ssi = myRegex5.Match(jsons);
-            Match pi = myRegex6.Match(jsons);
-            Match ps = myRegexps.Match(jsons);
-            AppendLine(textBox3, g.ToString() + x.ToString() + y.ToString() + z.ToString() + ssi.ToString() + pi.ToString() + ps.ToString());
+                jsons = Regex.Replace(jsons, rxPatternP, rxValP, RegexOptions.Singleline);
 
+                //Set Spawn State
+                Regex myRegexs = new Regex(rxPatternSt, RegexOptions.Singleline);
+                Match ms = myRegexs.Match(jsons);   // m is the first match
+                rxValSt = ms.ToString();
+                //AppendLine(textBox3, rxValSt);
+
+                Regex myRegexps = new Regex(rxPatternPs, RegexOptions.Multiline);
+                rxValSt = Regex.Replace(rxValSt, rxPatternPs, rxValPs, RegexOptions.Multiline);
+
+                jsons = Regex.Replace(jsons, rxPatternSt, rxValSt, RegexOptions.Singleline);
+
+                //Set Portal Interference false DaC
+                Regex myRegexPrtl = new Regex(rxPatternPrtl, RegexOptions.Multiline);
+                Match prtl = myRegexPrtl.Match(jsons);
+                //rxValPrtl = prtl.ToString();
+                //AppendLine(textBox3, rxValPrtl);
+
+                jsons = Regex.Replace(jsons, rxPatternPrtl, rxValPrtl, RegexOptions.Multiline);
+
+                progressBar1.Invoke((Action)(() => progressBar1.Value = 40));
+
+                //Write all modifications of file to save2.json
+                File.WriteAllText(@".\nmssavetool\saveedit.json", jsons);
+
+                //Show log of changes in txtbox
+                Match g = myRegex1.Match(jsons);
+                Match x = myRegex2.Match(jsons);
+                Match y = myRegex3.Match(jsons);
+                Match z = myRegex4.Match(jsons);
+                Match ssi = myRegex5.Match(jsons);
+                Match pi = myRegex6.Match(jsons);
+                Match ps = myRegexs.Match(myRegexps.Match(jsons).ToString());
+                AppendLine(textBox27, "Player Move Data: " + g.ToString() + x.ToString() + y.ToString() + z.ToString() + ssi.ToString() + pi.ToString() + ps.ToString());
+
+                progressBar1.Invoke((Action)(() => progressBar1.Value = 70));
+
+                await WriteSave(saveslot);
+
+                json = File.ReadAllText(hgFilePath);
+                var nms = Nms.FromJson(json);
+                textBox12.Clear();
+                textBox12.Text = nms.The6F.DaC.ToString();
+                GetPlayerCoord();
+
+                progressBar1.Invoke((Action)(() => progressBar1.Value = 100));
+                progressBar1.Visible = false;
+
+                textBox26.Clear();
+                FileInfo hgfile = new FileInfo(hgFilePath);
+                AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
+
+                MessageBox.Show("Player moved successfully!", "Confirmation", MessageBoxButtons.OK);
+            }
+            else
+            {
+                MessageBox.Show("Please click a location!", "Confirmation", MessageBoxButtons.OK);
+            }
+        }
+        private void ComboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(comboBox2.SelectedIndex == 1)
+            {
+                saveslot = 1;
+                comboBox1.DataSource = sn1.ToArray();
+                comboBox1.DisplayMember = "VALUE";
+                comboBox1.ValueMember = "KEY";
+            }
+            if (comboBox2.SelectedIndex == 2)
+            {
+                saveslot = 2;
+                comboBox1.DataSource = sn2.ToArray();
+                comboBox1.DisplayMember = "VALUE";
+                comboBox1.ValueMember = "KEY";
+            }
+            if (comboBox2.SelectedIndex == 3)
+            {
+                saveslot = 3;
+                comboBox1.DataSource = sn3.ToArray();
+                comboBox1.DisplayMember = "VALUE";
+                comboBox1.ValueMember = "KEY";
+            }
+            if (comboBox2.SelectedIndex == 4)
+            {
+                saveslot = 4;
+                comboBox1.DataSource = sn4.ToArray();
+                comboBox1.DisplayMember = "VALUE";
+                comboBox1.ValueMember = "KEY";
+            }
+            if (comboBox2.SelectedIndex == 5)
+            {
+                saveslot = 5;
+                comboBox1.DataSource = sn5.ToArray();
+                comboBox1.DisplayMember = "VALUE";
+                comboBox1.ValueMember = "KEY";
+            }
+        }
+        private void GetSaveFile(string selected)
+        {
+            DirectoryInfo dinfo = new DirectoryInfo(nmsPath);
+            FileInfo[] Files = dinfo.GetFiles(selected, SearchOption.AllDirectories);
+
+            //This is a weird loop but it works lol
+            if (Files.Length != 0)
+            {
+                foreach (FileInfo file in Files)
+                {
+                    hgFilePath = file.FullName;
+                    AppendLine(textBox16, file.FullName);
+                }
+            }
+            else
+            {
+                //AppendLine(textBox17, "** Code 3 ** " + selected);
+                return;
+            }
+            FileInfo hgfile = new FileInfo(hgFilePath);
+            AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
+            json = File.ReadAllText(hgFilePath);
         }
         private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            textBox26.Clear();
-            comboBox2.Items.Add("Slot 1");
-            comboBox2.Items.Add("Slot 2");
-            comboBox2.Items.Add("Slot 3");
-            comboBox2.Items.Add("Slot 4");
-            comboBox2.Items.Add("Slot 5");
+            ClearAll();
+            string selected = this.comboBox1.GetItemText(this.comboBox1.SelectedItem);  
+            
+            DirectoryInfo dinfo = new DirectoryInfo(nmsPath);
+            FileInfo[] Files = dinfo.GetFiles(selected, SearchOption.AllDirectories);
 
-            if(comboBox2.SelectedText == "Slot 1")
+            //This is a weird loop but it works lol
+            if (Files.Length != 0)
             {
-               // comboBox1.SelectedText.la
+                foreach (FileInfo file in Files)
+                {
+                    hgFilePath = file.FullName;
+                    AppendLine(textBox16, file.FullName);
+                }
             }
+            else
+            {
+                //AppendLine(textBox17, "** Code 3 ** " + selected);
+                return;
+            }
+            FileInfo hgfile = new FileInfo(hgFilePath);
+            AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
+            json = File.ReadAllText(hgFilePath);            
+
+            Loadlsb1();
+            Loadlsb3();
+            GetPlayerCoord();
+        }
+        private async void Form1_Shown(object sender, EventArgs e)
+        {
+            Glyphs();
+            GIndex();
+            JsonKey();
+            nmsPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HelloGames"), "NMS");
+            LoadCmbx();            
+            SetSShot();
+            LoadSS();
+            DiscList = new List<string>();
+            BaseList = new List<string>();
+
+            BindingSource bs = new BindingSource(galaxyDict, null);
+            comboBox3.DataSource = bs;
+            comboBox3.DisplayMember = "Value";
+            comboBox3.ValueMember = "Key";
+
+            await BackupSave();
+        }
+
+        private async Task BackupSave()
+        {
+            progressBar2.Visible = true;
+            progressBar2.Invoke((Action)(() => progressBar2.Value = 10));
+            ProcessStartInfo startInfo = new ProcessStartInfo(@"Powershell.exe");
+            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            startInfo.Arguments = @"/c .\nmssavetool\nmssavetool.exe backupall -b .\backup\nms-backup-" + DateTime.Now.ToString("yyyy-MM-dd-HHmmss") + ".zip";
+            progressBar2.Invoke((Action)(() => progressBar2.Value = 30));
+            Process.Start(startInfo);
+            progressBar2.Invoke((Action)(() => progressBar2.Value = 50));
+            await Task.Delay(2000);
+            progressBar2.Invoke((Action)(() => progressBar2.Value = 100));
+            progressBar2.Visible = false;
+            AppendLine(textBox17, "All saves backed up to zip file created in \\backup folder...");
+        }
+        private async void BackupALLSaveFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await BackupSave();
+            MessageBox.Show("Save Backup Completed!", "Confirmation", MessageBoxButtons.OK);
+        }
+        public Bitmap CropImage(Bitmap source, Rectangle section)
+        {
+            // An empty bitmap which will hold the cropped image
+            Bitmap bmp = new Bitmap(section.Width, section.Height);
+
+            Graphics g = Graphics.FromImage(bmp);
+
+            // Draw the given area (section) of the source image
+            // at location 0,0 on the empty bitmap (bmp)
+            g.DrawImage(source, 0, 0, section, GraphicsUnit.Pixel);
+            
+
+            return bmp;
+        }
+        
+        private void SetSShot()
+        {
+            try
+            {
+                stmPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) + @"\Steam\userdata\";// 307405899\";
+                //ScreenShot Path -- C:\Program Files (x86)\Steam\userdata\307405899\760\remote\275850\screenshots\thumbnails
+                //AppendLine(textBox17, "1: " + stmPath);
+
+                if (Directory.Exists(stmPath))
+                {
+                    List<string> list = new List<string>();
+                    List<string> list2 = new List<string>();
+                    DirectoryInfo dinfo1 = new DirectoryInfo(stmPath);
+                    DirectoryInfo[] dinfoss = dinfo1.GetDirectories("760", SearchOption.AllDirectories);
+                    foreach (DirectoryInfo di in dinfoss)//.OrderByDescending(f => f.LastWriteTime))
+                    {
+                        list2.Add(di.FullName);                        
+                    }
+
+                    ssdPath = Path.GetFullPath(list2[0].ToString() + @"\remote\275850\screenshots");//\thumbnails");
+                    //AppendLine(textBox17, "2: " + ssdPath);
+
+                    if (Directory.Exists(ssdPath))
+                    {
+                        foreach (var item in list2)
+                        {
+                            //AppendLine(textBox17, item.ToString());
+
+                            //List<string> list = new List<string>();
+                            DirectoryInfo dinfo2 = new DirectoryInfo(ssdPath);
+                            FileInfo[] Files = dinfo2.GetFiles("*.jpg", SearchOption.AllDirectories);
+
+                            if (Files.Length != 0)
+                            {
+                                foreach (FileInfo file in Files.OrderByDescending(f => f.LastWriteTime))
+                                {
+                                    if (!file.DirectoryName.Contains("thumbnails"))
+                                        list.Add(file.FullName);
+                                }
+                            }
+                            else
+                            {
+                                pictureBox25.Image = null;
+                                AppendLine(textBox17, "ssPath error! 855");
+                                return;
+                            }
+                        }
+                        ssPath = list[0].ToString();
+                        AppendLine(textBox17, "ScreenShot: " + list[0].ToString());
+
+                        //pictureBox25.ImageLocation = ssPath;
+                        //pictureBox25.SizeMode = PictureBoxSizeMode.StretchImage;
+
+
+                        //tabPage1.BackgroundImage = Image.FromFile(ssPath);
+                        //tabPage1.BackgroundImageLayout = ImageLayout.Center;
+                        //tabPage1.BackgroundImageLayout = ImageLayout.Stretch;
+
+                        // Example use:     
+                        //Bitmap source = new Bitmap(pngPath);
+                        //Rectangle section = new Rectangle(new Point(1018,905), new Size(1018, 905));
+
+                        //Bitmap CroppedImage = CropImage(source, section);
+                        //tabPage1.BackgroundImageLayout = ImageLayout.Stretch;
+                        //tabPage1.BackgroundImageLayout = ImageLayout.Center;
+                        //tabPage1.BackgroundImage = CroppedImage;                        
+                    }
+                    else
+                    {
+                        AppendLine(textBox17, "ssPath error! 123");
+                        return;
+                    }
+                }
+                else
+                {
+                    AppendLine(textBox17, "ssPath error! 145");
+                    return;
+                }                
+            }
+            catch
+            {
+                AppendLine(textBox17, "ssPath error! 155");
+                return;
+            }
+        }
+        private void LoadSS()
+        {
+            pictureBox25.ImageLocation = ssPath;
+            pictureBox25.SizeMode = PictureBoxSizeMode.StretchImage;
+
+            tabPage1.BackgroundImage = Image.FromFile(ssPath);
+            tabPage1.BackgroundImageLayout = ImageLayout.Center;
+            tabPage1.BackgroundImageLayout = ImageLayout.Stretch;
+        }
+        private void SetSSPath()
+        {
+            try
+            {
+                List<string> list2 = new List<string>();
+                using (var fbd = new FolderBrowserDialog())
+                {
+                    DialogResult result = fbd.ShowDialog();
+
+                    if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                    {
+                        string[] files = Directory.GetFiles(fbd.SelectedPath, "*.jpg");
+
+                        if (files.Length != 0)
+                        {
+                            ssdPath = fbd.SelectedPath;
+                            MessageBox.Show(files.Length.ToString() + "\r\n\r\nScreenshot files found... ", "Message");
+                        }
+                        else
+                        {
+                            MessageBox.Show("No Screenshot files found! ", "Message");
+                        }
+                    }
+                    else if (result == DialogResult.Cancel)
+                    {
+                        MessageBox.Show("Cancelled no path set!");
+                    }
+                }
+
+                if (Directory.Exists(ssdPath))
+                {
+                    DirectoryInfo dinfo2 = new DirectoryInfo(ssdPath);
+                    FileInfo[] Files = dinfo2.GetFiles("*.jpg", SearchOption.AllDirectories);
+
+                    if (Files.Length != 0)
+                    {
+                        foreach (FileInfo file in Files.OrderByDescending(f => f.LastWriteTime))
+                        {
+                            if (!file.DirectoryName.Contains("thumbnails"))
+                                list2.Add(file.FullName);
+                        }
+                    }
+                    else
+                    {
+                        //pictureBox25.Image = null;
+                        AppendLine(textBox17, "ssPath error! 855");
+                        return;
+                    }
+                    ssPath = list2[0].ToString();
+                    AppendLine(textBox17, "ScreenShot: " + list2[0].ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\r\n\r\n Screenshot path problem!");
+                return;
+            }
+        }
+        private void ScreenshotPageToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Form3 f3 = new Form3();
+            AppendLine(textBox17, ssdPath);
+            f3.MyProperty2 = ssdPath;
+            f3.Show();
+        }
+        private void ScreenshotPageToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            SetSSPath();
+            LoadSS();
+        }
+
+        private void ComboBox3_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Button6_Click(object sender, EventArgs e)
+        {
+
         }
     }
 
