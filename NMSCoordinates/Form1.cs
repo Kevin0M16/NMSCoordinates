@@ -118,15 +118,32 @@ namespace NMSCoordinates
         }
         private void BackupLoc(string path)
         {
-            for (int i = 0; i < DiscList.Count; i++)
+            if (DiscList.Count > 0)
             {
-                JsonMap(i);
-                GetPortalCoord(iX, iY, iZ, iSSI);
-                GetGalacticCoord(iX, iY, iZ, iSSI);
-                Backuplist.Add("Loc: " + DiscList[i] + " - PC: " + PortalCode + " -- GC: " + GalacticCoord);
+                for (int i = 0; i < DiscList.Count; i++)
+                {
+                    JsonMap(i);
+                    GetPortalCoord(iX, iY, iZ, iSSI);
+                    GetGalacticCoord(iX, iY, iZ, iSSI);
+                    Backuplist.Add("Loc: " + DiscList[i] + " - G: "+ galaxy + " - PC: " + PortalCode + " -- GC: " + GalacticCoord);
+                }             
+                
+                string path2 = MakeUnique(path).ToString();                    
+                File.WriteAllLines(path2, Backuplist);
+                Process.Start(path2);
+                LoadTxt();
             }
-            File.WriteAllLines(path, Backuplist);
-            Process.Start(@".\backup\locbackup.txt");
+            else
+            {
+                toolStripMenuItem1.Enabled = false;
+                MessageBox.Show("No Locations found! ", "Message");
+            }
+        }
+        public FileInfo MakeUnique(string path)
+        {
+            path = String.Format("{0}{1}{2}{3}{4}", @".\backup\", Path.GetFileNameWithoutExtension(path),"_" + saveslot + "_",DateTime.Now.ToString("yyyy-MM-dd-HHmmss"), Path.GetExtension(path));
+            return new FileInfo(path);
+
         }
         public static void AppendLine(TextBox source, string value)
         {
@@ -827,56 +844,63 @@ namespace NMSCoordinates
 
         private async void Button3_Click(object sender, EventArgs e)
         {
-            if (textBox12.Text == "False" || textBox12.Text == "false")
+            if (saveslot >= 1 && saveslot <= 5)
             {
-                MessageBox.Show("No Portal Interference Found!", "Alert", MessageBoxButtons.OK);
-                return;
+                if (textBox12.Text == "False" || textBox12.Text == "false")
+                {
+                    MessageBox.Show("No Portal Interference Found!", "Alert", MessageBoxButtons.OK);
+                    return;
+                }
+                else
+                {
+                    progressBar1.Visible = true;
+                    progressBar1.Invoke((Action)(() => progressBar1.Value = 5));
+
+                    await ReadSave(saveslot);
+
+                    progressBar1.Invoke((Action)(() => progressBar1.Value = 30));
+
+                    string jsons = File.ReadAllText(@".\nmssavetool\save.json");
+
+                    progressBar1.Invoke((Action)(() => progressBar1.Value = 45));
+
+                    jsons = jsons.Replace("\"DaC\": true", "\"DaC\": false");
+                    File.WriteAllText(@".\nmssavetool\saveedit.json", jsons);
+
+                    progressBar1.Invoke((Action)(() => progressBar1.Value = 60));
+
+                    await WriteSave(saveslot);
+
+                    progressBar1.Invoke((Action)(() => progressBar1.Value = 90));
+
+                    json = File.ReadAllText(hgFilePath);
+
+                    var nms = Nms.FromJson(json);
+                    textBox12.Clear();
+                    textBox12.Text = nms.The6F.DaC.ToString();
+
+                    Regex myRegexPrtl = new Regex(rxPatternPrtl, RegexOptions.Multiline);
+                    Match prtl = myRegexPrtl.Match(jsons);
+                    AppendLine(textBox27, prtl.ToString());
+
+                    if (textBox12.Text == "False" || textBox12.Text == "false")
+                    {
+                        progressBar1.Invoke((Action)(() => progressBar1.Value = 100));
+                        progressBar1.Visible = false;
+
+                        MessageBox.Show("Portal Interference removal successful!", "Confirmation", MessageBoxButtons.OK);
+                    }
+                }
             }
             else
             {
-                progressBar1.Visible = true;
-                progressBar1.Invoke((Action)(() => progressBar1.Value = 5));
-
-                await ReadSave(saveslot);
-
-                progressBar1.Invoke((Action)(() => progressBar1.Value = 30));
-
-                string jsons = File.ReadAllText(@".\nmssavetool\save.json");
-
-                progressBar1.Invoke((Action)(() => progressBar1.Value = 45));
-
-                jsons = jsons.Replace("\"DaC\": true", "\"DaC\": false");
-                File.WriteAllText(@".\nmssavetool\saveedit.json", jsons);
-
-                progressBar1.Invoke((Action)(() => progressBar1.Value = 60));
-
-                await WriteSave(saveslot);
-
-                progressBar1.Invoke((Action)(() => progressBar1.Value = 90));
-
-                json = File.ReadAllText(hgFilePath);
-
-                var nms = Nms.FromJson(json);
-                textBox12.Clear();
-                textBox12.Text = nms.The6F.DaC.ToString();
-
-                Regex myRegexPrtl = new Regex(rxPatternPrtl, RegexOptions.Multiline);
-                Match prtl = myRegexPrtl.Match(jsons);
-                AppendLine(textBox27, prtl.ToString());
-
-                if (textBox12.Text == "False" || textBox12.Text == "false")
-                {
-                    progressBar1.Invoke((Action)(() => progressBar1.Value = 100));
-                    progressBar1.Visible = false;
-
-                    MessageBox.Show("Portal Interference removal successful!", "Confirmation", MessageBoxButtons.OK);
-                }                
+                MessageBox.Show("Save slot not selected!", "Alert");
             }
         }
         private void DiscoveriesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             BackupLoc(@".\backup\locbackup.txt");            
-            MessageBox.Show("Backup successful!", "Confirmation", MessageBoxButtons.OK);            
+            //MessageBox.Show("Backup successful!", "Confirmation", MessageBoxButtons.OK);            
         }
         private void JsonKey()
         {            
@@ -928,7 +952,7 @@ namespace NMSCoordinates
         }        
         private async void Button5_ClickAsync(object sender, EventArgs e)
         {
-            if (galaxy != "" && X != "" && Y != "" && Z != "" && SSI != "")
+            if (galaxy != "" && X != "" && Y != "" && Z != "" && SSI != "" && saveslot >= 1 && saveslot <= 5)
             {
                 progressBar1.Visible = true;
                 progressBar1.Invoke((Action)(() => progressBar1.Value = 5));
@@ -1142,6 +1166,7 @@ namespace NMSCoordinates
             LoadCmbx();
             SetSShot();
             LoadSS();
+            LoadTxt();
             DiscList = new List<string>();
             BaseList = new List<string>();
 
@@ -1347,13 +1372,57 @@ namespace NMSCoordinates
             SetSSPath();
             LoadSS();
         }
-        
+        private void LoadTxt()
+        {
+            listBox3.DataSource = null;
+
+            if (Directory.Exists(@".\backup"))
+            {
+                List<string> list = new List<string>();
+                DirectoryInfo dinfo2 = new DirectoryInfo(@".\backup");
+                FileInfo[] Files = dinfo2.GetFiles("locbackup*.txt", SearchOption.AllDirectories);
+
+                if (Files.Length != 0)
+                {
+                    foreach (FileInfo file in Files.OrderByDescending(f => f.LastWriteTime))
+                    {
+                        list.Add(file.Name);
+                    }
+                }
+                else
+                {
+                    toolStripMenuItem1.Enabled = false;
+                    AppendLine(textBox11, "error! 855");
+                    return;
+                }
+                listBox4.DataSource = list;
+                toolStripMenuItem1.Enabled = true;
+            }
+        }
         private void Button6_Click(object sender, EventArgs e)
         {
-            string[] locFile = File.ReadAllLines(@".\backup\locbackup.txt");
-            listBox3.DataSource = locFile;
-            listBox3.SelectedIndex = 0;
-            
+            try
+            {
+                string[] locFile = File.ReadAllLines(@".\backup\" + listBox4.SelectedItem.ToString());
+                if (locFile[0].ToString() != "")
+                {
+                    listBox3.DataSource = locFile;
+                    listBox3.SelectedIndex = 0;
+                    toolStripMenuItem1.Enabled = true;
+                }
+                else
+                {
+                    toolStripMenuItem1.Enabled = false;
+                    AppendLine(textBox11, "File is Empty! Select another file.");
+                    AppendLine(textBox11, "---------------------");
+                }
+            }
+            catch
+            {
+                toolStripMenuItem1.Enabled = false;
+                AppendLine(textBox11, "No File Selected!");
+            }
+                       
         }
         private void ListBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -1361,20 +1430,20 @@ namespace NMSCoordinates
             Regex myRegex1 = new Regex("GC:.*?$", RegexOptions.Multiline);
             Match m1 = myRegex1.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
             string line1 = m1.ToString();
-            line1 = line1.Replace("GC: ", ""); 
+            //line1 = line1.Replace("GC: ", ""); 
             AppendLine(textBox11, line1);
 
             Regex myRegex2 = new Regex("PC.*?--", RegexOptions.Multiline);
             Match m2 = myRegex2.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
             string line2 = m2.ToString();
-            line2 = line2.Replace("PC: ", "");
+            //line2 = line2.Replace("PC: ", "");
             line2 = line2.Replace(" --", "");
             AppendLine(textBox11, line2);
 
             Regex myRegex3 = new Regex("^.*?\\)", RegexOptions.Multiline);
             Match m3 = myRegex3.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
             string line3 = m3.ToString();
-            line3 = line3.Replace("Loc: ", "");
+            //line3 = line3.Replace("Loc: ", "");
             AppendLine(textBox11, line3);
             AppendLine(textBox11, "---------------------");
 
@@ -1383,10 +1452,233 @@ namespace NMSCoordinates
         private void Button7_Click(object sender, EventArgs e)
         {
             Form5 f5 = new Form5();
-            f5.ShowDialog();
+            f5.Show();
         }
+        private void GalacticToVoxel(string oX, string oY, string oZ, string oSSI)
+        {
+            //Galactic Coordinate to Voxel Coordinates 
+            textBox13.Clear();
 
-        
+            //HEX in
+            AppendLine(textBox13, "Galactic Coordinates HEX: SSI:" + oSSI + " Y:" + oY + " Z:" + oZ + " X:" + oX);
+
+            //HEX to DEC
+            int icX = Convert.ToInt32(oX, 16);
+            int icY = Convert.ToInt32(oY, 16);
+            int icZ = Convert.ToInt32(oZ, 16);
+            int icSSI = Convert.ToInt32(oSSI, 16);
+            AppendLine(textBox13, "Galactic Coordinates DEC: SSI:" + icSSI + " Y:" + icY + " Z:" + icZ + " X:" + icX);
+
+            //SHIFT DEC 2047 127 2047 ssi-same
+            int vX = icX - 2047;
+            int vY = icY - 127;
+            int vZ = icZ - 2047;
+
+            //voxel dec  x y z ssi-same
+            AppendLine(textBox13, "*** Voxel Coordinates DEC: SSI:" + icSSI + " Y:" + vY + " Z:" + vZ + " X:" + vX + " ***");
+            //voxel = "SSI:" + icSSI + " Y:" + icY + " Z:" + icZ + " X:" + icX;
+
+            X = vX.ToString();
+            Y = vY.ToString();
+            Z = vZ.ToString();
+            SSI = icSSI.ToString();
+        }
+        private async void Button8_Click(object sender, EventArgs e)
+        {
+            if (listBox3.GetItemText(listBox3.SelectedItem) != "")
+            {
+                Regex myRegex1 = new Regex("GC:.*?$", RegexOptions.Multiline);
+                Match m1 = myRegex1.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
+                string line1 = m1.ToString();
+                line1 = line1.Replace("GC: ", "");
+                line1 = line1.Replace(" ", "");
+                string[] value = line1.Split(':');
+                GalacticToVoxel(value[0].Trim(), value[1].Trim(), value[2].Trim(), value[3].Trim());
+
+                Regex myRegex2 = new Regex("G:.*?-", RegexOptions.Multiline);
+                Match m2 = myRegex2.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
+                string line2 = m2.ToString();
+                line2 = line2.Replace("G: ", "");
+                line2 = line2.Replace("-", "");
+                line2 = line2.Replace(" ", "");
+                galaxy = line2;
+                AppendLine(textBox13, "Galaxy: " + galaxy + " -- X:" + X + " -- Y:" + Y + " -- Z:" + Z + " -- SSI:" + SSI);
+                
+            }
+            else
+            {
+                AppendLine(textBox13, "Please load and select a location!");
+                MessageBox.Show("Please load and select a location!", "Alert");
+            }
+
+            if (galaxy != "" && X != "" && Y != "" && Z != "" && SSI != "" && saveslot >= 1 && saveslot <= 5)
+            {
+                progressBar3.Visible = true;
+                progressBar3.Invoke((Action)(() => progressBar3.Value = 5));
+
+                //await BackupSave();
+
+                progressBar3.Invoke((Action)(() => progressBar3.Value = 15));
+
+                //Read and decrypt save (?)
+                await ReadSave(saveslot);
+
+                //Set all Regex values
+                JsonSet("all");
+
+                progressBar3.Invoke((Action)(() => progressBar3.Value = 25));
+
+                //Read all the JSON text from nmssavetool decrypt
+                string jsons = File.ReadAllText(@".\nmssavetool\save.json");
+
+                ////Set Player Location
+                //Get the Player location text array
+                Regex myRegex = new Regex(rxPatternP, RegexOptions.Singleline);
+                Match m = myRegex.Match(jsons);
+                rxValP = m.ToString();
+
+                //Get and Set Galaxy
+                Regex myRegex1 = new Regex(rxPatternG, RegexOptions.Multiline);
+                rxValP = Regex.Replace(rxValP, rxPatternG, rxValG, RegexOptions.Multiline);
+
+                //Get and Set X
+                Regex myRegex2 = new Regex(rxPatternX, RegexOptions.Multiline);
+                rxValP = Regex.Replace(rxValP, rxPatternX, rxValX, RegexOptions.Multiline);
+
+                //Get amd Set Y
+                Regex myRegex3 = new Regex(rxPatternY, RegexOptions.Multiline);
+                rxValP = Regex.Replace(rxValP, rxPatternY, rxValY, RegexOptions.Multiline);
+
+                //Get and Set Z
+                Regex myRegex4 = new Regex(rxPatternZ, RegexOptions.Multiline);
+                rxValP = Regex.Replace(rxValP, rxPatternZ, rxValZ, RegexOptions.Multiline);
+
+                //Get and Set Solar System index (SSI)
+                Regex myRegex5 = new Regex(rxPatternSSI, RegexOptions.Multiline);
+                rxValP = Regex.Replace(rxValP, rxPatternSSI, rxValSSI, RegexOptions.Multiline);
+
+                //Get and Set Planet Index
+                Regex myRegex6 = new Regex(rxPatternPI, RegexOptions.Multiline);
+                rxValP = Regex.Replace(rxValP, rxPatternPI, rxValPI, RegexOptions.Multiline);
+
+                //Set the player location array after changes made
+                jsons = Regex.Replace(jsons, rxPatternP, rxValP, RegexOptions.Singleline);
+
+                ////Set Spawn State
+                // Get the Spawn state array
+                Regex myRegexs = new Regex(rxPatternSt, RegexOptions.Singleline);
+                Match ms = myRegexs.Match(jsons);
+                rxValSt = ms.ToString();
+
+                //Get and set Player last known location in Spwn state array
+                Regex myRegexps = new Regex(rxPatternPs, RegexOptions.Multiline);
+                rxValSt = Regex.Replace(rxValSt, rxPatternPs, rxValPs, RegexOptions.Multiline);
+
+                //Set the spawn state array after changes made
+                jsons = Regex.Replace(jsons, rxPatternSt, rxValSt, RegexOptions.Singleline);
+
+                //Set Portal Interference false DaC
+                Regex myRegexPrtl = new Regex(rxPatternPrtl, RegexOptions.Multiline);
+                Match prtl = myRegexPrtl.Match(jsons);
+                //rxValPrtl = prtl.ToString();
+                //AppendLine(textBox3, rxValPrtl);
+
+                //Set Portal Interference state rxValPrtl preset to false
+                jsons = Regex.Replace(jsons, rxPatternPrtl, rxValPrtl, RegexOptions.Multiline);
+
+                progressBar3.Invoke((Action)(() => progressBar3.Value = 40));
+
+                //Write all modifications of file to saveedit.json
+                File.WriteAllText(@".\nmssavetool\saveedit.json", jsons);
+
+                //Show log of changes in txtbox
+                Match g = myRegex1.Match(jsons);
+                Match x = myRegex2.Match(jsons);
+                Match y = myRegex3.Match(jsons);
+                Match z = myRegex4.Match(jsons);
+                Match ssi = myRegex5.Match(jsons);
+                Match pi = myRegex6.Match(jsons);
+                Match ps = myRegexs.Match(myRegexps.Match(jsons).ToString());
+                AppendLine(textBox27, "Player Move Data: " + g.ToString() + x.ToString() + y.ToString() + z.ToString() + ssi.ToString() + pi.ToString() + ps.ToString());
+
+                progressBar3.Invoke((Action)(() => progressBar3.Value = 70));
+
+                //Write the new save file 
+                await WriteSave(saveslot);
+
+                //Set json to the new modified hg file
+                json = File.ReadAllText(hgFilePath);
+
+                //Read the new json and check portal interference state
+                var nms = Nms.FromJson(json);
+                textBox12.Clear();
+                textBox12.Text = nms.The6F.DaC.ToString();
+                GetPlayerCoord();
+
+                progressBar3.Invoke((Action)(() => progressBar3.Value = 100));
+                progressBar3.Visible = false;
+
+                //set the last write time box
+                textBox26.Clear();
+                FileInfo hgfile = new FileInfo(hgFilePath);
+                AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
+
+                MessageBox.Show("Player moved successfully!", "Confirmation", MessageBoxButtons.OK);
+            }
+            else
+            {
+                MessageBox.Show("Please select a save slot!", "Confirmation", MessageBoxButtons.OK);
+            }   
+        }
+        private void ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if(listBox3.GetItemText(listBox3.SelectedItem) != "")
+            {
+                List<string> list = new List<string>();
+                //list.Add("Loc: " + DiscList[i] + " - G: " + galaxy + " - PC: " + PortalCode + " -- GC: " + GalacticCoord);
+                list.Add(listBox3.GetItemText(listBox3.SelectedItem));
+                string path2 = MakeUnique(@".\backup\locbackup.txt").ToString();
+                File.WriteAllLines(path2, list);
+                Process.Start(path2);
+                AppendLine(textBox13, "Single Record saved!");
+                LoadTxt();
+            }
+            else
+            {
+                AppendLine(textBox13, "No record saved! Please select a location!");
+            }
+            
+        }
+        private void ToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Delete " + listBox4.GetItemText(listBox4.SelectedItem) + " ? ", "Locbackup Manager", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                if (File.Exists(@".\backup\" + listBox4.GetItemText(listBox4.SelectedItem)))
+                {
+                    if (listBox4.GetItemText(listBox4.SelectedItem) != "")
+                    {
+                        File.Delete(@".\backup\" + listBox4.GetItemText(listBox4.SelectedItem));
+                        MessageBox.Show("File deleted Successfully.", "Confirmation");
+                        LoadTxt();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No file found, not deleted.", "Alert");
+                        LoadTxt();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("No file found, not deleted.", "Alert");
+                    LoadTxt();
+                }
+                
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                MessageBox.Show("Cancelled! No file deleted.", "Alert");
+            }
+        }
     }
-
 }

@@ -63,7 +63,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form4";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Screen Shot";
+            this.Text = "NMSCoordinate Screenshots";
             this.TopMost = true;
             this.Shown += new System.EventHandler(this.Form4_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
