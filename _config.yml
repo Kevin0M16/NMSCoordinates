@@ -1,0 +1,6 @@
+theme: jekyll-theme-architect
+repository: Kevin0M16/NMSCoordinates
+plugins:
+  - "jekyll-github-metadata"
+  - jekyll-seo-tag
+  - jemoji
