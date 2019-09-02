@@ -19,6 +19,8 @@ You can clear portal interference while traveling and fast travel to all the loc
 * Can Backup all locations to a .txt file. You can access these on the Coordinate Share tab or share with others. You can fast travel to these also!
 * NMSCoordinates backs up your entire save folder on startup, the .zip is located in the .\backup folder.
 * You can view the last 4 screenshots taken in the game within the tool. It displays 1 on front and all 4 can be accessed in Tools --> Screenshot Page.
+* NMSCoordinates shows all calculation results in the textbox, if you like HEX and DEC.
+* NMSCoordinates Calculator is a useful tool when messing with coordinates. This converts Portal->Galactic, Galactic->Portal, Voxel to Portal/Galactic. Check it out!
 
 ## Getting Started
 Here is an overview of what you need to get started with NMSCoordinated
