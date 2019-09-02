@@ -62,3 +62,5 @@ This project is licensed under the MIT License - see the [LICENSE](/LICENSE) fil
 * [nmssavetool](https://github.com/matthew-humphrey/nmssavetool) - For signing the save files. This tool is still awesome!
 * [NMSSaveEditor](https://github.com/goatfungus/NMSSaveEditor) - For viewing raw Json and testing my tool, also shout out to goatfungus for answering a few questions!
 * [Swiss-Selector](https://kevin0m16.github.io/Swiss-Selector/) - For some code and examples. (My Car Mechanic tool)
+* [r/NoMansSkyMods](https://www.reddit.com/r/NoMansSkyMods/) - For coordinate conversion info
+* [nmsportals](https://nmsportals.github.io/) - For Glyph images
