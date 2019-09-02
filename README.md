@@ -64,3 +64,4 @@ This project is licensed under the MIT License - see the [LICENSE](/LICENSE) fil
 * [Swiss-Selector](https://kevin0m16.github.io/Swiss-Selector/) - For some code and examples. (My Car Mechanic tool)
 * [r/NoMansSkyMods](https://www.reddit.com/r/NoMansSkyMods/) - For coordinate conversion info
 * [nmsportals](https://nmsportals.github.io/) - For Glyph images
+* [NMSGamepedia](https://nomanssky.gamepedia.com/Galaxy) - for galaxy numbers to names
