@@ -4,16 +4,16 @@ This a Coordinate Tool for No Man's Sky
 Work in Progress...I will update ReadMe soon
 
 <img src= "ss1.png"/>
+<img src= "ss4.png"/>
 <img src= "ss2.png"/>
 <img src= "ss3.png"/>
-<img src= "ss4.png"/>
 
 # NMSCoordinates
 No Man's Sky Coordinate tool allows you to view all your discovered locations between all your saves.
 You can clear portal interference while traveling and fast travel to all the locations that you have discovered or have been shared with you!
 
 ## Features
-* View all locations discovered across all save slots and see their Glyphs, Galactic Coordinates, Portal Code, and even Voxel X,Y,Z,SSI
+*View all locations discovered across all save slots and see their Glyphs, Galactic Coordinates, Portal Code, and even Voxel X,Y,Z,SSI
 *Fast travel to any selected location in the list of discoveries.
 *Portal interference can be cleared with a button, so base building and the galaxy map are allowed after traveling through a portal!
 *Can Backup all locations to a .txt file. You can access these on the Coordinate Share tab or share with others. You can fast travel to these also!
@@ -41,8 +41,8 @@ The current version of NMSCoordinates requires No Man's Sky Beyond 2.x, but It c
 ## Built With
 
 * [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/) - For the Windows 10 UI
-* [Notepad++] (https://notepad-plus-plus.org/) - For viewing Json
-* [WinMerge] (https://winmerge.org/) - Awesome tool for file comparison
+* [Notepad++](https://notepad-plus-plus.org/) - For viewing Json
+* [WinMerge](https://winmerge.org/) - Awesome tool for file comparison
 
 ## Authors
 
@@ -54,5 +54,5 @@ This project is licensed under the MIT License - see the [LICENSE](/LICENSE) fil
 
 ## Acknowledgments
 
-* [nmssavetool] (https://github.com/matthew-humphrey/nmssavetool) - For signing the save files
-* [NMSSaveEditor] (https://github.com/goatfungus/NMSSaveEditor) - For viewing raw Json and testing my tool, also shout out to goatfungus for answering a few questions!
+* [nmssavetool](https://github.com/matthew-humphrey/nmssavetool) - For signing the save files
+* [NMSSaveEditor](https://github.com/goatfungus/NMSSaveEditor) - For viewing raw Json and testing my tool, also shout out to goatfungus for answering a few questions!
