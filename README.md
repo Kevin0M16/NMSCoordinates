@@ -42,7 +42,20 @@ The current version of NMSCoordinates requires No Man's Sky Beyond 2.x, but It c
 	3. Extract the .zip to your desired location.
 	4. Open and run NMSCoordinate.exe or create shortcut for your desktop
 	5. Select Save slot, and have fun! 
-	
+
+### Instructions
+
+	1. Select a Save Slot. This loads all locations on that slot/save on the Base and Space Station tab.
+	2. Click a location in one of the listboxes to view the location info. Glyphs and Galactic Coordinates, Portal Code, and Voxel will be displayed.
+	3. Move player to that location by clicking the Move Player Here button, then reload the save in game that you selected on the first screen.
+	4. If you traveled through a portral and want to clear the Portal Interference, click the Clear Interference button, then reload the save selected in game.
+	5. Go to File --> Backups --> backup discoveries to .txt and save all your locations to a locbackup file in .\backup these are 	accessed on the coordinate share tab.
+	6. Import a locbackup file on the Coordniate Share tab by clicking the import locbackup txt button. Click a location to viwe a 	location summary, and click the Move Player here button to fast travel to the selected locaiton.
+	7. Right click a location in the top listbox on the Coordinate Share tab to create a one record locbackup file to share with 	others.
+	8. Right click the lower listbox to delete unwanted locbackup files.
+	9. Use the Coordinate Calculator by clicking the Coordinate Calculator button and entering (1) coordinate at a time in the textboxes and clicking the button below it. View all converted coordinates at the bottom.
+
+
 ## Built With
 
 * [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/) - For the Windows 10 UI
