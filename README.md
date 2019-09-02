@@ -23,6 +23,8 @@ You can clear portal interference while traveling and fast travel to all the loc
 ## Getting Started
 Here is an overview of what you need to get started with NMSCoordinated
 
+<pre>  <a href="https://github.com/Kevin0M16/NMSCoordinates/releases/latest/download/NMSCoordinates-v1.0.0-beta.zip"><img src="https://img.shields.io/badge/dynamic/json.svg?label=download&url=https://api.github.com/repos/Kevin0M16/NMSCoordinates/releases/latest&query=$.assets[0].name&style=for-the-badge" alt="download"/></a></pre>
+
 ### Requirements
 
 The current version of NMSCoordinates requires No Man's Sky Beyond 2.x, but It could work with older versions.
