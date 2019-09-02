@@ -1222,9 +1222,13 @@ namespace NMSCoordinates
                     List<string> list2 = new List<string>();
                     DirectoryInfo dinfo1 = new DirectoryInfo(stmPath);
                     DirectoryInfo[] dinfoss = dinfo1.GetDirectories("760", SearchOption.AllDirectories);
+                    
                     foreach (DirectoryInfo di in dinfoss)//.OrderByDescending(f => f.LastWriteTime))
-                    {
-                        list2.Add(di.FullName);                        
+                    {      
+                        if (di.GetFiles("*.jpg", SearchOption.AllDirectories).Length != 0)
+                        {
+                            list2.Add(di.FullName);
+                        }
                     }
 
                     ssdPath = Path.GetFullPath(list2[0].ToString() + @"\remote\275850\screenshots");//\thumbnails");
