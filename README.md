@@ -13,12 +13,12 @@ No Man's Sky Coordinate tool allows you to view all your discovered locations be
 You can clear portal interference while traveling and fast travel to all the locations that you have discovered or have been shared with you!
 
 ## Features
-*View all locations discovered across all save slots and see their Glyphs, Galactic Coordinates, Portal Code, and even Voxel X,Y,Z,SSI
-*Fast travel to any selected location in the list of discoveries.
-*Portal interference can be cleared with a button, so base building and the galaxy map are allowed after traveling through a portal!
-*Can Backup all locations to a .txt file. You can access these on the Coordinate Share tab or share with others. You can fast travel to these also!
-*NMSCoordinates backs up your entire save folder on startup, the .zip is located in the .\backup folder.
-*You can view the last 4 screenshots taken in the game within the tool. It displays 1 on front and all 4 can be accessed in Tools --> Screenshot Page.
+* View all locations discovered across all save slots and see their Glyphs, Galactic Coordinates, Portal Code, and even Voxel X,Y,Z,SSI
+* Fast travel to any selected location in the list of discoveries.
+* Portal interference can be cleared with a button, so base building and the galaxy map are allowed after traveling through a portal!
+* Can Backup all locations to a .txt file. You can access these on the Coordinate Share tab or share with others. You can fast travel to these also!
+* NMSCoordinates backs up your entire save folder on startup, the .zip is located in the .\backup folder.
+* You can view the last 4 screenshots taken in the game within the tool. It displays 1 on front and all 4 can be accessed in Tools --> Screenshot Page.
 
 ## Getting Started
 Here is an overview of what you need to get started with NMSCoordinated
@@ -26,7 +26,7 @@ Here is an overview of what you need to get started with NMSCoordinated
 ### Requirements
 
 The current version of NMSCoordinates requires No Man's Sky Beyond 2.x, but It could work with older versions.
- - [x] nmssavetool required - download the lasted release .zip
+ - [x] nmssavetool required - download the lasted NMSCoordinates release .zip, it's included.
 
 :exclamation: **Always back up all your game data and saves before any mods**
 
