@@ -10,6 +10,11 @@ This a Coordinate Tool for No Man's Sky!
 No Man's Sky Coordinate tool allows you to view all your discovered locations between all your saves.
 You can clear portal interference while traveling and fast travel to all the locations that you have discovered or have been shared with you!
 
+## Download
+
+<pre>  <a href="https://github.com/Kevin0M16/NMSCoordinates/releases/latest/download/NMSCoordinates-v1.0.0-beta.zip"><img src="https://img.shields.io/badge/dynamic/json.svg?label=download&url=https://api.github.com/repos/Kevin0M16/NMSCoordinates/releases/latest&query=$.assets[0].name&style=for-the-badge" alt="download"/></a></pre>
+
+
 ## Features
 * View all locations discovered across all save slots and see their Glyphs, Galactic Coordinates, Portal Code, and even Voxel X,Y,Z,SSI
 * Fast travel to any selected location in the list of discoveries.
@@ -21,9 +26,7 @@ You can clear portal interference while traveling and fast travel to all the loc
 * NMSCoordinates Calculator is a useful tool when messing with coordinates. This converts Portal->Galactic, Galactic->Portal, Voxel to Portal/Galactic. Check it out!
 
 ## Getting Started
-Here is an overview of what you need to get started with NMSCoordinated
-
-<pre>  <a href="https://github.com/Kevin0M16/NMSCoordinates/releases/latest/download/NMSCoordinates-v1.0.0-beta.zip"><img src="https://img.shields.io/badge/dynamic/json.svg?label=download&url=https://api.github.com/repos/Kevin0M16/NMSCoordinates/releases/latest&query=$.assets[0].name&style=for-the-badge" alt="download"/></a></pre>
+Here is an overview of what you need to get started with NMSCoordinates
 
 ### Requirements
 
