@@ -4,3 +4,4 @@ plugins:
   - "jekyll-github-metadata"
   - jekyll-seo-tag
   - jemoji
+layout: page-fullwidth
