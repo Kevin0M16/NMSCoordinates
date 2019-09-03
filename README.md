@@ -7,7 +7,7 @@ This a Coordinate Tool for No Man's Sky!
 <img src= "ss3.png"/>
 
 # NMSCoordinates
-No Man's Sky Coordinate tool allows you to view all your discovered locations between all your saves.
+No Man's Sky Coordinate tool allows you to view all your discovered space station and base locations between all your saves.
 You can clear portal interference while traveling and fast travel to all the locations that you have discovered or have been shared with you!
 
 ## Download
@@ -20,7 +20,7 @@ You can clear portal interference while traveling and fast travel to all the loc
 
 
 ## Features
-* View all locations discovered across all save slots and see their Glyphs, Galactic Coordinates, Portal Code, and even Voxel X,Y,Z,SSI
+* View all space station and base locations discovered across all save slots and see their Glyphs, Galactic Coordinates, Portal Code, and even Voxel X,Y,Z,SSI
 * Fast travel to any selected location in the list of discoveries.
 * Portal interference can be cleared with a button, so base building and the galaxy map are allowed after traveling through a portal!
 * Can Backup all locations to a .txt file. You can access these on the Coordinate Share tab or share with others. You can fast travel to these also!
@@ -49,13 +49,13 @@ The current version of NMSCoordinates requires No Man's Sky Beyond 2.x, but It c
 
 ### Instructions
 
-	1. Select a Save Slot. This loads all locations on that slot/save on the Base and Space Station tab.
+	1. Select a Save Slot. This loads all space station and base locations on that slot/save on the Base and Space Station tab.
 	2. Click a location in one of the listboxes to view the location info. Glyphs and Galactic Coordinates, Portal Code, and Voxel will be displayed.
 	3. Move player to that location by clicking the Move Player Here button, then reload the save in game that you selected on the first screen.
 	4. If you traveled through a portral and want to clear the Portal Interference, click the Clear Interference button, then reload the save selected in game.
-	5. Go to File --> Backups --> backup discoveries to .txt and save all your locations to a locbackup file in .\backup these are 	accessed on the coordinate share tab.
-	6. Import a locbackup file on the Coordniate Share tab by clicking the import locbackup txt button. Click a location to viwe a 	location summary, and click the Move Player here button to fast travel to the selected locaiton.
-	7. Right click a location in the top listbox on the Coordinate Share tab to create a one record locbackup file to share with 	others.
+	5. Go to File --> Backups --> backup discoveries to .txt and save all your locations to a locbackup file in .\backup these are accessed on the coordinate share tab.
+	6. Import a locbackup file on the Coordniate Share tab by clicking the import locbackup txt button. Click a location to view a location summary, and click the Move Player here button to fast travel to the selected locaiton.
+	7. Right click a location in the top listbox on the Coordinate Share tab to create a one record locbackup file to share with others.
 	8. Right click the lower listbox to delete unwanted locbackup files.
 	9. Use the Coordinate Calculator by clicking the Coordinate Calculator button and entering (1) coordinate at a time in the textboxes and clicking the button below it. View all converted coordinates at the bottom.
 
