@@ -1,4 +1,4 @@
-theme: jekyll-theme-architect
+theme: jekyll-theme-midnight
 repository: Kevin0M16/NMSCoordinates
 plugins:
   - "jekyll-github-metadata"
