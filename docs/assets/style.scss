@@ -1,0 +1,12 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+.repository-with-sidebar .repository-content {
+  width: calc(100% - 50px);
+}
+
+.container {
+  width: 90%;
+}
