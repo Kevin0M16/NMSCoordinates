@@ -10,6 +10,13 @@ This a Coordinate Tool for No Man's Sky!
 No Man's Sky Coordinate tool allows you to view all your discovered space station and base locations between all your saves.
 You can clear portal interference while traveling and fast travel to all the locations that you have discovered or have been shared with you!
 
+## Youtube Video - Portal Interfernce example
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=5ifgYiHUKh4
+" target="_blank"><img src="http://img.youtube.com/vi/5ifgYiHUKh4/0.jpg" 
+alt="Video" width="680" height="540" border="10" /></a>
+
+
 ## Download
 
 <pre>  <a href="https://github.com/Kevin0M16/NMSCoordinates/releases/latest/download/NMSCoordinates-v1.0.1-beta.zip"><img src="https://img.shields.io/badge/dynamic/json.svg?label=download&url=https://api.github.com/repos/Kevin0M16/NMSCoordinates/releases/latest&query=$.assets[0].name&style=for-the-badge" alt="download"/></a></pre>
