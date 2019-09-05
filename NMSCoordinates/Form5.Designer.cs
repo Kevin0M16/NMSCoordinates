@@ -38,6 +38,7 @@ namespace NMSCoordinates
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -51,7 +52,9 @@ namespace NMSCoordinates
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.button4 = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.textBox8 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
@@ -69,7 +72,7 @@ namespace NMSCoordinates
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(314, 249);
+            this.label1.Location = new System.Drawing.Point(314, 348);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(33, 13);
             this.label1.TabIndex = 51;
@@ -107,7 +110,7 @@ namespace NMSCoordinates
             // 
             this.textBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox3.ForeColor = System.Drawing.Color.Azure;
-            this.textBox3.Location = new System.Drawing.Point(58, 243);
+            this.textBox3.Location = new System.Drawing.Point(58, 342);
             this.textBox3.Multiline = true;
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(58, 24);
@@ -116,6 +119,9 @@ namespace NMSCoordinates
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
+            this.groupBox1.Controls.Add(this.button4);
+            this.groupBox1.Controls.Add(this.label10);
+            this.groupBox1.Controls.Add(this.textBox8);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.textBox5);
@@ -136,16 +142,27 @@ namespace NMSCoordinates
             this.groupBox1.ForeColor = System.Drawing.Color.Azure;
             this.groupBox1.Location = new System.Drawing.Point(69, 87);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(424, 365);
+            this.groupBox1.Size = new System.Drawing.Size(424, 468);
             this.groupBox1.TabIndex = 63;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Coordinates";
+            // 
+            // label5
+            // 
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.DarkOrange;
+            this.label5.Location = new System.Drawing.Point(21, 415);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(382, 35);
+            this.label5.TabIndex = 65;
+            this.label5.Text = "Type a coordinate in any of the textboxes above and click the button below it.  S" +
+    "ee below for the result.";
             // 
             // label9
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(262, 224);
+            this.label9.Location = new System.Drawing.Point(262, 323);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(29, 16);
             this.label9.TabIndex = 66;
@@ -155,7 +172,7 @@ namespace NMSCoordinates
             // 
             this.textBox5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox5.ForeColor = System.Drawing.Color.Azure;
-            this.textBox5.Location = new System.Drawing.Point(186, 243);
+            this.textBox5.Location = new System.Drawing.Point(186, 342);
             this.textBox5.Multiline = true;
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(57, 24);
@@ -165,7 +182,7 @@ namespace NMSCoordinates
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(202, 224);
+            this.label8.Location = new System.Drawing.Point(202, 323);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(16, 16);
             this.label8.TabIndex = 65;
@@ -175,7 +192,7 @@ namespace NMSCoordinates
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(146, 224);
+            this.label7.Location = new System.Drawing.Point(146, 323);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(17, 16);
             this.label7.TabIndex = 64;
@@ -185,7 +202,7 @@ namespace NMSCoordinates
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(79, 224);
+            this.label4.Location = new System.Drawing.Point(79, 323);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(16, 16);
             this.label4.TabIndex = 63;
@@ -196,7 +213,7 @@ namespace NMSCoordinates
             this.button3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button3.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button3.Location = new System.Drawing.Point(132, 273);
+            this.button3.Location = new System.Drawing.Point(132, 372);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(112, 30);
             this.button3.TabIndex = 9;
@@ -208,7 +225,7 @@ namespace NMSCoordinates
             // 
             this.textBox6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox6.ForeColor = System.Drawing.Color.Azure;
-            this.textBox6.Location = new System.Drawing.Point(249, 243);
+            this.textBox6.Location = new System.Drawing.Point(249, 342);
             this.textBox6.Multiline = true;
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(58, 24);
@@ -218,7 +235,7 @@ namespace NMSCoordinates
             // 
             this.textBox4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox4.ForeColor = System.Drawing.Color.Azure;
-            this.textBox4.Location = new System.Drawing.Point(122, 243);
+            this.textBox4.Location = new System.Drawing.Point(122, 342);
             this.textBox4.Multiline = true;
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(58, 24);
@@ -266,7 +283,7 @@ namespace NMSCoordinates
             this.groupBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
             this.groupBox3.Controls.Add(this.textBox7);
             this.groupBox3.ForeColor = System.Drawing.Color.Azure;
-            this.groupBox3.Location = new System.Drawing.Point(26, 458);
+            this.groupBox3.Location = new System.Drawing.Point(26, 573);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(508, 174);
             this.groupBox3.TabIndex = 62;
@@ -284,23 +301,44 @@ namespace NMSCoordinates
             this.label6.TabIndex = 64;
             this.label6.Text = "Coordinates Calculator";
             // 
-            // label5
+            // button4
             // 
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label5.Location = new System.Drawing.Point(21, 316);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(382, 35);
-            this.label5.TabIndex = 65;
-            this.label5.Text = "Type a coordinate in any of the textboxes above and click the button below it.  S" +
-    "ee below for the result.";
+            this.button4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button4.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.button4.Location = new System.Drawing.Point(132, 258);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(112, 30);
+            this.button4.TabIndex = 68;
+            this.button4.Text = "Calculate";
+            this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.Button4_Click);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(202, 231);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(112, 13);
+            this.label10.TabIndex = 69;
+            this.label10.Text = "Long Hex Coordinates";
+            // 
+            // textBox8
+            // 
+            this.textBox8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.textBox8.ForeColor = System.Drawing.Color.Azure;
+            this.textBox8.Location = new System.Drawing.Point(58, 228);
+            this.textBox8.Multiline = true;
+            this.textBox8.Name = "textBox8";
+            this.textBox8.Size = new System.Drawing.Size(134, 24);
+            this.textBox8.TabIndex = 67;
             // 
             // Form5
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(562, 704);
+            this.ClientSize = new System.Drawing.Size(562, 801);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.groupBox3);
@@ -359,5 +397,8 @@ namespace NMSCoordinates
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox textBox8;
     }
 }

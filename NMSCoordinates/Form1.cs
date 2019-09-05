@@ -57,7 +57,7 @@ namespace NMSCoordinates
 
             if (!Directory.Exists(nmsPath))
             {
-                throw new FileNotFoundException(string.Format("No Man's Sky save game folder not found at expected location: {0}", nmsPath));
+                MessageBox.Show("No Man's Sky save game folder not found, select it manually!", "Alert", MessageBoxButtons.OK);
             }
             DirectoryInfo dinfo = new DirectoryInfo(nmsPath);
             FileInfo[] Files = dinfo.GetFiles("save*.hg", SearchOption.AllDirectories);
@@ -708,19 +708,13 @@ namespace NMSCoordinates
         private void Button4_Click(object sender, EventArgs e)
         {
             ClearAll();
+            
             string selected = this.comboBox1.GetItemText(this.comboBox1.SelectedItem);
             GetSaveFile(selected);
 
             Loadlsb1();
             Loadlsb3();
             GetPlayerCoord();
-
-            //int previous = comboBox2.SelectedIndex;
-            //comboBox1.DataSource = null;
-            //comboBox2.DataSource = null;
-            //ClearAll();
-            //LoadCmbx();
-            //comboBox2.SelectedIndex = previous;
         }
         private void SetSavePath()
         {
@@ -817,6 +811,14 @@ namespace NMSCoordinates
                 File.Copy(mf_hgFilePath, @".\temp\" + mf_hgFileName + Path.GetExtension(mf_hgFilePath));
                 ZipFile.CreateFromDirectory(@".\temp", @".\backup\savebackup_" + slot + "_" + DateTime.Now.ToString("yyyy-MM-dd-HHmmss") + ".zip");
                 Directory.Delete(@".\temp", true);
+                if (File.Exists(@".\backup\" + GetNewestZip(@".\backup")))
+                {
+                    MessageBox.Show("Save slot backup up to: " + GetNewestZip(@".\backup"), "Save Backup", MessageBoxButtons.OK);
+                }
+                else
+                {
+                    MessageBox.Show("No File backed up!", "Alert");
+                }                
             }
             else
             {
@@ -826,6 +828,7 @@ namespace NMSCoordinates
         private void Button10_Click(object sender, EventArgs e)
         {
             BackUpSaveSlot(saveslot);
+            
         }
         private async Task ReadSave(int slot)
         {
@@ -1304,18 +1307,25 @@ namespace NMSCoordinates
         }
         private async Task BackupSave()
         {
-            progressBar2.Visible = true;
-            progressBar2.Invoke((Action)(() => progressBar2.Value = 10));
-            ProcessStartInfo startInfo = new ProcessStartInfo(@"Powershell.exe");
-            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            startInfo.Arguments = @"/c .\nmssavetool\nmssavetool.exe backupall -b .\backup\nms-backup-" + DateTime.Now.ToString("yyyy-MM-dd-HHmmss") + ".zip";
-            progressBar2.Invoke((Action)(() => progressBar2.Value = 30));
-            Process.Start(startInfo);
-            progressBar2.Invoke((Action)(() => progressBar2.Value = 50));
-            await Task.Delay(2000);
-            progressBar2.Invoke((Action)(() => progressBar2.Value = 100));
-            progressBar2.Visible = false;
-            AppendLine(textBox17, "All saves backed up to zip file created in \\backup folder...");
+            if (Directory.Exists(nmsPath))
+            {
+                progressBar2.Visible = true;
+                progressBar2.Invoke((Action)(() => progressBar2.Value = 10));
+                ProcessStartInfo startInfo = new ProcessStartInfo(@"Powershell.exe");
+                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                startInfo.Arguments = @"/c .\nmssavetool\nmssavetool.exe backupall -b .\backup\nms-backup-" + DateTime.Now.ToString("yyyy-MM-dd-HHmmss") + ".zip";
+                progressBar2.Invoke((Action)(() => progressBar2.Value = 30));
+                Process.Start(startInfo);
+                progressBar2.Invoke((Action)(() => progressBar2.Value = 50));
+                await Task.Delay(2000);
+                progressBar2.Invoke((Action)(() => progressBar2.Value = 100));
+                progressBar2.Visible = false;
+                AppendLine(textBox17, "All saves backed up to zip file created in \\backup folder...");
+            }
+            else
+            {
+                MessageBox.Show("No Man's Sky save game folder not found, select it manually!", "Alert", MessageBoxButtons.OK);
+            }
         }
         private async void BackupALLSaveFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1367,9 +1377,6 @@ namespace NMSCoordinates
                     {
                         foreach (var item in list2)
                         {
-                            //AppendLine(textBox17, item.ToString());
-
-                            //List<string> list = new List<string>();
                             DirectoryInfo dinfo2 = new DirectoryInfo(ssdPath);
                             FileInfo[] Files = dinfo2.GetFiles("*.jpg", SearchOption.AllDirectories);
 
@@ -1390,24 +1397,7 @@ namespace NMSCoordinates
                         }
                         ssPath = list[0].ToString();
 
-                        AppendLine(textBox17, "ScreenShot: " + list[0].ToString());
-
-                        //pictureBox25.ImageLocation = ssPath;
-                        //pictureBox25.SizeMode = PictureBoxSizeMode.StretchImage;
-
-
-                        //tabPage1.BackgroundImage = Image.FromFile(ssPath);
-                        //tabPage1.BackgroundImageLayout = ImageLayout.Center;
-                        //tabPage1.BackgroundImageLayout = ImageLayout.Stretch;
-
-                        // Example use:     
-                        //Bitmap source = new Bitmap(pngPath);
-                        //Rectangle section = new Rectangle(new Point(1018,905), new Size(1018, 905));
-
-                        //Bitmap CroppedImage = CropImage(source, section);
-                        //tabPage1.BackgroundImageLayout = ImageLayout.Stretch;
-                        //tabPage1.BackgroundImageLayout = ImageLayout.Center;
-                        //tabPage1.BackgroundImage = CroppedImage;                        
+                        AppendLine(textBox17, "ScreenShot: " + list[0].ToString());                      
                     }
                     else
                     {
@@ -1431,10 +1421,6 @@ namespace NMSCoordinates
         {
             pictureBox25.ImageLocation = ssPath;
             pictureBox25.SizeMode = PictureBoxSizeMode.StretchImage;
-
-            //tabPage1.BackgroundImage = Image.FromFile(ssPath);
-            //tabPage1.BackgroundImageLayout = ImageLayout.Center;
-            //tabPage1.BackgroundImageLayout = ImageLayout.Stretch;
         }
         private void SetSSPath()
         {
@@ -1560,7 +1546,6 @@ namespace NMSCoordinates
         }
         private void ListBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //string locFile = File.ReadAllText(@".\backup\locbackup.txt");
             Regex myRegex1 = new Regex("GC:.*?$", RegexOptions.Multiline);
             Match m1 = myRegex1.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
             string line1 = m1.ToString();
