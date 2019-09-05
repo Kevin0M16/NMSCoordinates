@@ -37,6 +37,7 @@ namespace NMSCoordinates
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.button10 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
             this.progressBar2 = new System.Windows.Forms.ProgressBar();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
@@ -161,7 +162,6 @@ namespace NMSCoordinates
             this.screenshotPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.screenshotPageToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.screenshotPageToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.textBox14 = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox15.SuspendLayout();
@@ -240,6 +240,19 @@ namespace NMSCoordinates
             this.tabPage1.Size = new System.Drawing.Size(868, 908);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Save Files";
+            // 
+            // button10
+            // 
+            this.button10.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.button10.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button10.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.button10.Location = new System.Drawing.Point(90, 149);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(90, 31);
+            this.button10.TabIndex = 34;
+            this.button10.Text = "BackupSave";
+            this.button10.UseVisualStyleBackColor = false;
+            this.button10.Click += new System.EventHandler(this.Button10_Click);
             // 
             // button9
             // 
@@ -548,6 +561,7 @@ namespace NMSCoordinates
             // groupBox12
             // 
             this.groupBox12.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox12.Controls.Add(this.button10);
             this.groupBox12.Controls.Add(this.textBox26);
             this.groupBox12.Controls.Add(this.label24);
             this.groupBox12.Controls.Add(this.comboBox2);
@@ -638,7 +652,6 @@ namespace NMSCoordinates
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.tabPage2.Controls.Add(this.textBox14);
             this.tabPage2.Controls.Add(this.progressBar1);
             this.tabPage2.Controls.Add(this.textBox27);
             this.tabPage2.Controls.Add(this.groupBox17);
@@ -1614,14 +1627,6 @@ namespace NMSCoordinates
             this.screenshotPageToolStripMenuItem2.Text = "Set Screenshot Path";
             this.screenshotPageToolStripMenuItem2.Click += new System.EventHandler(this.ScreenshotPageToolStripMenuItem2_Click);
             // 
-            // textBox14
-            // 
-            this.textBox14.Location = new System.Drawing.Point(395, 812);
-            this.textBox14.Multiline = true;
-            this.textBox14.Name = "textBox14";
-            this.textBox14.Size = new System.Drawing.Size(426, 81);
-            this.textBox14.TabIndex = 74;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
@@ -1711,7 +1716,7 @@ namespace NMSCoordinates
         public string hgFilePath;
         public string hgFileDir;
         public string nmsPath;
-        public string hgfile;
+        //public string hgFileName;
         public string stmPath;
         public string ssdPath;
         public string ssPath;
@@ -1935,7 +1940,7 @@ namespace NMSCoordinates
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.TextBox textBox14;
+        private System.Windows.Forms.Button button10;
     }
 }
 

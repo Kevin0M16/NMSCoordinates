@@ -10,6 +10,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.IO.Compression;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -26,6 +27,29 @@ namespace NMSCoordinates
             InitializeComponent();
 
         }
+
+        public static string GetNewestZip(string path)
+        {
+            DirectoryInfo dinfo = new DirectoryInfo(path);
+            FileInfo[] Files = dinfo.GetFiles("savebackup*.zip");
+
+            if (dinfo == null || !dinfo.Exists)
+                return null;
+
+            DateTime recentWrite = DateTime.MinValue;
+            FileInfo recentFile = null;
+
+            foreach (FileInfo file in Files)
+            {
+                if (file.LastWriteTime > recentWrite)
+                {
+                    recentWrite = file.LastWriteTime;
+                    recentFile = file;
+                }
+            }
+            return recentFile.Name;
+        }
+
         public void LoadCmbx()
         {
             //Load save file names in combobox1
@@ -777,12 +801,43 @@ namespace NMSCoordinates
                 Button2_Click(this, new EventArgs());
             }
         }
+        public void BackUpSaveSlot(int slot)
+        {
+            if (saveslot >= 1 && saveslot <= 5)
+            {
+                string hgFileName = Path.GetFileNameWithoutExtension(hgFilePath);
+
+                string mf_hgFilePath = hgFilePath;
+                mf_hgFilePath = String.Format("{0}{1}{2}{3}", Path.GetDirectoryName(mf_hgFilePath) + @"\", "mf_", Path.GetFileNameWithoutExtension(mf_hgFilePath), Path.GetExtension(mf_hgFilePath));
+
+                string mf_hgFileName = Path.GetFileNameWithoutExtension(mf_hgFilePath);
+
+                Directory.CreateDirectory(@".\temp");
+                File.Copy(hgFilePath, @".\temp\" + hgFileName + Path.GetExtension(hgFilePath));
+                File.Copy(mf_hgFilePath, @".\temp\" + mf_hgFileName + Path.GetExtension(mf_hgFilePath));
+                ZipFile.CreateFromDirectory(@".\temp", @".\backup\savebackup_" + slot + "_" + DateTime.Now.ToString("yyyy-MM-dd-HHmmss") + ".zip");
+                Directory.Delete(@".\temp", true);
+            }
+            else
+            {
+                MessageBox.Show("No File Found / Select Save Slot!", "Alert");
+            }
+        }
+        private void Button10_Click(object sender, EventArgs e)
+        {
+            BackUpSaveSlot(saveslot);
+        }
         private async Task ReadSave(int slot)
         {
+            //Backup original save file
+            BackUpSaveSlot(slot);
+
+            string mf_hgFilePath = hgFilePath;
+            mf_hgFilePath = String.Format("{0}{1}{2}{3}", Path.GetDirectoryName(mf_hgFilePath) + @"\", "mf_", Path.GetFileNameWithoutExtension(mf_hgFilePath), Path.GetExtension(mf_hgFilePath));
+
+            //Sets the save to be the last modified for nmssavetool
+            File.SetLastWriteTime(mf_hgFilePath, DateTime.Now);
             File.SetLastWriteTime(hgFilePath, DateTime.Now);
-            string newFilePath = hgFilePath;
-            newFilePath = String.Format("{0}{1}{2}{3}", Path.GetDirectoryName(newFilePath) + @"\", "mf_", Path.GetFileNameWithoutExtension(newFilePath), Path.GetExtension(newFilePath));
-            File.SetLastWriteTime(newFilePath, DateTime.Now);
 
             switch (slot)
             {
@@ -816,19 +871,19 @@ namespace NMSCoordinates
             switch (slot)
             {
                 case 1:
-                    encrypt = @"/c .\nmssavetool\nmssavetool.exe encrypt -g1 -f .\nmssavetool\saveedit.json -b .\backup\";
+                    encrypt = @"/c .\nmssavetool\nmssavetool.exe encrypt -g1 -f .\nmssavetool\saveedit.json";
                     break;
                 case 2:
-                    encrypt = @"/c .\nmssavetool\nmssavetool.exe encrypt -g2 -f .\nmssavetool\saveedit.json -b .\backup\";
+                    encrypt = @"/c .\nmssavetool\nmssavetool.exe encrypt -g2 -f .\nmssavetool\saveedit.json";
                     break;
                 case 3:
-                    encrypt = @"/c .\nmssavetool\nmssavetool.exe encrypt -g3 -f .\nmssavetool\saveedit.json -b .\backup\";
+                    encrypt = @"/c .\nmssavetool\nmssavetool.exe encrypt -g3 -f .\nmssavetool\saveedit.json";
                     break;
                 case 4:
-                    encrypt = @"/c .\nmssavetool\nmssavetool.exe encrypt -g4 -f .\nmssavetool\saveedit.json -b .\backup\";
+                    encrypt = @"/c .\nmssavetool\nmssavetool.exe encrypt -g4 -f .\nmssavetool\saveedit.json";
                     break;
                 case 5:
-                    encrypt = @"/c .\nmssavetool\nmssavetool.exe encrypt -g5 -f .\nmssavetool\saveedit.json -b .\backup\";
+                    encrypt = @"/c .\nmssavetool\nmssavetool.exe encrypt -g5 -f .\nmssavetool\saveedit.json";
                     break;
             }
 
@@ -840,8 +895,7 @@ namespace NMSCoordinates
             await Task.Delay(2000);
 
             AppendLine(textBox27, "Save file on Slot: ( " + saveslot + " ) backed up to \\backup folder...");
-        }
-
+        }        
         private async void Button3_Click(object sender, EventArgs e)
         {
             if (saveslot >= 1 && saveslot <= 5)
@@ -856,49 +910,66 @@ namespace NMSCoordinates
                     DialogResult dialogResult = MessageBox.Show("Clear Portal Interference ? ", "Portal Interference", MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.Yes)
                     {
-                        JsonKey();
+                        //Set the JSON search patterns
                         JsonSet("all");
 
                         progressBar1.Visible = true;
                         progressBar1.Invoke((Action)(() => progressBar1.Value = 5));
 
+                        //Read and decrypt save file on slot to save.json
                         await ReadSave(saveslot);
-
+                        
                         progressBar1.Invoke((Action)(() => progressBar1.Value = 30));
 
+                        //Read save.json to a string
                         string jsons = File.ReadAllText(@".\nmssavetool\save.json");
 
                         progressBar1.Invoke((Action)(() => progressBar1.Value = 45));
 
-                        jsons = jsons.Replace("\"DaC\": true", "\"DaC\": false");
+                        //Replace OnTheOtherSideOfPortal to false or DaC
+                        //jsons = jsons.Replace("\"DaC\": true", "\"DaC\": false");
 
+                        //Set Portal Interference false DaC
+                        //Get the portal interf. state object
+                        Regex myRegexPrtl = new Regex(rxPatternPrtl, RegexOptions.Multiline);
+                        Match prtl = myRegexPrtl.Match(jsons);
+
+                        //Set Portal Interference state rxValPrtl preset to false
+                        jsons = Regex.Replace(jsons, rxPatternPrtl, rxValPrtl, RegexOptions.Multiline);
+
+                        //Beyond - Find "VisitedPortal" or 3fO to false to cancel portal
                         Regex myRegexPrtl2 = new Regex(rxPatternPrtl2, RegexOptions.Singleline);
                         Match prtl2 = myRegexPrtl2.Match(jsons);
                         rxValPrtl2 = prtl2.ToString();
-                        AppendLine(textBox14, rxValPrtl2);
-
+                        //AppendLine(textBox27, rxValPrtl2);
                         Regex myRegexPrtl3 = new Regex(rxPatternPrtl3, RegexOptions.Multiline);
                         rxValPrtl2 = Regex.Replace(rxValPrtl2, rxPatternPrtl3, rxValPrtl3, RegexOptions.Multiline);
-                        AppendLine(textBox14, rxValPrtl2);
+                        //AppendLine(textBox27, rxValPrtl2);
+
+                        //Set the visited portal state array after changes made
                         jsons = Regex.Replace(jsons, rxPatternPrtl2, rxValPrtl2, RegexOptions.Singleline);
 
-                        File.WriteAllText(@".\nmssavetool\saveedit.json", jsons);
+                        //Write the modified JSON string to saveedit.json
+                        File.WriteAllText(@".\nmssavetool\saveedit.json", jsons); 
 
                         progressBar1.Invoke((Action)(() => progressBar1.Value = 60));
 
+                        //Encrypt and write saveedit.json to selected save slot
                         await WriteSave(saveslot);
 
                         progressBar1.Invoke((Action)(() => progressBar1.Value = 90));
 
+                        //Read and check save file
                         json = File.ReadAllText(hgFilePath);
 
+                        //Check save file edits
                         var nms = Nms.FromJson(json);
                         textBox12.Clear();
                         textBox12.Text = nms.The6F.DaC.ToString();
 
-                        Regex myRegexPrtl = new Regex(rxPatternPrtl, RegexOptions.Multiline);
-                        Match prtl = myRegexPrtl.Match(jsons);
-                        AppendLine(textBox27, prtl.ToString());
+                        Regex myRegexPrtl4 = new Regex(rxPatternPrtl, RegexOptions.Multiline);
+                        Match prtl4 = myRegexPrtl4.Match(jsons);
+                        AppendLine(textBox27, prtl4.ToString());
 
                         if (textBox12.Text == "False" || textBox12.Text == "false")
                         {
@@ -906,6 +977,10 @@ namespace NMSCoordinates
                             progressBar1.Visible = false;
 
                             MessageBox.Show("Portal Interference removal successful!", "Confirmation", MessageBoxButtons.OK);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Portal Interference Problem!", "Error");
                         }
                     }
                     else if (dialogResult == DialogResult.No)
@@ -1050,27 +1125,25 @@ namespace NMSCoordinates
                         jsons = Regex.Replace(jsons, rxPatternSt, rxValSt, RegexOptions.Singleline);
 
                         //Set Portal Interference false DaC
+                        //Get the portal interf. state object
                         Regex myRegexPrtl = new Regex(rxPatternPrtl, RegexOptions.Multiline);
                         Match prtl = myRegexPrtl.Match(jsons);
-                        //rxValPrtl = prtl.ToString();
-                        //AppendLine(textBox3, rxValPrtl);
 
                         //Set Portal Interference state rxValPrtl preset to false
                         jsons = Regex.Replace(jsons, rxPatternPrtl, rxValPrtl, RegexOptions.Multiline);
 
-                        //Start here
+                        //Beyond - Find "VisitedPortal" or 3fO to false to cancel portal
                         Regex myRegexPrtl2 = new Regex(rxPatternPrtl2, RegexOptions.Singleline);
                         Match prtl2 = myRegexPrtl2.Match(jsons);
                         rxValPrtl2 = prtl2.ToString();
-                        AppendLine(textBox14, rxValPrtl2);
-
+                        AppendLine(textBox12, rxValPrtl2);
                         Regex myRegexPrtl3 = new Regex(rxPatternPrtl3, RegexOptions.Multiline);
                         rxValPrtl2 = Regex.Replace(rxValPrtl2, rxPatternPrtl3, rxValPrtl3, RegexOptions.Multiline);
-                        AppendLine(textBox14, rxValPrtl2);
+                        AppendLine(textBox12, rxValPrtl2);
+
+                        //Set the visited portal state array after changes made
                         jsons = Regex.Replace(jsons, rxPatternPrtl2, rxValPrtl2, RegexOptions.Singleline);
-
-
-
+                                               
                         progressBar1.Invoke((Action)(() => progressBar1.Value = 40));
 
                         //Write all modifications of file to saveedit.json
@@ -1754,5 +1827,7 @@ namespace NMSCoordinates
         {
             System.Diagnostics.Process.Start("steam://rungameid/275850");
         }
+
+        
     }
 }
