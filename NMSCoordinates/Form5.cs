@@ -30,7 +30,7 @@ namespace NMSCoordinates
             //PlanetNumber--SolarSystemIndex--GalaxyNumber--VoxelY--VoxelZ--VoxelX
             //4 bit--12 bit--8 bit--8 bit--12 bit--12 bit
             //"0x2 049 00 01 D37 652" 460 475 89 64 091 954  0 04A FB 9F6 C9D
-            textBox7.Clear();
+            //textBox7.Clear();
 
             string basehx = textBox.Text;
             string b6 = basehx.Substring(basehx.Length - 3, 3);
@@ -353,5 +353,22 @@ namespace NMSCoordinates
                 AppendLine(textBox7, "Incorrect Coordinate Input!");
             }
         }
+
+        private void Button4_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (textBox8.Text != "")
+                {
+                    HexToVoxel(textBox8.Text);
+                    CalculateVoxelFromHex(textBox8);
+                }
+            }
+            catch
+            {
+                Clear();
+                AppendLine(textBox7, "Incorrect Coordinate Input!");
+            }
+        }       
     }
 }
