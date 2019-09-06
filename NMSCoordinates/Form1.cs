@@ -1326,8 +1326,8 @@ namespace NMSCoordinates
         private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ClearAll();
-            string selected = this.comboBox1.GetItemText(this.comboBox1.SelectedItem);
 
+            string selected = this.comboBox1.GetItemText(this.comboBox1.SelectedItem);
             GetSaveFile(selected);
 
             Loadlsb1();
