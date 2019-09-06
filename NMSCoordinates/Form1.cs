@@ -276,6 +276,7 @@ namespace NMSCoordinates
 
             DiscList.Clear();
             BaseList.Clear();
+            Backuplist.Clear();
             listBox1.DataSource = null;
             listBox2.DataSource = null;
             //listBox3.DataSource = null;
@@ -710,11 +711,18 @@ namespace NMSCoordinates
             ClearAll();
             
             string selected = this.comboBox1.GetItemText(this.comboBox1.SelectedItem);
-            GetSaveFile(selected);
-
-            Loadlsb1();
-            Loadlsb3();
-            GetPlayerCoord();
+            if(selected != "")
+            {
+                GetSaveFile(selected);
+                Loadlsb1();
+                Loadlsb3();
+                GetPlayerCoord();
+            }
+            else
+            {
+                MessageBox.Show("No Save Slot Selected!", "Alert");
+            }
+                
         }
         private void SetSavePath()
         {
@@ -756,14 +764,17 @@ namespace NMSCoordinates
             nmsPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HelloGames"), "NMS");
             comboBox1.DataSource = null;
             comboBox2.DataSource = null;
+            comboBox1.SelectedIndex = -1;
             ClearAll();
             LoadCmbx();
+            
         }
         private void ManuallySelectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SetSavePath();
             comboBox1.DataSource = null;
             comboBox2.DataSource = null;
+            comboBox1.SelectedIndex = -1;
             ClearAll();
             LoadCmbx();
         }
@@ -793,6 +804,36 @@ namespace NMSCoordinates
             if (e.KeyCode == Keys.Enter)
             {
                 Button2_Click(this, new EventArgs());
+            }
+        }
+        public void BackUpSaveSlotNoMsg(int slot)
+        {
+            if (saveslot >= 1 && saveslot <= 5)
+            {
+                string hgFileName = Path.GetFileNameWithoutExtension(hgFilePath);
+
+                string mf_hgFilePath = hgFilePath;
+                mf_hgFilePath = String.Format("{0}{1}{2}{3}", Path.GetDirectoryName(mf_hgFilePath) + @"\", "mf_", Path.GetFileNameWithoutExtension(mf_hgFilePath), Path.GetExtension(mf_hgFilePath));
+
+                string mf_hgFileName = Path.GetFileNameWithoutExtension(mf_hgFilePath);
+
+                Directory.CreateDirectory(@".\temp");
+                File.Copy(hgFilePath, @".\temp\" + hgFileName + Path.GetExtension(hgFilePath));
+                File.Copy(mf_hgFilePath, @".\temp\" + mf_hgFileName + Path.GetExtension(mf_hgFilePath));
+                ZipFile.CreateFromDirectory(@".\temp", @".\backup\savebackup_" + slot + "_" + DateTime.Now.ToString("yyyy-MM-dd-HHmmss") + ".zip");
+                Directory.Delete(@".\temp", true);
+                if (File.Exists(@".\backup\" + GetNewestZip(@".\backup")))
+                {
+                    return;// MessageBox.Show("Save slot backup up to: " + GetNewestZip(@".\backup"), "Save Backup", MessageBoxButtons.OK);
+                }
+                else
+                {
+                    MessageBox.Show("No File backed up!", "Alert");
+                }
+            }
+            else
+            {
+                MessageBox.Show("No File Found / Select Save Slot!", "Alert");
             }
         }
         public void BackUpSaveSlot(int slot)
@@ -833,7 +874,7 @@ namespace NMSCoordinates
         private async Task ReadSave(int slot)
         {
             //Backup original save file
-            BackUpSaveSlot(slot);
+            BackUpSaveSlotNoMsg(slot);
 
             string mf_hgFilePath = hgFilePath;
             mf_hgFilePath = String.Format("{0}{1}{2}{3}", Path.GetDirectoryName(mf_hgFilePath) + @"\", "mf_", Path.GetFileNameWithoutExtension(mf_hgFilePath), Path.GetExtension(mf_hgFilePath));
@@ -1203,15 +1244,16 @@ namespace NMSCoordinates
         }
         private void ComboBox2_SelectionChangeCommitted(object sender, EventArgs e)
         {
+            string selected = this.comboBox2.GetItemText(this.comboBox2.SelectedItem);
             //Gets the dictionarys set in loadcmbbx and sets the data source for save dropdown
-            if (comboBox2.SelectedIndex == 1)
+            if (selected == "Slot 1")
             {
                 saveslot = 1;
                 comboBox1.DisplayMember = "VALUE";
                 comboBox1.ValueMember = "KEY";
                 comboBox1.DataSource = sn1.ToArray();
             }
-            if (comboBox2.SelectedIndex == 2)
+            if (selected == "Slot 2")
             {
                 saveslot = 2;
                 comboBox1.DisplayMember = "VALUE";
@@ -1219,14 +1261,14 @@ namespace NMSCoordinates
                 comboBox1.DataSource = sn2.ToArray();
 
             }
-            if (comboBox2.SelectedIndex == 3)
+            if (selected == "Slot 3")
             {
                 saveslot = 3;
                 comboBox1.DisplayMember = "VALUE";
                 comboBox1.ValueMember = "KEY";
                 comboBox1.DataSource = sn3.ToArray();
             }
-            if (comboBox2.SelectedIndex == 4)
+            if (selected == "Slot 4")
             {
                 saveslot = 4;
                 comboBox1.DisplayMember = "VALUE";
@@ -1234,7 +1276,7 @@ namespace NMSCoordinates
                 comboBox1.DataSource = sn4.ToArray();
 
             }
-            if (comboBox2.SelectedIndex == 5)
+            if (selected == "Slot 5")
             {
                 saveslot = 5;
                 comboBox1.DisplayMember = "VALUE";
@@ -1248,31 +1290,34 @@ namespace NMSCoordinates
         }
         private void GetSaveFile(string selected)
         {
-            DirectoryInfo dinfo = new DirectoryInfo(hgFileDir);
-            FileInfo[] Files = dinfo.GetFiles(selected, SearchOption.AllDirectories);
-
-            //This is a weird loop but it works lol
-            if (Files.Length != 0)
+            if (Directory.Exists(hgFileDir) && selected != "")
             {
-                foreach (FileInfo file in Files)
+                DirectoryInfo dinfo = new DirectoryInfo(hgFileDir);
+                FileInfo[] Files = dinfo.GetFiles(selected, SearchOption.AllDirectories);
+
+                //This is a weird loop but it works lol
+                if (Files.Length != 0)
                 {
-                    hgFilePath = file.FullName;
+                    foreach (FileInfo file in Files)
+                    {
+                        hgFilePath = file.FullName;
+                    }
                 }
+                else
+                {
+                    AppendLine(textBox17, "** Code 3 ** " + selected);
+                    return;
+                }
+
+                textBox16.Clear();
+
+                AppendLine(textBox16, hgFilePath);
+
+                FileInfo hgfile = new FileInfo(hgFilePath);
+                textBox26.Clear();
+                AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
+                json = File.ReadAllText(hgFilePath);
             }
-            else
-            {
-                AppendLine(textBox17, "** Code 3 ** " + selected);
-                return;
-            }
-
-            textBox16.Clear();
-
-            AppendLine(textBox16, hgFilePath);
-
-            FileInfo hgfile = new FileInfo(hgFilePath);
-            textBox26.Clear();
-            AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
-            json = File.ReadAllText(hgFilePath);
         }
         private void ComboBox1_SelectionChangeCommitted(object sender, EventArgs e)
         {
