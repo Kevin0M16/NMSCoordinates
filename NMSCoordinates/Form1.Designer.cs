@@ -37,7 +37,6 @@ namespace NMSCoordinates
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.button10 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
             this.progressBar2 = new System.Windows.Forms.ProgressBar();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
@@ -66,6 +65,7 @@ namespace NMSCoordinates
             this.groupBox13 = new System.Windows.Forms.GroupBox();
             this.textBox16 = new System.Windows.Forms.TextBox();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.button10 = new System.Windows.Forms.Button();
             this.textBox26 = new System.Windows.Forms.TextBox();
             this.label24 = new System.Windows.Forms.Label();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
@@ -240,19 +240,6 @@ namespace NMSCoordinates
             this.tabPage1.Size = new System.Drawing.Size(868, 908);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Save Files";
-            // 
-            // button10
-            // 
-            this.button10.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.button10.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button10.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.button10.Location = new System.Drawing.Point(90, 149);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(90, 31);
-            this.button10.TabIndex = 34;
-            this.button10.Text = "BackupSave";
-            this.button10.UseVisualStyleBackColor = false;
-            this.button10.Click += new System.EventHandler(this.Button10_Click);
             // 
             // button9
             // 
@@ -576,6 +563,19 @@ namespace NMSCoordinates
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Load Save File";
             // 
+            // button10
+            // 
+            this.button10.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.button10.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button10.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.button10.Location = new System.Drawing.Point(90, 149);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(90, 31);
+            this.button10.TabIndex = 34;
+            this.button10.Text = "BackupSave";
+            this.button10.UseVisualStyleBackColor = false;
+            this.button10.Click += new System.EventHandler(this.Button10_Click);
+            // 
             // textBox26
             // 
             this.textBox26.BackColor = System.Drawing.SystemColors.ActiveBorder;
@@ -640,8 +640,6 @@ namespace NMSCoordinates
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.ForeColor = System.Drawing.Color.Azure;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "(Select a save file)"});
             this.comboBox1.Location = new System.Drawing.Point(91, 98);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(188, 23);
@@ -1548,20 +1546,20 @@ namespace NMSCoordinates
             this.appDataDefaultToolStripMenuItem,
             this.manuallySelectToolStripMenuItem});
             this.selectSaveFolderToolStripMenuItem.Name = "selectSaveFolderToolStripMenuItem";
-            this.selectSaveFolderToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.selectSaveFolderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.selectSaveFolderToolStripMenuItem.Text = "Select Save Folder...";
             // 
             // appDataDefaultToolStripMenuItem
             // 
             this.appDataDefaultToolStripMenuItem.Name = "appDataDefaultToolStripMenuItem";
-            this.appDataDefaultToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.appDataDefaultToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.appDataDefaultToolStripMenuItem.Text = "AppData (Default)";
             this.appDataDefaultToolStripMenuItem.Click += new System.EventHandler(this.AppDataDefaultToolStripMenuItem_Click);
             // 
             // manuallySelectToolStripMenuItem
             // 
             this.manuallySelectToolStripMenuItem.Name = "manuallySelectToolStripMenuItem";
-            this.manuallySelectToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.manuallySelectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.manuallySelectToolStripMenuItem.Text = "Manually Select";
             this.manuallySelectToolStripMenuItem.Click += new System.EventHandler(this.ManuallySelectToolStripMenuItem_Click);
             // 
@@ -1571,7 +1569,7 @@ namespace NMSCoordinates
             this.discoveriesToolStripMenuItem,
             this.backupALLSaveFilesToolStripMenuItem});
             this.backupToolStripMenuItem.Name = "backupToolStripMenuItem";
-            this.backupToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.backupToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.backupToolStripMenuItem.Text = "Backups...";
             // 
             // discoveriesToolStripMenuItem
