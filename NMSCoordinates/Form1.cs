@@ -1097,9 +1097,9 @@ namespace NMSCoordinates
         }
         private async void Button5_ClickAsync(object sender, EventArgs e)
         {
-            if (listBox1.GetItemText(listBox1.SelectedItem) != "")
+            if (listBox1.GetItemText(listBox1.SelectedItem) != "" || listBox2.GetItemText(listBox2.SelectedItem) != "")
             {
-                DialogResult dialogResult = MessageBox.Show("Move Player to: " + listBox1.GetItemText(listBox1.SelectedItem) + " ? ", "Fast Travel", MessageBoxButtons.YesNo);
+                DialogResult dialogResult = MessageBox.Show("Move Player to: " + listBox1.GetItemText(listBox1.SelectedItem) + listBox2.GetItemText(listBox2.SelectedItem) + " ? ", "Fast Travel", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
                     if (galaxy != "" && X != "" && Y != "" && Z != "" && SSI != "" && saveslot >= 1 && saveslot <= 5)

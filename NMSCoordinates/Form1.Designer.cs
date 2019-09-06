@@ -1297,6 +1297,7 @@ namespace NMSCoordinates
             this.listBox2.Size = new System.Drawing.Size(277, 439);
             this.listBox2.TabIndex = 20;
             this.listBox2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ListBox2_MouseClick);
+            
             // 
             // tabPage3
             // 
@@ -1546,20 +1547,20 @@ namespace NMSCoordinates
             this.appDataDefaultToolStripMenuItem,
             this.manuallySelectToolStripMenuItem});
             this.selectSaveFolderToolStripMenuItem.Name = "selectSaveFolderToolStripMenuItem";
-            this.selectSaveFolderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.selectSaveFolderToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.selectSaveFolderToolStripMenuItem.Text = "Select Save Folder...";
             // 
             // appDataDefaultToolStripMenuItem
             // 
             this.appDataDefaultToolStripMenuItem.Name = "appDataDefaultToolStripMenuItem";
-            this.appDataDefaultToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.appDataDefaultToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.appDataDefaultToolStripMenuItem.Text = "AppData (Default)";
             this.appDataDefaultToolStripMenuItem.Click += new System.EventHandler(this.AppDataDefaultToolStripMenuItem_Click);
             // 
             // manuallySelectToolStripMenuItem
             // 
             this.manuallySelectToolStripMenuItem.Name = "manuallySelectToolStripMenuItem";
-            this.manuallySelectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.manuallySelectToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.manuallySelectToolStripMenuItem.Text = "Manually Select";
             this.manuallySelectToolStripMenuItem.Click += new System.EventHandler(this.ManuallySelectToolStripMenuItem_Click);
             // 
@@ -1569,7 +1570,7 @@ namespace NMSCoordinates
             this.discoveriesToolStripMenuItem,
             this.backupALLSaveFilesToolStripMenuItem});
             this.backupToolStripMenuItem.Name = "backupToolStripMenuItem";
-            this.backupToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.backupToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.backupToolStripMenuItem.Text = "Backups...";
             // 
             // discoveriesToolStripMenuItem
