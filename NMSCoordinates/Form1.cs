@@ -708,8 +708,10 @@ namespace NMSCoordinates
         }
         private void Button4_Click(object sender, EventArgs e)
         {
-            ClearAll();
+            //int ind = comboBox2.SelectedIndex;
             
+            ClearAll();           
+
             string selected = this.comboBox1.GetItemText(this.comboBox1.SelectedItem);
             if(selected != "")
             {
@@ -1326,7 +1328,7 @@ namespace NMSCoordinates
         private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ClearAll();
-
+            
             string selected = this.comboBox1.GetItemText(this.comboBox1.SelectedItem);
             GetSaveFile(selected);
 
