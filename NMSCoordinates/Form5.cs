@@ -369,6 +369,6 @@ namespace NMSCoordinates
                 Clear();
                 AppendLine(textBox7, "Incorrect Coordinate Input!");
             }
-        }       
+        }
     }
 }

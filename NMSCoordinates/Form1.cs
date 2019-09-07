@@ -17,6 +17,7 @@ using System.Windows.Forms;
 using QuickType;
 using System.Threading;
 using System.Runtime.InteropServices;
+using System.Collections;
 
 namespace NMSCoordinates
 {
@@ -140,6 +141,23 @@ namespace NMSCoordinates
                 return;
             }
         }
+        private void CheckSS()
+        {
+            if (DiscList.Count > 0)
+            {
+                for (int i = 0; i < DiscList.Count; i++)
+                {
+                    JsonMap(i);
+                    GetPortalCoord(iX, iY, iZ, iSSI);
+                    GetGalacticCoord(iX, iY, iZ, iSSI);
+                    SSlist.Add("Loc: " + DiscList[i] + " - G: " + galaxy + " - PC: " + PortalCode + " -- GC: " + GalacticCoord);
+                }
+            }
+            else
+            {
+                return;
+            }
+        }
         private void BackupLoc(string path)
         {
             if (DiscList.Count > 0)
@@ -186,7 +204,7 @@ namespace NMSCoordinates
 
             var nms = Nms.FromJson(json);
 
-            var pgalaxy = nms.The6F.YhJ.Iis.ToString();//.ToString();
+            pgalaxy = nms.The6F.YhJ.Iis.ToString();//.ToString();
             var pX = nms.The6F.YhJ.OZw["dZj"];//.ToString();
             var pY = nms.The6F.YhJ.OZw["IyE"];//.ToString();
             var pZ = nms.The6F.YhJ.OZw["uXE"];//.ToString();
@@ -473,8 +491,8 @@ namespace NMSCoordinates
             }
             catch
             {
-                source.Text = "Unknown";
-                AppendLine(textBox27, "Galaxy Not Found, update needed.");
+                source.Text = galaxy;
+                AppendLine(textBox17, "Galaxy Not Found, update needed.");
             }
         }
         private void ListBox1_MouseClick(object sender, EventArgs e)
@@ -551,7 +569,7 @@ namespace NMSCoordinates
             textBox3.Clear();
 
             //Note: iX, iY, iZ, iSSI already Convert.ToInt32(X) in JSONMap()
-            AppendLine(textBox3, "DEC: " + iX + " " + iY + " " + iZ);
+            AppendLine(textBox3, "DEC: " + X + " " + Y + " " + Z);
 
             int dd1 = X + 2047;
             int dd2 = Y + 127;
@@ -706,11 +724,10 @@ namespace NMSCoordinates
             }
             return -1;
         }
+       
         private void Button4_Click(object sender, EventArgs e)
         {
-            //int ind = comboBox2.SelectedIndex;
-            
-            ClearAll();           
+            ClearAll();
 
             string selected = this.comboBox1.GetItemText(this.comboBox1.SelectedItem);
             if(selected != "")
@@ -723,8 +740,7 @@ namespace NMSCoordinates
             else
             {
                 MessageBox.Show("No Save Slot Selected!", "Alert");
-            }
-                
+            }                
         }
         private void SetSavePath()
         {
@@ -1296,8 +1312,7 @@ namespace NMSCoordinates
             {
                 DirectoryInfo dinfo = new DirectoryInfo(hgFileDir);
                 FileInfo[] Files = dinfo.GetFiles(selected, SearchOption.AllDirectories);
-
-                //This is a weird loop but it works lol
+                
                 if (Files.Length != 0)
                 {
                     foreach (FileInfo file in Files)
@@ -1319,6 +1334,7 @@ namespace NMSCoordinates
                 textBox26.Clear();
                 AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
                 json = File.ReadAllText(hgFilePath);
+                
             }
         }
         private void ComboBox1_SelectionChangeCommitted(object sender, EventArgs e)
@@ -1677,11 +1693,7 @@ namespace NMSCoordinates
                     if (galaxy != "" && X != "" && Y != "" && Z != "" && SSI != "" && saveslot >= 1 && saveslot <= 5)
                     {
                         progressBar3.Visible = true;
-                        progressBar3.Invoke((Action)(() => progressBar3.Value = 5));
-
-                        //await BackupSave();
-
-                        progressBar3.Invoke((Action)(() => progressBar3.Value = 15));
+                        progressBar3.Invoke((Action)(() => progressBar3.Value = 10));
 
                         //Read and decrypt save (?)
                         await ReadSave(saveslot);
@@ -1854,12 +1866,210 @@ namespace NMSCoordinates
                 MessageBox.Show("Cancelled! No file deleted.", "Alert");
             }
         }
-
         private void Button9_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("steam://rungameid/275850");
         }
 
-        
+        private void GalacticToVoxelMan(string oX, string oY, string oZ, string oSSI)
+        {
+            //Galactic Coordinate to Voxel Coordinates 
+            textBox15.Clear();
+
+            //HEX in
+            //AppendLine(textBox15, "Galactic Coordinates HEX: SSI:" + oSSI + " Y:" + oY + " Z:" + oZ + " X:" + oX);
+
+            //HEX to DEC
+            int icX = Convert.ToInt32(oX, 16);
+            int icY = Convert.ToInt32(oY, 16);
+            int icZ = Convert.ToInt32(oZ, 16);
+            int icSSI = Convert.ToInt32(oSSI, 16);
+            AppendLine(textBox15, "Galactic Coordinates DEC: SSI:" + icSSI + " Y:" + icY + " Z:" + icZ + " X:" + icX);
+
+            //SHIFT DEC 2047 127 2047 ssi-same
+            int vX = icX - 2047;
+            int vY = icY - 127;
+            int vZ = icZ - 2047;
+
+            //voxel dec  x y z ssi-same
+            AppendLine(textBox15, "*** Voxel Coordinates DEC: SSI:" + icSSI + " Y:" + vY + " Z:" + vZ + " X:" + vX + " ***");
+            //voxel = "SSI:" + icSSI + " Y:" + icY + " Z:" + icZ + " X:" + icX;
+
+            X = vX.ToString();
+            Y = vY.ToString();
+            Z = vZ.ToString();
+            SSI = icSSI.ToString();
+        }
+        private async void Button11_Click(object sender, EventArgs e)
+        {
+            //Galactic coordinates to Voxel
+            try
+            {
+                //Read-only galactic coord for now   
+                if (textBox14.Text != "")
+                {
+                    string[] value = textBox14.Text.Replace(" ", "").Split(':');
+
+                    GalacticToVoxelMan(value[0].Trim(), value[1].Trim(), value[2].Trim(), value[3].Trim());
+                    if(Convert.ToInt32(textBox18.Text) < 255)
+                    {
+                        galaxy = textBox18.Text;                        
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid Galaxy!", "Alert");
+                        return;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Cannot locate player!", "Alert");
+                    return;
+                }
+
+                DialogResult dialogResult = MessageBox.Show("Move Player? ", "Fast Travel", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    
+                    if (galaxy != "" && X != "" && Y != "" && Z != "" && SSI != "" && saveslot >= 1 && saveslot <= 5)
+                    {
+                        AppendLine(textBox15, "Move Player to: Galaxy: " + galaxy + " -- X:" + X + " -- Y:" + Y + " -- Z:" + Z + " -- SSI:" + SSI);
+                        progressBar4.Visible = true;
+                        progressBar4.Invoke((Action)(() => progressBar4.Value = 10));
+
+                        //Read and decrypt save (?)
+                        await ReadSave(saveslot);
+
+                        //Set all Regex values
+                        JsonSet("all");
+
+                        progressBar4.Invoke((Action)(() => progressBar4.Value = 25));
+
+                        //Read all the JSON text from nmssavetool decrypt
+                        string jsons = File.ReadAllText(@".\nmssavetool\save.json");
+
+                        ////Set Player Location
+                        //Get the Player location text array
+                        Regex myRegex = new Regex(rxPatternP, RegexOptions.Singleline);
+                        Match m = myRegex.Match(jsons);
+                        rxValP = m.ToString();
+
+                        //Get and Set Galaxy
+                        Regex myRegex1 = new Regex(rxPatternG, RegexOptions.Multiline);
+                        rxValP = Regex.Replace(rxValP, rxPatternG, rxValG, RegexOptions.Multiline);
+
+                        //Get and Set X
+                        Regex myRegex2 = new Regex(rxPatternX, RegexOptions.Multiline);
+                        rxValP = Regex.Replace(rxValP, rxPatternX, rxValX, RegexOptions.Multiline);
+
+                        //Get amd Set Y
+                        Regex myRegex3 = new Regex(rxPatternY, RegexOptions.Multiline);
+                        rxValP = Regex.Replace(rxValP, rxPatternY, rxValY, RegexOptions.Multiline);
+
+                        //Get and Set Z
+                        Regex myRegex4 = new Regex(rxPatternZ, RegexOptions.Multiline);
+                        rxValP = Regex.Replace(rxValP, rxPatternZ, rxValZ, RegexOptions.Multiline);
+
+                        //Get and Set Solar System index (SSI)
+                        Regex myRegex5 = new Regex(rxPatternSSI, RegexOptions.Multiline);
+                        rxValP = Regex.Replace(rxValP, rxPatternSSI, rxValSSI, RegexOptions.Multiline);
+
+                        //Get and Set Planet Index
+                        Regex myRegex6 = new Regex(rxPatternPI, RegexOptions.Multiline);
+                        rxValP = Regex.Replace(rxValP, rxPatternPI, rxValPI, RegexOptions.Multiline);
+
+                        //Set the player location array after changes made
+                        jsons = Regex.Replace(jsons, rxPatternP, rxValP, RegexOptions.Singleline);
+
+                        ////Set Spawn State
+                        // Get the Spawn state array
+                        Regex myRegexs = new Regex(rxPatternSt, RegexOptions.Singleline);
+                        Match ms = myRegexs.Match(jsons);
+                        rxValSt = ms.ToString();
+
+                        //Get and set Player last known location in Spwn state array
+                        Regex myRegexps = new Regex(rxPatternPs, RegexOptions.Multiline);
+                        rxValSt = Regex.Replace(rxValSt, rxPatternPs, rxValPs, RegexOptions.Multiline);
+
+                        //Set the spawn state array after changes made
+                        jsons = Regex.Replace(jsons, rxPatternSt, rxValSt, RegexOptions.Singleline);
+
+                        //Set Portal Interference false DaC
+                        Regex myRegexPrtl = new Regex(rxPatternPrtl, RegexOptions.Multiline);
+                        Match prtl = myRegexPrtl.Match(jsons);
+                        //rxValPrtl = prtl.ToString();
+                        //AppendLine(textBox3, rxValPrtl);
+
+                        //Set Portal Interference state rxValPrtl preset to false
+                        jsons = Regex.Replace(jsons, rxPatternPrtl, rxValPrtl, RegexOptions.Multiline);
+
+                        progressBar4.Invoke((Action)(() => progressBar4.Value = 40));
+
+                        //Write all modifications of file to saveedit.json
+                        File.WriteAllText(@".\nmssavetool\saveedit.json", jsons);
+
+                        //Show log of changes in txtbox
+                        Match g = myRegex1.Match(jsons);
+                        Match x = myRegex2.Match(jsons);
+                        Match y = myRegex3.Match(jsons);
+                        Match z = myRegex4.Match(jsons);
+                        Match ssi = myRegex5.Match(jsons);
+                        Match pi = myRegex6.Match(jsons);
+                        Match ps = myRegexs.Match(myRegexps.Match(jsons).ToString());
+                        AppendLine(textBox15, "Player Move Data: " + g.ToString() + x.ToString() + y.ToString() + z.ToString() + ssi.ToString() + pi.ToString() + ps.ToString());
+
+                        progressBar4.Invoke((Action)(() => progressBar4.Value = 70));
+
+                        //Write the new save file 
+                        await WriteSave(saveslot);
+
+                        //Set json to the new modified hg file
+                        json = File.ReadAllText(hgFilePath);
+
+                        //Read the new json and check portal interference state
+                        var nms = Nms.FromJson(json);
+                        textBox12.Clear();
+                        textBox12.Text = nms.The6F.DaC.ToString();
+                        GetPlayerCoord();
+
+                        progressBar4.Invoke((Action)(() => progressBar4.Value = 100));
+                        progressBar4.Visible = false;
+
+                        //set the last write time box
+                        textBox26.Clear();
+                        FileInfo hgfile = new FileInfo(hgFilePath);
+                        AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
+
+                        MessageBox.Show("Player moved successfully!", "Confirmation", MessageBoxButtons.OK);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Please select a save slot!", "Confirmation", MessageBoxButtons.OK);
+                    }
+                }
+                else if (dialogResult == DialogResult.No)
+                {
+                    textBox15.Clear();
+                    return;
+                }
+            }
+            catch
+            {
+                //textBox14.Clear();
+                textBox15.Clear();
+                textBox18.Clear();
+                AppendLine(textBox15, "Incorrect Coordinate Input!");
+            }
+        }
+
+        private void TabControl1_Selected(object sender, TabControlEventArgs e)
+        {
+            //Read-only galactic coord for now
+            textBox14.Text = textBox22.Text;
+            textBox18.Text = pgalaxy;
+        }
     }
 }
+    
+    
+
