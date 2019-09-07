@@ -126,6 +126,7 @@ namespace NMSCoordinates
             this.textBox20 = new System.Windows.Forms.TextBox();
             this.listBox2 = new System.Windows.Forms.ListBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.button9 = new System.Windows.Forms.Button();
             this.progressBar2 = new System.Windows.Forms.ProgressBar();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
@@ -163,17 +164,20 @@ namespace NMSCoordinates
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label22 = new System.Windows.Forms.Label();
             this.groupBox19 = new System.Windows.Forms.GroupBox();
             this.textBox15 = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.groupBox18 = new System.Windows.Forms.GroupBox();
-            this.textBox18 = new System.Windows.Forms.TextBox();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.progressBar4 = new System.Windows.Forms.ProgressBar();
             this.label15 = new System.Windows.Forms.Label();
             this.button11 = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
             this.textBox14 = new System.Windows.Forms.TextBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -266,7 +270,7 @@ namespace NMSCoordinates
             this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(902, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(898, 24);
             this.menuStrip1.TabIndex = 58;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -285,7 +289,7 @@ namespace NMSCoordinates
             this.appDataDefaultToolStripMenuItem,
             this.manuallySelectToolStripMenuItem});
             this.selectSaveFolderToolStripMenuItem.Name = "selectSaveFolderToolStripMenuItem";
-            this.selectSaveFolderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.selectSaveFolderToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.selectSaveFolderToolStripMenuItem.Text = "Select Save Folder...";
             // 
             // appDataDefaultToolStripMenuItem
@@ -308,7 +312,7 @@ namespace NMSCoordinates
             this.discoveriesToolStripMenuItem,
             this.backupALLSaveFilesToolStripMenuItem});
             this.backupToolStripMenuItem.Name = "backupToolStripMenuItem";
-            this.backupToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.backupToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.backupToolStripMenuItem.Text = "Backups...";
             // 
             // discoveriesToolStripMenuItem
@@ -337,7 +341,7 @@ namespace NMSCoordinates
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.helpToolStripMenuItem.Text = "About";
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.HelpToolStripMenuItem_Click);
             // 
@@ -347,7 +351,7 @@ namespace NMSCoordinates
             this.screenshotPageToolStripMenuItem1,
             this.screenshotPageToolStripMenuItem2});
             this.screenshotPageToolStripMenuItem.Name = "screenshotPageToolStripMenuItem";
-            this.screenshotPageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.screenshotPageToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.screenshotPageToolStripMenuItem.Text = "Screenshots...";
             // 
             // screenshotPageToolStripMenuItem1
@@ -529,6 +533,7 @@ namespace NMSCoordinates
             this.listBox4.Name = "listBox4";
             this.listBox4.Size = new System.Drawing.Size(253, 154);
             this.listBox4.TabIndex = 37;
+            this.listBox4.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListBox4_MouseDoubleClick);
             // 
             // button6
             // 
@@ -1209,6 +1214,7 @@ namespace NMSCoordinates
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.tabPage1.Controls.Add(this.checkBox1);
             this.tabPage1.Controls.Add(this.button9);
             this.tabPage1.Controls.Add(this.progressBar2);
             this.tabPage1.Controls.Add(this.groupBox15);
@@ -1221,6 +1227,23 @@ namespace NMSCoordinates
             this.tabPage1.Size = new System.Drawing.Size(868, 908);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Save Files";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Enabled = false;
+            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox1.ForeColor = System.Drawing.Color.White;
+            this.checkBox1.Location = new System.Drawing.Point(652, 166);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(166, 20);
+            this.checkBox1.TabIndex = 59;
+            this.checkBox1.Text = "AutoSave Travel Mode";
+            this.toolTip2.SetToolTip(this.checkBox1, "Enable AutoSave Travel Mode to save the SpaceStations\r\nthat NMS deletes when trav" +
+        "eling thru a Terminus or Teleport");
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
+            this.checkBox1.CheckStateChanged += new System.EventHandler(this.CheckBox1_CheckStateChanged);
             // 
             // button9
             // 
@@ -1499,6 +1522,7 @@ namespace NMSCoordinates
             this.textBox17.Multiline = true;
             this.textBox17.Name = "textBox17";
             this.textBox17.ReadOnly = true;
+            this.textBox17.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox17.Size = new System.Drawing.Size(690, 103);
             this.textBox17.TabIndex = 2;
             // 
@@ -1553,7 +1577,7 @@ namespace NMSCoordinates
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(90, 31);
             this.button10.TabIndex = 34;
-            this.button10.Text = "BackupSave";
+            this.button10.Text = "Backup Save";
             this.button10.UseVisualStyleBackColor = false;
             this.button10.Click += new System.EventHandler(this.Button10_Click);
             // 
@@ -1612,6 +1636,9 @@ namespace NMSCoordinates
             this.button4.Size = new System.Drawing.Size(90, 31);
             this.button4.TabIndex = 3;
             this.button4.Text = "Reload Save";
+            this.toolTip1.SetToolTip(this.button4, "To track location deletions, load a save slot and select an autosave \r\nthen leave" +
+        " NMSCoordinator running. Reload Save after landing in \r\na new Space Station and " +
+        "exiting ship.");
             this.button4.UseVisualStyleBackColor = false;
             this.button4.Click += new System.EventHandler(this.Button4_Click);
             // 
@@ -1645,6 +1672,7 @@ namespace NMSCoordinates
             // tabPage4
             // 
             this.tabPage4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.tabPage4.Controls.Add(this.linkLabel1);
             this.tabPage4.Controls.Add(this.label22);
             this.tabPage4.Controls.Add(this.groupBox19);
             this.tabPage4.Controls.Add(this.label14);
@@ -1656,6 +1684,19 @@ namespace NMSCoordinates
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Change Galaxy";
             // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLabel1.LinkColor = System.Drawing.Color.LawnGreen;
+            this.linkLabel1.Location = new System.Drawing.Point(254, 403);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(288, 18);
+            this.linkLabel1.TabIndex = 76;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "https://nomanssky.gamepedia.com/Galaxy";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel1_LinkClicked);
+            // 
             // label22
             // 
             this.label22.BackColor = System.Drawing.Color.Transparent;
@@ -1665,8 +1706,9 @@ namespace NMSCoordinates
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(411, 120);
             this.label22.TabIndex = 75;
-            this.label22.Text = "1. Select a save slot\r\n2. Type a new galaxy number\r\n3. Click Move player\r\n\r\nThis " +
-    "moves your player\'s CURRENT location to the NEW galaxy.\r\n";
+            this.label22.Text = "1. Select a save slot on the Save Files tab.\r\n2. Select a Galaxy in the dropdown." +
+    "\r\n3. Click Move player.\r\n\r\nThis moves your player\'s CURRENT location to the NEW " +
+    "galaxy.\r\n";
             this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // groupBox19
@@ -1706,7 +1748,7 @@ namespace NMSCoordinates
             // 
             // groupBox18
             // 
-            this.groupBox18.Controls.Add(this.textBox18);
+            this.groupBox18.Controls.Add(this.comboBox3);
             this.groupBox18.Controls.Add(this.progressBar4);
             this.groupBox18.Controls.Add(this.label15);
             this.groupBox18.Controls.Add(this.button11);
@@ -1720,16 +1762,17 @@ namespace NMSCoordinates
             this.groupBox18.TabStop = false;
             this.groupBox18.Text = "Coordinates";
             // 
-            // textBox18
+            // comboBox3
             // 
-            this.textBox18.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.textBox18.ForeColor = System.Drawing.Color.Azure;
-            this.textBox18.Location = new System.Drawing.Point(93, 38);
-            this.textBox18.Multiline = true;
-            this.textBox18.Name = "textBox18";
-            this.textBox18.Size = new System.Drawing.Size(66, 24);
-            this.textBox18.TabIndex = 60;
-            this.textBox18.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.comboBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox3.ForeColor = System.Drawing.Color.Azure;
+            this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Location = new System.Drawing.Point(109, 38);
+            this.comboBox3.Name = "comboBox3";
+            this.comboBox3.Size = new System.Drawing.Size(50, 23);
+            this.comboBox3.TabIndex = 75;
+            this.comboBox3.SelectionChangeCommitted += new System.EventHandler(this.ComboBox3_SelectionChangeCommitted);
             // 
             // progressBar4
             // 
@@ -1782,12 +1825,18 @@ namespace NMSCoordinates
             this.textBox14.TabIndex = 57;
             this.textBox14.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // toolTip1
+            // 
+            this.toolTip1.AutoPopDelay = 5000;
+            this.toolTip1.InitialDelay = 900;
+            this.toolTip1.ReshowDelay = 100;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.ClientSize = new System.Drawing.Size(902, 980);
+            this.ClientSize = new System.Drawing.Size(898, 980);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("Corbel", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -2117,10 +2166,14 @@ namespace NMSCoordinates
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.GroupBox groupBox19;
         private System.Windows.Forms.TextBox textBox15;
-        private System.Windows.Forms.TextBox textBox18;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.ProgressBar progressBar4;
         private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.ToolTip toolTip2;
     }
 }
 

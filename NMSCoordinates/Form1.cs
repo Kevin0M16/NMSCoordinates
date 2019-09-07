@@ -142,16 +142,37 @@ namespace NMSCoordinates
             }
         }
         private void CheckSS()
-        {
+        {            
+            // Set Minimum to 1 to represent the first file being copied.
+            progressBar2.Minimum = 1;
+            // Set Maximum to the total number of files to copy.
+            progressBar2.Maximum = DiscList.Count;
+            // Set the initial value of the ProgressBar.
+            progressBar2.Value = 1;
+            // Set the Step property to a value of 1 to represent each file being copied.
+            progressBar2.Step = 1;
+            // Display the ProgressBar control.
+            progressBar2.Visible = true;
+
             if (DiscList.Count > 0)
             {
                 for (int i = 0; i < DiscList.Count; i++)
-                {
+                {                    
                     JsonMap(i);
                     GetPortalCoord(iX, iY, iZ, iSSI);
                     GetGalacticCoord(iX, iY, iZ, iSSI);
                     SSlist.Add("Loc: " + DiscList[i] + " - G: " + galaxy + " - PC: " + PortalCode + " -- GC: " + GalacticCoord);
+
+                    //progressBar2.Value += i;
+                    progressBar2.PerformStep();
+
+                    //if (SSlist.Count == i + 1)
+                    //{
+                    // Perform the increment on the ProgressBar.
+                    //   progressBar2.PerformStep();
+                    //}
                 }
+                progressBar2.Visible = false;
             }
             else
             {
@@ -160,6 +181,17 @@ namespace NMSCoordinates
         }
         private void BackupLoc(string path)
         {
+            // Set Minimum to 1 to represent the first file being copied.
+            progressBar2.Minimum = 1;
+            // Set Maximum to the total number of files to copy.
+            progressBar2.Maximum = DiscList.Count;
+            // Set the initial value of the ProgressBar.
+            progressBar2.Value = 1;
+            // Set the Step property to a value of 1 to represent each file being copied.
+            progressBar2.Step = 1;
+            // Display the ProgressBar control.
+            progressBar2.Visible = true;
+
             if (DiscList.Count > 0)
             {
                 for (int i = 0; i < DiscList.Count; i++)
@@ -168,7 +200,15 @@ namespace NMSCoordinates
                     GetPortalCoord(iX, iY, iZ, iSSI);
                     GetGalacticCoord(iX, iY, iZ, iSSI);
                     Backuplist.Add("Loc: " + DiscList[i] + " - G: " + galaxy + " - PC: " + PortalCode + " -- GC: " + GalacticCoord);
+
+                    progressBar2.PerformStep();
+                    //if (Backuplist.Count == i + 1)
+                    //{
+                        // Perform the increment on the ProgressBar.
+                    //    progressBar2.PerformStep();
+                    //}
                 }
+                progressBar2.Visible = false;
 
                 string path2 = MakeUnique(path).ToString();
                 File.WriteAllLines(path2, Backuplist);
@@ -724,23 +764,98 @@ namespace NMSCoordinates
             }
             return -1;
         }
-       
+        private List<string> Contains(List<string> list1, List<string> list2)
+        {
+            List<string> result = new List<string>();
+
+            result.AddRange(list1.Except(list2, StringComparer.OrdinalIgnoreCase));
+            result.AddRange(list2.Except(list1, StringComparer.OrdinalIgnoreCase));
+
+            return result;
+        }
         private void Button4_Click(object sender, EventArgs e)
         {
-            ClearAll();
-
             string selected = this.comboBox1.GetItemText(this.comboBox1.SelectedItem);
             if(selected != "")
             {
+                SSlist.Clear();
+                PrevSSlist.Clear();
+                DeletedSSlist.Clear();
+                AppendLine(textBox17, "Reading all locations...");
+
+                CheckSS();
+
+                foreach (string item in SSlist)
+                {
+                    PrevSSlist.Add(item);
+                }
+                //listBox5.DataSource = PrevSSlist;
+
+                ClearAll();
+                AppendLine(textBox17, "Loading Save File...");
                 GetSaveFile(selected);
                 Loadlsb1();
                 Loadlsb3();
                 GetPlayerCoord();
+            
+
+                SSlist.Clear();
+                AppendLine(textBox17, "Checking for deleted locations...");
+
+                CheckSS();
+
+                //Toggle For Testing
+                //SSlist.RemoveRange(0, 1);
+                //SSlist.Add("Slot_2_Loc: test Platform (SS) - G: 1 - PC: 000000000000 -- GC: 080B:0088:080F:019E");
+
+                List<string> list3 = new List<string>();
+                list3 = Contains(PrevSSlist, SSlist);
+
+                foreach (string item in list3)
+                {
+                    if (!SSlist.Contains(item))
+                        DeletedSSlist.Add(item);
+                }           
+
+                //listBox6.DataSource = DeletedSSlist;
+
+                if (!File.Exists(@".\backup\locbackup_deleted.txt"))
+                {
+                    File.Create(@".\backup\locbackup_deleted.txt").Dispose();
+                    LoadTxt();
+                }
+                        
+                string[] logFile = File.ReadAllLines(@".\backup\locbackup_deleted.txt");
+                var logList = new List<string>(logFile);
+
+                List<string> list = new List<string>();
+                list = Contains(logList, DeletedSSlist);
+
+                List<string> list2 = new List<string>();
+                list2 = Contains(logList, list);
+
+                if (list2.Count >= 1)
+                {
+                    using (StreamWriter sw = File.AppendText(@".\backup\locbackup_deleted.txt"))
+                    {
+                        //sw.WriteLine("****" + DateTime.Now.ToString("yyyy-MM-dd-HHmmss") + "****");
+                        foreach (string item in list2)//DeletedSSlist)
+                        {
+                            sw.WriteLine("Slot_" + saveslot + "_" + item);                    
+                        }
+                        sw.Close();
+                    }            
+                    AppendLine(textBox17, "Found " + DeletedSSlist.Count + " Deleted locations.");
+                }
+                else
+                {
+                    AppendLine(textBox17, "No Deleted locations Found.");
+                }
             }
             else
             {
                 MessageBox.Show("No Save Slot Selected!", "Alert");
-            }                
+            }
         }
         private void SetSavePath()
         {
@@ -1348,6 +1463,15 @@ namespace NMSCoordinates
             string selected = this.comboBox1.GetItemText(this.comboBox1.SelectedItem);
             GetSaveFile(selected);
 
+            if (selected == "save.hg" || selected == "save3.hg" || selected == "save5.hg" || selected == "save7.hg" || selected == "save9.hg")
+            {
+                checkBox1.Enabled = true;
+            }
+            else
+            {
+                checkBox1.Enabled = false;
+            }
+
             Loadlsb1();
             Loadlsb3();
             GetPlayerCoord();
@@ -1568,7 +1692,7 @@ namespace NMSCoordinates
                 if (Files.Length != 0)
                 {
                     foreach (FileInfo file in Files.OrderByDescending(f => f.LastWriteTime))
-                    {
+                    {                        
                         list.Add(file.Name);
                     }
                 }
@@ -1603,7 +1727,8 @@ namespace NMSCoordinates
             catch
             {
                 toolStripMenuItem1.Enabled = false;
-                AppendLine(textBox11, "No File Selected!");
+                AppendLine(textBox11, "No File Selected or File Empty!");
+                AppendLine(textBox11, "---------------------");
             }
 
         }
@@ -1911,9 +2036,9 @@ namespace NMSCoordinates
                     string[] value = textBox14.Text.Replace(" ", "").Split(':');
 
                     GalacticToVoxelMan(value[0].Trim(), value[1].Trim(), value[2].Trim(), value[3].Trim());
-                    if(Convert.ToInt32(textBox18.Text) < 255)
+                    if(comboBox3.SelectedIndex < 255)
                     {
-                        galaxy = textBox18.Text;                        
+                        galaxy = comboBox3.SelectedIndex.ToString();                        
                     }
                     else
                     {
@@ -2057,16 +2182,71 @@ namespace NMSCoordinates
             {
                 //textBox14.Clear();
                 textBox15.Clear();
-                textBox18.Clear();
+                comboBox3.SelectedIndex = -1;
                 AppendLine(textBox15, "Incorrect Coordinate Input!");
             }
         }
-
         private void TabControl1_Selected(object sender, TabControlEventArgs e)
         {
-            //Read-only galactic coord for now
-            textBox14.Text = textBox22.Text;
-            textBox18.Text = pgalaxy;
+            if (pgalaxy != null)
+            {
+                //Read-only galactic coord for now
+                for (int i = 1; i <= 255; i++)
+                {
+                    string[] numbers = { i.ToString() };
+                    comboBox3.Items.AddRange(numbers);
+                }            
+                comboBox3.SelectedIndex = Convert.ToInt32(pgalaxy);
+                textBox14.Text = textBox22.Text;
+            }
+            else
+            {
+
+            }            
+        }
+
+        private void ComboBox3_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ListBox4_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            button6.PerformClick();
+        }
+
+        private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try
+            {
+                //linkLabel1.LinkVisited = true;
+                //Call the Process.Start method to open the default browser
+                //with a URL:
+                System.Diagnostics.Process.Start("https://nomanssky.gamepedia.com/Galaxy");
+            }
+            catch
+            {
+                MessageBox.Show("Unable to open link that was clicked.");
+            }
+        }
+
+        private void CheckBox1_CheckedChanged(object sender, EventArgs e)
+        {            
+            if (checkBox1.Checked)
+            {
+                comboBox2.Enabled = false;
+                comboBox1.Enabled = false;
+            }
+            else
+            {
+                comboBox2.Enabled = true;
+                comboBox1.Enabled = true;
+            }            
+        }
+
+        private void CheckBox1_CheckStateChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 }

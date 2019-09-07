@@ -58,6 +58,7 @@
         }
 
         #endregion
+
         private System.Windows.Forms.TextBox textBox1;
 
         public string MyProperty3 { get; set; }
