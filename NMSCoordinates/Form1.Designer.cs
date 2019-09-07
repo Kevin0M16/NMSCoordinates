@@ -52,6 +52,9 @@ namespace NMSCoordinates
             this.screenshotPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.screenshotPageToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.screenshotPageToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.travelModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.onToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.offToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.progressBar3 = new System.Windows.Forms.ProgressBar();
             this.textBox13 = new System.Windows.Forms.TextBox();
@@ -126,9 +129,13 @@ namespace NMSCoordinates
             this.textBox20 = new System.Windows.Forms.TextBox();
             this.listBox2 = new System.Windows.Forms.ListBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.groupBox20 = new System.Windows.Forms.GroupBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.button12 = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.button9 = new System.Windows.Forms.Button();
             this.progressBar2 = new System.Windows.Forms.ProgressBar();
+            this.textBox17 = new System.Windows.Forms.TextBox();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.label21 = new System.Windows.Forms.Label();
@@ -151,7 +158,6 @@ namespace NMSCoordinates
             this.pictureBox20 = new System.Windows.Forms.PictureBox();
             this.pictureBox22 = new System.Windows.Forms.PictureBox();
             this.pictureBox25 = new System.Windows.Forms.PictureBox();
-            this.textBox17 = new System.Windows.Forms.TextBox();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
             this.textBox16 = new System.Windows.Forms.TextBox();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
@@ -178,6 +184,7 @@ namespace NMSCoordinates
             this.textBox14 = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTip3 = new System.Windows.Forms.ToolTip(this.components);
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -208,6 +215,7 @@ namespace NMSCoordinates
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.groupBox20.SuspendLayout();
             this.groupBox15.SuspendLayout();
             this.groupBox11.SuspendLayout();
             this.groupBox14.SuspendLayout();
@@ -270,7 +278,7 @@ namespace NMSCoordinates
             this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(898, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(899, 24);
             this.menuStrip1.TabIndex = 58;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -333,7 +341,8 @@ namespace NMSCoordinates
             // 
             this.aboutToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.helpToolStripMenuItem,
-            this.screenshotPageToolStripMenuItem});
+            this.screenshotPageToolStripMenuItem,
+            this.travelModeToolStripMenuItem});
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.aboutToolStripMenuItem.Text = "Tools";
@@ -341,7 +350,7 @@ namespace NMSCoordinates
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.helpToolStripMenuItem.Text = "About";
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.HelpToolStripMenuItem_Click);
             // 
@@ -351,7 +360,7 @@ namespace NMSCoordinates
             this.screenshotPageToolStripMenuItem1,
             this.screenshotPageToolStripMenuItem2});
             this.screenshotPageToolStripMenuItem.Name = "screenshotPageToolStripMenuItem";
-            this.screenshotPageToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.screenshotPageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.screenshotPageToolStripMenuItem.Text = "Screenshots...";
             // 
             // screenshotPageToolStripMenuItem1
@@ -367,6 +376,33 @@ namespace NMSCoordinates
             this.screenshotPageToolStripMenuItem2.Size = new System.Drawing.Size(178, 22);
             this.screenshotPageToolStripMenuItem2.Text = "Set Screenshot Path";
             this.screenshotPageToolStripMenuItem2.Click += new System.EventHandler(this.ScreenshotPageToolStripMenuItem2_Click);
+            // 
+            // travelModeToolStripMenuItem
+            // 
+            this.travelModeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.onToolStripMenuItem,
+            this.offToolStripMenuItem});
+            this.travelModeToolStripMenuItem.Name = "travelModeToolStripMenuItem";
+            this.travelModeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.travelModeToolStripMenuItem.Text = "Travel Mode";
+            // 
+            // onToolStripMenuItem
+            // 
+            this.onToolStripMenuItem.CheckOnClick = true;
+            this.onToolStripMenuItem.Name = "onToolStripMenuItem";
+            this.onToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.onToolStripMenuItem.Text = "On";
+            this.onToolStripMenuItem.Click += new System.EventHandler(this.OnToolStripMenuItem_Click);
+            // 
+            // offToolStripMenuItem
+            // 
+            this.offToolStripMenuItem.Checked = true;
+            this.offToolStripMenuItem.CheckOnClick = true;
+            this.offToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.offToolStripMenuItem.Name = "offToolStripMenuItem";
+            this.offToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.offToolStripMenuItem.Text = "Off";
+            this.offToolStripMenuItem.Click += new System.EventHandler(this.OffToolStripMenuItem_Click);
             // 
             // tabPage3
             // 
@@ -1214,11 +1250,11 @@ namespace NMSCoordinates
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.tabPage1.Controls.Add(this.checkBox1);
+            this.tabPage1.Controls.Add(this.groupBox20);
             this.tabPage1.Controls.Add(this.button9);
             this.tabPage1.Controls.Add(this.progressBar2);
-            this.tabPage1.Controls.Add(this.groupBox15);
             this.tabPage1.Controls.Add(this.textBox17);
+            this.tabPage1.Controls.Add(this.groupBox15);
             this.tabPage1.Controls.Add(this.groupBox13);
             this.tabPage1.Controls.Add(this.groupBox12);
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
@@ -1228,19 +1264,57 @@ namespace NMSCoordinates
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Save Files";
             // 
+            // groupBox20
+            // 
+            this.groupBox20.Controls.Add(this.label26);
+            this.groupBox20.Controls.Add(this.button12);
+            this.groupBox20.Controls.Add(this.checkBox1);
+            this.groupBox20.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.groupBox20.Location = new System.Drawing.Point(519, 10);
+            this.groupBox20.Name = "groupBox20";
+            this.groupBox20.Size = new System.Drawing.Size(208, 121);
+            this.groupBox20.TabIndex = 68;
+            this.groupBox20.TabStop = false;
+            this.groupBox20.Text = "Travel Mode";
+            this.groupBox20.Visible = false;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.ForeColor = System.Drawing.Color.DarkOrange;
+            this.label26.Location = new System.Drawing.Point(20, 25);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(165, 15);
+            this.label26.TabIndex = 72;
+            this.label26.Text = "Select an autosave file to use";
+            // 
+            // button12
+            // 
+            this.button12.Enabled = false;
+            this.button12.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.button12.Location = new System.Drawing.Point(62, 82);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(75, 23);
+            this.button12.TabIndex = 71;
+            this.button12.Text = "Update SS ";
+            this.toolTip3.SetToolTip(this.button12, "Press this button when you want to check for location\r\ndiscoveries that NMS delet" +
+        "ed.");
+            this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.Button12_Click);
+            // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
             this.checkBox1.Enabled = false;
             this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBox1.ForeColor = System.Drawing.Color.White;
-            this.checkBox1.Location = new System.Drawing.Point(652, 166);
+            this.checkBox1.Location = new System.Drawing.Point(23, 56);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(166, 20);
             this.checkBox1.TabIndex = 59;
             this.checkBox1.Text = "AutoSave Travel Mode";
-            this.toolTip2.SetToolTip(this.checkBox1, "Enable AutoSave Travel Mode to save the SpaceStations\r\nthat NMS deletes when trav" +
-        "eling thru a Terminus or Teleport");
+            this.toolTip2.SetToolTip(this.checkBox1, "Use when traveling thru a Terminus or Teleport to save the SpaceStations\r\nthat NM" +
+        "S deletes to locbackup_deleted.txt. Must use an Autosave file.");
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
             this.checkBox1.CheckStateChanged += new System.EventHandler(this.CheckBox1_CheckStateChanged);
@@ -1250,7 +1324,7 @@ namespace NMSCoordinates
             this.button9.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.button9.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button9.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.button9.Location = new System.Drawing.Point(688, 99);
+            this.button9.Location = new System.Drawing.Point(581, 159);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(107, 39);
             this.button9.TabIndex = 34;
@@ -1260,11 +1334,23 @@ namespace NMSCoordinates
             // 
             // progressBar2
             // 
-            this.progressBar2.Location = new System.Drawing.Point(145, 301);
+            this.progressBar2.Location = new System.Drawing.Point(170, 301);
             this.progressBar2.Name = "progressBar2";
             this.progressBar2.Size = new System.Drawing.Size(538, 25);
             this.progressBar2.TabIndex = 70;
             this.progressBar2.Visible = false;
+            // 
+            // textBox17
+            // 
+            this.textBox17.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.textBox17.ForeColor = System.Drawing.Color.Azure;
+            this.textBox17.Location = new System.Drawing.Point(89, 332);
+            this.textBox17.Multiline = true;
+            this.textBox17.Name = "textBox17";
+            this.textBox17.ReadOnly = true;
+            this.textBox17.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox17.Size = new System.Drawing.Size(690, 121);
+            this.textBox17.TabIndex = 2;
             // 
             // groupBox15
             // 
@@ -1273,7 +1359,7 @@ namespace NMSCoordinates
             this.groupBox15.Controls.Add(this.groupBox14);
             this.groupBox15.Controls.Add(this.pictureBox25);
             this.groupBox15.ForeColor = System.Drawing.Color.White;
-            this.groupBox15.Location = new System.Drawing.Point(15, 332);
+            this.groupBox15.Location = new System.Drawing.Point(15, 471);
             this.groupBox15.Name = "groupBox15";
             this.groupBox15.Size = new System.Drawing.Size(837, 420);
             this.groupBox15.TabIndex = 69;
@@ -1289,7 +1375,7 @@ namespace NMSCoordinates
             this.groupBox11.Controls.Add(this.label20);
             this.groupBox11.Controls.Add(this.textBox22);
             this.groupBox11.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.groupBox11.Location = new System.Drawing.Point(23, 144);
+            this.groupBox11.Location = new System.Drawing.Point(23, 168);
             this.groupBox11.Name = "groupBox11";
             this.groupBox11.Size = new System.Drawing.Size(208, 195);
             this.groupBox11.TabIndex = 67;
@@ -1514,26 +1600,14 @@ namespace NMSCoordinates
             this.pictureBox25.TabIndex = 69;
             this.pictureBox25.TabStop = false;
             // 
-            // textBox17
-            // 
-            this.textBox17.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.textBox17.ForeColor = System.Drawing.Color.Azure;
-            this.textBox17.Location = new System.Drawing.Point(78, 770);
-            this.textBox17.Multiline = true;
-            this.textBox17.Name = "textBox17";
-            this.textBox17.ReadOnly = true;
-            this.textBox17.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox17.Size = new System.Drawing.Size(690, 103);
-            this.textBox17.TabIndex = 2;
-            // 
             // groupBox13
             // 
             this.groupBox13.BackColor = System.Drawing.Color.Transparent;
             this.groupBox13.Controls.Add(this.textBox16);
             this.groupBox13.ForeColor = System.Drawing.Color.White;
-            this.groupBox13.Location = new System.Drawing.Point(145, 230);
+            this.groupBox13.Location = new System.Drawing.Point(120, 230);
             this.groupBox13.Name = "groupBox13";
-            this.groupBox13.Size = new System.Drawing.Size(538, 65);
+            this.groupBox13.Size = new System.Drawing.Size(607, 65);
             this.groupBox13.TabIndex = 2;
             this.groupBox13.TabStop = false;
             this.groupBox13.Text = "Current Save Path";
@@ -1547,7 +1621,7 @@ namespace NMSCoordinates
             this.textBox16.Multiline = true;
             this.textBox16.Name = "textBox16";
             this.textBox16.ReadOnly = true;
-            this.textBox16.Size = new System.Drawing.Size(490, 24);
+            this.textBox16.Size = new System.Drawing.Size(560, 24);
             this.textBox16.TabIndex = 1;
             // 
             // groupBox12
@@ -1561,7 +1635,7 @@ namespace NMSCoordinates
             this.groupBox12.Controls.Add(this.button4);
             this.groupBox12.Controls.Add(this.comboBox1);
             this.groupBox12.ForeColor = System.Drawing.Color.White;
-            this.groupBox12.Location = new System.Drawing.Point(215, 10);
+            this.groupBox12.Location = new System.Drawing.Point(120, 10);
             this.groupBox12.Name = "groupBox12";
             this.groupBox12.Size = new System.Drawing.Size(393, 214);
             this.groupBox12.TabIndex = 1;
@@ -1836,7 +1910,7 @@ namespace NMSCoordinates
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.ClientSize = new System.Drawing.Size(898, 980);
+            this.ClientSize = new System.Drawing.Size(899, 980);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("Corbel", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1887,6 +1961,8 @@ namespace NMSCoordinates
             this.groupBox1.PerformLayout();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.groupBox20.ResumeLayout(false);
+            this.groupBox20.PerformLayout();
             this.groupBox15.ResumeLayout(false);
             this.groupBox11.ResumeLayout(false);
             this.groupBox11.PerformLayout();
@@ -2174,6 +2250,13 @@ namespace NMSCoordinates
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.ToolTip toolTip2;
+        private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.GroupBox groupBox20;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.ToolTip toolTip3;
+        private System.Windows.Forms.ToolStripMenuItem travelModeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem onToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem offToolStripMenuItem;
     }
 }
 

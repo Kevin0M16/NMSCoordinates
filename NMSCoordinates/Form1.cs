@@ -1466,10 +1466,16 @@ namespace NMSCoordinates
             if (selected == "save.hg" || selected == "save3.hg" || selected == "save5.hg" || selected == "save7.hg" || selected == "save9.hg")
             {
                 checkBox1.Enabled = true;
+                button12.Enabled = true;
+                //checkBox1.AutoCheck = true;
+                //checkBox1.Show();
             }
             else
             {
+                //checkBox1.AutoCheck = false;
                 checkBox1.Enabled = false;
+                button12.Enabled = false;
+                //checkBox1.Hide();
             }
 
             Loadlsb1();
@@ -2232,21 +2238,122 @@ namespace NMSCoordinates
 
         private void CheckBox1_CheckedChanged(object sender, EventArgs e)
         {            
+                      
+        }
+
+        private void CheckBox1_CheckStateChanged(object sender, EventArgs e)
+        {
             if (checkBox1.Checked)
             {
                 comboBox2.Enabled = false;
                 comboBox1.Enabled = false;
+
+                SSlist.Clear();
+                PrevSSlist.Clear();
+                DeletedSSlist.Clear();
+                AppendLine(textBox17, "Reading all locations...");
+                CheckSS();
+                if (SSlist.Count > 0)
+                {
+                    MessageBox.Show("Current Space Station locations saved!", "Confirmation");
+                }
             }
             else
             {
                 comboBox2.Enabled = true;
                 comboBox1.Enabled = true;
-            }            
+            }
         }
 
-        private void CheckBox1_CheckStateChanged(object sender, EventArgs e)
+        private void Button12_Click(object sender, EventArgs e)
         {
-            
+            string selected = this.comboBox1.GetItemText(this.comboBox1.SelectedItem);
+            if (selected != "" && checkBox1.Checked)
+            {               
+
+                foreach (string item in SSlist)
+                {
+                    PrevSSlist.Add(item);
+                }
+                //listBox5.DataSource = PrevSSlist;
+
+                ClearAll();
+                AppendLine(textBox17, "Loading Save File...");
+                GetSaveFile(selected);
+                Loadlsb1();
+                Loadlsb3();
+                GetPlayerCoord();
+
+
+                SSlist.Clear();
+                AppendLine(textBox17, "Checking for deleted locations...");
+
+                CheckSS();
+
+                //Toggle For Testing
+                //SSlist.RemoveRange(0, 1);
+                //SSlist.Add("Slot_2_Loc: test Platform (SS) - G: 1 - PC: 000000000000 -- GC: 080B:0088:080F:019E");
+
+                List<string> list3 = new List<string>();
+                list3 = Contains(PrevSSlist, SSlist);
+
+                foreach (string item in list3)
+                {
+                    if (!SSlist.Contains(item))
+                        DeletedSSlist.Add(item);
+                }
+
+                //listBox6.DataSource = DeletedSSlist;
+
+                if (!File.Exists(@".\backup\locbackup_deleted.txt"))
+                {
+                    File.Create(@".\backup\locbackup_deleted.txt").Dispose();
+                    LoadTxt();
+                }
+
+                string[] logFile = File.ReadAllLines(@".\backup\locbackup_deleted.txt");
+                var logList = new List<string>(logFile);
+
+                List<string> list = new List<string>();
+                list = Contains(logList, DeletedSSlist);
+
+                List<string> list2 = new List<string>();
+                list2 = Contains(logList, list);
+
+                if (list2.Count >= 1)
+                {
+                    using (StreamWriter sw = File.AppendText(@".\backup\locbackup_deleted.txt"))
+                    {
+                        //sw.WriteLine("****" + DateTime.Now.ToString("yyyy-MM-dd-HHmmss") + "****");
+                        foreach (string item in list2)//DeletedSSlist)
+                        {
+                            sw.WriteLine("Slot_" + saveslot + "_" + item);
+                        }
+                        sw.Close();
+                    }
+                    AppendLine(textBox17, "Found " + DeletedSSlist.Count + " Deleted locations.");
+                }
+                else
+                {
+                    AppendLine(textBox17, "No Deleted locations Found.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Not Enabled!", "Alert");
+            }
+        }
+
+        private void OnToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            offToolStripMenuItem.Checked = false;
+            groupBox20.Show();
+        }
+
+        private void OffToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            onToolStripMenuItem.Checked = false;
+            groupBox20.Hide();
         }
     }
 }
