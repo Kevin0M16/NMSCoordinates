@@ -161,7 +161,7 @@ namespace NMSCoordinates
                     JsonMap(i);
                     GetPortalCoord(iX, iY, iZ, iSSI);
                     GetGalacticCoord(iX, iY, iZ, iSSI);
-                    SSlist.Add("Loc: " + DiscList[i] + " - G: " + galaxy + " - PC: " + PortalCode + " -- GC: " + GalacticCoord);
+                    SSlist.Add("Slot_" + saveslot + "_Loc: " + DiscList[i] + " - G: " + galaxy + " - PC: " + PortalCode + " -- GC: " + GalacticCoord);
                                         
                     progressBar2.PerformStep();
 
@@ -198,7 +198,7 @@ namespace NMSCoordinates
                     JsonMap(i);
                     GetPortalCoord(iX, iY, iZ, iSSI);
                     GetGalacticCoord(iX, iY, iZ, iSSI);
-                    Backuplist.Add("Loc: " + DiscList[i] + " - G: " + galaxy + " - PC: " + PortalCode + " -- GC: " + GalacticCoord);
+                    Backuplist.Add("Slot_" + saveslot + "_Loc: " + DiscList[i] + " - G: " + galaxy + " - PC: " + PortalCode + " -- GC: " + GalacticCoord);
 
                     progressBar2.PerformStep();
 
@@ -2343,6 +2343,28 @@ namespace NMSCoordinates
                 lockedToolStripMenuItem.Checked = true;
                 unlockedToolStripMenuItem.Checked = false;
                 textBox14.ReadOnly = true;
+            }
+        }
+
+        private void PictureBox25_Click(object sender, EventArgs e)
+        {
+            if (Directory.Exists(ssdPath))
+            {
+                List<string> list = new List<string>();
+                DirectoryInfo dinfo2 = new DirectoryInfo(ssdPath);
+                FileInfo[] Files = dinfo2.GetFiles("*.jpg", SearchOption.AllDirectories);
+
+                if (Files.Length != 0)
+                {
+                    foreach (FileInfo file in Files.OrderByDescending(f => f.LastWriteTime))
+                    {
+                        if (!file.DirectoryName.Contains("thumbnails"))
+                            list.Add(file.FullName);
+                    }
+                    ssPath = list[0].ToString();
+                    pictureBox25.Image = null;
+                    pictureBox25.ImageLocation = ssPath;
+                }
             }
         }
     }

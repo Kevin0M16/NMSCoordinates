@@ -16,6 +16,38 @@ namespace NMSCoordinates
         public Form5()
         {
             InitializeComponent();
+            pictureBox1.ImageLocation = @".\glyphs\0.png";
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox2.ImageLocation = @".\glyphs\1.png";
+            pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox3.ImageLocation = @".\glyphs\2.png";
+            pictureBox3.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox4.ImageLocation = @".\glyphs\3.png";
+            pictureBox4.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox5.ImageLocation = @".\glyphs\4.png";
+            pictureBox5.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox6.ImageLocation = @".\glyphs\5.png";
+            pictureBox6.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox7.ImageLocation = @".\glyphs\6.png";
+            pictureBox7.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox8.ImageLocation = @".\glyphs\7.png";
+            pictureBox8.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox9.ImageLocation = @".\glyphs\8.png";
+            pictureBox9.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox10.ImageLocation = @".\glyphs\9.png";
+            pictureBox10.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox11.ImageLocation = @".\glyphs\A.png";
+            pictureBox11.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox12.ImageLocation = @".\glyphs\B.png";
+            pictureBox12.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox13.ImageLocation = @".\glyphs\C.png";
+            pictureBox13.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox14.ImageLocation = @".\glyphs\D.png";
+            pictureBox14.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox15.ImageLocation = @".\glyphs\E.png";
+            pictureBox15.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox16.ImageLocation = @".\glyphs\F.png";
+            pictureBox16.SizeMode = PictureBoxSizeMode.StretchImage;
         }        
         public static void AppendLine(TextBox source, string value)
         {
@@ -370,5 +402,6 @@ namespace NMSCoordinates
                 AppendLine(textBox7, "Incorrect Coordinate Input!");
             }
         }
+
     }
 }
