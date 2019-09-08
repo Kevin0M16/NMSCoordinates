@@ -785,6 +785,7 @@ namespace NMSCoordinates
                 Loadlsb1();
                 Loadlsb3();
                 GetPlayerCoord();
+                LoadTxt();
                 AppendLine(textBox17, "Save File Reloaded.");
             }
             else
@@ -1659,6 +1660,7 @@ namespace NMSCoordinates
         {
             try
             {
+                textBox18.Text = listBox3.Items.Count.ToString();
                 string[] locFile = File.ReadAllLines(@".\backup\" + listBox4.SelectedItem.ToString());
                 if (locFile[0].ToString() != "")
                 {
@@ -1683,6 +1685,8 @@ namespace NMSCoordinates
         }
         private void ListBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
+            textBox18.Text = listBox3.Items.Count.ToString();
+
             Regex myRegex1 = new Regex("GC:.*?$", RegexOptions.Multiline);
             Match m1 = myRegex1.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
             string line1 = m1.ToString();

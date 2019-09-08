@@ -59,6 +59,8 @@ namespace NMSCoordinates
             this.lockedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unlockedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label27 = new System.Windows.Forms.Label();
+            this.textBox18 = new System.Windows.Forms.TextBox();
             this.progressBar3 = new System.Windows.Forms.ProgressBar();
             this.textBox13 = new System.Windows.Forms.TextBox();
             this.groupBox16 = new System.Windows.Forms.GroupBox();
@@ -249,7 +251,7 @@ namespace NMSCoordinates
             this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem2});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(190, 26);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(190, 48);
             // 
             // toolStripMenuItem2
             // 
@@ -264,13 +266,16 @@ namespace NMSCoordinates
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(183, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(191, 26);
             // 
             // toolStripMenuItem1
             // 
+            this.toolStripMenuItem1.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.toolStripMenuItem1.Enabled = false;
+            this.toolStripMenuItem1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toolStripMenuItem1.ForeColor = System.Drawing.SystemColors.ControlText;
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(182, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(190, 22);
             this.toolStripMenuItem1.Text = "Export Single Record";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.ToolStripMenuItem1_Click);
             // 
@@ -439,6 +444,8 @@ namespace NMSCoordinates
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.tabPage3.Controls.Add(this.label27);
+            this.tabPage3.Controls.Add(this.textBox18);
             this.tabPage3.Controls.Add(this.progressBar3);
             this.tabPage3.Controls.Add(this.textBox13);
             this.tabPage3.Controls.Add(this.groupBox16);
@@ -454,9 +461,31 @@ namespace NMSCoordinates
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Coordinate Share";
             // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.ForeColor = System.Drawing.Color.White;
+            this.label27.Location = new System.Drawing.Point(743, 345);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(100, 15);
+            this.label27.TabIndex = 76;
+            this.label27.Text = "Total Discoveries";
+            // 
+            // textBox18
+            // 
+            this.textBox18.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.textBox18.ForeColor = System.Drawing.Color.Azure;
+            this.textBox18.Location = new System.Drawing.Point(707, 341);
+            this.textBox18.Multiline = true;
+            this.textBox18.Name = "textBox18";
+            this.textBox18.ReadOnly = true;
+            this.textBox18.Size = new System.Drawing.Size(30, 21);
+            this.textBox18.TabIndex = 75;
+            this.textBox18.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // progressBar3
             // 
-            this.progressBar3.Location = new System.Drawing.Point(22, 406);
+            this.progressBar3.Location = new System.Drawing.Point(25, 406);
             this.progressBar3.Name = "progressBar3";
             this.progressBar3.Size = new System.Drawing.Size(821, 23);
             this.progressBar3.TabIndex = 74;
@@ -515,7 +544,7 @@ namespace NMSCoordinates
             // 
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label11.Location = new System.Drawing.Point(19, 364);
+            this.label11.Location = new System.Drawing.Point(22, 364);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(824, 39);
             this.label11.TabIndex = 41;
@@ -627,7 +656,7 @@ namespace NMSCoordinates
             this.listBox3.ItemHeight = 15;
             this.listBox3.Location = new System.Drawing.Point(22, 16);
             this.listBox3.Name = "listBox3";
-            this.listBox3.Size = new System.Drawing.Size(824, 334);
+            this.listBox3.Size = new System.Drawing.Size(824, 319);
             this.listBox3.TabIndex = 35;
             this.listBox3.SelectedIndexChanged += new System.EventHandler(this.ListBox3_SelectedIndexChanged);
             // 
@@ -2297,6 +2326,8 @@ namespace NMSCoordinates
         private System.Windows.Forms.ToolStripMenuItem lockedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem unlockedToolStripMenuItem;
         private System.Windows.Forms.ToolTip toolTip4;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.TextBox textBox18;
     }
 }
 
