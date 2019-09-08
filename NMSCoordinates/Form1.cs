@@ -2253,9 +2253,11 @@ namespace NMSCoordinates
                 DeletedSSlist.Clear();
                 AppendLine(textBox17, "Reading all locations...");
                 CheckSS();
+
                 if (SSlist.Count > 0)
                 {
-                    MessageBox.Show("Current Space Station locations saved!", "Confirmation");
+                    AppendLine(textBox17, "Current Space Station locations saved.");
+                    MessageBox.Show("Current Space Station locations saved.", "Confirmation");
                 }
             }
             else
@@ -2348,12 +2350,40 @@ namespace NMSCoordinates
         {
             offToolStripMenuItem.Checked = false;
             groupBox20.Show();
+            AppendLine(textBox17, "Travel Mode VISIBLE. Select an autosave and click the box");
         }
 
         private void OffToolStripMenuItem_Click(object sender, EventArgs e)
         {
             onToolStripMenuItem.Checked = false;
             groupBox20.Hide();
+            AppendLine(textBox17, "Travel Mode NOT VISIBLE.");
+        }
+
+        private void LockedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            unlockedToolStripMenuItem.Checked = false;
+            textBox14.ReadOnly = true;
+            AppendLine(textBox17, "Manual Travel LOCKED.");
+            MessageBox.Show("Manual Travel LOCKED", "Confirmation");            
+        }
+
+        private void UnlockedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to UNLOCK Manual Travel?", "Warning", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                lockedToolStripMenuItem.Checked = false;
+                textBox14.ReadOnly = false;                
+                AppendLine(textBox17, "Manual Travel UNLOCKED, Enter Coordinated on Change Galaxy tab.");
+                MessageBox.Show("Manual travel UNLOCKED, Enter Coordinated on the Change Galaxy tab. \r\n\n Make sure Coordinates are correct!", "Warning");
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                lockedToolStripMenuItem.Checked = true;
+                unlockedToolStripMenuItem.Checked = false;
+                textBox14.ReadOnly = true;
+            }
         }
     }
 }

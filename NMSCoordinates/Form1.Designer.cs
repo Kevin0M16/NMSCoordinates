@@ -185,6 +185,9 @@ namespace NMSCoordinates
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip3 = new System.Windows.Forms.ToolTip(this.components);
+            this.manualTravelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lockedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.unlockedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -342,7 +345,8 @@ namespace NMSCoordinates
             this.aboutToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.helpToolStripMenuItem,
             this.screenshotPageToolStripMenuItem,
-            this.travelModeToolStripMenuItem});
+            this.travelModeToolStripMenuItem,
+            this.manualTravelToolStripMenuItem});
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.aboutToolStripMenuItem.Text = "Tools";
@@ -1905,6 +1909,33 @@ namespace NMSCoordinates
             this.toolTip1.InitialDelay = 900;
             this.toolTip1.ReshowDelay = 100;
             // 
+            // manualTravelToolStripMenuItem
+            // 
+            this.manualTravelToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lockedToolStripMenuItem,
+            this.unlockedToolStripMenuItem});
+            this.manualTravelToolStripMenuItem.Name = "manualTravelToolStripMenuItem";
+            this.manualTravelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.manualTravelToolStripMenuItem.Text = "Manual Travel ";
+            // 
+            // lockedToolStripMenuItem
+            // 
+            this.lockedToolStripMenuItem.Checked = true;
+            this.lockedToolStripMenuItem.CheckOnClick = true;
+            this.lockedToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.lockedToolStripMenuItem.Name = "lockedToolStripMenuItem";
+            this.lockedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.lockedToolStripMenuItem.Text = "Locked";
+            this.lockedToolStripMenuItem.Click += new System.EventHandler(this.LockedToolStripMenuItem_Click);
+            // 
+            // unlockedToolStripMenuItem
+            // 
+            this.unlockedToolStripMenuItem.CheckOnClick = true;
+            this.unlockedToolStripMenuItem.Name = "unlockedToolStripMenuItem";
+            this.unlockedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.unlockedToolStripMenuItem.Text = "Unlocked";
+            this.unlockedToolStripMenuItem.Click += new System.EventHandler(this.UnlockedToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
@@ -2257,6 +2288,9 @@ namespace NMSCoordinates
         private System.Windows.Forms.ToolStripMenuItem travelModeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem onToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem offToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem manualTravelToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem lockedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem unlockedToolStripMenuItem;
     }
 }
 
