@@ -778,79 +778,13 @@ namespace NMSCoordinates
             string selected = this.comboBox1.GetItemText(this.comboBox1.SelectedItem);
             if(selected != "")
             {
-                SSlist.Clear();
-                PrevSSlist.Clear();
-                DeletedSSlist.Clear();
-                AppendLine(textBox17, "Reading all locations...");
-
-                CheckSS();
-
-                foreach (string item in SSlist)
-                {
-                    PrevSSlist.Add(item);
-                }
-                //listBox5.DataSource = PrevSSlist;
-
                 ClearAll();
                 AppendLine(textBox17, "Loading Save File...");
                 GetSaveFile(selected);
                 Loadlsb1();
                 Loadlsb3();
                 GetPlayerCoord();
-            
-
-                SSlist.Clear();
-                AppendLine(textBox17, "Checking for deleted locations...");
-
-                CheckSS();
-
-                //Toggle For Testing
-                //SSlist.RemoveRange(0, 1);
-                //SSlist.Add("Slot_2_Loc: test Platform (SS) - G: 1 - PC: 000000000000 -- GC: 080B:0088:080F:019E");
-
-                List<string> list3 = new List<string>();
-                list3 = Contains(PrevSSlist, SSlist);
-
-                foreach (string item in list3)
-                {
-                    if (!SSlist.Contains(item))
-                        DeletedSSlist.Add(item);
-                }           
-
-                //listBox6.DataSource = DeletedSSlist;
-
-                if (!File.Exists(@".\backup\locbackup_deleted.txt"))
-                {
-                    File.Create(@".\backup\locbackup_deleted.txt").Dispose();
-                    LoadTxt();
-                }
-                        
-                string[] logFile = File.ReadAllLines(@".\backup\locbackup_deleted.txt");
-                var logList = new List<string>(logFile);
-
-                List<string> list = new List<string>();
-                list = Contains(logList, DeletedSSlist);
-
-                List<string> list2 = new List<string>();
-                list2 = Contains(logList, list);
-
-                if (list2.Count >= 1)
-                {
-                    using (StreamWriter sw = File.AppendText(@".\backup\locbackup_deleted.txt"))
-                    {
-                        //sw.WriteLine("****" + DateTime.Now.ToString("yyyy-MM-dd-HHmmss") + "****");
-                        foreach (string item in list2)//DeletedSSlist)
-                        {
-                            sw.WriteLine("Slot_" + saveslot + "_" + item);                    
-                        }
-                        sw.Close();
-                    }            
-                    AppendLine(textBox17, "Found " + DeletedSSlist.Count + " Deleted locations.");
-                }
-                else
-                {
-                    AppendLine(textBox17, "No Deleted locations Found.");
-                }
+                AppendLine(textBox17, "Save File Reloaded.");
             }
             else
             {
@@ -1288,6 +1222,14 @@ namespace NMSCoordinates
                         //Set the player location array after changes made
                         jsons = Regex.Replace(jsons, rxPatternP, rxValP, RegexOptions.Singleline);
 
+                        //Player Local Galaxy
+                        Regex myRegexQQp = new Regex("\"QQp\".*?,", RegexOptions.Multiline);
+                        Match mqqp = myRegexQQp.Match(jsons);
+                        string QQP = mqqp.ToString();
+
+                        //Set local galaxy to the selected in jsons
+                        jsons = Regex.Replace(jsons, "\"QQp\".*?,", "\"QQp\": " + galaxy + ",", RegexOptions.Multiline);
+                        
                         ////Set Spawn State
                         // Get the Spawn state array
                         Regex myRegexs = new Regex(rxPatternSt, RegexOptions.Singleline);
@@ -1870,6 +1812,14 @@ namespace NMSCoordinates
                         //Set the player location array after changes made
                         jsons = Regex.Replace(jsons, rxPatternP, rxValP, RegexOptions.Singleline);
 
+                        //Player Local Galaxy
+                        Regex myRegexQQp = new Regex("\"QQp\".*?,", RegexOptions.Multiline);
+                        Match mqqp = myRegexQQp.Match(jsons);
+                        string QQP = mqqp.ToString();
+
+                        //Set local galaxy to the selected in jsons
+                        jsons = Regex.Replace(jsons, "\"QQp\".*?,", "\"QQp\": " + galaxy + ",", RegexOptions.Multiline);
+
                         ////Set Spawn State
                         // Get the Spawn state array
                         Regex myRegexs = new Regex(rxPatternSt, RegexOptions.Singleline);
@@ -2111,6 +2061,14 @@ namespace NMSCoordinates
 
                         //Set the player location array after changes made
                         jsons = Regex.Replace(jsons, rxPatternP, rxValP, RegexOptions.Singleline);
+
+                        //Player Local Galaxy
+                        Regex myRegexQQp = new Regex("\"QQp\".*?,", RegexOptions.Multiline);
+                        Match mqqp = myRegexQQp.Match(jsons);
+                        string QQP = mqqp.ToString();
+
+                        //Set local galaxy to the selected in jsons
+                        jsons = Regex.Replace(jsons, "\"QQp\".*?,", "\"QQp\": " + galaxy + ",", RegexOptions.Multiline);
 
                         ////Set Spawn State
                         // Get the Spawn state array
