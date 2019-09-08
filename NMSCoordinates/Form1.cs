@@ -162,8 +162,7 @@ namespace NMSCoordinates
                     GetPortalCoord(iX, iY, iZ, iSSI);
                     GetGalacticCoord(iX, iY, iZ, iSSI);
                     SSlist.Add("Loc: " + DiscList[i] + " - G: " + galaxy + " - PC: " + PortalCode + " -- GC: " + GalacticCoord);
-
-                    //progressBar2.Value += i;
+                                        
                     progressBar2.PerformStep();
 
                     //if (SSlist.Count == i + 1)
@@ -202,6 +201,7 @@ namespace NMSCoordinates
                     Backuplist.Add("Loc: " + DiscList[i] + " - G: " + galaxy + " - PC: " + PortalCode + " -- GC: " + GalacticCoord);
 
                     progressBar2.PerformStep();
+
                     //if (Backuplist.Count == i + 1)
                     //{
                         // Perform the increment on the ProgressBar.
@@ -773,6 +773,7 @@ namespace NMSCoordinates
 
             return result;
         }
+        
         private void Button4_Click(object sender, EventArgs e)
         {
             string selected = this.comboBox1.GetItemText(this.comboBox1.SelectedItem);
@@ -2244,15 +2245,15 @@ namespace NMSCoordinates
                 Loadlsb3();
                 GetPlayerCoord();
 
-
                 SSlist.Clear();
                 AppendLine(textBox17, "Checking for deleted locations...");
 
                 CheckSS();
 
                 //Toggle For Testing
-                //SSlist.RemoveRange(0, 1);
+                //SSlist.RemoveRange(0, 4);
                 //SSlist.Add("Slot_2_Loc: test Platform (SS) - G: 1 - PC: 000000000000 -- GC: 080B:0088:080F:019E");
+                //SSlist.Add("Slot_2_Loc: test2 Platform (SS) - G: 2 - PC: 200000000000 -- GC: 080B:0088:080F:019E");
 
                 List<string> list3 = new List<string>();
                 list3 = Contains(PrevSSlist, SSlist);
@@ -2272,31 +2273,20 @@ namespace NMSCoordinates
                 }
 
                 string[] logFile = File.ReadAllLines(@".\backup\locbackup_deleted.txt");
-                var logList = new List<string>(logFile);
 
-                List<string> list = new List<string>();
-                list = Contains(logList, DeletedSSlist);
-
-                List<string> list2 = new List<string>();
-                list2 = Contains(logList, list);
-
-                if (list2.Count >= 1)
+                var list = Contains(logFile.ToList(), DeletedSSlist);
+                if (list.Count >= 1)
                 {
-                    using (StreamWriter sw = File.AppendText(@".\backup\locbackup_deleted.txt"))
-                    {
-                        //sw.WriteLine("****" + DateTime.Now.ToString("yyyy-MM-dd-HHmmss") + "****");
-                        foreach (string item in list2)//DeletedSSlist)
-                        {
-                            sw.WriteLine("Slot_" + saveslot + "_" + item);
-                        }
-                        sw.Close();
-                    }
-                    AppendLine(textBox17, "Found " + DeletedSSlist.Count + " Deleted locations.");
+                    //listBox6.DataSource = list;
+                    File.WriteAllLines(@".\backup\locbackup_deleted.txt", list);
+                    AppendLine(textBox17, list.Count.ToString() + " Deleted locations Found.");
                 }
                 else
                 {
                     AppendLine(textBox17, "No Deleted locations Found.");
                 }
+                //var previousLines = new HashSet<string>();
+                //File.WriteAllLines(@".\backup\locbackup_deleted.txt", File.ReadLines(@".\backup\locbackup_temp.txt").Where(line => previousLines.Add(line)));
             }
             else
             {
