@@ -142,7 +142,7 @@ namespace NMSCoordinates
             }
         }
         private void CheckSS()
-        {            
+        {
             // Set Minimum to 1 to represent the first file being copied.
             progressBar2.Minimum = 1;
             // Set Maximum to the total number of files to copy.
@@ -157,12 +157,12 @@ namespace NMSCoordinates
             if (DiscList.Count > 0)
             {
                 for (int i = 0; i < DiscList.Count; i++)
-                {                    
+                {
                     JsonMap(i);
                     GetPortalCoord(iX, iY, iZ, iSSI);
                     GetGalacticCoord(iX, iY, iZ, iSSI);
                     SSlist.Add("Slot_" + saveslot + "_Loc: " + DiscList[i] + " - G: " + galaxy + " - PC: " + PortalCode + " -- GC: " + GalacticCoord);
-                                        
+
                     progressBar2.PerformStep();
 
                     //if (SSlist.Count == i + 1)
@@ -204,7 +204,7 @@ namespace NMSCoordinates
 
                     //if (Backuplist.Count == i + 1)
                     //{
-                        // Perform the increment on the ProgressBar.
+                    // Perform the increment on the ProgressBar.
                     //    progressBar2.PerformStep();
                     //}
                 }
@@ -692,7 +692,7 @@ namespace NMSCoordinates
             //Display Glyph images
             //ShowGlyphs();
         }
-        
+
         private void ShowPGlyphs()
         {
             //Display player glyph images
@@ -774,11 +774,11 @@ namespace NMSCoordinates
 
             return result;
         }
-        
+
         private void Button4_Click(object sender, EventArgs e)
         {
             string selected = this.comboBox1.GetItemText(this.comboBox1.SelectedItem);
-            if(selected != "")
+            if (selected != "")
             {
                 ClearAll();
                 AppendLine(textBox17, "Loading Save File...");
@@ -837,7 +837,7 @@ namespace NMSCoordinates
             comboBox1.SelectedIndex = -1;
             ClearAll();
             LoadCmbx();
-            
+
         }
         private void ManuallySelectToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -924,12 +924,12 @@ namespace NMSCoordinates
                 Directory.Delete(@".\temp", true);
                 if (File.Exists(@".\backup\" + GetNewestZip(@".\backup")))
                 {
-                    MessageBox.Show("Save slot backup up to: " + GetNewestZip(@".\backup"), "Save Backup", MessageBoxButtons.OK);
+                    MessageBox.Show("Backed up Save Slot to: " + GetNewestZip(@".\backup"), "Save Backup", MessageBoxButtons.OK);
                 }
                 else
                 {
                     MessageBox.Show("No File backed up!", "Alert");
-                }                
+                }
             }
             else
             {
@@ -939,7 +939,7 @@ namespace NMSCoordinates
         private void Button10_Click(object sender, EventArgs e)
         {
             BackUpSaveSlot(saveslot);
-            
+
         }
         private async Task ReadSave(int slot)
         {
@@ -1009,7 +1009,7 @@ namespace NMSCoordinates
             await Task.Delay(2000);
 
             AppendLine(textBox27, "Save file on Slot: ( " + saveslot + " ) backed up to \\backup folder...");
-        }        
+        }
         private async void Button3_Click(object sender, EventArgs e)
         {
             if (saveslot >= 1 && saveslot <= 5)
@@ -1032,7 +1032,7 @@ namespace NMSCoordinates
 
                         //Read and decrypt save file on slot to save.json
                         await ReadSave(saveslot);
-                        
+
                         progressBar1.Invoke((Action)(() => progressBar1.Value = 30));
 
                         //Read save.json to a string
@@ -1064,7 +1064,7 @@ namespace NMSCoordinates
                         jsons = Regex.Replace(jsons, rxPatternPrtl2, rxValPrtl2, RegexOptions.Singleline);
 
                         //Write the modified JSON string to saveedit.json
-                        File.WriteAllText(@".\nmssavetool\saveedit.json", jsons); 
+                        File.WriteAllText(@".\nmssavetool\saveedit.json", jsons);
 
                         progressBar1.Invoke((Action)(() => progressBar1.Value = 60));
 
@@ -1106,7 +1106,7 @@ namespace NMSCoordinates
             else
             {
                 MessageBox.Show("Save slot not selected!", "Alert");
-            }            
+            }
         }
         private void DiscoveriesToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1232,7 +1232,7 @@ namespace NMSCoordinates
 
                         //Set local galaxy to the selected in jsons
                         jsons = Regex.Replace(jsons, "\"QQp\".*?,", "\"QQp\": " + galaxy + ",", RegexOptions.Multiline);
-                        
+
                         ////Set Spawn State
                         // Get the Spawn state array
                         Regex myRegexs = new Regex(rxPatternSt, RegexOptions.Singleline);
@@ -1265,7 +1265,7 @@ namespace NMSCoordinates
 
                         //Set the visited portal state array after changes made
                         jsons = Regex.Replace(jsons, rxPatternPrtl2, rxValPrtl2, RegexOptions.Singleline);
-                                               
+
                         progressBar1.Invoke((Action)(() => progressBar1.Value = 40));
 
                         //Write all modifications of file to saveedit.json
@@ -1372,7 +1372,7 @@ namespace NMSCoordinates
             {
                 DirectoryInfo dinfo = new DirectoryInfo(hgFileDir);
                 FileInfo[] Files = dinfo.GetFiles(selected, SearchOption.AllDirectories);
-                
+
                 if (Files.Length != 0)
                 {
                     foreach (FileInfo file in Files)
@@ -1394,7 +1394,7 @@ namespace NMSCoordinates
                 textBox26.Clear();
                 AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
                 json = File.ReadAllText(hgFilePath);
-                
+
             }
         }
         private void ComboBox1_SelectionChangeCommitted(object sender, EventArgs e)
@@ -1404,7 +1404,7 @@ namespace NMSCoordinates
         private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ClearAll();
-            
+
             string selected = this.comboBox1.GetItemText(this.comboBox1.SelectedItem);
             GetSaveFile(selected);
 
@@ -1535,7 +1535,7 @@ namespace NMSCoordinates
                         }
                         ssPath = list[0].ToString();
 
-                        AppendLine(textBox17, "ScreenShot: " + list[0].ToString());                      
+                        AppendLine(textBox17, "ScreenShot: " + list[0].ToString());
                     }
                     else
                     {
@@ -1643,7 +1643,7 @@ namespace NMSCoordinates
                 if (Files.Length != 0)
                 {
                     foreach (FileInfo file in Files.OrderByDescending(f => f.LastWriteTime))
-                    {                        
+                    {
                         list.Add(file.Name);
                     }
                 }
@@ -1709,11 +1709,33 @@ namespace NMSCoordinates
             AppendLine(textBox11, "---------------------");
 
         }
-
+        public bool TextBoxPerm
+        {
+            get { return textBox14.ReadOnly; }
+        }
+        public string TextBoxValue
+        {
+            get { return textBox14.Text; }
+            set { textBox14.Text = value; }
+        }
+        private Form5 f5;
         private void Button7_Click(object sender, EventArgs e)
         {
-            Form5 f5 = new Form5();
-            f5.Show();
+            //Form5 f5 = new Form5();
+            //f5.Show();
+            if (f5 == null)
+            {
+                f5 = new Form5();
+                f5.FormClosed += (_, arg) =>
+                {
+                    f5 = null;
+                };
+                f5.Show();
+            }
+            else
+            {
+                f5.BringToFront();
+            }
         }
         private void GalacticToVoxel(string oX, string oY, string oZ, string oSSI)
         {
@@ -1945,8 +1967,7 @@ namespace NMSCoordinates
                 {
                     MessageBox.Show("No file found, not deleted.", "Alert");
                     LoadTxt();
-                }
-                
+                }                
             }
             else if (dialogResult == DialogResult.No)
             {
@@ -2175,11 +2196,7 @@ namespace NMSCoordinates
                 }            
                 comboBox3.SelectedIndex = Convert.ToInt32(pgalaxy);
                 textBox14.Text = textBox22.Text;
-            }
-            else
-            {
-
-            }            
+            }         
         }
 
         private void ComboBox3_SelectionChangeCommitted(object sender, EventArgs e)
@@ -2196,7 +2213,6 @@ namespace NMSCoordinates
         {
             try
             {
-                //linkLabel1.LinkVisited = true;
                 //Call the Process.Start method to open the default browser
                 //with a URL:
                 System.Diagnostics.Process.Start("https://nomanssky.gamepedia.com/Galaxy");
@@ -2335,8 +2351,8 @@ namespace NMSCoordinates
             {
                 lockedToolStripMenuItem.Checked = false;
                 textBox14.ReadOnly = false;                
-                AppendLine(textBox17, "Manual Travel UNLOCKED, Enter Coordinated on Change Galaxy tab.");
-                MessageBox.Show("Manual travel UNLOCKED, Enter Coordinated on the Change Galaxy tab. \r\n\n Make sure Coordinates are correct!", "Warning");
+                AppendLine(textBox17, "Manual Travel UNLOCKED, Enter Coord. on Manual Travel tab.");
+                MessageBox.Show("Manual travel UNLOCKED, Enter Coord. on Manual Travel tab. \r\n\n Make sure Coordinates are correct!", "Warning");
             }
             else if (dialogResult == DialogResult.No)
             {
@@ -2366,6 +2382,35 @@ namespace NMSCoordinates
                     pictureBox25.ImageLocation = ssPath;
                 }
             }
+        }
+
+        private void LinkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try
+            {
+                //Call the Process.Start method to open the default browser
+                //with a URL:
+                System.Diagnostics.Process.Start("https://www.reddit.com/r/NMSCoordinateExchange/");
+            }
+            catch
+            {
+                MessageBox.Show("Unable to open link that was clicked.");
+            }
+        }
+
+        private void LinkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {        
+            try
+            {                
+                //Call the Process.Start method to open the default browser
+                //with a URL:
+                System.Diagnostics.Process.Start("https://nomanssky.social/");
+            }
+            catch
+            {
+                MessageBox.Show("Unable to open link that was clicked.");
+            }
+
         }
     }
 }
