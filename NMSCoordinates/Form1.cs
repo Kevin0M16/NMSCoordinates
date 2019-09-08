@@ -161,9 +161,8 @@ namespace NMSCoordinates
                     JsonMap(i);
                     GetPortalCoord(iX, iY, iZ, iSSI);
                     GetGalacticCoord(iX, iY, iZ, iSSI);
-                    SSlist.Add("Loc: " + DiscList[i] + " - G: " + galaxy + " - PC: " + PortalCode + " -- GC: " + GalacticCoord);
-
-                    //progressBar2.Value += i;
+                    SSlist.Add("Slot_" + saveslot + "_Loc: " + DiscList[i] + " - G: " + galaxy + " - PC: " + PortalCode + " -- GC: " + GalacticCoord);
+                                        
                     progressBar2.PerformStep();
 
                     //if (SSlist.Count == i + 1)
@@ -199,9 +198,10 @@ namespace NMSCoordinates
                     JsonMap(i);
                     GetPortalCoord(iX, iY, iZ, iSSI);
                     GetGalacticCoord(iX, iY, iZ, iSSI);
-                    Backuplist.Add("Loc: " + DiscList[i] + " - G: " + galaxy + " - PC: " + PortalCode + " -- GC: " + GalacticCoord);
+                    Backuplist.Add("Slot_" + saveslot + "_Loc: " + DiscList[i] + " - G: " + galaxy + " - PC: " + PortalCode + " -- GC: " + GalacticCoord);
 
                     progressBar2.PerformStep();
+
                     //if (Backuplist.Count == i + 1)
                     //{
                         // Perform the increment on the ProgressBar.
@@ -256,8 +256,8 @@ namespace NMSCoordinates
             GetPortalCoord(Convert.ToInt32(pX), Convert.ToInt32(pY), Convert.ToInt32(pZ), Convert.ToInt32(pSSI));
             ShowPGlyphs();
             AppendLine(textBox21, PortalCode);
-            //AppendLine(textBox23, galaxyDict[pgalaxy]);
             GalaxyLookup(textBox23, pgalaxy);
+
         }
         private void Clearforsearch()
         {
@@ -692,6 +692,7 @@ namespace NMSCoordinates
             //Display Glyph images
             //ShowGlyphs();
         }
+        
         private void ShowPGlyphs()
         {
             //Display player glyph images
@@ -773,6 +774,7 @@ namespace NMSCoordinates
 
             return result;
         }
+        
         private void Button4_Click(object sender, EventArgs e)
         {
             string selected = this.comboBox1.GetItemText(this.comboBox1.SelectedItem);
@@ -784,6 +786,7 @@ namespace NMSCoordinates
                 Loadlsb1();
                 Loadlsb3();
                 GetPlayerCoord();
+                LoadTxt();
                 AppendLine(textBox17, "Save File Reloaded.");
             }
             else
@@ -1658,6 +1661,7 @@ namespace NMSCoordinates
         {
             try
             {
+                textBox18.Text = listBox3.Items.Count.ToString();
                 string[] locFile = File.ReadAllLines(@".\backup\" + listBox4.SelectedItem.ToString());
                 if (locFile[0].ToString() != "")
                 {
@@ -1682,6 +1686,8 @@ namespace NMSCoordinates
         }
         private void ListBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
+            textBox18.Text = listBox3.Items.Count.ToString();
+
             Regex myRegex1 = new Regex("GC:.*?$", RegexOptions.Multiline);
             Match m1 = myRegex1.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
             string line1 = m1.ToString();
@@ -1976,6 +1982,11 @@ namespace NMSCoordinates
             AppendLine(textBox15, "*** Voxel Coordinates DEC: SSI:" + icSSI + " Y:" + vY + " Z:" + vZ + " X:" + vX + " ***");
             //voxel = "SSI:" + icSSI + " Y:" + icY + " Z:" + icZ + " X:" + icX;
 
+            iX = vX;
+            iY = vY;
+            iZ = vZ;
+            iSSI = icSSI;
+
             X = vX.ToString();
             Y = vY.ToString();
             Z = vZ.ToString();
@@ -1992,6 +2003,8 @@ namespace NMSCoordinates
                     string[] value = textBox14.Text.Replace(" ", "").Split(':');
 
                     GalacticToVoxelMan(value[0].Trim(), value[1].Trim(), value[2].Trim(), value[3].Trim());
+                    GetPortalCoord(iX, iY, iZ, iSSI);
+                    
                     if(comboBox3.SelectedIndex < 255)
                     {
                         galaxy = comboBox3.SelectedIndex.ToString();                        
@@ -2211,9 +2224,11 @@ namespace NMSCoordinates
                 DeletedSSlist.Clear();
                 AppendLine(textBox17, "Reading all locations...");
                 CheckSS();
+
                 if (SSlist.Count > 0)
                 {
-                    MessageBox.Show("Current Space Station locations saved!", "Confirmation");
+                    AppendLine(textBox17, "Current Space Station locations saved.");
+                    MessageBox.Show("Current Space Station locations saved.", "Confirmation");
                 }
             }
             else
@@ -2242,15 +2257,15 @@ namespace NMSCoordinates
                 Loadlsb3();
                 GetPlayerCoord();
 
-
                 SSlist.Clear();
                 AppendLine(textBox17, "Checking for deleted locations...");
 
                 CheckSS();
 
                 //Toggle For Testing
-                //SSlist.RemoveRange(0, 1);
+                //SSlist.RemoveRange(0, 4);
                 //SSlist.Add("Slot_2_Loc: test Platform (SS) - G: 1 - PC: 000000000000 -- GC: 080B:0088:080F:019E");
+                //SSlist.Add("Slot_2_Loc: test2 Platform (SS) - G: 2 - PC: 200000000000 -- GC: 080B:0088:080F:019E");
 
                 List<string> list3 = new List<string>();
                 list3 = Contains(PrevSSlist, SSlist);
@@ -2270,31 +2285,20 @@ namespace NMSCoordinates
                 }
 
                 string[] logFile = File.ReadAllLines(@".\backup\locbackup_deleted.txt");
-                var logList = new List<string>(logFile);
 
-                List<string> list = new List<string>();
-                list = Contains(logList, DeletedSSlist);
-
-                List<string> list2 = new List<string>();
-                list2 = Contains(logList, list);
-
-                if (list2.Count >= 1)
+                var list = Contains(logFile.ToList(), DeletedSSlist);
+                if (list.Count >= 1)
                 {
-                    using (StreamWriter sw = File.AppendText(@".\backup\locbackup_deleted.txt"))
-                    {
-                        //sw.WriteLine("****" + DateTime.Now.ToString("yyyy-MM-dd-HHmmss") + "****");
-                        foreach (string item in list2)//DeletedSSlist)
-                        {
-                            sw.WriteLine("Slot_" + saveslot + "_" + item);
-                        }
-                        sw.Close();
-                    }
-                    AppendLine(textBox17, "Found " + DeletedSSlist.Count + " Deleted locations.");
+                    //listBox6.DataSource = list;
+                    File.WriteAllLines(@".\backup\locbackup_deleted.txt", list);
+                    AppendLine(textBox17, list.Count.ToString() + " Deleted locations Found.");
                 }
                 else
                 {
                     AppendLine(textBox17, "No Deleted locations Found.");
                 }
+                //var previousLines = new HashSet<string>();
+                //File.WriteAllLines(@".\backup\locbackup_deleted.txt", File.ReadLines(@".\backup\locbackup_temp.txt").Where(line => previousLines.Add(line)));
             }
             else
             {
@@ -2306,12 +2310,62 @@ namespace NMSCoordinates
         {
             offToolStripMenuItem.Checked = false;
             groupBox20.Show();
+            AppendLine(textBox17, "Travel Mode VISIBLE. Select an autosave and click the box");
         }
 
         private void OffToolStripMenuItem_Click(object sender, EventArgs e)
         {
             onToolStripMenuItem.Checked = false;
             groupBox20.Hide();
+            AppendLine(textBox17, "Travel Mode NOT VISIBLE.");
+        }
+
+        private void LockedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            unlockedToolStripMenuItem.Checked = false;
+            textBox14.ReadOnly = true;
+            AppendLine(textBox17, "Manual Travel LOCKED.");
+            MessageBox.Show("Manual Travel LOCKED", "Confirmation");            
+        }
+
+        private void UnlockedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to UNLOCK Manual Travel?", "Warning", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                lockedToolStripMenuItem.Checked = false;
+                textBox14.ReadOnly = false;                
+                AppendLine(textBox17, "Manual Travel UNLOCKED, Enter Coordinated on Change Galaxy tab.");
+                MessageBox.Show("Manual travel UNLOCKED, Enter Coordinated on the Change Galaxy tab. \r\n\n Make sure Coordinates are correct!", "Warning");
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                lockedToolStripMenuItem.Checked = true;
+                unlockedToolStripMenuItem.Checked = false;
+                textBox14.ReadOnly = true;
+            }
+        }
+
+        private void PictureBox25_Click(object sender, EventArgs e)
+        {
+            if (Directory.Exists(ssdPath))
+            {
+                List<string> list = new List<string>();
+                DirectoryInfo dinfo2 = new DirectoryInfo(ssdPath);
+                FileInfo[] Files = dinfo2.GetFiles("*.jpg", SearchOption.AllDirectories);
+
+                if (Files.Length != 0)
+                {
+                    foreach (FileInfo file in Files.OrderByDescending(f => f.LastWriteTime))
+                    {
+                        if (!file.DirectoryName.Contains("thumbnails"))
+                            list.Add(file.FullName);
+                    }
+                    ssPath = list[0].ToString();
+                    pictureBox25.Image = null;
+                    pictureBox25.ImageLocation = ssPath;
+                }
+            }
         }
     }
 }
