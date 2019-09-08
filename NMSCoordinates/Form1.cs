@@ -256,8 +256,8 @@ namespace NMSCoordinates
             GetPortalCoord(Convert.ToInt32(pX), Convert.ToInt32(pY), Convert.ToInt32(pZ), Convert.ToInt32(pSSI));
             ShowPGlyphs();
             AppendLine(textBox21, PortalCode);
-            //AppendLine(textBox23, galaxyDict[pgalaxy]);
             GalaxyLookup(textBox23, pgalaxy);
+
         }
         private void Clearforsearch()
         {
@@ -692,6 +692,7 @@ namespace NMSCoordinates
             //Display Glyph images
             //ShowGlyphs();
         }
+        
         private void ShowPGlyphs()
         {
             //Display player glyph images
@@ -1981,6 +1982,11 @@ namespace NMSCoordinates
             AppendLine(textBox15, "*** Voxel Coordinates DEC: SSI:" + icSSI + " Y:" + vY + " Z:" + vZ + " X:" + vX + " ***");
             //voxel = "SSI:" + icSSI + " Y:" + icY + " Z:" + icZ + " X:" + icX;
 
+            iX = vX;
+            iY = vY;
+            iZ = vZ;
+            iSSI = icSSI;
+
             X = vX.ToString();
             Y = vY.ToString();
             Z = vZ.ToString();
@@ -1997,6 +2003,8 @@ namespace NMSCoordinates
                     string[] value = textBox14.Text.Replace(" ", "").Split(':');
 
                     GalacticToVoxelMan(value[0].Trim(), value[1].Trim(), value[2].Trim(), value[3].Trim());
+                    GetPortalCoord(iX, iY, iZ, iSSI);
+                    
                     if(comboBox3.SelectedIndex < 255)
                     {
                         galaxy = comboBox3.SelectedIndex.ToString();                        
