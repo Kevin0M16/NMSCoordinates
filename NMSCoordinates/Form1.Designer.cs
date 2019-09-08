@@ -185,6 +185,7 @@ namespace NMSCoordinates
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip3 = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTip4 = new System.Windows.Forms.ToolTip(this.components);
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -297,7 +298,7 @@ namespace NMSCoordinates
             this.appDataDefaultToolStripMenuItem,
             this.manuallySelectToolStripMenuItem});
             this.selectSaveFolderToolStripMenuItem.Name = "selectSaveFolderToolStripMenuItem";
-            this.selectSaveFolderToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.selectSaveFolderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.selectSaveFolderToolStripMenuItem.Text = "Select Save Folder...";
             // 
             // appDataDefaultToolStripMenuItem
@@ -320,7 +321,7 @@ namespace NMSCoordinates
             this.discoveriesToolStripMenuItem,
             this.backupALLSaveFilesToolStripMenuItem});
             this.backupToolStripMenuItem.Name = "backupToolStripMenuItem";
-            this.backupToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.backupToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.backupToolStripMenuItem.Text = "Backups...";
             // 
             // discoveriesToolStripMenuItem
@@ -384,7 +385,7 @@ namespace NMSCoordinates
             this.offToolStripMenuItem});
             this.travelModeToolStripMenuItem.Name = "travelModeToolStripMenuItem";
             this.travelModeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.travelModeToolStripMenuItem.Text = "Travel Mode";
+            this.travelModeToolStripMenuItem.Text = "Travel Mode...";
             // 
             // onToolStripMenuItem
             // 
@@ -437,6 +438,8 @@ namespace NMSCoordinates
             this.textBox13.Location = new System.Drawing.Point(320, 580);
             this.textBox13.Multiline = true;
             this.textBox13.Name = "textBox13";
+            this.textBox13.ReadOnly = true;
+            this.textBox13.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox13.Size = new System.Drawing.Size(526, 115);
             this.textBox13.TabIndex = 34;
             // 
@@ -543,6 +546,7 @@ namespace NMSCoordinates
             this.textBox11.Location = new System.Drawing.Point(15, 29);
             this.textBox11.Multiline = true;
             this.textBox11.Name = "textBox11";
+            this.textBox11.ReadOnly = true;
             this.textBox11.Size = new System.Drawing.Size(278, 85);
             this.textBox11.TabIndex = 33;
             // 
@@ -629,10 +633,12 @@ namespace NMSCoordinates
             // 
             this.textBox27.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox27.ForeColor = System.Drawing.Color.Azure;
-            this.textBox27.Location = new System.Drawing.Point(382, 707);
+            this.textBox27.Location = new System.Drawing.Point(382, 717);
             this.textBox27.Multiline = true;
             this.textBox27.Name = "textBox27";
-            this.textBox27.Size = new System.Drawing.Size(469, 86);
+            this.textBox27.ReadOnly = true;
+            this.textBox27.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox27.Size = new System.Drawing.Size(469, 161);
             this.textBox27.TabIndex = 32;
             // 
             // groupBox17
@@ -1334,9 +1340,9 @@ namespace NMSCoordinates
             // 
             // progressBar2
             // 
-            this.progressBar2.Location = new System.Drawing.Point(170, 301);
+            this.progressBar2.Location = new System.Drawing.Point(148, 301);
             this.progressBar2.Name = "progressBar2";
-            this.progressBar2.Size = new System.Drawing.Size(538, 25);
+            this.progressBar2.Size = new System.Drawing.Size(560, 25);
             this.progressBar2.TabIndex = 70;
             this.progressBar2.Visible = false;
             // 
@@ -1359,9 +1365,9 @@ namespace NMSCoordinates
             this.groupBox15.Controls.Add(this.groupBox14);
             this.groupBox15.Controls.Add(this.pictureBox25);
             this.groupBox15.ForeColor = System.Drawing.Color.White;
-            this.groupBox15.Location = new System.Drawing.Point(15, 471);
+            this.groupBox15.Location = new System.Drawing.Point(15, 459);
             this.groupBox15.Name = "groupBox15";
-            this.groupBox15.Size = new System.Drawing.Size(837, 420);
+            this.groupBox15.Size = new System.Drawing.Size(837, 432);
             this.groupBox15.TabIndex = 69;
             this.groupBox15.TabStop = false;
             this.groupBox15.Text = "Current Player Location";
@@ -1596,7 +1602,7 @@ namespace NMSCoordinates
             this.pictureBox25.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox25.Location = new System.Drawing.Point(274, 129);
             this.pictureBox25.Name = "pictureBox25";
-            this.pictureBox25.Size = new System.Drawing.Size(479, 285);
+            this.pictureBox25.Size = new System.Drawing.Size(490, 297);
             this.pictureBox25.TabIndex = 69;
             this.pictureBox25.TabStop = false;
             // 
@@ -1652,6 +1658,7 @@ namespace NMSCoordinates
             this.button10.Size = new System.Drawing.Size(90, 31);
             this.button10.TabIndex = 34;
             this.button10.Text = "Backup Save";
+            this.toolTip4.SetToolTip(this.button10, "Backs up the selected save slot");
             this.button10.UseVisualStyleBackColor = false;
             this.button10.Click += new System.EventHandler(this.Button10_Click);
             // 
@@ -1710,9 +1717,7 @@ namespace NMSCoordinates
             this.button4.Size = new System.Drawing.Size(90, 31);
             this.button4.TabIndex = 3;
             this.button4.Text = "Reload Save";
-            this.toolTip1.SetToolTip(this.button4, "To track location deletions, load a save slot and select an autosave \r\nthen leave" +
-        " NMSCoordinator running. Reload Save after landing in \r\na new Space Station and " +
-        "exiting ship.");
+            this.toolTip1.SetToolTip(this.button4, "Reloads the selected save slot");
             this.button4.UseVisualStyleBackColor = false;
             this.button4.Click += new System.EventHandler(this.Button4_Click);
             // 
@@ -2257,6 +2262,7 @@ namespace NMSCoordinates
         private System.Windows.Forms.ToolStripMenuItem travelModeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem onToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem offToolStripMenuItem;
+        private System.Windows.Forms.ToolTip toolTip4;
     }
 }
 

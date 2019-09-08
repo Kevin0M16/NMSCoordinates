@@ -307,6 +307,7 @@ namespace NMSCoordinates
             this.textBox7.Multiline = true;
             this.textBox7.Name = "textBox7";
             this.textBox7.ReadOnly = true;
+            this.textBox7.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox7.Size = new System.Drawing.Size(496, 149);
             this.textBox7.TabIndex = 10;
             // 
