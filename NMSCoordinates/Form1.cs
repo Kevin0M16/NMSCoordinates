@@ -848,10 +848,7 @@ namespace NMSCoordinates
             ClearAll();
             LoadCmbx();
         }
-        private void HelpToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Created by: Kevin0M16 \r\n\r\n 8-25-19");
-        }
+        
         private void Button1_Click(object sender, EventArgs e)
         {
             Clearforsearch();
@@ -2412,6 +2409,18 @@ namespace NMSCoordinates
             }
 
         }
+
+        private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Created by: Kevin0M16 \r\n\r\n 8-2019");
+        }
+
+        private void RunPowerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo(@"Powershell.exe");           
+            startInfo.WorkingDirectory = @".\nmssavetool";            
+            Process.Start(startInfo);
+        } 
     }
 }
     
