@@ -48,7 +48,8 @@ namespace NMSCoordinates
             pictureBox15.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox16.ImageLocation = @".\glyphs\F.png";
             pictureBox16.SizeMode = PictureBoxSizeMode.StretchImage;
-        }        
+        }     
+        
         public static void AppendLine(TextBox source, string value)
         {
             //My neat little textbox handler
@@ -328,6 +329,7 @@ namespace NMSCoordinates
                     textBox7.Clear();
                     //Gives both Galactic and Voxel
                     PortalToVoxel((textBox1.Text).Replace(" ", ""));
+                    textBox2.Text = GalacticCoord2;
                 }
             }
             catch
@@ -403,5 +405,125 @@ namespace NMSCoordinates
             }
         }
 
+        private void PictureBox1_Click(object sender, EventArgs e)
+        {
+            textBox1.AppendText("0");
+        }
+
+        private void PictureBox2_Click(object sender, EventArgs e)
+        {
+            textBox1.AppendText("1");
+        }
+
+        private void PictureBox3_Click(object sender, EventArgs e)
+        {
+            textBox1.AppendText("2");
+        }
+
+        private void PictureBox4_Click(object sender, EventArgs e)
+        {
+            textBox1.AppendText("3");
+        }
+
+        private void PictureBox5_Click(object sender, EventArgs e)
+        {
+            textBox1.AppendText("4");
+        }
+
+        private void PictureBox6_Click(object sender, EventArgs e)
+        {
+            textBox1.AppendText("5");
+        }
+
+        private void PictureBox7_Click(object sender, EventArgs e)
+        {
+            textBox1.AppendText("6");
+        }
+
+        private void PictureBox8_Click(object sender, EventArgs e)
+        {
+            textBox1.AppendText("7");
+        }
+
+        private void PictureBox9_Click(object sender, EventArgs e)
+        {
+            textBox1.AppendText("8");
+        }
+
+        private void PictureBox10_Click(object sender, EventArgs e)
+        {
+            textBox1.AppendText("9");
+        }
+
+        private void PictureBox11_Click(object sender, EventArgs e)
+        {
+            textBox1.AppendText("A");
+        }
+
+        private void PictureBox12_Click(object sender, EventArgs e)
+        {
+            textBox1.AppendText("B");
+        }
+
+        private void PictureBox13_Click(object sender, EventArgs e)
+        {
+            textBox1.AppendText("C");
+        }
+
+        private void PictureBox14_Click(object sender, EventArgs e)
+        {
+            textBox1.AppendText("D");
+        }
+
+        private void PictureBox15_Click(object sender, EventArgs e)
+        {
+            textBox1.AppendText("E");
+        }
+
+        private void PictureBox16_Click(object sender, EventArgs e)
+        {
+            textBox1.AppendText("F");
+        }
+        private Form1 f1;
+        private void ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            f1 = new Form1();
+            f1 = (Form1)Application.OpenForms["Form1"];
+            if (!f1.TextBoxPerm == true)
+            {
+                f1.TextBoxValue = textBox2.Text;
+
+                if (f1 == null)
+                {
+                    //f1 = new Form1();
+                    f1.FormClosed += (_, arg) =>
+                    {
+                        f1 = null;
+                    };
+                    f1.Show();
+                }
+                else
+                {
+                    f1.BringToFront();
+                }
+            }
+            else
+            {
+                AppendLine(textBox7, "NEED TO UNLOCK Manual Travel");
+            }
+        }
+
+        private void ToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            Clipboard.Clear();    //Clear if any old value is there in Clipboard        
+            Clipboard.SetText(textBox2.Text); //Copy text to Clipboard
+
+             //Get text from Clipboard
+        }
+
+        private void ToolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            textBox2.Text = Clipboard.GetText();
+        }
     }
 }

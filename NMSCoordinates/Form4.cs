@@ -13,8 +13,8 @@ namespace NMSCoordinates
     public partial class Form4 : Form
     {
         public Form4()
-        {   InitializeComponent();
-            
+        {
+            InitializeComponent();            
         }
 
         private void Button1_Click(object sender, EventArgs e)
@@ -26,6 +26,11 @@ namespace NMSCoordinates
         {
             pictureBox1.ImageLocation = MyProperty;
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+        }
+
+        private void PictureBox1_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
