@@ -1,7 +1,7 @@
 # NMSCoordinates
 This a Coordinate Tool for No Man's Sky!
 
-<img src= "ss1.png"/>
+
 <img src= "ss4.png"/>
 <img src= "ss5.png"/>
 <img src= "ss2.png"/>
