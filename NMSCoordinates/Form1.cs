@@ -2418,7 +2418,7 @@ namespace NMSCoordinates
         private void RunPowerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo(@"Powershell.exe");           
-            startInfo.WorkingDirectory = @".\nmssavetool";            
+            startInfo.WorkingDirectory = @".\nmssavetool";
             Process.Start(startInfo);
         } 
     }
