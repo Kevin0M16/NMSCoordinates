@@ -14,13 +14,20 @@ You can clear portal interference while traveling and fast travel to all the loc
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=LB7yqgLsW_0
 " target="_blank"><img src="http://img.youtube.com/vi/LB7yqgLsW_0/0.jpg" 
-alt="Video" width="680" height="540" border="10" /></a>
+alt="Video" width="650" height="510" border="10" /></a>
 
 ## Youtube Video - Fast Travel example
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=Vx1xGk2TMIo
 " target="_blank"><img src="http://img.youtube.com/vi/Vx1xGk2TMIo/0.jpg" 
-alt="Video" width="680" height="540" border="10" /></a>
+alt="Video" width="650" height="510" border="10" /></a>
+
+## Youtube Video - Manual Travel example
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=ceSFVl9LFtI
+" target="_blank"><img src="http://img.youtube.com/vi/ceSFVl9LFtI/0.jpg" 
+alt="Video" width="650" height="510" border="10" /></a>
+
 
 ## Download
 
