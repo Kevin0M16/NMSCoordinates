@@ -1,9 +1,9 @@
 # NMSCoordinates
 This a Coordinate Tool for No Man's Sky!
-
-<img src= "ss1.png" width=50%/><img src= "ss4.png" width=50%/>
-<img src= "ss2.png" width=50%/><img src= "ss3.png" width=50%/>
-
+<table>
+	<tr><td><img src= "ss1.png" width=100%/></td><td><img src= "ss4.png" width=100%/></td></tr>
+	<tr><td><img src= "ss2.png" width=100%/></td><td><img src= "ss3.png" width=100%/></td></tr>
+</table>
 
 # NMSCoordinates
 No Man's Sky Coordinate tool allows you to view all your discovered space station and base locations between all your saves.
