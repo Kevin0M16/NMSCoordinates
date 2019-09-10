@@ -1,8 +1,8 @@
 # NMSCoordinates
 This a Coordinate Tool for No Man's Sky!
 <table>
-	<tr><td><img src= "ss1.png" width=100%/></td><td><img src= "ss4.png" width=100%/></td></tr>
-	<tr><td><img src= "ss2.png" width=100%/></td><td><img src= "ss3.png" width=100%/></td></tr>
+	<tr><td><img src= "ss1.png" width=100%></td><td><img src= "ss4.png" width=100%></td></tr>
+	<tr><td><img src= "ss2.png" width=100%></td><td><img src= "ss3.png" width=100%></td></tr>
 </table>
 
 # NMSCoordinates
