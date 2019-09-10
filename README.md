@@ -1,10 +1,9 @@
 # NMSCoordinates
 This a Coordinate Tool for No Man's Sky!
 
-<img src= "ss1.png"/>
-<img src= "ss4.png"/>
-<img src= "ss2.png"/>
-<img src= "ss3.png"/>
+<img src= "ss1.png" width=50%/><img src= "ss4.png" width=50%/>
+<img src= "ss2.png" width=50%/><img src= "ss3.png" width=50%/>
+
 
 # NMSCoordinates
 No Man's Sky Coordinate tool allows you to view all your discovered space station and base locations between all your saves.
@@ -16,6 +15,11 @@ You can clear portal interference while traveling and fast travel to all the loc
 " target="_blank"><img src="http://img.youtube.com/vi/LB7yqgLsW_0/0.jpg" 
 alt="Video" width="680" height="540" border="10" /></a>
 
+## Youtube Video - Fast Travel example
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=Vx1xGk2TMIo
+" target="_blank"><img src="http://img.youtube.com/vi/Vx1xGk2TMIo/0.jpg" 
+alt="Video" width="680" height="540" border="10" /></a>
 
 ## Download
 
@@ -31,6 +35,8 @@ alt="Video" width="680" height="540" border="10" /></a>
 ## Features
 * View all space station and base locations discovered across all save slots and see their Glyphs, Galactic Coordinates, Portal Code, and even Voxel X,Y,Z,SSI
 * Fast travel to any selected location in the list of discoveries.
+* Enable Manual Travel and manually enter Galactic Coordinates and Galaxy that you need to travel to.
+* Enable Travel Mode and keep all your locations the game deletes when traveling through a terminus.
 * Portal interference can be cleared with a button, so base building and the galaxy map are allowed after traveling through a portal!
 * Can Backup all locations to a .txt file. You can access these on the Coordinate Share tab or share with others. You can fast travel to these also!
 * NMSCoordinates backs up your entire save folder on startup, the .zip is located in the .\backup folder.
@@ -67,6 +73,7 @@ The current version of NMSCoordinates requires No Man's Sky Beyond 2.11, but It 
 	7. Right click a location in the top listbox on the Coordinate Share tab to create a one record locbackup file to share with others.
 	8. Right click the lower listbox to delete unwanted locbackup files.
 	9. Use the Coordinate Calculator by clicking the Coordinate Calculator button and entering (1) coordinate at a time in the textboxes and clicking the button below it. View all converted coordinates at the bottom.
+	10. Enable Travel Mode to start tracking your Terminus locations before traveling through a terminus. See video above.
 
 
 ## Built With
