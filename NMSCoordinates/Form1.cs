@@ -2417,9 +2417,10 @@ namespace NMSCoordinates
 
         private void RunPowerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ProcessStartInfo startInfo = new ProcessStartInfo(@"Powershell.exe");           
-            startInfo.WorkingDirectory = @".\nmssavetool";
-            Process.Start(startInfo);
+            //ProcessStartInfo startInfo = new ProcessStartInfo(@"Powershell.exe", @"-NoExit function prompt {\""NMSC >\""} .\nmssavetool\nmssavetool.exe decrypt --help cd nmssavetool");            
+            //Process.Start(startInfo);
+
+            Process.Start(@"Powershell.exe", @"-NoExit function prompt {\""NMSC >\""} cd nmssavetool; write-host \""----- NMSCoordinates ----- DECRYPT ----- ENCRYPT -----\""");
         } 
     }
 }
