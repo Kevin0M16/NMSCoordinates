@@ -411,6 +411,14 @@ namespace NMSCoordinates
             glyphDict.Add('E', Properties.Resources.E);
             glyphDict.Add('F', Properties.Resources.F);
         }
+        private void GMode()
+        {
+            gameMode = new Dictionary<string, string>();
+            gameMode.Add(new KeyValuePair<string, string>("4631", "Normal"));
+            gameMode.Add(new KeyValuePair<string, string>("5655", "Survival"));
+            gameMode.Add(new KeyValuePair<string, string>("6679", "Permadeath"));
+            gameMode.Add(new KeyValuePair<string, string>("5143", "Creative"));
+        }
 
         private void GIndex()
         {
@@ -517,6 +525,18 @@ namespace NMSCoordinates
             //textBox18.Text = listBox3.Items.Count.ToString();
 
 
+        }
+        private void GameModeLookup(TextBox source, string mode)
+        {
+            try
+            {
+                source.Text = gameMode[mode];
+            }
+            catch
+            {
+                source.Text = gamemode;
+                AppendLine(textBox17, "Game mode Not Found, update needed.");
+            }
         }
         private void GalaxyLookup(TextBox source, string galaxy)
         {
@@ -1404,6 +1424,7 @@ namespace NMSCoordinates
         private void ComboBox2_SelectionChangeCommitted(object sender, EventArgs e)
         {
             string selected = this.comboBox2.GetItemText(this.comboBox2.SelectedItem);
+            
             //Gets the dictionarys set in loadcmbbx and sets the data source for save dropdown
             if (selected == "Slot 1")
             {
@@ -1411,6 +1432,7 @@ namespace NMSCoordinates
                 comboBox1.DisplayMember = "VALUE";
                 comboBox1.ValueMember = "KEY";
                 comboBox1.DataSource = sn1.ToArray();
+
             }
             if (selected == "Slot 2")
             {
@@ -1492,15 +1514,11 @@ namespace NMSCoordinates
             {
                 checkBox1.Enabled = true;
                 button12.Enabled = true;
-                //checkBox1.AutoCheck = true;
-                //checkBox1.Show();
             }
             else
             {
-                //checkBox1.AutoCheck = false;
                 checkBox1.Enabled = false;
                 button12.Enabled = false;
-                //checkBox1.Hide();
             }
 
             Loadlsb1();
@@ -1511,6 +1529,7 @@ namespace NMSCoordinates
         {
             Glyphs();
             GIndex();
+            GMode();
             JsonKey();
             nmsPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HelloGames"), "NMS");
             savePath = Application.CommonAppDataPath + "\\save.txt";

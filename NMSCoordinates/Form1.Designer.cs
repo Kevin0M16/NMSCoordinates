@@ -196,6 +196,7 @@ namespace NMSCoordinates
             this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip3 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip4 = new System.Windows.Forms.ToolTip(this.components);
+            this.label28 = new System.Windows.Forms.Label();
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -1715,6 +1716,7 @@ namespace NMSCoordinates
             // groupBox12
             // 
             this.groupBox12.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox12.Controls.Add(this.label28);
             this.groupBox12.Controls.Add(this.button10);
             this.groupBox12.Controls.Add(this.textBox26);
             this.groupBox12.Controls.Add(this.label24);
@@ -2030,6 +2032,15 @@ namespace NMSCoordinates
             this.toolTip1.InitialDelay = 900;
             this.toolTip1.ReshowDelay = 100;
             // 
+            // label28
+            // 
+            this.label28.Location = new System.Drawing.Point(286, 41);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(87, 23);
+            this.label28.TabIndex = 35;
+            this.label28.Text = "GameMode";
+            this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
@@ -2135,6 +2146,7 @@ namespace NMSCoordinates
         public string ssdPath;
         public string ssPath;
 
+        public string gamemode;
         public string galaxy;
         public string X;
         public string Y;
@@ -2397,7 +2409,7 @@ namespace NMSCoordinates
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem runPowerToolStripMenuItem;
-        
+        private System.Windows.Forms.Label label28;
     }
 }
 
