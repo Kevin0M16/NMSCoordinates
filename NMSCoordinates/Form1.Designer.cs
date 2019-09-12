@@ -2130,7 +2130,7 @@ namespace NMSCoordinates
         public string hgFilePath;
         public string hgFileDir;
         public string nmsPath;
-        //public string hgFileName;
+        public string currentKey;
         public string stmPath;
         public string ssdPath;
         public string ssPath;

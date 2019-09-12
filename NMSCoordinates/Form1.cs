@@ -26,7 +26,6 @@ namespace NMSCoordinates
         public Form1()
         {
             InitializeComponent();
-
         }
 
         public static string GetNewestZip(string path)
@@ -53,8 +52,7 @@ namespace NMSCoordinates
 
         public void LoadCmbx()
         {
-            //Load save file names in combobox1
-            //comboBox1.Items.Clear();
+            //Load save file names in combobox1            
 
             if (!Directory.Exists(nmsPath))
             {
@@ -125,15 +123,12 @@ namespace NMSCoordinates
                 sl1.Add(0, "(Select Save Slot)");
                 comboBox2.DataSource = sl1.ToArray();
                 comboBox2.DisplayMember = "VALUE";
-                comboBox2.ValueMember = "KEY";
-
-                //comboBox2.SelectedIndex = 0;                
+                comboBox2.ValueMember = "KEY";              
 
                 hgFileDir = Path.GetDirectoryName(Files[0].FullName);
 
-                //AppendLine(textBox16, Path.GetDirectoryName(Files[0].FullName));
-                //AppendLine(textBox26, Files[0].LastWriteTime.ToLongDateString() + " " + Files[0].LastWriteTime.ToLongTimeString());
-
+                textBox16.Clear();
+                AppendLine(textBox16, hgFileDir); 
             }
             else
             {
@@ -829,19 +824,108 @@ namespace NMSCoordinates
                 return;
             }
         }
+        public void BuildSaveFile()
+        {
+            if (!File.Exists(savePath))
+            {
+                File.Create(savePath).Close();
+                TextWriter tw = new StreamWriter(savePath);
+                tw.WriteLine("nmsPath=" + nmsPath);
+                tw.WriteLine("ssdPath=" + ssdPath);
+                tw.Close();
+            }
+            else if (File.Exists(savePath))
+            {
+                return;
+            }
+        }
+        private void Read(string key, string path)
+        {
+            try
+            {
+                if (File.Exists(path))
+                {
+
+                    string[] array = File.ReadAllLines(path).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
+                    for (int i = 0; i < array.Length; i++)
+                    {
+                        string a = array[i].Substring(0, array[i].IndexOf("="));
+                        string s = array[i].Substring(array[i].IndexOf("=") + 1);
+
+                        if (a == key)
+                        {
+                            currentKey = s;
+                        }
+
+                    }
+                    return;
+                }
+            }
+            catch
+            {
+                //AppendLine(textBox1, "ini File Corrupted! See Log!");
+                return;
+            }
+        }
+        public void ReloadSave()
+        {
+            Read("nmsPath", savePath);
+            nmsPath = currentKey;
+            Read("ssdPath", savePath);
+            ssdPath = currentKey;
+        }
+        public void WriteTxt(string key, string newKey, string path)
+        {
+            try
+            {
+                if (File.Exists(path))
+                {
+                    string[] array = File.ReadAllLines(path).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
+                    //int result = array.GetLength(0);                    
+
+                    for (int i = 0; i < array.Length; i++)
+                    {
+                        string a = array[i].Substring(0, array[i].IndexOf("="));
+                        string s = array[i].Substring(array[i].IndexOf("=") + 1);
+                        if (a == key)
+                        {
+                            string text = File.ReadAllText(path);
+                            text = text.Replace(key + "=" + s, key + "=" + newKey);
+                            File.WriteAllText(path, text);
+                        }
+
+                    }
+                    return;
+                }
+                else
+                {
+                    //AppendLine(textBox1, "Error File not found!");
+                }
+            }
+            catch
+            {
+                //AppendLine(textBox1, "ini File Corrupted! See Log!");
+                return;
+            }
+        }
         private void AppDataDefaultToolStripMenuItem_Click(object sender, EventArgs e)
         {
             nmsPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HelloGames"), "NMS");
+
+            WriteTxt("nmsPath", nmsPath, savePath);
+
             comboBox1.DataSource = null;
             comboBox2.DataSource = null;
             comboBox1.SelectedIndex = -1;
             ClearAll();
             LoadCmbx();
-
         }
         private void ManuallySelectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SetSavePath();
+
+            WriteTxt("nmsPath", nmsPath, savePath);
+
             comboBox1.DataSource = null;
             comboBox2.DataSource = null;
             comboBox1.SelectedIndex = -1;
@@ -1384,7 +1468,6 @@ namespace NMSCoordinates
                 }
 
                 textBox16.Clear();
-
                 AppendLine(textBox16, hgFilePath);
 
                 FileInfo hgfile = new FileInfo(hgFilePath);
@@ -1430,10 +1513,18 @@ namespace NMSCoordinates
             GIndex();
             JsonKey();
             nmsPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HelloGames"), "NMS");
-            LoadCmbx();
+            savePath = Application.CommonAppDataPath + "\\save.txt";
+            SetssdPath();            
+
+            BuildSaveFile();
+            ReloadSave();
+
             SetSShot();
-            LoadSS();
+            LoadSS();            
+
+            LoadCmbx();
             LoadTxt();
+
             DiscList = new List<string>();
             BaseList = new List<string>();
 
@@ -1482,17 +1573,15 @@ namespace NMSCoordinates
             return bmp;
         }
 
-        private void SetSShot()
+        private void SetssdPath()
         {
             try
             {
                 stmPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) + @"\Steam\userdata\";// 307405899\";
-                //ScreenShot Path -- C:\Program Files (x86)\Steam\userdata\307405899\760\remote\275850\screenshots\thumbnails
-                //AppendLine(textBox17, "1: " + stmPath);
 
                 if (Directory.Exists(stmPath))
                 {
-                    List<string> list = new List<string>();
+                    //List<string> list = new List<string>();
                     List<string> list2 = new List<string>();
                     DirectoryInfo dinfo1 = new DirectoryInfo(stmPath);
                     DirectoryInfo[] dinfoss = dinfo1.GetDirectories("760", SearchOption.AllDirectories);
@@ -1504,41 +1593,9 @@ namespace NMSCoordinates
                             list2.Add(di.FullName);
                         }
                     }
-
-                    ssdPath = Path.GetFullPath(list2[0].ToString() + @"\remote\275850\screenshots");//\thumbnails");
-                    //AppendLine(textBox17, "2: " + ssdPath);
-
-                    if (Directory.Exists(ssdPath))
-                    {
-                        foreach (var item in list2)
-                        {
-                            DirectoryInfo dinfo2 = new DirectoryInfo(ssdPath);
-                            FileInfo[] Files = dinfo2.GetFiles("*.jpg", SearchOption.AllDirectories);
-
-                            if (Files.Length != 0)
-                            {
-                                foreach (FileInfo file in Files.OrderByDescending(f => f.LastWriteTime))
-                                {
-                                    if (!file.DirectoryName.Contains("thumbnails"))
-                                        list.Add(file.FullName);
-                                }
-                            }
-                            else
-                            {
-                                pictureBox25.Image = null;
-                                AppendLine(textBox17, "ssPath error! 855");
-                                return;
-                            }
-                        }
-                        ssPath = list[0].ToString();
-
-                        AppendLine(textBox17, "ScreenShot: " + list[0].ToString());
-                    }
-                    else
-                    {
-                        AppendLine(textBox17, "ssPath error! 123");
-                        return;
-                    }
+                    ssdPath = Path.GetFullPath(list2[0].ToString() + @"\remote\275850\screenshots");
+                    //WriteTxt("ssdPath", ssdPath, savePath);
+                    //AppendLine(textBox17, ssdPath);
                 }
                 else
                 {
@@ -1548,7 +1605,47 @@ namespace NMSCoordinates
             }
             catch
             {
-                AppendLine(textBox17, "ssPath error! 155");
+                AppendLine(textBox17, "ssPath error! ss151");
+                return;
+            }
+        }
+
+        private void SetSShot()
+        {
+            try
+            {
+                if (Directory.Exists(ssdPath))
+                {
+                    List<string> list = new List<string>();
+                    DirectoryInfo dinfo2 = new DirectoryInfo(ssdPath);
+                    FileInfo[] Files = dinfo2.GetFiles("*.jpg", SearchOption.AllDirectories);
+
+                    if (Files.Length != 0)
+                    {
+                        foreach (FileInfo file in Files.OrderByDescending(f => f.LastWriteTime))
+                        {
+                            if (!file.DirectoryName.Contains("thumbnails"))
+                                list.Add(file.FullName);
+                        }
+                    }
+                    else
+                    {
+                        pictureBox25.Image = null;
+                        AppendLine(textBox17, "ssPath error! 855");
+                        return;
+                    }
+                    ssPath = list[0].ToString();
+                    AppendLine(textBox17, "ScreenShot: " + list[0].ToString());
+                }
+                else
+                {
+                    AppendLine(textBox17, "ssPath error! 123");
+                    return;
+                }                
+            }
+            catch
+            {
+                AppendLine(textBox17, "ssPath error! ss155");
                 return;
             }
         }
@@ -1573,6 +1670,7 @@ namespace NMSCoordinates
                         if (files.Length != 0)
                         {
                             ssdPath = fbd.SelectedPath;
+                            
                             MessageBox.Show(files.Length.ToString() + "\r\n\r\nScreenshot files found... ", "Message");
                         }
                         else
@@ -1625,6 +1723,7 @@ namespace NMSCoordinates
         private void ScreenshotPageToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             SetSSPath();
+            WriteTxt("ssdPath", ssdPath, savePath);
             LoadSS();
         }
         private void LoadTxt()
@@ -2420,7 +2519,18 @@ namespace NMSCoordinates
             //ProcessStartInfo startInfo = new ProcessStartInfo(@"Powershell.exe", @"-NoExit function prompt {\""NMSC >\""} .\nmssavetool\nmssavetool.exe decrypt --help cd nmssavetool");            
             //Process.Start(startInfo);
 
-            Process.Start(@"Powershell.exe", @"-NoExit function prompt {\""NMSC >\""} cd nmssavetool; write-host \""----- NMSCoordinates ----- DECRYPT ----- ENCRYPT -----\""");
+            Process.Start(@"Powershell.exe", @"-NoExit function prompt {\""NMSC >\""} cd nmssavetool;
+                            write-host 
+                            \""------------ NMSCoordinates ----- DECRYPT ----- ENCRYPT ---------------
+
+                               Decrypt Save: .\nmssavetool.exe decrypt -g[saveslot] -f [filename].json
+
+                               ---------- Modify Save file externally - Ex. Notepad++ ----------------
+
+                               Encrypt Save: .\nmssavetool.exe encrypt -g[saveslot] -f [filename].json
+
+                               -----------------------------------------------------------------------
+                            \""");
         } 
     }
 }
