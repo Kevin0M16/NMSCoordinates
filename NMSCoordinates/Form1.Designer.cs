@@ -44,6 +44,7 @@ namespace NMSCoordinates
             this.selectSaveFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.appDataDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.manuallySelectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openBackupFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.discoveriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backupALLSaveFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -168,6 +169,7 @@ namespace NMSCoordinates
             this.groupBox13 = new System.Windows.Forms.GroupBox();
             this.textBox16 = new System.Windows.Forms.TextBox();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.label28 = new System.Windows.Forms.Label();
             this.button10 = new System.Windows.Forms.Button();
             this.textBox26 = new System.Windows.Forms.TextBox();
             this.label24 = new System.Windows.Forms.Label();
@@ -196,6 +198,7 @@ namespace NMSCoordinates
             this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip3 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip4 = new System.Windows.Forms.ToolTip(this.components);
+            this.label29 = new System.Windows.Forms.Label();
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -302,6 +305,7 @@ namespace NMSCoordinates
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.selectSaveFolderToolStripMenuItem,
+            this.openBackupFolderToolStripMenuItem,
             this.backupToolStripMenuItem,
             this.runPowerToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -314,7 +318,7 @@ namespace NMSCoordinates
             this.appDataDefaultToolStripMenuItem,
             this.manuallySelectToolStripMenuItem});
             this.selectSaveFolderToolStripMenuItem.Name = "selectSaveFolderToolStripMenuItem";
-            this.selectSaveFolderToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.selectSaveFolderToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.selectSaveFolderToolStripMenuItem.Text = "Select Save Folder...";
             // 
             // appDataDefaultToolStripMenuItem
@@ -331,13 +335,20 @@ namespace NMSCoordinates
             this.manuallySelectToolStripMenuItem.Text = "Manually Select";
             this.manuallySelectToolStripMenuItem.Click += new System.EventHandler(this.ManuallySelectToolStripMenuItem_Click);
             // 
+            // openBackupFolderToolStripMenuItem
+            // 
+            this.openBackupFolderToolStripMenuItem.Name = "openBackupFolderToolStripMenuItem";
+            this.openBackupFolderToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.openBackupFolderToolStripMenuItem.Text = "Open Backup Folder";
+            this.openBackupFolderToolStripMenuItem.Click += new System.EventHandler(this.OpenBackupFolderToolStripMenuItem_Click);
+            // 
             // backupToolStripMenuItem
             // 
             this.backupToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.discoveriesToolStripMenuItem,
             this.backupALLSaveFilesToolStripMenuItem});
             this.backupToolStripMenuItem.Name = "backupToolStripMenuItem";
-            this.backupToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.backupToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.backupToolStripMenuItem.Text = "Backups...";
             // 
             // discoveriesToolStripMenuItem
@@ -357,7 +368,7 @@ namespace NMSCoordinates
             // runPowerToolStripMenuItem
             // 
             this.runPowerToolStripMenuItem.Name = "runPowerToolStripMenuItem";
-            this.runPowerToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.runPowerToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.runPowerToolStripMenuItem.Text = "Run PowerShell";
             this.runPowerToolStripMenuItem.Click += new System.EventHandler(this.RunPowerToolStripMenuItem_Click);
             // 
@@ -1714,7 +1725,8 @@ namespace NMSCoordinates
             // 
             // groupBox12
             // 
-            this.groupBox12.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(72)))), ((int)(((byte)(72)))));
+            this.groupBox12.Controls.Add(this.label28);
             this.groupBox12.Controls.Add(this.button10);
             this.groupBox12.Controls.Add(this.textBox26);
             this.groupBox12.Controls.Add(this.label24);
@@ -1729,6 +1741,16 @@ namespace NMSCoordinates
             this.groupBox12.TabIndex = 1;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Load Save File";
+            // 
+            // label28
+            // 
+            this.label28.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(76)))), ((int)(((byte)(76)))));
+            this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label28.Location = new System.Drawing.Point(286, 41);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(87, 23);
+            this.label28.TabIndex = 35;
+            this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // button10
             // 
@@ -2030,12 +2052,24 @@ namespace NMSCoordinates
             this.toolTip1.InitialDelay = 900;
             this.toolTip1.ReshowDelay = 100;
             // 
+            // label29
+            // 
+            this.label29.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label29.ForeColor = System.Drawing.Color.White;
+            this.label29.Location = new System.Drawing.Point(594, 24);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(110, 23);
+            this.label29.TabIndex = 36;
+            this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
             this.ClientSize = new System.Drawing.Size(898, 980);
+            this.Controls.Add(this.label29);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("Corbel", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -2044,6 +2078,7 @@ namespace NMSCoordinates
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NMSCoordinates";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.Shown += new System.EventHandler(this.Form1_Shown);
             this.contextMenuStrip2.ResumeLayout(false);
             this.contextMenuStrip1.ResumeLayout(false);
@@ -2130,11 +2165,12 @@ namespace NMSCoordinates
         public string hgFilePath;
         public string hgFileDir;
         public string nmsPath;
-        //public string hgFileName;
+        public string currentKey;
         public string stmPath;
         public string ssdPath;
         public string ssPath;
 
+        public string gamemode;
         public string galaxy;
         public string X;
         public string Y;
@@ -2397,7 +2433,9 @@ namespace NMSCoordinates
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem runPowerToolStripMenuItem;
-        
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.ToolStripMenuItem openBackupFolderToolStripMenuItem;
     }
 }
 

@@ -509,7 +509,8 @@ namespace NMSCoordinates
             }
             else
             {
-                AppendLine(textBox7, "NEED TO UNLOCK Manual Travel");
+                AppendLine(textBox7, "Please UNLOCK Manual Travel!");
+                MessageBox.Show("PLease UNLOCK Manual Travel!", "Alert");
             }
         }
 
@@ -524,6 +525,6 @@ namespace NMSCoordinates
         private void ToolStripMenuItem3_Click(object sender, EventArgs e)
         {
             textBox2.Text = Clipboard.GetText();
-        }
+        }        
     }
 }

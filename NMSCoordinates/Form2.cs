@@ -19,24 +19,51 @@ namespace NMSCoordinates
 
     public partial class Form2 : Form
     {
-
         public Form2()
         {
             InitializeComponent();
-        }
-        
-        private string hgFilePath;
-    
-        private void Form2_FormClosed(object sender, FormClosedEventArgs e)
+        }       
+
+        private void LinkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            //treeView1.Dispose();
-            Close();
+            try
+            {
+                //Call the Process.Start method to open the default browser
+                //with a URL:
+                System.Diagnostics.Process.Start("http://www.nmscoordinates.com/");
+            }
+            catch
+            {
+                MessageBox.Show("Unable to open link that was clicked.");
+            }
         }
 
-        private void Form2_Shown(object sender, EventArgs e)
+        private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            hgFilePath = MyProperty3;
-            string json = File.ReadAllText(hgFilePath);
+            try
+            {
+                //Call the Process.Start method to open the default browser
+                //with a URL:
+                System.Diagnostics.Process.Start("https://github.com/Kevin0M16/NMSCoordinates");
+            }
+            catch
+            {
+                MessageBox.Show("Unable to open link that was clicked.");
+            }
+        }
+
+        private void LinkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try
+            {
+                //Call the Process.Start method to open the default browser
+                //with a URL:
+                System.Diagnostics.Process.Start("https://github.com/Kevin0M16/NMSCoordinates/releases/latest");
+            }
+            catch
+            {
+                MessageBox.Show("Unable to open link that was clicked.");
+            }
         }
     }
 }
