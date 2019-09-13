@@ -28,7 +28,7 @@ namespace NMSCoordinates
             InitializeComponent();
 
             //Set Version here
-            label29.Text = "Version 1.0.9";
+            label29.Text = "Version 1.0.8.1";
 
             Glyphs();
             GIndex();
@@ -150,20 +150,21 @@ namespace NMSCoordinates
             }
         }
         private void CheckSS()
-        {
-            // Set Minimum to 1 to represent the first file being copied.
-            progressBar2.Minimum = 1;
-            // Set Maximum to the total number of files to copy.
-            progressBar2.Maximum = DiscList.Count;
-            // Set the initial value of the ProgressBar.
-            progressBar2.Value = 1;
-            // Set the Step property to a value of 1 to represent each file being copied.
-            progressBar2.Step = 1;
-            // Display the ProgressBar control.
-            progressBar2.Visible = true;
+        {           
 
             if (DiscList.Count > 0)
             {
+                // Set Minimum to 1 to represent the first file being copied.
+                progressBar2.Minimum = 1;
+                // Set Maximum to the total number of files to copy.
+                progressBar2.Maximum = DiscList.Count;
+                // Set the initial value of the ProgressBar.
+                progressBar2.Value = 1;
+                // Set the Step property to a value of 1 to represent each file being copied.
+                progressBar2.Step = 1;
+                // Display the ProgressBar control.
+                progressBar2.Visible = true;
+
                 for (int i = 0; i < DiscList.Count; i++)
                 {
                     JsonMap(i);
@@ -187,20 +188,21 @@ namespace NMSCoordinates
             }
         }
         private void BackupLoc(string path)
-        {
-            // Set Minimum to 1 to represent the first file being copied.
-            progressBar2.Minimum = 1;
-            // Set Maximum to the total number of files to copy.
-            progressBar2.Maximum = DiscList.Count;
-            // Set the initial value of the ProgressBar.
-            progressBar2.Value = 1;
-            // Set the Step property to a value of 1 to represent each file being copied.
-            progressBar2.Step = 1;
-            // Display the ProgressBar control.
-            progressBar2.Visible = true;
+        {           
 
             if (DiscList.Count > 0)
             {
+                // Set Minimum to 1 to represent the first file being copied.
+                progressBar2.Minimum = 1;
+                // Set Maximum to the total number of files to copy.
+                progressBar2.Maximum = DiscList.Count;
+                // Set the initial value of the ProgressBar.
+                progressBar2.Value = 1;
+                // Set the Step property to a value of 1 to represent each file being copied.
+                progressBar2.Step = 1;
+                // Display the ProgressBar control.
+                progressBar2.Visible = true;
+
                 for (int i = 0; i < DiscList.Count; i++)
                 {
                     JsonMap(i);
@@ -2468,6 +2470,10 @@ namespace NMSCoordinates
         private void OffToolStripMenuItem_Click(object sender, EventArgs e)
         {
             onToolStripMenuItem.Checked = false;
+            if (checkBox1.Checked)
+            {
+                checkBox1.Checked = false;
+            }
             groupBox20.Hide();
             AppendLine(textBox17, "Travel Mode NOT VISIBLE.");
         }
