@@ -1537,7 +1537,7 @@ namespace NMSCoordinates
             Loadlsb3();
             GetPlayerCoord();
         }
-        private async void Form1_Shown(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
             //Set Version here
             label29.Text = "Version 1.0.8";
@@ -1550,8 +1550,10 @@ namespace NMSCoordinates
             //Default Paths
             nmsPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HelloGames"), "NMS");
             savePath = Application.CommonAppDataPath + "\\save.txt";
-            SetssdPath();            
-
+            SetssdPath();
+        }
+        private async void Form1_Shown(object sender, EventArgs e)
+        {
             //Save preference file
             BuildSaveFile();
             ReloadSave();
@@ -2572,7 +2574,7 @@ namespace NMSCoordinates
 
                                -------------------------------------------------------------------------------
                             \""");
-        } 
+        }        
     }
 }
     
