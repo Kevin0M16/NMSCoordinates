@@ -542,7 +542,7 @@ namespace NMSCoordinates
             }
             catch
             {
-                source.ResetText();
+                source.Text = mode;
                 AppendLine(textBox17, "Game mode Not Found, update needed.");
             }
         }
