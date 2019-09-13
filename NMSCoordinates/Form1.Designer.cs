@@ -168,6 +168,7 @@ namespace NMSCoordinates
             this.groupBox13 = new System.Windows.Forms.GroupBox();
             this.textBox16 = new System.Windows.Forms.TextBox();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.label28 = new System.Windows.Forms.Label();
             this.button10 = new System.Windows.Forms.Button();
             this.textBox26 = new System.Windows.Forms.TextBox();
             this.label24 = new System.Windows.Forms.Label();
@@ -196,7 +197,7 @@ namespace NMSCoordinates
             this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip3 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip4 = new System.Windows.Forms.ToolTip(this.components);
-            this.label28 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -1715,7 +1716,7 @@ namespace NMSCoordinates
             // 
             // groupBox12
             // 
-            this.groupBox12.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(72)))), ((int)(((byte)(72)))));
             this.groupBox12.Controls.Add(this.label28);
             this.groupBox12.Controls.Add(this.button10);
             this.groupBox12.Controls.Add(this.textBox26);
@@ -1731,6 +1732,16 @@ namespace NMSCoordinates
             this.groupBox12.TabIndex = 1;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Load Save File";
+            // 
+            // label28
+            // 
+            this.label28.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(76)))), ((int)(((byte)(76)))));
+            this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label28.Location = new System.Drawing.Point(286, 41);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(87, 23);
+            this.label28.TabIndex = 35;
+            this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // button10
             // 
@@ -2032,14 +2043,16 @@ namespace NMSCoordinates
             this.toolTip1.InitialDelay = 900;
             this.toolTip1.ReshowDelay = 100;
             // 
-            // label28
+            // label29
             // 
-            this.label28.Location = new System.Drawing.Point(286, 41);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(87, 23);
-            this.label28.TabIndex = 35;
-            this.label28.Text = "GameMode";
-            this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label29.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label29.ForeColor = System.Drawing.Color.White;
+            this.label29.Location = new System.Drawing.Point(594, 24);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(110, 23);
+            this.label29.TabIndex = 36;
+            this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Form1
             // 
@@ -2047,6 +2060,7 @@ namespace NMSCoordinates
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
             this.ClientSize = new System.Drawing.Size(898, 980);
+            this.Controls.Add(this.label29);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("Corbel", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -2410,6 +2424,7 @@ namespace NMSCoordinates
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem runPowerToolStripMenuItem;
         private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label29;
     }
 }
 

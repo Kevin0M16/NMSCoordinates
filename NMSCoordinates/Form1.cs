@@ -244,7 +244,7 @@ namespace NMSCoordinates
             var pY = nms.The6F.YhJ.OZw["IyE"];//.ToString();
             var pZ = nms.The6F.YhJ.OZw["uXE"];//.ToString();
             var pSSI = nms.The6F.YhJ.OZw["vby"];//.ToString();
-            var pPI = nms.The6F.YhJ.OZw["jsv"];//.ToString();
+            //var pPI = nms.The6F.YhJ.OZw["jsv"];//.ToString();
 
             GetGalacticCoord(Convert.ToInt32(pX), Convert.ToInt32(pY), Convert.ToInt32(pZ), Convert.ToInt32(pSSI));
             AppendLine(textBox22, GalacticCoord);
@@ -282,6 +282,8 @@ namespace NMSCoordinates
         }
         private void ClearAll()
         {
+            label28.ResetText();
+
             textBox1.Clear();
             textBox2.Clear();
             textBox3.Clear();
@@ -418,6 +420,12 @@ namespace NMSCoordinates
             gameMode.Add(new KeyValuePair<string, string>("5655", "Survival"));
             gameMode.Add(new KeyValuePair<string, string>("6679", "Permadeath"));
             gameMode.Add(new KeyValuePair<string, string>("5143", "Creative"));
+
+            gameMode.Add(new KeyValuePair<string, string>("4628", "Normal"));
+            gameMode.Add(new KeyValuePair<string, string>("5652", "Survival"));
+            gameMode.Add(new KeyValuePair<string, string>("6676", "Permadeath"));
+            //gameMode.Add(new KeyValuePair<string, string>("", "Creative"));
+
         }
 
         private void GIndex()
@@ -526,7 +534,7 @@ namespace NMSCoordinates
 
 
         }
-        private void GameModeLookup(TextBox source, string mode)
+        private void GameModeLookup(Label source, string mode)
         {
             try
             {
@@ -534,7 +542,7 @@ namespace NMSCoordinates
             }
             catch
             {
-                source.Text = gamemode;
+                source.ResetText();
                 AppendLine(textBox17, "Game mode Not Found, update needed.");
             }
         }
@@ -1497,6 +1505,10 @@ namespace NMSCoordinates
                 AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
                 json = File.ReadAllText(hgFilePath);
 
+                var nms = Nms.FromJson(json);
+                gamemode = nms.F2P.ToString();
+                GameModeLookup(label28, gamemode);
+
             }
         }
         private void ComboBox1_SelectionChangeCommitted(object sender, EventArgs e)
@@ -1527,17 +1539,24 @@ namespace NMSCoordinates
         }
         private async void Form1_Shown(object sender, EventArgs e)
         {
+            //Set Version here
+            label29.Text = "Version 1.0.8";
+
             Glyphs();
             GIndex();
             GMode();
             JsonKey();
+
+            //Default Paths
             nmsPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HelloGames"), "NMS");
             savePath = Application.CommonAppDataPath + "\\save.txt";
             SetssdPath();            
 
+            //Save preference file
             BuildSaveFile();
             ReloadSave();
 
+            //Set and load screenshots
             SetSShot();
             LoadSS();            
 
@@ -2530,7 +2549,10 @@ namespace NMSCoordinates
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Created by: Kevin0M16 \r\n\r\n 8-2019");
+            //MessageBox.Show("Created by: Kevin0M16 \r\n\r\n 8-2019");
+            Form2 f2 = new Form2();
+            f2.ShowDialog();
+
         }
 
         private void RunPowerToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2540,15 +2562,15 @@ namespace NMSCoordinates
 
             Process.Start(@"Powershell.exe", @"-NoExit function prompt {\""NMSC >\""} cd nmssavetool;
                             write-host 
-                            \""------------ NMSCoordinates ----- DECRYPT ----- ENCRYPT ---------------
+                            \""************ NMSCoordinates ***** Save File Editing ***************************
 
-                               Decrypt Save: .\nmssavetool.exe decrypt -g[saveslot] -f [filename].json
+                                First Decrypt Save: .\nmssavetool.exe decrypt -g[saveslot] -f [filename].json
 
-                               ---------- Modify Save file externally - Ex. Notepad++ ----------------
+                               ----- Now you can Modify [filename].json file externally - Ex. Notepad++ ------
 
-                               Encrypt Save: .\nmssavetool.exe encrypt -g[saveslot] -f [filename].json
+                                Last Encrypt Save: .\nmssavetool.exe encrypt -g[saveslot] -f [filename].json
 
-                               -----------------------------------------------------------------------
+                               -------------------------------------------------------------------------------
                             \""");
         } 
     }
