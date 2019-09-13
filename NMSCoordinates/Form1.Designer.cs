@@ -44,6 +44,7 @@ namespace NMSCoordinates
             this.selectSaveFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.appDataDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.manuallySelectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openBackupFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.discoveriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backupALLSaveFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -304,6 +305,7 @@ namespace NMSCoordinates
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.selectSaveFolderToolStripMenuItem,
+            this.openBackupFolderToolStripMenuItem,
             this.backupToolStripMenuItem,
             this.runPowerToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -316,7 +318,7 @@ namespace NMSCoordinates
             this.appDataDefaultToolStripMenuItem,
             this.manuallySelectToolStripMenuItem});
             this.selectSaveFolderToolStripMenuItem.Name = "selectSaveFolderToolStripMenuItem";
-            this.selectSaveFolderToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.selectSaveFolderToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.selectSaveFolderToolStripMenuItem.Text = "Select Save Folder...";
             // 
             // appDataDefaultToolStripMenuItem
@@ -333,13 +335,20 @@ namespace NMSCoordinates
             this.manuallySelectToolStripMenuItem.Text = "Manually Select";
             this.manuallySelectToolStripMenuItem.Click += new System.EventHandler(this.ManuallySelectToolStripMenuItem_Click);
             // 
+            // openBackupFolderToolStripMenuItem
+            // 
+            this.openBackupFolderToolStripMenuItem.Name = "openBackupFolderToolStripMenuItem";
+            this.openBackupFolderToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.openBackupFolderToolStripMenuItem.Text = "Open Backup Folder";
+            this.openBackupFolderToolStripMenuItem.Click += new System.EventHandler(this.OpenBackupFolderToolStripMenuItem_Click);
+            // 
             // backupToolStripMenuItem
             // 
             this.backupToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.discoveriesToolStripMenuItem,
             this.backupALLSaveFilesToolStripMenuItem});
             this.backupToolStripMenuItem.Name = "backupToolStripMenuItem";
-            this.backupToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.backupToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.backupToolStripMenuItem.Text = "Backups...";
             // 
             // discoveriesToolStripMenuItem
@@ -359,7 +368,7 @@ namespace NMSCoordinates
             // runPowerToolStripMenuItem
             // 
             this.runPowerToolStripMenuItem.Name = "runPowerToolStripMenuItem";
-            this.runPowerToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.runPowerToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.runPowerToolStripMenuItem.Text = "Run PowerShell";
             this.runPowerToolStripMenuItem.Click += new System.EventHandler(this.RunPowerToolStripMenuItem_Click);
             // 
@@ -2426,6 +2435,7 @@ namespace NMSCoordinates
         private System.Windows.Forms.ToolStripMenuItem runPowerToolStripMenuItem;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.ToolStripMenuItem openBackupFolderToolStripMenuItem;
     }
 }
 

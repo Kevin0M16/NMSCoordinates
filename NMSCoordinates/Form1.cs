@@ -26,6 +26,19 @@ namespace NMSCoordinates
         public Form1()
         {
             InitializeComponent();
+
+            //Set Version here
+            label29.Text = "Version 1.0.8";
+
+            Glyphs();
+            GIndex();
+            GMode();
+            JsonKey();
+
+            //Default Paths
+            nmsPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HelloGames"), "NMS");
+            savePath = Application.CommonAppDataPath + "\\save.txt";
+            SetssdPath();
         }
 
         public static string GetNewestZip(string path)
@@ -1539,35 +1552,22 @@ namespace NMSCoordinates
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-            //Set Version here
-            label29.Text = "Version 1.0.8";
-
-            Glyphs();
-            GIndex();
-            GMode();
-            JsonKey();
-
-            //Default Paths
-            nmsPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HelloGames"), "NMS");
-            savePath = Application.CommonAppDataPath + "\\save.txt";
-            SetssdPath();
-        }
-        private async void Form1_Shown(object sender, EventArgs e)
-        {
             //Save preference file
             BuildSaveFile();
             ReloadSave();
 
             //Set and load screenshots
             SetSShot();
-            LoadSS();            
+            LoadSS();
 
             LoadCmbx();
             LoadTxt();
 
             DiscList = new List<string>();
             BaseList = new List<string>();
-
+        }
+        private async void Form1_Shown(object sender, EventArgs e)
+        {
             //Toggle for testing
             await BackupSave();
         }
@@ -2574,7 +2574,12 @@ namespace NMSCoordinates
 
                                -------------------------------------------------------------------------------
                             \""");
-        }        
+        }
+
+        private void OpenBackupFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start(@".\backup");
+        }
     }
 }
     
