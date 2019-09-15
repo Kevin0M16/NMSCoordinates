@@ -6,6 +6,10 @@ This a Coordinate Tool for No Man's Sky!
 |<img src= "ss1.png"/>|<img src= "ss4.png"/>|	
 |<img src= "ss2.png"/>|<img src= "ss3.png"/>|
 
+|                Save File Manager          |
+|		    :---:	            |
+|           <img src= "ss5.png"/>           |
+
 # NMSCoordinates
 No Man's Sky Coordinate tool allows you to view all your discovered space station and base locations between all your saves.
 You can clear portal interference while traveling and fast travel to all the locations that you have discovered or have been shared with you!
