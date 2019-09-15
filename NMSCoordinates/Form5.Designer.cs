@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 
 namespace NMSCoordinates
 {
@@ -43,6 +44,19 @@ namespace NMSCoordinates
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button5 = new System.Windows.Forms.Button();
+            this.pictureBox28 = new System.Windows.Forms.PictureBox();
+            this.pictureBox27 = new System.Windows.Forms.PictureBox();
+            this.pictureBox26 = new System.Windows.Forms.PictureBox();
+            this.pictureBox25 = new System.Windows.Forms.PictureBox();
+            this.pictureBox24 = new System.Windows.Forms.PictureBox();
+            this.pictureBox23 = new System.Windows.Forms.PictureBox();
+            this.pictureBox22 = new System.Windows.Forms.PictureBox();
+            this.pictureBox21 = new System.Windows.Forms.PictureBox();
+            this.pictureBox20 = new System.Windows.Forms.PictureBox();
+            this.pictureBox19 = new System.Windows.Forms.PictureBox();
+            this.pictureBox18 = new System.Windows.Forms.PictureBox();
+            this.pictureBox17 = new System.Windows.Forms.PictureBox();
             this.button4 = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.textBox8 = new System.Windows.Forms.TextBox();
@@ -95,6 +109,18 @@ namespace NMSCoordinates
             this.label27 = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox28)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox27)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox26)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox25)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox24)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox23)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox22)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox21)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox20)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox19)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox18)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox17)).BeginInit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -117,13 +143,15 @@ namespace NMSCoordinates
             // textBox1
             // 
             this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox1.ForeColor = System.Drawing.Color.Azure;
-            this.textBox1.Location = new System.Drawing.Point(58, 34);
-            this.textBox1.Multiline = true;
+            this.textBox1.Location = new System.Drawing.Point(45, 66);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(134, 24);
+            this.textBox1.Size = new System.Drawing.Size(147, 22);
             this.textBox1.TabIndex = 1;
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox1.TextChanged += new System.EventHandler(this.TextBox1_TextChanged);
+            this.textBox1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBox1_KeyUp);
             // 
             // label1
             // 
@@ -137,7 +165,7 @@ namespace NMSCoordinates
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(202, 138);
+            this.label2.Location = new System.Drawing.Point(202, 153);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(105, 13);
             this.label2.TabIndex = 56;
@@ -146,7 +174,7 @@ namespace NMSCoordinates
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(202, 34);
+            this.label3.Location = new System.Drawing.Point(202, 66);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(62, 13);
             this.label3.TabIndex = 45;
@@ -156,13 +184,14 @@ namespace NMSCoordinates
             // 
             this.textBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox2.ContextMenuStrip = this.contextMenuStrip1;
+            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox2.ForeColor = System.Drawing.Color.Azure;
-            this.textBox2.Location = new System.Drawing.Point(58, 135);
-            this.textBox2.Multiline = true;
+            this.textBox2.Location = new System.Drawing.Point(45, 150);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(134, 24);
+            this.textBox2.Size = new System.Drawing.Size(147, 22);
             this.textBox2.TabIndex = 3;
             this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox2.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBox2_KeyUp);
             // 
             // contextMenuStrip1
             // 
@@ -197,17 +226,30 @@ namespace NMSCoordinates
             // textBox3
             // 
             this.textBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox3.ForeColor = System.Drawing.Color.Azure;
             this.textBox3.Location = new System.Drawing.Point(58, 342);
-            this.textBox3.Multiline = true;
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(58, 24);
+            this.textBox3.Size = new System.Drawing.Size(57, 22);
             this.textBox3.TabIndex = 5;
             this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
+            this.groupBox1.Controls.Add(this.button5);
+            this.groupBox1.Controls.Add(this.pictureBox28);
+            this.groupBox1.Controls.Add(this.pictureBox27);
+            this.groupBox1.Controls.Add(this.pictureBox26);
+            this.groupBox1.Controls.Add(this.pictureBox25);
+            this.groupBox1.Controls.Add(this.pictureBox24);
+            this.groupBox1.Controls.Add(this.pictureBox23);
+            this.groupBox1.Controls.Add(this.pictureBox22);
+            this.groupBox1.Controls.Add(this.pictureBox21);
+            this.groupBox1.Controls.Add(this.pictureBox20);
+            this.groupBox1.Controls.Add(this.pictureBox19);
+            this.groupBox1.Controls.Add(this.pictureBox18);
+            this.groupBox1.Controls.Add(this.pictureBox17);
             this.groupBox1.Controls.Add(this.button4);
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.textBox8);
@@ -229,19 +271,152 @@ namespace NMSCoordinates
             this.groupBox1.Controls.Add(this.textBox2);
             this.groupBox1.Controls.Add(this.textBox3);
             this.groupBox1.ForeColor = System.Drawing.Color.Azure;
-            this.groupBox1.Location = new System.Drawing.Point(67, 40);
+            this.groupBox1.Location = new System.Drawing.Point(47, 40);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(424, 468);
+            this.groupBox1.Size = new System.Drawing.Size(445, 468);
             this.groupBox1.TabIndex = 63;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Coordinates";
+            // 
+            // button5
+            // 
+            this.button5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button5.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.button5.Location = new System.Drawing.Point(315, 96);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(112, 30);
+            this.button5.TabIndex = 111;
+            this.button5.Text = "Clear All";
+            this.button5.UseVisualStyleBackColor = false;
+            this.button5.Click += new System.EventHandler(this.Button5_Click);
+            // 
+            // pictureBox28
+            // 
+            this.pictureBox28.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.pictureBox28.InitialImage = null;
+            this.pictureBox28.Location = new System.Drawing.Point(398, 19);
+            this.pictureBox28.Name = "pictureBox28";
+            this.pictureBox28.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox28.TabIndex = 110;
+            this.pictureBox28.TabStop = false;
+            // 
+            // pictureBox27
+            // 
+            this.pictureBox27.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.pictureBox27.InitialImage = null;
+            this.pictureBox27.Location = new System.Drawing.Point(363, 19);
+            this.pictureBox27.Name = "pictureBox27";
+            this.pictureBox27.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox27.TabIndex = 109;
+            this.pictureBox27.TabStop = false;
+            // 
+            // pictureBox26
+            // 
+            this.pictureBox26.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.pictureBox26.InitialImage = null;
+            this.pictureBox26.Location = new System.Drawing.Point(328, 19);
+            this.pictureBox26.Name = "pictureBox26";
+            this.pictureBox26.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox26.TabIndex = 108;
+            this.pictureBox26.TabStop = false;
+            // 
+            // pictureBox25
+            // 
+            this.pictureBox25.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.pictureBox25.InitialImage = null;
+            this.pictureBox25.Location = new System.Drawing.Point(293, 19);
+            this.pictureBox25.Name = "pictureBox25";
+            this.pictureBox25.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox25.TabIndex = 107;
+            this.pictureBox25.TabStop = false;
+            // 
+            // pictureBox24
+            // 
+            this.pictureBox24.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.pictureBox24.InitialImage = null;
+            this.pictureBox24.Location = new System.Drawing.Point(258, 19);
+            this.pictureBox24.Name = "pictureBox24";
+            this.pictureBox24.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox24.TabIndex = 106;
+            this.pictureBox24.TabStop = false;
+            // 
+            // pictureBox23
+            // 
+            this.pictureBox23.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.pictureBox23.InitialImage = null;
+            this.pictureBox23.Location = new System.Drawing.Point(223, 19);
+            this.pictureBox23.Name = "pictureBox23";
+            this.pictureBox23.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox23.TabIndex = 105;
+            this.pictureBox23.TabStop = false;
+            // 
+            // pictureBox22
+            // 
+            this.pictureBox22.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.pictureBox22.InitialImage = null;
+            this.pictureBox22.Location = new System.Drawing.Point(188, 19);
+            this.pictureBox22.Name = "pictureBox22";
+            this.pictureBox22.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox22.TabIndex = 104;
+            this.pictureBox22.TabStop = false;
+            // 
+            // pictureBox21
+            // 
+            this.pictureBox21.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.pictureBox21.InitialImage = null;
+            this.pictureBox21.Location = new System.Drawing.Point(153, 19);
+            this.pictureBox21.Name = "pictureBox21";
+            this.pictureBox21.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox21.TabIndex = 103;
+            this.pictureBox21.TabStop = false;
+            // 
+            // pictureBox20
+            // 
+            this.pictureBox20.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.pictureBox20.InitialImage = null;
+            this.pictureBox20.Location = new System.Drawing.Point(118, 19);
+            this.pictureBox20.Name = "pictureBox20";
+            this.pictureBox20.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox20.TabIndex = 102;
+            this.pictureBox20.TabStop = false;
+            // 
+            // pictureBox19
+            // 
+            this.pictureBox19.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.pictureBox19.InitialImage = null;
+            this.pictureBox19.Location = new System.Drawing.Point(83, 19);
+            this.pictureBox19.Name = "pictureBox19";
+            this.pictureBox19.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox19.TabIndex = 101;
+            this.pictureBox19.TabStop = false;
+            // 
+            // pictureBox18
+            // 
+            this.pictureBox18.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.pictureBox18.InitialImage = null;
+            this.pictureBox18.Location = new System.Drawing.Point(48, 19);
+            this.pictureBox18.Name = "pictureBox18";
+            this.pictureBox18.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox18.TabIndex = 100;
+            this.pictureBox18.TabStop = false;
+            // 
+            // pictureBox17
+            // 
+            this.pictureBox17.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.pictureBox17.InitialImage = null;
+            this.pictureBox17.Location = new System.Drawing.Point(13, 19);
+            this.pictureBox17.Name = "pictureBox17";
+            this.pictureBox17.Size = new System.Drawing.Size(35, 35);
+            this.pictureBox17.TabIndex = 99;
+            this.pictureBox17.TabStop = false;
             // 
             // button4
             // 
             this.button4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button4.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button4.Location = new System.Drawing.Point(132, 258);
+            this.button4.Location = new System.Drawing.Point(132, 268);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(112, 30);
             this.button4.TabIndex = 68;
@@ -252,7 +427,7 @@ namespace NMSCoordinates
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(202, 231);
+            this.label10.Location = new System.Drawing.Point(202, 241);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(112, 13);
             this.label10.TabIndex = 69;
@@ -261,13 +436,14 @@ namespace NMSCoordinates
             // textBox8
             // 
             this.textBox8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.textBox8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox8.ForeColor = System.Drawing.Color.Azure;
-            this.textBox8.Location = new System.Drawing.Point(58, 228);
-            this.textBox8.Multiline = true;
+            this.textBox8.Location = new System.Drawing.Point(45, 238);
             this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(134, 24);
+            this.textBox8.Size = new System.Drawing.Size(147, 22);
             this.textBox8.TabIndex = 67;
             this.textBox8.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox8.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBox8_KeyUp);
             // 
             // label5
             // 
@@ -293,11 +469,11 @@ namespace NMSCoordinates
             // textBox5
             // 
             this.textBox5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.textBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox5.ForeColor = System.Drawing.Color.Azure;
             this.textBox5.Location = new System.Drawing.Point(186, 342);
-            this.textBox5.Multiline = true;
             this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(57, 24);
+            this.textBox5.Size = new System.Drawing.Size(57, 22);
             this.textBox5.TabIndex = 7;
             this.textBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -347,22 +523,23 @@ namespace NMSCoordinates
             // textBox6
             // 
             this.textBox6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.textBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox6.ForeColor = System.Drawing.Color.Azure;
             this.textBox6.Location = new System.Drawing.Point(249, 342);
-            this.textBox6.Multiline = true;
             this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(58, 24);
+            this.textBox6.Size = new System.Drawing.Size(57, 22);
             this.textBox6.TabIndex = 8;
             this.textBox6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox6.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBox6_KeyUp);
             // 
             // textBox4
             // 
             this.textBox4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox4.ForeColor = System.Drawing.Color.Azure;
             this.textBox4.Location = new System.Drawing.Point(122, 342);
-            this.textBox4.Multiline = true;
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(58, 24);
+            this.textBox4.Size = new System.Drawing.Size(57, 22);
             this.textBox4.TabIndex = 6;
             this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -371,7 +548,7 @@ namespace NMSCoordinates
             this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button2.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button2.Location = new System.Drawing.Point(132, 165);
+            this.button2.Location = new System.Drawing.Point(132, 180);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(112, 30);
             this.button2.TabIndex = 4;
@@ -384,7 +561,7 @@ namespace NMSCoordinates
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button1.Location = new System.Drawing.Point(132, 64);
+            this.button1.Location = new System.Drawing.Point(132, 96);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(112, 30);
             this.button1.TabIndex = 2;
@@ -825,6 +1002,18 @@ namespace NMSCoordinates
             this.contextMenuStrip1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox28)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox27)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox26)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox25)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox24)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox23)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox22)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox21)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox20)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox19)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox18)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox17)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox12)).EndInit();
@@ -868,7 +1057,21 @@ namespace NMSCoordinates
         public int iZ;
         public int iSSI;
 
+        private char _gl1;
+        private char _gl2;
+        private char _gl3;
+        private char _gl4;
+        private char _gl5;
+        private char _gl6;
+        private char _gl7;
+        private char _gl8;
+        private char _gl9;
+        private char _gl10;
+        private char _gl11;
+        private char _gl12;
+
         public IDictionary<string, string> galaxyDict;
+        public Dictionary<char, Bitmap> glyphDict;
 
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label1;
@@ -931,5 +1134,18 @@ namespace NMSCoordinates
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
+        private System.Windows.Forms.PictureBox pictureBox28;
+        private System.Windows.Forms.PictureBox pictureBox27;
+        private System.Windows.Forms.PictureBox pictureBox26;
+        private System.Windows.Forms.PictureBox pictureBox25;
+        private System.Windows.Forms.PictureBox pictureBox24;
+        private System.Windows.Forms.PictureBox pictureBox23;
+        private System.Windows.Forms.PictureBox pictureBox22;
+        private System.Windows.Forms.PictureBox pictureBox21;
+        private System.Windows.Forms.PictureBox pictureBox20;
+        private System.Windows.Forms.PictureBox pictureBox19;
+        private System.Windows.Forms.PictureBox pictureBox18;
+        private System.Windows.Forms.PictureBox pictureBox17;
+        private System.Windows.Forms.Button button5;
     }
 }

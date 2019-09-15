@@ -16,6 +16,9 @@ namespace NMSCoordinates
         public Form5()
         {
             InitializeComponent();
+
+            Glyphs();
+
             pictureBox1.ImageLocation = @".\glyphs\0.png";
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox2.ImageLocation = @".\glyphs\1.png";
@@ -48,8 +51,44 @@ namespace NMSCoordinates
             pictureBox15.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox16.ImageLocation = @".\glyphs\F.png";
             pictureBox16.SizeMode = PictureBoxSizeMode.StretchImage;
-        }     
-        
+        }
+        private void ShowGlyphs()
+        {
+            try
+            {
+                //Display selected location glyph images
+                pictureBox17.Image = glyphDict[_gl1];
+                pictureBox17.SizeMode = PictureBoxSizeMode.StretchImage;
+                pictureBox18.Image = glyphDict[_gl2];
+                pictureBox18.SizeMode = PictureBoxSizeMode.StretchImage;
+                pictureBox19.Image = glyphDict[_gl3];
+                pictureBox19.SizeMode = PictureBoxSizeMode.StretchImage;
+                pictureBox20.Image = glyphDict[_gl4];
+                pictureBox20.SizeMode = PictureBoxSizeMode.StretchImage;
+                pictureBox21.Image = glyphDict[_gl5];
+                pictureBox21.SizeMode = PictureBoxSizeMode.StretchImage;
+                pictureBox22.Image = glyphDict[_gl6];
+                pictureBox22.SizeMode = PictureBoxSizeMode.StretchImage;
+                pictureBox23.Image = glyphDict[_gl7];
+                pictureBox23.SizeMode = PictureBoxSizeMode.StretchImage;
+                pictureBox24.Image = glyphDict[_gl8];
+                pictureBox24.SizeMode = PictureBoxSizeMode.StretchImage;
+                pictureBox25.Image = glyphDict[_gl9];
+                pictureBox25.SizeMode = PictureBoxSizeMode.StretchImage;
+                pictureBox26.Image = glyphDict[_gl10];
+                pictureBox26.SizeMode = PictureBoxSizeMode.StretchImage;
+                pictureBox27.Image = glyphDict[_gl11];
+                pictureBox27.SizeMode = PictureBoxSizeMode.StretchImage;
+                pictureBox28.Image = glyphDict[_gl12];
+                pictureBox28.SizeMode = PictureBoxSizeMode.StretchImage;
+            }
+            catch
+            {
+
+            }
+            
+        }
+
         public static void AppendLine(TextBox source, string value)
         {
             //My neat little textbox handler
@@ -198,7 +237,69 @@ namespace NMSCoordinates
             //[SSI][Y][Z][X] Portal Code
             AppendLine(textBox7, "*** Portal Code: " + PortalCode + " ***");
         }
+        private void PortalLookup()
+        {
+            try
+            {
+                //Index chars in PortalCode
+                if (PortalCode[0] != '\0')
+                     _gl1 = PortalCode[0];
+                if (PortalCode[1] != '\0')
+                    _gl2 = PortalCode[1];
+                if (PortalCode[2] != '\0')
+                    _gl3 = PortalCode[2];
+                if (PortalCode[3] != '\0')
+                    _gl4 = PortalCode[3];
+                if (PortalCode[4] != '\0')
+                    _gl5 = PortalCode[4];
+                if (PortalCode[5] != '\0')
+                    _gl6 = PortalCode[5];
+                if (PortalCode[6] != '\0')
+                    _gl7 = PortalCode[6];
+                if (PortalCode[7] != '\0')
+                    _gl8 = PortalCode[7];
+                if (PortalCode[8] != '\0')
+                    _gl9 = PortalCode[8];
+                if (PortalCode[9] != '\0')
+                    _gl10 = PortalCode[9];
+                if (PortalCode[10] != '\0')
+                    _gl11 = PortalCode[10];
+                if (PortalCode[11] != '\0')
+                    _gl12 = PortalCode[11];
+            }
+            catch
+            {
+                return;
+            }
+            
+        }
+        private void Glyphs()
+        {
+            glyphDict = new Dictionary<char, Bitmap>();
+            glyphDict.Add('0', Properties.Resources._0);
+            glyphDict.Add('1', Properties.Resources._1);
+            glyphDict.Add('2', Properties.Resources._2);
+            glyphDict.Add('3', Properties.Resources._3);
+            glyphDict.Add('4', Properties.Resources._4);
+            glyphDict.Add('5', Properties.Resources._5);
+            glyphDict.Add('6', Properties.Resources._6);
+            glyphDict.Add('7', Properties.Resources._7);
+            glyphDict.Add('8', Properties.Resources._8);
+            glyphDict.Add('9', Properties.Resources._9);
+            glyphDict.Add('A', Properties.Resources.A);
+            glyphDict.Add('B', Properties.Resources.B);
+            glyphDict.Add('C', Properties.Resources.C);
+            glyphDict.Add('D', Properties.Resources.D);
+            glyphDict.Add('E', Properties.Resources.E);
+            glyphDict.Add('F', Properties.Resources.F);
 
+            glyphDict.Add('a', Properties.Resources.A);
+            glyphDict.Add('b', Properties.Resources.B);
+            glyphDict.Add('c', Properties.Resources.C);
+            glyphDict.Add('d', Properties.Resources.D);
+            glyphDict.Add('e', Properties.Resources.E);
+            glyphDict.Add('f', Properties.Resources.F);
+        }
         private void PortalToVoxel(string portalcode)
         {
             //0 04A FB 9F6 C9D
@@ -313,6 +414,83 @@ namespace NMSCoordinates
             textBox5.Clear();
             textBox6.Clear();
             textBox7.Clear();
+            textBox8.Clear();
+
+            pictureBox17.Image = null;
+            pictureBox18.Image = null;
+            pictureBox19.Image = null;
+            pictureBox20.Image = null;
+            pictureBox21.Image = null;
+            pictureBox22.Image = null;
+            pictureBox23.Image = null;
+            pictureBox24.Image = null;
+            pictureBox25.Image = null;
+            pictureBox26.Image = null;
+            pictureBox27.Image = null;
+            pictureBox28.Image = null;
+
+            PortalCode = "";
+
+            _gl1 = '\0';
+            _gl2 = '\0';
+            _gl3 = '\0';
+            _gl4 = '\0';
+            _gl5 = '\0';
+            _gl6 = '\0';
+            _gl7 = '\0';
+            _gl8 = '\0';
+            _gl9 = '\0';
+            _gl10 = '\0';
+            _gl11 = '\0';
+            _gl12 = '\0';
+        }
+        private void TextBox1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Button1_Click(this, new EventArgs());
+            }
+
+            if (e.KeyCode == Keys.Back)
+            {
+                Clear();
+            }
+        }
+        private void TextBox2_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Button2_Click(this, new EventArgs());
+            }
+
+            if (e.KeyCode == Keys.Back)
+            {
+                Clear();
+            }
+        }
+        private void TextBox8_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Button4_Click(this, new EventArgs());
+            }
+
+            if (e.KeyCode == Keys.Back)
+            {
+                Clear();
+            }
+        }
+        private void TextBox6_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Button3_Click(this, new EventArgs());
+            }
+
+            if (e.KeyCode == Keys.Back)
+            {
+                Clear();
+            }
         }
         private void Button1_Click(object sender, EventArgs e)
         {
@@ -327,9 +505,22 @@ namespace NMSCoordinates
                     textBox5.Clear();
                     textBox6.Clear();
                     textBox7.Clear();
-                    //Gives both Galactic and Voxel
-                    PortalToVoxel((textBox1.Text).Replace(" ", ""));
-                    textBox2.Text = GalacticCoord2;
+
+                    string t1 = textBox1.Text.Replace(" ", "");
+
+                    if(t1.Length == 12 && !textBox1.Text.Contains(":"))
+                    {
+                        //Gives both Galactic and Voxel
+                        PortalToVoxel(t1);
+                        textBox2.Text = GalacticCoord2;
+                        PortalCode = textBox1.Text;
+                    }
+                    else
+                    {
+                        Clear();
+                        AppendLine(textBox7, "Incorrect Coordinate Input!");
+                    }
+                        
                 }
             }
             catch
@@ -353,14 +544,42 @@ namespace NMSCoordinates
                     textBox6.Clear();
                     textBox7.Clear();
 
-                    string[] value = textBox2.Text.Replace(" ", "").Split(':');
-                    GalacticToVoxel(value[0].Trim(), value[1].Trim(), value[2].Trim(), value[3].Trim());
-                    GalacticToPortal(value[0].Trim(), value[1].Trim(), value[2].Trim(), value[3].Trim());
+                    string t2 = textBox2.Text.Replace(" ", "");
+
+                    if (t2.Contains(":") && t2.Length == 19)
+                    {
+                        string[] value = t2.Replace(" ", "").Split(':');
+                        GalacticToVoxel(value[0].Trim(), value[1].Trim(), value[2].Trim(), value[3].Trim());
+                        GalacticToPortal(value[0].Trim(), value[1].Trim(), value[2].Trim(), value[3].Trim());
+
+                        textBox1.Text = PortalCode;
+                    }
+
+                    if(t2.Length == 16 && !t2.Contains(":"))
+                    {
+                        //string gc = textBox2.Text.Replace(" ", "");  //0000 0000 0000 0000
+                        string g1 = t2.Substring(t2.Length - 4, 4);
+                        string g2 = t2.Substring(t2.Length - 8, 4);
+                        string g3 = t2.Substring(t2.Length - 12, 4);
+                        string g4 = t2.Substring(t2.Length - 16, 4);
+
+                        GalacticToVoxel(g4, g3, g2, g1);
+                        GalacticToPortal(g4, g3, g2, g1);
+
+                        textBox1.Text = PortalCode;
+                    }
+
+                    if(t2.Replace(":", "").Length < 16 | t2.Replace(":", "").Length > 16 | t2.Length < 16)
+                    {
+                        Clear();
+                        AppendLine(textBox7, "Incorrect Coordinate Input!");
+                    }
+                    
                 }
             }
             catch
             {
-                Clear();
+                Clear();                
                 AppendLine(textBox7, "Incorrect Coordinate Input!");
             }
         }
@@ -377,8 +596,12 @@ namespace NMSCoordinates
                     textBox7.Clear();
 
                     VoxelToGalacticCoord(Convert.ToInt32(textBox3.Text), Convert.ToInt32(textBox4.Text), Convert.ToInt32(textBox5.Text), Convert.ToInt32(textBox6.Text));
+                    textBox2.Text = GalacticCoord;
                     string[] value = GalacticCoord.Replace(" ", "").Split(':');
                     GalacticToPortal(value[0].Trim(), value[1].Trim(), value[2].Trim(), value[3].Trim());
+                    textBox1.Text = PortalCode;
+                    //PortalLookup();
+                    //ShowGlyphs();
                 }
             }
             catch
@@ -407,82 +630,130 @@ namespace NMSCoordinates
 
         private void PictureBox1_Click(object sender, EventArgs e)
         {
-            textBox1.AppendText("0");
+            if (textBox1.TextLength < 12)
+                textBox1.AppendText("0");
+            else
+                Clear();
         }
 
         private void PictureBox2_Click(object sender, EventArgs e)
         {
-            textBox1.AppendText("1");
+            if (textBox1.TextLength < 12)
+                textBox1.AppendText("1");
+            else
+                Clear();
         }
 
         private void PictureBox3_Click(object sender, EventArgs e)
         {
-            textBox1.AppendText("2");
+            if (textBox1.TextLength < 12)
+                textBox1.AppendText("2");
+            else
+                Clear();
         }
 
         private void PictureBox4_Click(object sender, EventArgs e)
         {
-            textBox1.AppendText("3");
+            if (textBox1.TextLength < 12)
+                textBox1.AppendText("3");
+            else
+                Clear();
         }
 
         private void PictureBox5_Click(object sender, EventArgs e)
         {
-            textBox1.AppendText("4");
+            if (textBox1.TextLength < 12)
+                textBox1.AppendText("4");
+            else
+                Clear();
         }
 
         private void PictureBox6_Click(object sender, EventArgs e)
         {
-            textBox1.AppendText("5");
+            if (textBox1.TextLength < 12)
+                textBox1.AppendText("5");
+            else
+                Clear();
         }
 
         private void PictureBox7_Click(object sender, EventArgs e)
         {
-            textBox1.AppendText("6");
+            if (textBox1.TextLength < 12)
+                textBox1.AppendText("6");
+            else
+                Clear();
         }
 
         private void PictureBox8_Click(object sender, EventArgs e)
         {
-            textBox1.AppendText("7");
+            if (textBox1.TextLength < 12)
+                textBox1.AppendText("7");
+            else
+                Clear();
         }
 
         private void PictureBox9_Click(object sender, EventArgs e)
         {
-            textBox1.AppendText("8");
+            if (textBox1.TextLength < 12)
+                textBox1.AppendText("8");
+            else
+                Clear();
         }
 
         private void PictureBox10_Click(object sender, EventArgs e)
         {
-            textBox1.AppendText("9");
+            if (textBox1.TextLength < 12)
+                textBox1.AppendText("9");
+            else
+                Clear();
         }
 
         private void PictureBox11_Click(object sender, EventArgs e)
         {
-            textBox1.AppendText("A");
+            if (textBox1.TextLength < 12)
+                textBox1.AppendText("A");
+            else
+                Clear();
         }
 
         private void PictureBox12_Click(object sender, EventArgs e)
         {
-            textBox1.AppendText("B");
+            if (textBox1.TextLength < 12)
+                textBox1.AppendText("B");
+            else
+                Clear();
         }
 
         private void PictureBox13_Click(object sender, EventArgs e)
         {
-            textBox1.AppendText("C");
+            if (textBox1.TextLength < 12)
+                textBox1.AppendText("C");
+            else
+                Clear();
         }
 
         private void PictureBox14_Click(object sender, EventArgs e)
         {
-            textBox1.AppendText("D");
+            if (textBox1.TextLength < 12)
+                textBox1.AppendText("D");
+            else
+                Clear();
         }
 
         private void PictureBox15_Click(object sender, EventArgs e)
         {
-            textBox1.AppendText("E");
+            if (textBox1.TextLength < 12)
+                textBox1.AppendText("E");
+            else
+                Clear();
         }
 
         private void PictureBox16_Click(object sender, EventArgs e)
         {
-            textBox1.AppendText("F");
+            if (textBox1.TextLength < 12)
+                textBox1.AppendText("F");
+            else
+                Clear();
         }
         private Form1 f1;
         private void ToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -516,15 +787,26 @@ namespace NMSCoordinates
 
         private void ToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            Clipboard.Clear();    //Clear if any old value is there in Clipboard        
-            Clipboard.SetText(textBox2.Text); //Copy text to Clipboard
-
-             //Get text from Clipboard
+            Clipboard.Clear();  //Clear if any old value is there in Clipboard  
+            if (textBox2.Text != "")
+                Clipboard.SetText(textBox2.Text); //Copy text to Clipboard
         }
 
         private void ToolStripMenuItem3_Click(object sender, EventArgs e)
         {
             textBox2.Text = Clipboard.GetText();
+        }
+
+        private void Button5_Click(object sender, EventArgs e)
+        {
+            Clear();
+        }
+
+        private void TextBox1_TextChanged(object sender, EventArgs e)
+        {
+            PortalCode = textBox1.Text;
+            PortalLookup();
+            ShowGlyphs();
         }        
     }
 }
