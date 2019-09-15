@@ -2586,6 +2586,13 @@ namespace NMSCoordinates
         {
             Process.Start(@".\backup");
         }
+
+        private void SaveFileManagerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form6 f6 = new Form6();
+            f6.nmsPath = nmsPath;
+            f6.ShowDialog();
+        }
     }
 }
     
