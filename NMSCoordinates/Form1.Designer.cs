@@ -49,6 +49,7 @@ namespace NMSCoordinates
             this.discoveriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backupALLSaveFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runPowerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveFileManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.screenshotPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.screenshotPageToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -307,7 +308,8 @@ namespace NMSCoordinates
             this.selectSaveFolderToolStripMenuItem,
             this.openBackupFolderToolStripMenuItem,
             this.backupToolStripMenuItem,
-            this.runPowerToolStripMenuItem});
+            this.runPowerToolStripMenuItem,
+            this.saveFileManagerToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -371,6 +373,13 @@ namespace NMSCoordinates
             this.runPowerToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.runPowerToolStripMenuItem.Text = "Run PowerShell";
             this.runPowerToolStripMenuItem.Click += new System.EventHandler(this.RunPowerToolStripMenuItem_Click);
+            // 
+            // saveFileManagerToolStripMenuItem
+            // 
+            this.saveFileManagerToolStripMenuItem.Name = "saveFileManagerToolStripMenuItem";
+            this.saveFileManagerToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.saveFileManagerToolStripMenuItem.Text = "Save File Manager";
+            this.saveFileManagerToolStripMenuItem.Click += new System.EventHandler(this.SaveFileManagerToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
@@ -2436,6 +2445,7 @@ namespace NMSCoordinates
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.ToolStripMenuItem openBackupFolderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveFileManagerToolStripMenuItem;
     }
 }
 

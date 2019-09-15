@@ -28,7 +28,7 @@ namespace NMSCoordinates
             InitializeComponent();
 
             //Set Version here
-            label29.Text = "Version 1.0.8.1";
+            label29.Text = "Version 1.0.9";
 
             Glyphs();
             GIndex();
@@ -2585,6 +2585,13 @@ namespace NMSCoordinates
         private void OpenBackupFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Process.Start(@".\backup");
+        }
+
+        private void SaveFileManagerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form6 f6 = new Form6();
+            f6.nmsPath = nmsPath;
+            f6.ShowDialog();
         }
     }
 }
