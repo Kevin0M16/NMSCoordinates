@@ -170,6 +170,7 @@ namespace NMSCoordinates
             this.groupBox13 = new System.Windows.Forms.GroupBox();
             this.textBox16 = new System.Windows.Forms.TextBox();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.label30 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
             this.button10 = new System.Windows.Forms.Button();
             this.textBox26 = new System.Windows.Forms.TextBox();
@@ -200,6 +201,7 @@ namespace NMSCoordinates
             this.toolTip3 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip4 = new System.Windows.Forms.ToolTip(this.components);
             this.label29 = new System.Windows.Forms.Label();
+            this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -254,6 +256,7 @@ namespace NMSCoordinates
             this.groupBox21.SuspendLayout();
             this.groupBox19.SuspendLayout();
             this.groupBox18.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.SuspendLayout();
             // 
             // contextMenuStrip2
@@ -1389,17 +1392,16 @@ namespace NMSCoordinates
             // 
             this.label26.AutoSize = true;
             this.label26.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label26.Location = new System.Drawing.Point(20, 25);
+            this.label26.Location = new System.Drawing.Point(36, 25);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(165, 15);
+            this.label26.Size = new System.Drawing.Size(134, 15);
             this.label26.TabIndex = 72;
-            this.label26.Text = "Select an autosave file to use";
+            this.label26.Text = "Select a save file to use";
             // 
             // button12
             // 
-            this.button12.Enabled = false;
             this.button12.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button12.Location = new System.Drawing.Point(62, 82);
+            this.button12.Location = new System.Drawing.Point(66, 82);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(75, 23);
             this.button12.TabIndex = 71;
@@ -1412,14 +1414,13 @@ namespace NMSCoordinates
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Enabled = false;
             this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBox1.ForeColor = System.Drawing.Color.White;
-            this.checkBox1.Location = new System.Drawing.Point(23, 56);
+            this.checkBox1.Location = new System.Drawing.Point(51, 53);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(166, 20);
+            this.checkBox1.Size = new System.Drawing.Size(104, 20);
             this.checkBox1.TabIndex = 59;
-            this.checkBox1.Text = "AutoSave Travel Mode";
+            this.checkBox1.Text = "Travel Mode";
             this.toolTip2.SetToolTip(this.checkBox1, "Use when traveling thru a Terminus or Teleport to save the SpaceStations\r\nthat NM" +
         "S deletes to locbackup_deleted.txt. Must use an Autosave file.");
             this.checkBox1.UseVisualStyleBackColor = true;
@@ -1735,6 +1736,7 @@ namespace NMSCoordinates
             // groupBox12
             // 
             this.groupBox12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(72)))), ((int)(((byte)(72)))), ((int)(((byte)(72)))));
+            this.groupBox12.Controls.Add(this.label30);
             this.groupBox12.Controls.Add(this.label28);
             this.groupBox12.Controls.Add(this.button10);
             this.groupBox12.Controls.Add(this.textBox26);
@@ -1750,6 +1752,18 @@ namespace NMSCoordinates
             this.groupBox12.TabIndex = 1;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Load Save File";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.BackColor = System.Drawing.Color.Transparent;
+            this.label30.ForeColor = System.Drawing.Color.LimeGreen;
+            this.label30.Location = new System.Drawing.Point(149, 25);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(213, 15);
+            this.label30.TabIndex = 73;
+            this.label30.Text = "Slot Selection Disabled (Travel Mode)";
+            this.label30.Visible = false;
             // 
             // label28
             // 
@@ -2072,6 +2086,13 @@ namespace NMSCoordinates
             this.label29.TabIndex = 36;
             this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // fileSystemWatcher1
+            // 
+            this.fileSystemWatcher1.EnableRaisingEvents = true;
+            this.fileSystemWatcher1.Filter = "*.hg";
+            this.fileSystemWatcher1.SynchronizingObject = this;
+            this.fileSystemWatcher1.Changed += new System.IO.FileSystemEventHandler(this.FileSystemWatcher1_Changed);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
@@ -2162,6 +2183,7 @@ namespace NMSCoordinates
             this.groupBox19.PerformLayout();
             this.groupBox18.ResumeLayout(false);
             this.groupBox18.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2253,6 +2275,8 @@ namespace NMSCoordinates
         public Dictionary<int, string> sn3;
         public Dictionary<int, string> sn4;
         public Dictionary<int, string> sn5;
+
+        
 
         public List<string> DiscList { get; private set; }
 
@@ -2446,6 +2470,8 @@ namespace NMSCoordinates
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.ToolStripMenuItem openBackupFolderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveFileManagerToolStripMenuItem;
+        private FileSystemWatcher fileSystemWatcher1;
+        private System.Windows.Forms.Label label30;
     }
 }
 
