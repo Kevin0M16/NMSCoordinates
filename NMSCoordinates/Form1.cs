@@ -139,6 +139,7 @@ namespace NMSCoordinates
                 comboBox2.ValueMember = "KEY";              
 
                 hgFileDir = Path.GetDirectoryName(Files[0].FullName);
+                fileSystemWatcher1.Path = hgFileDir;
 
                 textBox16.Clear();
                 AppendLine(textBox16, hgFileDir); 
@@ -1067,6 +1068,9 @@ namespace NMSCoordinates
         }
         private async Task ReadSave(int slot)
         {
+            //Turn off file watcher
+            fileSystemWatcher1.EnableRaisingEvents = false;
+
             //Backup original save file
             BackUpSaveSlotNoMsg(slot);
 
@@ -1103,6 +1107,8 @@ namespace NMSCoordinates
 
             await Task.Delay(2000);
 
+            //Turn back on file watcher
+            fileSystemWatcher1.EnableRaisingEvents = true;
         }
         private async Task WriteSave(int slot)
         {
@@ -1125,12 +1131,18 @@ namespace NMSCoordinates
                     break;
             }
 
+            //Turn off file watcher
+            fileSystemWatcher1.EnableRaisingEvents = false;
+
             ProcessStartInfo startInfo = new ProcessStartInfo(@"Powershell.exe");
             startInfo.WindowStyle = ProcessWindowStyle.Hidden;
             startInfo.Arguments = encrypt;
             Process.Start(startInfo);
 
             await Task.Delay(2000);
+
+            //Turn back on file watcher
+            fileSystemWatcher1.EnableRaisingEvents = true;
 
             AppendLine(textBox27, "Save file on Slot: ( " + saveslot + " ) backed up to \\backup folder...");
         }
@@ -1504,6 +1516,7 @@ namespace NMSCoordinates
                     foreach (FileInfo file in Files)
                     {
                         hgFilePath = file.FullName;
+                        //fileSystemWatcher1.Filter = file.Name;
                     }
                 }
                 else
@@ -1522,7 +1535,7 @@ namespace NMSCoordinates
 
                 var nms = Nms.FromJson(json);
                 gamemode = nms.F2P.ToString();
-                GameModeLookup(label28, gamemode);
+                GameModeLookup(label28, gamemode);               
 
             }
         }
@@ -1537,16 +1550,16 @@ namespace NMSCoordinates
             string selected = this.comboBox1.GetItemText(this.comboBox1.SelectedItem);
             GetSaveFile(selected);
 
-            if (selected == "save.hg" || selected == "save3.hg" || selected == "save5.hg" || selected == "save7.hg" || selected == "save9.hg")
-            {
-                checkBox1.Enabled = true;
-                button12.Enabled = true;
-            }
-            else
-            {
-                checkBox1.Enabled = false;
-                button12.Enabled = false;
-            }
+            //if (selected == "save.hg" || selected == "save3.hg" || selected == "save5.hg" || selected == "save7.hg" || selected == "save9.hg")
+            //{
+            //    checkBox1.Enabled = true;
+            //    button12.Enabled = true;
+            //}
+            //else
+            //{
+            //    checkBox1.Enabled = false;
+            //    button12.Enabled = false;
+            //}
 
             Loadlsb1();
             Loadlsb3();
@@ -1567,6 +1580,7 @@ namespace NMSCoordinates
 
             DiscList = new List<string>();
             BaseList = new List<string>();
+            
         }
         private async void Form1_Shown(object sender, EventArgs e)
         {
@@ -1856,6 +1870,13 @@ namespace NMSCoordinates
             get { return textBox14.Text; }
             set { textBox14.Text = value; }
         }
+
+        public void ShowMessage()
+        {
+            MessageBox.Show("File Changed", "File");
+        }
+
+
         private Form5 f5;
         private void Button7_Click(object sender, EventArgs e)
         {
@@ -2371,7 +2392,9 @@ namespace NMSCoordinates
             if (checkBox1.Checked)
             {
                 comboBox2.Enabled = false;
-                comboBox1.Enabled = false;
+                label30.Visible = true;
+                AppendLine(textBox17, "Save Slot Selection Disabled...");
+                //comboBox1.Enabled = false;
 
                 SSlist.Clear();
                 PrevSSlist.Clear();
@@ -2388,7 +2411,8 @@ namespace NMSCoordinates
             else
             {
                 comboBox2.Enabled = true;
-                comboBox1.Enabled = true;
+                label30.Visible = false;
+                //comboBox1.Enabled = true;
             }
         }
 
@@ -2464,7 +2488,7 @@ namespace NMSCoordinates
         {
             offToolStripMenuItem.Checked = false;
             groupBox20.Show();
-            AppendLine(textBox17, "Travel Mode VISIBLE. Select an autosave and click the box");
+            AppendLine(textBox17, "Travel Mode VISIBLE. Select a save and click the box");
         }
 
         private void OffToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2592,6 +2616,57 @@ namespace NMSCoordinates
             Form6 f6 = new Form6();
             f6.nmsPath = nmsPath;
             f6.ShowDialog();
+        }
+
+        List<String> _changedFiles = new List<string>();
+        
+
+        private void FileSystemWatcher1_Changed(object sender, FileSystemEventArgs e)
+        {
+            List<string> list = new List<string>();
+
+            foreach(KeyValuePair<int,string> item in comboBox1.Items)
+            {
+                list.Add(item.Value);
+            }
+
+            if (list.Contains(e.Name))
+            {
+                lock (_changedFiles)
+                {
+                    if (_changedFiles.Contains(e.FullPath))
+                    {
+                        return;
+                    }
+                    _changedFiles.Add(e.FullPath);
+                }
+
+                Form7 f7 = new Form7();
+                f7.ShowDialog();
+
+                if (f7.SaveChanged == true)
+                {
+                    var selected = comboBox2.SelectedItem;
+                    ClearAll();
+                    LoadCmbx();
+                    comboBox2.SelectedItem = selected;
+                    ComboBox2_SelectionChangeCommitted(this, new EventArgs());
+                }
+                else
+                {
+                    AppendLine(textBox17, "Not Viewing the latest save!");
+                }
+
+                System.Timers.Timer timer = new System.Timers.Timer(1000) { AutoReset = false };
+                timer.Elapsed += (timerElapsedSender, timerElapsedArgs) =>
+                {
+                    lock (_changedFiles)
+                    {
+                        _changedFiles.Remove(e.FullPath);
+                    }
+                };
+                timer.Start();
+            }
         }
     }
 }
