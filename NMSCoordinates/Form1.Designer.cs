@@ -39,6 +39,7 @@ namespace NMSCoordinates
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteSingleRecordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectSaveFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,6 +64,7 @@ namespace NMSCoordinates
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label32 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.textBox18 = new System.Windows.Forms.TextBox();
             this.progressBar3 = new System.Windows.Forms.ProgressBar();
@@ -74,6 +76,7 @@ namespace NMSCoordinates
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.textBox11 = new System.Windows.Forms.TextBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.label31 = new System.Windows.Forms.Label();
             this.listBox4 = new System.Windows.Forms.ListBox();
             this.button6 = new System.Windows.Forms.Button();
             this.listBox3 = new System.Windows.Forms.ListBox();
@@ -147,6 +150,7 @@ namespace NMSCoordinates
             this.textBox17 = new System.Windows.Forms.TextBox();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.button13 = new System.Windows.Forms.Button();
             this.label21 = new System.Windows.Forms.Label();
             this.textBox23 = new System.Windows.Forms.TextBox();
             this.textBox21 = new System.Windows.Forms.TextBox();
@@ -275,11 +279,12 @@ namespace NMSCoordinates
             // 
             // contextMenuStrip1
             // 
-            this.contextMenuStrip1.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.contextMenuStrip1.BackColor = System.Drawing.SystemColors.Control;
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1});
+            this.toolStripMenuItem1,
+            this.deleteSingleRecordToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(191, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(191, 48);
             // 
             // toolStripMenuItem1
             // 
@@ -291,6 +296,13 @@ namespace NMSCoordinates
             this.toolStripMenuItem1.Size = new System.Drawing.Size(190, 22);
             this.toolStripMenuItem1.Text = "Export Single Record";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.ToolStripMenuItem1_Click);
+            // 
+            // deleteSingleRecordToolStripMenuItem
+            // 
+            this.deleteSingleRecordToolStripMenuItem.Name = "deleteSingleRecordToolStripMenuItem";
+            this.deleteSingleRecordToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.deleteSingleRecordToolStripMenuItem.Text = "Delete Single Record";
+            this.deleteSingleRecordToolStripMenuItem.Click += new System.EventHandler(this.DeleteSingleRecordToolStripMenuItem_Click);
             // 
             // menuStrip1
             // 
@@ -489,6 +501,7 @@ namespace NMSCoordinates
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.tabPage3.Controls.Add(this.label32);
             this.tabPage3.Controls.Add(this.label27);
             this.tabPage3.Controls.Add(this.textBox18);
             this.tabPage3.Controls.Add(this.progressBar3);
@@ -504,6 +517,18 @@ namespace NMSCoordinates
             this.tabPage3.Size = new System.Drawing.Size(868, 908);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Coordinate Share";
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label32.ForeColor = System.Drawing.Color.DarkOrange;
+            this.label32.Location = new System.Drawing.Point(23, 338);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(192, 16);
+            this.label32.TabIndex = 40;
+            this.label32.Text = "Right click to Delete or Export ^";
+            this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label27
             // 
@@ -544,7 +569,7 @@ namespace NMSCoordinates
             this.textBox13.Name = "textBox13";
             this.textBox13.ReadOnly = true;
             this.textBox13.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox13.Size = new System.Drawing.Size(526, 115);
+            this.textBox13.Size = new System.Drawing.Size(526, 129);
             this.textBox13.TabIndex = 34;
             // 
             // groupBox16
@@ -621,15 +646,28 @@ namespace NMSCoordinates
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.label31);
             this.groupBox8.Controls.Add(this.listBox4);
             this.groupBox8.Controls.Add(this.button6);
             this.groupBox8.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBox8.Location = new System.Drawing.Point(22, 435);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(292, 260);
+            this.groupBox8.Size = new System.Drawing.Size(292, 274);
             this.groupBox8.TabIndex = 38;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Location Backup Files";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label31.ForeColor = System.Drawing.Color.DarkOrange;
+            this.label31.Location = new System.Drawing.Point(11, 186);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(270, 16);
+            this.label31.TabIndex = 39;
+            this.label31.Text = "Select + click the Load button or double click";
+            this.label31.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // listBox4
             // 
@@ -638,7 +676,7 @@ namespace NMSCoordinates
             this.listBox4.ForeColor = System.Drawing.Color.Azure;
             this.listBox4.FormattingEnabled = true;
             this.listBox4.ItemHeight = 15;
-            this.listBox4.Location = new System.Drawing.Point(18, 35);
+            this.listBox4.Location = new System.Drawing.Point(18, 29);
             this.listBox4.Name = "listBox4";
             this.listBox4.Size = new System.Drawing.Size(253, 154);
             this.listBox4.TabIndex = 37;
@@ -648,9 +686,9 @@ namespace NMSCoordinates
             // 
             this.button6.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button6.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button6.Location = new System.Drawing.Point(77, 195);
+            this.button6.Location = new System.Drawing.Point(77, 214);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(142, 42);
+            this.button6.Size = new System.Drawing.Size(134, 32);
             this.button6.TabIndex = 34;
             this.button6.Text = "Load locbackup.txt";
             this.button6.UseVisualStyleBackColor = true;
@@ -1476,6 +1514,7 @@ namespace NMSCoordinates
             // 
             // groupBox11
             // 
+            this.groupBox11.Controls.Add(this.button13);
             this.groupBox11.Controls.Add(this.label21);
             this.groupBox11.Controls.Add(this.textBox23);
             this.groupBox11.Controls.Add(this.textBox21);
@@ -1483,12 +1522,23 @@ namespace NMSCoordinates
             this.groupBox11.Controls.Add(this.label20);
             this.groupBox11.Controls.Add(this.textBox22);
             this.groupBox11.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.groupBox11.Location = new System.Drawing.Point(23, 168);
+            this.groupBox11.Location = new System.Drawing.Point(23, 152);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(208, 195);
+            this.groupBox11.Size = new System.Drawing.Size(208, 243);
             this.groupBox11.TabIndex = 67;
             this.groupBox11.TabStop = false;
-            this.groupBox11.Text = "Location Coordinates";
+            this.groupBox11.Text = "Current Location Coordinates";
+            // 
+            // button13
+            // 
+            this.button13.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.button13.Location = new System.Drawing.Point(38, 194);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(115, 29);
+            this.button13.TabIndex = 70;
+            this.button13.Text = "Backup Current";
+            this.button13.UseVisualStyleBackColor = true;
+            this.button13.Click += new System.EventHandler(this.Button13_Click);
             // 
             // label21
             // 
@@ -2120,6 +2170,7 @@ namespace NMSCoordinates
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
             this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
             this.groupBox10.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
@@ -2287,7 +2338,7 @@ namespace NMSCoordinates
         public List<string> firstNotSecond = new List<string>();
         public List<string> secondNotFirst = new List<string>();
 
-        public List<string> DeletedSSlist = new List<string>();
+        //public List<string> DeletedSSlist = new List<string>();
 
         public List<string> BaseList { get; private set; }
         //public List<Bitmap> glyphlist { get; private set; }
@@ -2472,6 +2523,10 @@ namespace NMSCoordinates
         private System.Windows.Forms.ToolStripMenuItem saveFileManagerToolStripMenuItem;
         private FileSystemWatcher fileSystemWatcher1;
         private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Button button13;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.ToolStripMenuItem deleteSingleRecordToolStripMenuItem;
+        private System.Windows.Forms.Label label32;
     }
 }
 
