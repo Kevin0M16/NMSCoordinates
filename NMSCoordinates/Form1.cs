@@ -28,7 +28,7 @@ namespace NMSCoordinates
             InitializeComponent();
 
             //Set Version here
-            label29.Text = "Version 1.0.11";
+            label29.Text = "Version 1.0.12";
 
             Glyphs();
             GIndex();
@@ -1790,13 +1790,15 @@ namespace NMSCoordinates
             {
                 List<string> list = new List<string>();
                 DirectoryInfo dinfo2 = new DirectoryInfo(@".\backup");
-                FileInfo[] Files = dinfo2.GetFiles("locbackup*.txt", SearchOption.AllDirectories);
+                //FileInfo[] Files = dinfo2.GetFiles("locbackup*.txt", SearchOption.AllDirectories);
+                FileInfo[] Files = dinfo2.GetFiles("*.txt", SearchOption.AllDirectories);
 
                 if (Files.Length != 0)
                 {
                     foreach (FileInfo file in Files.OrderByDescending(f => f.LastWriteTime))
                     {
-                        list.Add(file.Name);
+                        if (file.Name.Contains("locbackup") || file.Name.Contains("player_loc"))
+                            list.Add(file.Name);
                     }
                 }
                 else
@@ -2099,7 +2101,7 @@ namespace NMSCoordinates
             }
             else
             {
-                AppendLine(textBox13, "No record saved! Please select a location!");
+                AppendLine(textBox13, "No record saved! Please select a txt!");
             }
             
         }
@@ -2398,12 +2400,17 @@ namespace NMSCoordinates
 
                 SSlist.Clear();
                 PrevSSlist.Clear();
-                DeletedSSlist.Clear();
+                //DeletedSSlist.Clear();
                 AppendLine(textBox17, "Reading all locations...");
                 CheckSS();
 
                 if (SSlist.Count > 0)
                 {
+                    foreach (string item in SSlist)
+                    {
+                        PrevSSlist.Add(item);
+                    }
+
                     AppendLine(textBox17, "Current Space Station locations saved.");
                     MessageBox.Show("Current Space Station locations saved.", "Confirmation");
                 }
@@ -2420,14 +2427,7 @@ namespace NMSCoordinates
         {
             string selected = this.comboBox1.GetItemText(this.comboBox1.SelectedItem);
             if (selected != "" && checkBox1.Checked)
-            {               
-
-                foreach (string item in SSlist)
-                {
-                    PrevSSlist.Add(item);
-                }
-                //listBox5.DataSource = PrevSSlist;
-
+            {  
                 ClearAll();
                 AppendLine(textBox17, "Loading Save File...");
                 GetSaveFile(selected);
@@ -2448,35 +2448,50 @@ namespace NMSCoordinates
                 List<string> list3 = new List<string>();
                 list3 = Contains(PrevSSlist, SSlist);
 
+                List<string> DeletedSSlist = new List<string>();
+
                 foreach (string item in list3)
                 {
                     if (!SSlist.Contains(item))
                         DeletedSSlist.Add(item);
                 }
-
-                //listBox6.DataSource = DeletedSSlist;
-
+                
                 if (!File.Exists(@".\backup\locbackup_deleted.txt"))
                 {
                     File.Create(@".\backup\locbackup_deleted.txt").Dispose();
-                    LoadTxt();
+                    //LoadTxt();
                 }
 
-                string[] logFile = File.ReadAllLines(@".\backup\locbackup_deleted.txt");
+                List<string> logFile = File.ReadAllLines(@".\backup\locbackup_deleted.txt").ToList();
 
-                var list = Contains(logFile.ToList(), DeletedSSlist);
-                if (list.Count >= 1)
+                List<string> noduplicates = new List<string>();
+                foreach(string item in DeletedSSlist)
                 {
-                    //listBox6.DataSource = list;
-                    File.WriteAllLines(@".\backup\locbackup_deleted.txt", list);
-                    AppendLine(textBox17, list.Count.ToString() + " Deleted locations Found.");
+                    noduplicates.Add(item);
+                }
+
+                foreach (string item in DeletedSSlist)
+                {
+                    if (!logFile.Contains(item))
+                    {
+                        logFile.Add(item);                        
+                    }
+                    else
+                    {
+                        noduplicates.Remove(item);
+                    }
+                }
+
+                if (noduplicates.Count >= 1)
+                {
+                    File.WriteAllLines(@".\backup\locbackup_deleted.txt", logFile);
+                    AppendLine(textBox17, noduplicates.Count.ToString() + " Deleted locations Found.");
+                    LoadTxt();
                 }
                 else
                 {
                     AppendLine(textBox17, "No Deleted locations Found.");
-                }
-                //var previousLines = new HashSet<string>();
-                //File.WriteAllLines(@".\backup\locbackup_deleted.txt", File.ReadLines(@".\backup\locbackup_temp.txt").Where(line => previousLines.Add(line)));
+                }                
             }
             else
             {
@@ -2666,6 +2681,91 @@ namespace NMSCoordinates
                     }
                 };
                 timer.Start();
+            }
+        }
+
+        private void Button13_Click(object sender, EventArgs e)
+        {
+            string selected = this.comboBox1.GetItemText(this.comboBox1.SelectedItem);
+            if (selected != "" && pgalaxy != "")
+            {
+                if (!File.Exists(@".\backup\player_locs.txt"))
+                    File.Create(@".\backup\player_locs.txt").Dispose();
+
+                string currentloc = "Date\\Time: " + DateTime.Now.ToString("MM-dd-yyyy HH:mm") + " ## File: " + selected + " ## G: " + pgalaxy + " - PC: " + textBox21.Text + " -- GC: " + textBox22.Text;
+
+                List<string> playerloc = File.ReadAllLines(@".\backup\player_locs.txt").ToList();
+
+                if (!playerloc.Contains(currentloc))
+                {
+                    playerloc.Add(currentloc);
+                }                    
+                else
+                {
+                    MessageBox.Show("Location already saved in player_loc.txt!", "Alert", MessageBoxButtons.OK);
+                    return;
+                }                    
+
+                File.WriteAllLines(@".\backup\player_locs.txt", playerloc);
+                MessageBox.Show("Location added to player_loc.txt \n\n\r Open in Coordinate Share Tab", "Confirmation", MessageBoxButtons.OK);
+                LoadTxt();
+
+                tabControl1.SelectedTab = tabPage3;
+                listBox4.SelectedItem = "player_locs.txt";
+                Button6_Click(this, new EventArgs());                
+            }
+            else
+            {
+                MessageBox.Show("Please select a save slot!", "Confirmation", MessageBoxButtons.OK);
+            }
+        }
+
+        private void DeleteSingleRecordToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string record = listBox3.GetItemText(listBox3.SelectedItem);
+            string filename = listBox4.GetItemText(listBox4.SelectedItem);
+            int selectedrecord = listBox3.SelectedIndex;
+            var selectedfile = listBox4.SelectedItem;
+
+            if (record != "" && filename != "")
+            {
+                string path = @".\backup\" + filename;
+                List<string> filelist = File.ReadAllLines(path).ToList();
+                
+                if (filelist.Contains(record) && filelist.Count <= 1)
+                {
+                    DialogResult dialogResult = MessageBox.Show("Delete " + filename + " ?", "Confirmation", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        File.Delete(path);
+                        LoadTxt();
+                        MessageBox.Show(filename + " deleted.", "Confirmation");
+                    }
+                    else if (dialogResult == DialogResult.No)
+                    {
+                        return;
+                    }                    
+                }
+                else if (filelist.Contains(record) && filelist.Count > 1)
+                {
+                    filelist.Remove(record);
+
+                    File.WriteAllLines(path, filelist);
+                    AppendLine(textBox13, "Single Record deleted!");
+                    LoadTxt();
+
+                    listBox4.SelectedItem = selectedfile;
+                    Button6_Click(this, new EventArgs());
+
+                    if (selectedrecord == 0)
+                        listBox3.SelectedIndex = selectedrecord;
+                    else
+                        listBox3.SelectedIndex = selectedrecord - 1;
+                }                
+            }
+            else
+            {
+                AppendLine(textBox13, "No record deleted! Please select a txt!");
             }
         }
     }

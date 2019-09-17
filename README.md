@@ -6,8 +6,12 @@ This a Coordinate Tool for No Man's Sky!
 |<img src= "ss1.png"/>|<img src= "ss4.png"/>|	
 |<img src= "ss2.png"/>|<img src= "ss3.png"/>|
 
+|               Base & SpaceStation         |
+|                :---:                      |
+|           <img src= "ss6.png"/>           |
+
 |                Save File Manager          |
-|		    :---:	            |
+|		    :---:	                        |
 |           <img src= "ss5.png"/>           |
 
 # NMSCoordinates
@@ -45,7 +49,7 @@ alt="Video" width="650" height="510" border="10" /></a>
 
 <!--* Download will be available later today. -->
 
-<pre>  <a href="https://github.com/Kevin0M16/NMSCoordinates/releases/latest/download/NMSCoordinates-v1.0.11.zip"><img src="https://img.shields.io/badge/dynamic/json.svg?label=download&url=https://api.github.com/repos/Kevin0M16/NMSCoordinates/releases/latest&query=$.assets[0].name&style=for-the-badge" alt="download"/></a></pre>
+<pre>  <a href="https://github.com/Kevin0M16/NMSCoordinates/releases/latest/download/NMSCoordinates-v1.0.12.zip"><img src="https://img.shields.io/badge/dynamic/json.svg?label=download&url=https://api.github.com/repos/Kevin0M16/NMSCoordinates/releases/latest&query=$.assets[0].name&style=for-the-badge" alt="download"/></a></pre>
 
 ## Share - Upload locations to Google Drive
 

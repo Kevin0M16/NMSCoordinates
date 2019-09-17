@@ -94,7 +94,6 @@
             this.Name = "Form7";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form7";
-            this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
 
