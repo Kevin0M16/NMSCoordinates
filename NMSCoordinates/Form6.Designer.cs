@@ -75,7 +75,7 @@
             // 
             // splitContainer1
             // 
-            this.splitContainer1.Location = new System.Drawing.Point(9, 62);
+            this.splitContainer1.Location = new System.Drawing.Point(3, 45);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -85,8 +85,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.listView1);
-            this.splitContainer1.Size = new System.Drawing.Size(665, 485);
-            this.splitContainer1.SplitterDistance = 286;
+            this.splitContainer1.Size = new System.Drawing.Size(560, 380);
+            this.splitContainer1.SplitterDistance = 263;
             this.splitContainer1.TabIndex = 1;
             // 
             // treeView1
@@ -96,10 +96,11 @@
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.ForeColor = System.Drawing.Color.Azure;
             this.treeView1.HideSelection = false;
+            this.treeView1.ImageIndex = 0;
+            this.treeView1.ImageList = this.imageList1;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(286, 485);
-            this.treeView1.StateImageList = this.imageList1;
+            this.treeView1.Size = new System.Drawing.Size(263, 380);
             this.treeView1.TabIndex = 0;
             this.toolTip4.SetToolTip(this.treeView1, "Right click a .zip file to delete the file.\r\n");
             this.treeView1.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.TreeView1_AfterExpand);
@@ -139,7 +140,7 @@
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(375, 485);
+            this.listView1.Size = new System.Drawing.Size(293, 380);
             this.listView1.SmallImageList = this.imageList1;
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
@@ -148,7 +149,7 @@
             // columnHeader1
             // 
             this.columnHeader1.Text = "Name";
-            this.columnHeader1.Width = 138;
+            this.columnHeader1.Width = 87;
             // 
             // columnHeader2
             // 
@@ -158,11 +159,11 @@
             // columnHeader3
             // 
             this.columnHeader3.Text = "Last Modified";
-            this.columnHeader3.Width = 107;
+            this.columnHeader3.Width = 106;
             // 
             // splitContainer2
             // 
-            this.splitContainer2.Location = new System.Drawing.Point(771, 62);
+            this.splitContainer2.Location = new System.Drawing.Point(625, 45);
             this.splitContainer2.Name = "splitContainer2";
             // 
             // splitContainer2.Panel1
@@ -172,8 +173,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.listView2);
-            this.splitContainer2.Size = new System.Drawing.Size(665, 485);
-            this.splitContainer2.SplitterDistance = 269;
+            this.splitContainer2.Size = new System.Drawing.Size(560, 380);
+            this.splitContainer2.SplitterDistance = 261;
             this.splitContainer2.TabIndex = 2;
             // 
             // treeView2
@@ -182,10 +183,11 @@
             this.treeView2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView2.ForeColor = System.Drawing.Color.Azure;
             this.treeView2.HideSelection = false;
+            this.treeView2.ImageIndex = 0;
+            this.treeView2.ImageList = this.imageList1;
             this.treeView2.Location = new System.Drawing.Point(0, 0);
             this.treeView2.Name = "treeView2";
-            this.treeView2.Size = new System.Drawing.Size(269, 485);
-            this.treeView2.StateImageList = this.imageList1;
+            this.treeView2.Size = new System.Drawing.Size(261, 380);
             this.treeView2.TabIndex = 0;
             this.treeView2.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.TreeView2_AfterExpand);
             this.treeView2.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView2_AfterSelect);
@@ -204,7 +206,7 @@
             this.listView2.HideSelection = false;
             this.listView2.Location = new System.Drawing.Point(0, 0);
             this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(392, 485);
+            this.listView2.Size = new System.Drawing.Size(295, 380);
             this.listView2.SmallImageList = this.imageList1;
             this.listView2.TabIndex = 0;
             this.toolTip3.SetToolTip(this.listView2, "Select save files to transfer to a .zip or Right Click to Delete");
@@ -214,17 +216,17 @@
             // columnHeader4
             // 
             this.columnHeader4.Text = "Name";
-            this.columnHeader4.Width = 132;
+            this.columnHeader4.Width = 94;
             // 
             // columnHeader5
             // 
             this.columnHeader5.Text = "Type";
-            this.columnHeader5.Width = 87;
+            this.columnHeader5.Width = 66;
             // 
             // columnHeader6
             // 
             this.columnHeader6.Text = "Last Modified";
-            this.columnHeader6.Width = 127;
+            this.columnHeader6.Width = 122;
             // 
             // contextMenuStrip2
             // 
@@ -244,7 +246,7 @@
             // 
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
-            this.button1.Location = new System.Drawing.Point(699, 219);
+            this.button1.Location = new System.Drawing.Point(569, 131);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(50, 50);
             this.button1.TabIndex = 3;
@@ -257,7 +259,7 @@
             // 
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
-            this.button2.Location = new System.Drawing.Point(699, 335);
+            this.button2.Location = new System.Drawing.Point(569, 247);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(50, 50);
             this.button2.TabIndex = 4;
@@ -269,88 +271,87 @@
             // 
             this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox1.ForeColor = System.Drawing.Color.Azure;
-            this.textBox1.Location = new System.Drawing.Point(391, 589);
+            this.textBox1.Location = new System.Drawing.Point(415, 455);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(649, 107);
+            this.textBox1.Size = new System.Drawing.Size(369, 64);
             this.textBox1.TabIndex = 5;
             // 
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label14.Location = new System.Drawing.Point(606, 17);
+            this.label14.Location = new System.Drawing.Point(517, 9);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(215, 29);
+            this.label14.Size = new System.Drawing.Size(168, 24);
             this.label14.TabIndex = 66;
             this.label14.Text = "Save File Manager";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(1177, 30);
+            this.label1.Location = new System.Drawing.Point(988, 22);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(126, 29);
+            this.label1.Size = new System.Drawing.Size(82, 20);
             this.label1.TabIndex = 67;
             this.label1.Text = "Save Files";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(93, 30);
+            this.label2.Location = new System.Drawing.Point(106, 22);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(106, 29);
+            this.label2.Size = new System.Drawing.Size(68, 20);
             this.label2.TabIndex = 68;
             this.label2.Text = "Zip Files";
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(1159, 550);
+            this.label4.Location = new System.Drawing.Point(915, 428);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(189, 48);
+            this.label4.Size = new System.Drawing.Size(189, 29);
             this.label4.TabIndex = 70;
-            this.label4.Text = "Right Click to Delete\r\n\r\nControl / Shift to Select Multiple";
+            this.label4.Text = "Right Click to Delete\r\nControl / Shift to Select Multiple";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(65, 550);
+            this.label3.Location = new System.Drawing.Point(14, 428);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(128, 16);
+            this.label3.Size = new System.Drawing.Size(104, 13);
             this.label3.TabIndex = 69;
             this.label3.Text = "Right Click to Delete";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(357, 550);
+            this.label5.Location = new System.Drawing.Point(284, 428);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(189, 16);
+            this.label5.Size = new System.Drawing.Size(156, 13);
             this.label5.TabIndex = 71;
             this.label5.Text = "Control / Shift to Select Multiple";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.Lime;
-            this.label6.Location = new System.Drawing.Point(559, 557);
+            this.label6.Location = new System.Drawing.Point(446, 433);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(330, 20);
+            this.label6.Size = new System.Drawing.Size(280, 16);
             this.label6.TabIndex = 72;
             this.label6.Text = "Always move both mf_save#.hg and save#.hg";
             // 
@@ -359,7 +360,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(88)))), ((int)(((byte)(88)))));
-            this.ClientSize = new System.Drawing.Size(1446, 708);
+            this.ClientSize = new System.Drawing.Size(1191, 523);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -400,7 +401,6 @@
 
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TreeView treeView1;
-        private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
@@ -429,5 +429,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ImageList imageList1;
     }
 }

@@ -805,6 +805,7 @@ namespace NMSCoordinates
         private void TextBox1_TextChanged(object sender, EventArgs e)
         {
             PortalCode = textBox1.Text;
+            PortalCode = PortalCode.Replace(" ", "");
             PortalLookup();
             ShowGlyphs();
         }        
