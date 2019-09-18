@@ -100,6 +100,7 @@
             this.treeView1.ImageList = this.imageList1;
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
+            this.treeView1.SelectedImageIndex = 0;
             this.treeView1.Size = new System.Drawing.Size(263, 380);
             this.treeView1.TabIndex = 0;
             this.toolTip4.SetToolTip(this.treeView1, "Right click a .zip file to delete the file.\r\n");
@@ -187,6 +188,7 @@
             this.treeView2.ImageList = this.imageList1;
             this.treeView2.Location = new System.Drawing.Point(0, 0);
             this.treeView2.Name = "treeView2";
+            this.treeView2.SelectedImageIndex = 0;
             this.treeView2.Size = new System.Drawing.Size(261, 380);
             this.treeView2.TabIndex = 0;
             this.treeView2.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.TreeView2_AfterExpand);
@@ -359,7 +361,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(88)))), ((int)(((byte)(88)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
             this.ClientSize = new System.Drawing.Size(1191, 523);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);

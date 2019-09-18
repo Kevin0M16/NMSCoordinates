@@ -758,7 +758,7 @@ namespace NMSCoordinates
         private Form1 f1;
         private void ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            f1 = new Form1();
+            //f1 = new Form1();
             f1 = (Form1)Application.OpenForms["Form1"];
             if (!f1.TextBoxPerm == true)
             {
@@ -766,7 +766,7 @@ namespace NMSCoordinates
 
                 if (f1 == null)
                 {
-                    //f1 = new Form1();
+                    f1 = new Form1();
                     f1.FormClosed += (_, arg) =>
                     {
                         f1 = null;

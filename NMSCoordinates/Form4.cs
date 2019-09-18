@@ -32,5 +32,10 @@ namespace NMSCoordinates
         {
             this.Close();
         }
+
+        private void Form4_FormClosed(object sender, FormClosedEventArgs e)
+        {
+
+        }
     }
 }

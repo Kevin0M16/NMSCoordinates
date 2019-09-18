@@ -28,7 +28,7 @@ namespace NMSCoordinates
             InitializeComponent();
 
             //Set Version here
-            label29.Text = "Version 1.0.13";
+            label29.Text = "Version 1.1.0";
 
             Glyphs();
             GIndex();
