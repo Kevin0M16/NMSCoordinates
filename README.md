@@ -46,7 +46,7 @@ alt="Video" width="550" height="410" border="10" /></a>
 
 
 ## Download
-*** New Update coming tonight -> NMSC size scaled down for lower res - Check back later***
+*** New Update coming tonight -> NMSC size scaled down for lower res - Check back later! Lot’s of new releases, but I’m close to the final ***
 
 
 <!--* Download will be available later today. -->
@@ -65,8 +65,10 @@ alt="Video" width="550" height="410" border="10" /></a>
 * Enable Manual Travel and manually enter Galactic Coordinates and Galaxy that you need to travel to.
 * Enable Travel Mode and save a record of all your locations the game deletes when traveling through a terminus or when hitting the limit.
 * Portal interference can be cleared with a button, so base building and the galaxy map are allowed after traveling through a portal.
+* Save a record of the players current location in a .txt and access it later on the Coordinate Share tab.
 * Can Backup all locations to a .txt file. You can access these on the Coordinate Share tab or share with others. You can fast travel to these also.
 * NMSCoordinates backs up your entire save folder on startup, the .zip is located in the .\backup folder.
+* Manage these NMSC .zip backups in the Save Manager.
 * You can view the last 4 screenshots taken in the game within the tool. It displays 1 on front and all 4 can be accessed in Tools --> Screenshot Page.
 * NMSCoordinates shows all calculation results in the textbox, if you like HEX and DEC.
 * NMSCoordinates Calculator is a useful tool when messing with coordinates. This converts Portal->Galactic, Galactic->Portal, Voxel to Portal/Galactic. Check it out!
@@ -78,7 +80,7 @@ Here is an overview of what you need to get started with NMSCoordinates
 ### Requirements
 
 The current version of NMSCoordinates requires No Man's Sky Beyond 2.11, but It could work with older versions.
- - [x] nmssavetool required - download the lasted NMSCoordinates release .zip, it's included.
+ - [x] nmssavetool required - download the latest NMSCoordinates release .zip above ^, everything you need is included.
 
 :exclamation: **Always back up all your game data and saves before any mods**
 
