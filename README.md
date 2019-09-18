@@ -11,7 +11,7 @@ This a Coordinate Tool for No Man's Sky!
 |           <img src= "ss6.png"/>           |
 
 |                Save File Manager          |
-|		    :---:	                        |
+|		    :---:	            |
 |           <img src= "ss5.png"/>           |
 
 # NMSCoordinates
@@ -24,28 +24,30 @@ Backup locations to txt file and and access and travel to these saved coordinate
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=-kipUjXrnOc
 " target="_blank"><img src="http://img.youtube.com/vi/-kipUjXrnOc/0.jpg" 
-alt="Video" width="650" height="510" border="10" /></a>
+alt="Video" width="550" height="410" border="10" /></a>
 
 ## Youtube Video - Travel Mode example
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=LB7yqgLsW_0
 " target="_blank"><img src="http://img.youtube.com/vi/LB7yqgLsW_0/0.jpg" 
-alt="Video" width="650" height="510" border="10" /></a>
+alt="Video" width="550" height="410" border="10" /></a>
 
 ## Youtube Video - Fast Travel example
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=Vx1xGk2TMIo
 " target="_blank"><img src="http://img.youtube.com/vi/Vx1xGk2TMIo/0.jpg" 
-alt="Video" width="650" height="510" border="10" /></a>
+alt="Video" width="550" height="410" border="10" /></a>
 
 ## Youtube Video - Manual Travel example
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=ceSFVl9LFtI
 " target="_blank"><img src="http://img.youtube.com/vi/ceSFVl9LFtI/0.jpg" 
-alt="Video" width="650" height="510" border="10" /></a>
+alt="Video" width="550" height="410" border="10" /></a>
 
 
 ## Download
+*** New Update coming tonight -> NMSC size scaled down for lower res - Check back later***
+
 
 <!--* Download will be available later today. -->
 
@@ -57,18 +59,20 @@ alt="Video" width="650" height="510" border="10" /></a>
 
 
 ## Features
+
 * View all space station and base locations discovered across all save slots and see their Glyphs, Galactic Coordinates, Portal Code, and even Voxel X,Y,Z,SSI
 * Fast travel to any selected location in the list of discoveries.
 * Enable Manual Travel and manually enter Galactic Coordinates and Galaxy that you need to travel to.
-* Enable Travel Mode and keep all your locations the game deletes when traveling through a terminus.
-* Portal interference can be cleared with a button, so base building and the galaxy map are allowed after traveling through a portal!
-* Can Backup all locations to a .txt file. You can access these on the Coordinate Share tab or share with others. You can fast travel to these also!
+* Enable Travel Mode and save a record of all your locations the game deletes when traveling through a terminus or when hitting the limit.
+* Portal interference can be cleared with a button, so base building and the galaxy map are allowed after traveling through a portal.
+* Can Backup all locations to a .txt file. You can access these on the Coordinate Share tab or share with others. You can fast travel to these also.
 * NMSCoordinates backs up your entire save folder on startup, the .zip is located in the .\backup folder.
 * You can view the last 4 screenshots taken in the game within the tool. It displays 1 on front and all 4 can be accessed in Tools --> Screenshot Page.
 * NMSCoordinates shows all calculation results in the textbox, if you like HEX and DEC.
 * NMSCoordinates Calculator is a useful tool when messing with coordinates. This converts Portal->Galactic, Galactic->Portal, Voxel to Portal/Galactic. Check it out!
 
 ## Getting Started
+
 Here is an overview of what you need to get started with NMSCoordinates
 
 ### Requirements
