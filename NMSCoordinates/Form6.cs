@@ -27,7 +27,7 @@ namespace NMSCoordinates
             if (info.Exists)
             {
                 rootNode = new TreeNode(info.Name);
-                rootNode.StateImageIndex = 0;
+                //rootNode.StateImageIndex = 0;
                 rootNode.Tag = info;
                 //GetDirectories(info.GetDirectories(), rootNode);
                 GetFiles(info.GetFiles(), rootNode);
@@ -47,8 +47,8 @@ namespace NMSCoordinates
 
             if (info2.Exists)
             {
-                rootNode2 = new TreeNode(info2.Name);
-                rootNode2.StateImageIndex = 0;
+                rootNode2 = new TreeNode(info2.Name, 0, 0);
+                //rootNode2.StateImageIndex = 0;
                 rootNode2.Tag = info2;
                 GetDirectories(info2.GetDirectories(), rootNode2);
                 treeView2.Nodes.Add(rootNode2);
@@ -73,7 +73,7 @@ namespace NMSCoordinates
                     }                        
                     
                     aNode = new TreeNode(file.Name, 1, 1);
-                    aNode.StateImageIndex = 1;
+                    //aNode.StateImageIndex = 1;
                     aNode.Tag = file;
                     aNode.ImageKey = "file";
                     nodeToAddTo.Nodes.Add(aNode);                    
@@ -92,7 +92,7 @@ namespace NMSCoordinates
                 if (subDir.Name != "cache")
                 {
                     aNode = new TreeNode(subDir.Name, 0, 0);
-                    aNode.StateImageIndex = 0;
+                    //aNode.StateImageIndex = 0;
                     aNode.Tag = subDir;
                     aNode.ImageKey = "folder";
                     subSubDirs = subDir.GetDirectories();

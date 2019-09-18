@@ -313,7 +313,7 @@ namespace NMSCoordinates
             this.helpToolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(898, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(729, 24);
             this.menuStrip1.TabIndex = 58;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -511,10 +511,11 @@ namespace NMSCoordinates
             this.tabPage3.Controls.Add(this.groupBox9);
             this.tabPage3.Controls.Add(this.groupBox8);
             this.tabPage3.Controls.Add(this.listBox3);
+            this.tabPage3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabPage3.Location = new System.Drawing.Point(4, 24);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(868, 908);
+            this.tabPage3.Size = new System.Drawing.Size(710, 735);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Coordinate Share";
             // 
@@ -523,7 +524,7 @@ namespace NMSCoordinates
             this.label32.AutoSize = true;
             this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label32.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label32.Location = new System.Drawing.Point(23, 338);
+            this.label32.Location = new System.Drawing.Point(20, 342);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(192, 16);
             this.label32.TabIndex = 40;
@@ -534,9 +535,9 @@ namespace NMSCoordinates
             // 
             this.label27.AutoSize = true;
             this.label27.ForeColor = System.Drawing.Color.White;
-            this.label27.Location = new System.Drawing.Point(743, 345);
+            this.label27.Location = new System.Drawing.Point(601, 344);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(100, 15);
+            this.label27.Size = new System.Drawing.Size(89, 13);
             this.label27.TabIndex = 76;
             this.label27.Text = "Total Discoveries";
             // 
@@ -544,7 +545,7 @@ namespace NMSCoordinates
             // 
             this.textBox18.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox18.ForeColor = System.Drawing.Color.Azure;
-            this.textBox18.Location = new System.Drawing.Point(707, 341);
+            this.textBox18.Location = new System.Drawing.Point(565, 340);
             this.textBox18.Multiline = true;
             this.textBox18.Name = "textBox18";
             this.textBox18.ReadOnly = true;
@@ -554,9 +555,9 @@ namespace NMSCoordinates
             // 
             // progressBar3
             // 
-            this.progressBar3.Location = new System.Drawing.Point(25, 406);
+            this.progressBar3.Location = new System.Drawing.Point(9, 413);
             this.progressBar3.Name = "progressBar3";
-            this.progressBar3.Size = new System.Drawing.Size(821, 23);
+            this.progressBar3.Size = new System.Drawing.Size(693, 23);
             this.progressBar3.TabIndex = 74;
             this.progressBar3.Visible = false;
             // 
@@ -564,12 +565,12 @@ namespace NMSCoordinates
             // 
             this.textBox13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox13.ForeColor = System.Drawing.Color.Azure;
-            this.textBox13.Location = new System.Drawing.Point(320, 580);
+            this.textBox13.Location = new System.Drawing.Point(266, 551);
             this.textBox13.Multiline = true;
             this.textBox13.Name = "textBox13";
             this.textBox13.ReadOnly = true;
             this.textBox13.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox13.Size = new System.Drawing.Size(526, 129);
+            this.textBox13.Size = new System.Drawing.Size(436, 115);
             this.textBox13.TabIndex = 34;
             // 
             // groupBox16
@@ -578,22 +579,23 @@ namespace NMSCoordinates
             this.groupBox16.Controls.Add(this.label12);
             this.groupBox16.Controls.Add(this.button8);
             this.groupBox16.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.groupBox16.Location = new System.Drawing.Point(633, 435);
+            this.groupBox16.Location = new System.Drawing.Point(552, 442);
             this.groupBox16.Name = "groupBox16";
-            this.groupBox16.Size = new System.Drawing.Size(213, 139);
+            this.groupBox16.Size = new System.Drawing.Size(150, 103);
             this.groupBox16.TabIndex = 73;
             this.groupBox16.TabStop = false;
             this.groupBox16.Text = "Fast Travel";
             // 
             // label12
             // 
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.BackColor = System.Drawing.Color.Transparent;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label12.Location = new System.Drawing.Point(6, 17);
+            this.label12.Location = new System.Drawing.Point(10, 16);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(201, 56);
+            this.label12.Size = new System.Drawing.Size(131, 38);
             this.label12.TabIndex = 38;
-            this.label12.Text = "Move player to the above selected location ";
+            this.label12.Text = "Move player to the selected location ";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // button8
@@ -601,9 +603,9 @@ namespace NMSCoordinates
             this.button8.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.button8.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button8.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button8.Location = new System.Drawing.Point(33, 82);
+            this.button8.Location = new System.Drawing.Point(18, 59);
             this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(134, 32);
+            this.button8.Size = new System.Drawing.Size(120, 25);
             this.button8.TabIndex = 0;
             this.button8.Text = "Move Player Here";
             this.button8.UseVisualStyleBackColor = false;
@@ -611,11 +613,11 @@ namespace NMSCoordinates
             // 
             // label11
             // 
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label11.Location = new System.Drawing.Point(22, 364);
+            this.label11.Location = new System.Drawing.Point(20, 376);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(824, 39);
+            this.label11.Size = new System.Drawing.Size(688, 39);
             this.label11.TabIndex = 41;
             this.label11.Text = "After backing up your locations to a txt file, at ( File --> Backup to txt ) you " +
     "can access them here. You can also share locbackup files between friends to see " +
@@ -626,9 +628,9 @@ namespace NMSCoordinates
             // 
             this.groupBox9.Controls.Add(this.textBox11);
             this.groupBox9.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.groupBox9.Location = new System.Drawing.Point(317, 435);
+            this.groupBox9.Location = new System.Drawing.Point(266, 442);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(310, 139);
+            this.groupBox9.Size = new System.Drawing.Size(280, 103);
             this.groupBox9.TabIndex = 39;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Location Summary";
@@ -637,11 +639,11 @@ namespace NMSCoordinates
             // 
             this.textBox11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox11.ForeColor = System.Drawing.Color.Azure;
-            this.textBox11.Location = new System.Drawing.Point(15, 29);
+            this.textBox11.Location = new System.Drawing.Point(6, 19);
             this.textBox11.Multiline = true;
             this.textBox11.Name = "textBox11";
             this.textBox11.ReadOnly = true;
-            this.textBox11.Size = new System.Drawing.Size(278, 85);
+            this.textBox11.Size = new System.Drawing.Size(268, 74);
             this.textBox11.TabIndex = 33;
             // 
             // groupBox8
@@ -650,9 +652,9 @@ namespace NMSCoordinates
             this.groupBox8.Controls.Add(this.listBox4);
             this.groupBox8.Controls.Add(this.button6);
             this.groupBox8.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.groupBox8.Location = new System.Drawing.Point(22, 435);
+            this.groupBox8.Location = new System.Drawing.Point(9, 442);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(292, 274);
+            this.groupBox8.Size = new System.Drawing.Size(251, 224);
             this.groupBox8.TabIndex = 38;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Location Backup Files";
@@ -660,11 +662,11 @@ namespace NMSCoordinates
             // label31
             // 
             this.label31.AutoSize = true;
-            this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label31.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label31.Location = new System.Drawing.Point(11, 186);
+            this.label31.Location = new System.Drawing.Point(2, 156);
             this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(270, 16);
+            this.label31.Size = new System.Drawing.Size(248, 15);
             this.label31.TabIndex = 39;
             this.label31.Text = "Select + click the Load button or double click";
             this.label31.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -675,10 +677,9 @@ namespace NMSCoordinates
             this.listBox4.ContextMenuStrip = this.contextMenuStrip2;
             this.listBox4.ForeColor = System.Drawing.Color.Azure;
             this.listBox4.FormattingEnabled = true;
-            this.listBox4.ItemHeight = 15;
-            this.listBox4.Location = new System.Drawing.Point(18, 29);
+            this.listBox4.Location = new System.Drawing.Point(9, 18);
             this.listBox4.Name = "listBox4";
-            this.listBox4.Size = new System.Drawing.Size(253, 154);
+            this.listBox4.Size = new System.Drawing.Size(234, 134);
             this.listBox4.TabIndex = 37;
             this.listBox4.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListBox4_MouseDoubleClick);
             // 
@@ -686,9 +687,9 @@ namespace NMSCoordinates
             // 
             this.button6.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button6.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button6.Location = new System.Drawing.Point(77, 214);
+            this.button6.Location = new System.Drawing.Point(66, 183);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(134, 32);
+            this.button6.Size = new System.Drawing.Size(120, 25);
             this.button6.TabIndex = 34;
             this.button6.Text = "Load locbackup.txt";
             this.button6.UseVisualStyleBackColor = true;
@@ -700,10 +701,9 @@ namespace NMSCoordinates
             this.listBox3.ContextMenuStrip = this.contextMenuStrip1;
             this.listBox3.ForeColor = System.Drawing.Color.Azure;
             this.listBox3.FormattingEnabled = true;
-            this.listBox3.ItemHeight = 15;
-            this.listBox3.Location = new System.Drawing.Point(22, 16);
+            this.listBox3.Location = new System.Drawing.Point(9, 9);
             this.listBox3.Name = "listBox3";
-            this.listBox3.Size = new System.Drawing.Size(824, 319);
+            this.listBox3.Size = new System.Drawing.Size(693, 329);
             this.listBox3.TabIndex = 35;
             this.listBox3.SelectedIndexChanged += new System.EventHandler(this.ListBox3_SelectedIndexChanged);
             // 
@@ -712,31 +712,31 @@ namespace NMSCoordinates
             this.groupBox10.Controls.Add(this.label9);
             this.groupBox10.Controls.Add(this.button7);
             this.groupBox10.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.groupBox10.Location = new System.Drawing.Point(439, 92);
+            this.groupBox10.Location = new System.Drawing.Point(351, 89);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(292, 181);
+            this.groupBox10.Size = new System.Drawing.Size(292, 154);
             this.groupBox10.TabIndex = 40;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Coordinate Calculator";
             // 
             // label9
             // 
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.Color.DarkOrange;
             this.label9.Location = new System.Drawing.Point(6, 27);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(278, 56);
             this.label9.TabIndex = 37;
-            this.label9.Text = "The Coordinate Calculator allows you to convert different types of location Hex a" +
-    "nd DEC to a usable number. ";
+            this.label9.Text = "The Coordinate Calculator allows you to convert different types of location Glyph" +
+    "s, Hex, Dec to a usable number. ";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // button7
             // 
             this.button7.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button7.Location = new System.Drawing.Point(77, 108);
+            this.button7.Location = new System.Drawing.Point(91, 98);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(142, 42);
+            this.button7.Size = new System.Drawing.Size(125, 30);
             this.button7.TabIndex = 36;
             this.button7.Text = "Coordinate Calculator";
             this.button7.UseVisualStyleBackColor = true;
@@ -756,18 +756,19 @@ namespace NMSCoordinates
             this.tabPage2.Controls.Add(this.groupBox3);
             this.tabPage2.Controls.Add(this.groupBox2);
             this.tabPage2.Controls.Add(this.groupBox1);
+            this.tabPage2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(868, 908);
+            this.tabPage2.Size = new System.Drawing.Size(710, 735);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Base and Space Station";
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(539, 552);
+            this.progressBar1.Location = new System.Drawing.Point(266, 473);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(322, 25);
+            this.progressBar1.Size = new System.Drawing.Size(437, 23);
             this.progressBar1.TabIndex = 73;
             this.progressBar1.Visible = false;
             // 
@@ -775,12 +776,12 @@ namespace NMSCoordinates
             // 
             this.textBox27.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox27.ForeColor = System.Drawing.Color.Azure;
-            this.textBox27.Location = new System.Drawing.Point(382, 717);
+            this.textBox27.Location = new System.Drawing.Point(330, 575);
             this.textBox27.Multiline = true;
             this.textBox27.Name = "textBox27";
             this.textBox27.ReadOnly = true;
             this.textBox27.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox27.Size = new System.Drawing.Size(469, 161);
+            this.textBox27.Size = new System.Drawing.Size(373, 154);
             this.textBox27.TabIndex = 32;
             // 
             // groupBox17
@@ -788,9 +789,9 @@ namespace NMSCoordinates
             this.groupBox17.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
             this.groupBox17.Controls.Add(this.button5);
             this.groupBox17.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.groupBox17.Location = new System.Drawing.Point(333, 411);
+            this.groupBox17.Location = new System.Drawing.Point(266, 334);
             this.groupBox17.Name = "groupBox17";
-            this.groupBox17.Size = new System.Drawing.Size(200, 61);
+            this.groupBox17.Size = new System.Drawing.Size(176, 52);
             this.groupBox17.TabIndex = 72;
             this.groupBox17.TabStop = false;
             this.groupBox17.Text = "Fast Travel";
@@ -799,9 +800,9 @@ namespace NMSCoordinates
             // 
             this.button5.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.button5.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button5.Location = new System.Drawing.Point(30, 22);
+            this.button5.Location = new System.Drawing.Point(26, 16);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(134, 25);
+            this.button5.Size = new System.Drawing.Size(120, 25);
             this.button5.TabIndex = 0;
             this.button5.Text = "Move Player Here";
             this.button5.UseVisualStyleBackColor = false;
@@ -813,9 +814,9 @@ namespace NMSCoordinates
             this.groupBox7.Controls.Add(this.textBox12);
             this.groupBox7.Controls.Add(this.button3);
             this.groupBox7.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.groupBox7.Location = new System.Drawing.Point(334, 479);
+            this.groupBox7.Location = new System.Drawing.Point(266, 390);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(199, 98);
+            this.groupBox7.Size = new System.Drawing.Size(177, 80);
             this.groupBox7.TabIndex = 67;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Portal Interference Status";
@@ -824,11 +825,10 @@ namespace NMSCoordinates
             // 
             this.textBox12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox12.ForeColor = System.Drawing.Color.Azure;
-            this.textBox12.Location = new System.Drawing.Point(60, 27);
-            this.textBox12.Multiline = true;
+            this.textBox12.Location = new System.Drawing.Point(49, 17);
             this.textBox12.Name = "textBox12";
             this.textBox12.ReadOnly = true;
-            this.textBox12.Size = new System.Drawing.Size(75, 24);
+            this.textBox12.Size = new System.Drawing.Size(75, 20);
             this.textBox12.TabIndex = 25;
             this.textBox12.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -836,9 +836,9 @@ namespace NMSCoordinates
             // 
             this.button3.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button3.Location = new System.Drawing.Point(30, 59);
+            this.button3.Location = new System.Drawing.Point(26, 43);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(134, 27);
+            this.button3.Size = new System.Drawing.Size(120, 25);
             this.button3.TabIndex = 27;
             this.button3.Text = "Clear interference";
             this.button3.UseVisualStyleBackColor = false;
@@ -847,11 +847,11 @@ namespace NMSCoordinates
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label23.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label23.Location = new System.Drawing.Point(91, 561);
+            this.label23.Location = new System.Drawing.Point(43, 476);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(183, 15);
+            this.label23.Size = new System.Drawing.Size(161, 13);
             this.label23.TabIndex = 70;
             this.label23.Text = "(B) = Base  (SS) = Space Station";
             // 
@@ -863,9 +863,9 @@ namespace NMSCoordinates
             this.groupBox6.Controls.Add(this.label7);
             this.groupBox6.Controls.Add(this.textBox1);
             this.groupBox6.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.groupBox6.Location = new System.Drawing.Point(334, 265);
+            this.groupBox6.Location = new System.Drawing.Point(266, 218);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(199, 140);
+            this.groupBox6.Size = new System.Drawing.Size(176, 110);
             this.groupBox6.TabIndex = 66;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Location Coordinates";
@@ -874,29 +874,28 @@ namespace NMSCoordinates
             // 
             this.textBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox2.ForeColor = System.Drawing.Color.Azure;
-            this.textBox2.Location = new System.Drawing.Point(30, 95);
-            this.textBox2.Multiline = true;
+            this.textBox2.Location = new System.Drawing.Point(21, 75);
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(134, 24);
+            this.textBox2.Size = new System.Drawing.Size(131, 20);
             this.textBox2.TabIndex = 29;
             this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(62, 78);
+            this.label10.Location = new System.Drawing.Point(55, 60);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(71, 15);
+            this.label10.Size = new System.Drawing.Size(62, 13);
             this.label10.TabIndex = 30;
             this.label10.Text = "Portal Code";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(45, 22);
+            this.label7.Location = new System.Drawing.Point(34, 20);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(120, 15);
+            this.label7.Size = new System.Drawing.Size(105, 13);
             this.label7.TabIndex = 22;
             this.label7.Text = "Galactic Coordinates";
             // 
@@ -904,11 +903,10 @@ namespace NMSCoordinates
             // 
             this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox1.ForeColor = System.Drawing.Color.Azure;
-            this.textBox1.Location = new System.Drawing.Point(30, 42);
-            this.textBox1.Multiline = true;
+            this.textBox1.Location = new System.Drawing.Point(19, 37);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(134, 24);
+            this.textBox1.Size = new System.Drawing.Size(134, 20);
             this.textBox1.TabIndex = 1;
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -917,9 +915,9 @@ namespace NMSCoordinates
             this.groupBox5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
             this.groupBox5.Controls.Add(this.textBox3);
             this.groupBox5.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.groupBox5.Location = new System.Drawing.Point(6, 697);
+            this.groupBox5.Location = new System.Drawing.Point(6, 575);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(360, 196);
+            this.groupBox5.Size = new System.Drawing.Size(318, 154);
             this.groupBox5.TabIndex = 65;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Calculations Log";
@@ -928,11 +926,11 @@ namespace NMSCoordinates
             // 
             this.textBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox3.ForeColor = System.Drawing.Color.Azure;
-            this.textBox3.Location = new System.Drawing.Point(18, 20);
+            this.textBox3.Location = new System.Drawing.Point(6, 19);
             this.textBox3.Multiline = true;
             this.textBox3.Name = "textBox3";
             this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(326, 161);
+            this.textBox3.Size = new System.Drawing.Size(306, 129);
             this.textBox3.TabIndex = 31;
             // 
             // groupBox4
@@ -951,9 +949,9 @@ namespace NMSCoordinates
             this.groupBox4.Controls.Add(this.pictureBox8);
             this.groupBox4.Controls.Add(this.pictureBox9);
             this.groupBox4.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.groupBox4.Location = new System.Drawing.Point(6, 584);
+            this.groupBox4.Location = new System.Drawing.Point(6, 493);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(855, 108);
+            this.groupBox4.Size = new System.Drawing.Size(697, 76);
             this.groupBox4.TabIndex = 64;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Glyph Coordinates";
@@ -961,9 +959,9 @@ namespace NMSCoordinates
             // pictureBox12
             // 
             this.pictureBox12.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox12.Location = new System.Drawing.Point(750, 20);
+            this.pictureBox12.Location = new System.Drawing.Point(596, 16);
             this.pictureBox12.Name = "pictureBox12";
-            this.pictureBox12.Size = new System.Drawing.Size(65, 70);
+            this.pictureBox12.Size = new System.Drawing.Size(50, 50);
             this.pictureBox12.TabIndex = 43;
             this.pictureBox12.TabStop = false;
             // 
@@ -971,99 +969,99 @@ namespace NMSCoordinates
             // 
             this.pictureBox1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(35, 20);
+            this.pictureBox1.Location = new System.Drawing.Point(96, 16);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(65, 70);
+            this.pictureBox1.Size = new System.Drawing.Size(50, 50);
             this.pictureBox1.TabIndex = 32;
             this.pictureBox1.TabStop = false;
             // 
             // pictureBox2
             // 
             this.pictureBox2.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox2.Location = new System.Drawing.Point(100, 20);
+            this.pictureBox2.Location = new System.Drawing.Point(146, 16);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(65, 70);
+            this.pictureBox2.Size = new System.Drawing.Size(50, 50);
             this.pictureBox2.TabIndex = 33;
             this.pictureBox2.TabStop = false;
             // 
             // pictureBox3
             // 
             this.pictureBox3.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox3.Location = new System.Drawing.Point(165, 20);
+            this.pictureBox3.Location = new System.Drawing.Point(196, 16);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(65, 70);
+            this.pictureBox3.Size = new System.Drawing.Size(50, 50);
             this.pictureBox3.TabIndex = 34;
             this.pictureBox3.TabStop = false;
             // 
             // pictureBox4
             // 
             this.pictureBox4.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox4.Location = new System.Drawing.Point(230, 20);
+            this.pictureBox4.Location = new System.Drawing.Point(246, 16);
             this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(65, 70);
+            this.pictureBox4.Size = new System.Drawing.Size(50, 50);
             this.pictureBox4.TabIndex = 35;
             this.pictureBox4.TabStop = false;
             // 
             // pictureBox5
             // 
             this.pictureBox5.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox5.Location = new System.Drawing.Point(295, 20);
+            this.pictureBox5.Location = new System.Drawing.Point(296, 16);
             this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(65, 70);
+            this.pictureBox5.Size = new System.Drawing.Size(50, 50);
             this.pictureBox5.TabIndex = 36;
             this.pictureBox5.TabStop = false;
             // 
             // pictureBox6
             // 
             this.pictureBox6.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox6.Location = new System.Drawing.Point(360, 20);
+            this.pictureBox6.Location = new System.Drawing.Point(346, 16);
             this.pictureBox6.Name = "pictureBox6";
-            this.pictureBox6.Size = new System.Drawing.Size(65, 70);
+            this.pictureBox6.Size = new System.Drawing.Size(50, 50);
             this.pictureBox6.TabIndex = 37;
             this.pictureBox6.TabStop = false;
             // 
             // pictureBox11
             // 
             this.pictureBox11.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox11.Location = new System.Drawing.Point(685, 20);
+            this.pictureBox11.Location = new System.Drawing.Point(396, 16);
             this.pictureBox11.Name = "pictureBox11";
-            this.pictureBox11.Size = new System.Drawing.Size(65, 70);
+            this.pictureBox11.Size = new System.Drawing.Size(50, 50);
             this.pictureBox11.TabIndex = 42;
             this.pictureBox11.TabStop = false;
             // 
             // pictureBox7
             // 
             this.pictureBox7.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox7.Location = new System.Drawing.Point(425, 20);
+            this.pictureBox7.Location = new System.Drawing.Point(446, 16);
             this.pictureBox7.Name = "pictureBox7";
-            this.pictureBox7.Size = new System.Drawing.Size(65, 70);
+            this.pictureBox7.Size = new System.Drawing.Size(50, 50);
             this.pictureBox7.TabIndex = 38;
             this.pictureBox7.TabStop = false;
             // 
             // pictureBox10
             // 
             this.pictureBox10.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox10.Location = new System.Drawing.Point(620, 20);
+            this.pictureBox10.Location = new System.Drawing.Point(546, 16);
             this.pictureBox10.Name = "pictureBox10";
-            this.pictureBox10.Size = new System.Drawing.Size(65, 70);
+            this.pictureBox10.Size = new System.Drawing.Size(50, 50);
             this.pictureBox10.TabIndex = 41;
             this.pictureBox10.TabStop = false;
             // 
             // pictureBox8
             // 
             this.pictureBox8.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox8.Location = new System.Drawing.Point(490, 20);
+            this.pictureBox8.Location = new System.Drawing.Point(46, 16);
             this.pictureBox8.Name = "pictureBox8";
-            this.pictureBox8.Size = new System.Drawing.Size(65, 70);
+            this.pictureBox8.Size = new System.Drawing.Size(50, 50);
             this.pictureBox8.TabIndex = 39;
             this.pictureBox8.TabStop = false;
             // 
             // pictureBox9
             // 
             this.pictureBox9.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox9.Location = new System.Drawing.Point(555, 20);
+            this.pictureBox9.Location = new System.Drawing.Point(496, 16);
             this.pictureBox9.Name = "pictureBox9";
-            this.pictureBox9.Size = new System.Drawing.Size(65, 70);
+            this.pictureBox9.Size = new System.Drawing.Size(50, 50);
             this.pictureBox9.TabIndex = 40;
             this.pictureBox9.TabStop = false;
             // 
@@ -1077,9 +1075,9 @@ namespace NMSCoordinates
             this.groupBox3.Controls.Add(this.textBox19);
             this.groupBox3.Controls.Add(this.listBox1);
             this.groupBox3.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.groupBox3.Location = new System.Drawing.Point(6, 17);
+            this.groupBox3.Location = new System.Drawing.Point(6, 6);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(322, 541);
+            this.groupBox3.Size = new System.Drawing.Size(254, 464);
             this.groupBox3.TabIndex = 63;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = " All Available Locations";
@@ -1087,11 +1085,11 @@ namespace NMSCoordinates
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label25.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label25.Location = new System.Drawing.Point(23, 504);
+            this.label25.Location = new System.Drawing.Point(3, 442);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(140, 16);
+            this.label25.Size = new System.Drawing.Size(112, 13);
             this.label25.TabIndex = 70;
             this.label25.Text = "Click a location above";
             // 
@@ -1099,9 +1097,9 @@ namespace NMSCoordinates
             // 
             this.button1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button1.Location = new System.Drawing.Point(219, 21);
+            this.button1.Location = new System.Drawing.Point(186, 19);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 27);
+            this.button1.Size = new System.Drawing.Size(56, 22);
             this.button1.TabIndex = 69;
             this.button1.Text = "Search";
             this.button1.UseVisualStyleBackColor = false;
@@ -1112,18 +1110,18 @@ namespace NMSCoordinates
             this.textBox24.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox24.Font = new System.Drawing.Font("Corbel", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox24.ForeColor = System.Drawing.Color.Azure;
-            this.textBox24.Location = new System.Drawing.Point(18, 22);
+            this.textBox24.Location = new System.Drawing.Point(6, 19);
             this.textBox24.Name = "textBox24";
-            this.textBox24.Size = new System.Drawing.Size(195, 22);
+            this.textBox24.Size = new System.Drawing.Size(174, 22);
             this.textBox24.TabIndex = 68;
             this.textBox24.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBox24_KeyUp);
             // 
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(205, 506);
+            this.label17.Location = new System.Drawing.Point(153, 444);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(100, 15);
+            this.label17.Size = new System.Drawing.Size(89, 13);
             this.label17.TabIndex = 59;
             this.label17.Text = "Total Discoveries";
             // 
@@ -1131,7 +1129,7 @@ namespace NMSCoordinates
             // 
             this.textBox19.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox19.ForeColor = System.Drawing.Color.Azure;
-            this.textBox19.Location = new System.Drawing.Point(169, 502);
+            this.textBox19.Location = new System.Drawing.Point(119, 440);
             this.textBox19.Multiline = true;
             this.textBox19.Name = "textBox19";
             this.textBox19.ReadOnly = true;
@@ -1144,10 +1142,9 @@ namespace NMSCoordinates
             this.listBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.listBox1.ForeColor = System.Drawing.Color.Azure;
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 15;
-            this.listBox1.Location = new System.Drawing.Point(18, 51);
+            this.listBox1.Location = new System.Drawing.Point(6, 44);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(277, 439);
+            this.listBox1.Size = new System.Drawing.Size(236, 394);
             this.listBox1.TabIndex = 6;
             this.listBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ListBox1_MouseClick);
             // 
@@ -1169,9 +1166,9 @@ namespace NMSCoordinates
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.groupBox2.Location = new System.Drawing.Point(334, 6);
+            this.groupBox2.Location = new System.Drawing.Point(266, 6);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(199, 252);
+            this.groupBox2.Size = new System.Drawing.Size(176, 206);
             this.groupBox2.TabIndex = 62;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Voxel Coordinates";
@@ -1179,9 +1176,9 @@ namespace NMSCoordinates
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(117, 222);
+            this.label8.Location = new System.Drawing.Point(101, 178);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(81, 15);
+            this.label8.Size = new System.Drawing.Size(70, 13);
             this.label8.TabIndex = 23;
             this.label8.Text = "Galaxy Name";
             // 
@@ -1189,11 +1186,10 @@ namespace NMSCoordinates
             // 
             this.textBox5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox5.ForeColor = System.Drawing.Color.Azure;
-            this.textBox5.Location = new System.Drawing.Point(25, 60);
-            this.textBox5.Multiline = true;
+            this.textBox5.Location = new System.Drawing.Point(9, 44);
             this.textBox5.Name = "textBox5";
             this.textBox5.ReadOnly = true;
-            this.textBox5.Size = new System.Drawing.Size(66, 24);
+            this.textBox5.Size = new System.Drawing.Size(66, 20);
             this.textBox5.TabIndex = 9;
             this.textBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -1201,11 +1197,10 @@ namespace NMSCoordinates
             // 
             this.textBox10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox10.ForeColor = System.Drawing.Color.Azure;
-            this.textBox10.Location = new System.Drawing.Point(25, 216);
-            this.textBox10.Multiline = true;
+            this.textBox10.Location = new System.Drawing.Point(9, 174);
             this.textBox10.Name = "textBox10";
             this.textBox10.ReadOnly = true;
-            this.textBox10.Size = new System.Drawing.Size(86, 24);
+            this.textBox10.Size = new System.Drawing.Size(86, 20);
             this.textBox10.TabIndex = 21;
             this.textBox10.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -1213,11 +1208,10 @@ namespace NMSCoordinates
             // 
             this.textBox6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox6.ForeColor = System.Drawing.Color.Azure;
-            this.textBox6.Location = new System.Drawing.Point(25, 92);
-            this.textBox6.Multiline = true;
+            this.textBox6.Location = new System.Drawing.Point(9, 70);
             this.textBox6.Name = "textBox6";
             this.textBox6.ReadOnly = true;
-            this.textBox6.Size = new System.Drawing.Size(66, 24);
+            this.textBox6.Size = new System.Drawing.Size(66, 20);
             this.textBox6.TabIndex = 10;
             this.textBox6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -1225,11 +1219,10 @@ namespace NMSCoordinates
             // 
             this.textBox4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox4.ForeColor = System.Drawing.Color.Azure;
-            this.textBox4.Location = new System.Drawing.Point(25, 29);
-            this.textBox4.Multiline = true;
+            this.textBox4.Location = new System.Drawing.Point(9, 18);
             this.textBox4.Name = "textBox4";
             this.textBox4.ReadOnly = true;
-            this.textBox4.Size = new System.Drawing.Size(66, 24);
+            this.textBox4.Size = new System.Drawing.Size(66, 20);
             this.textBox4.TabIndex = 8;
             this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -1237,20 +1230,19 @@ namespace NMSCoordinates
             // 
             this.textBox7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox7.ForeColor = System.Drawing.Color.Azure;
-            this.textBox7.Location = new System.Drawing.Point(25, 123);
-            this.textBox7.Multiline = true;
+            this.textBox7.Location = new System.Drawing.Point(9, 96);
             this.textBox7.Name = "textBox7";
             this.textBox7.ReadOnly = true;
-            this.textBox7.Size = new System.Drawing.Size(66, 24);
+            this.textBox7.Size = new System.Drawing.Size(66, 20);
             this.textBox7.TabIndex = 11;
             this.textBox7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(97, 188);
+            this.label6.Location = new System.Drawing.Point(81, 151);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(75, 15);
+            this.label6.Size = new System.Drawing.Size(66, 13);
             this.label6.TabIndex = 19;
             this.label6.Text = "Planet Index";
             // 
@@ -1258,11 +1250,10 @@ namespace NMSCoordinates
             // 
             this.textBox8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox8.ForeColor = System.Drawing.Color.Azure;
-            this.textBox8.Location = new System.Drawing.Point(25, 154);
-            this.textBox8.Multiline = true;
+            this.textBox8.Location = new System.Drawing.Point(9, 122);
             this.textBox8.Name = "textBox8";
             this.textBox8.ReadOnly = true;
-            this.textBox8.Size = new System.Drawing.Size(66, 24);
+            this.textBox8.Size = new System.Drawing.Size(66, 20);
             this.textBox8.TabIndex = 12;
             this.textBox8.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -1270,56 +1261,55 @@ namespace NMSCoordinates
             // 
             this.textBox9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox9.ForeColor = System.Drawing.Color.Azure;
-            this.textBox9.Location = new System.Drawing.Point(25, 185);
-            this.textBox9.Multiline = true;
+            this.textBox9.Location = new System.Drawing.Point(9, 148);
             this.textBox9.Name = "textBox9";
             this.textBox9.ReadOnly = true;
-            this.textBox9.Size = new System.Drawing.Size(66, 24);
+            this.textBox9.Size = new System.Drawing.Size(66, 20);
             this.textBox9.TabIndex = 18;
             this.textBox9.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(97, 32);
+            this.label1.Location = new System.Drawing.Point(81, 21);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 15);
+            this.label1.Size = new System.Drawing.Size(39, 13);
             this.label1.TabIndex = 13;
             this.label1.Text = "Galaxy";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(97, 157);
+            this.label5.Location = new System.Drawing.Point(81, 125);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(26, 15);
+            this.label5.Size = new System.Drawing.Size(24, 13);
             this.label5.TabIndex = 17;
             this.label5.Text = "SSI";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(97, 64);
+            this.label2.Location = new System.Drawing.Point(81, 48);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(15, 15);
+            this.label2.Size = new System.Drawing.Size(14, 13);
             this.label2.TabIndex = 14;
             this.label2.Text = "X";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(97, 126);
+            this.label4.Location = new System.Drawing.Point(81, 99);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(14, 15);
+            this.label4.Size = new System.Drawing.Size(14, 13);
             this.label4.TabIndex = 16;
             this.label4.Text = "Z";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(97, 95);
+            this.label3.Location = new System.Drawing.Point(81, 73);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(14, 15);
+            this.label3.Size = new System.Drawing.Size(14, 13);
             this.label3.TabIndex = 15;
             this.label3.Text = "Y";
             // 
@@ -1332,9 +1322,9 @@ namespace NMSCoordinates
             this.groupBox1.Controls.Add(this.textBox20);
             this.groupBox1.Controls.Add(this.listBox2);
             this.groupBox1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.groupBox1.Location = new System.Drawing.Point(539, 17);
+            this.groupBox1.Location = new System.Drawing.Point(449, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(322, 541);
+            this.groupBox1.Size = new System.Drawing.Size(254, 464);
             this.groupBox1.TabIndex = 61;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Space Station Locations";
@@ -1343,9 +1333,9 @@ namespace NMSCoordinates
             // 
             this.button2.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button2.Location = new System.Drawing.Point(224, 22);
+            this.button2.Location = new System.Drawing.Point(192, 19);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 27);
+            this.button2.Size = new System.Drawing.Size(56, 22);
             this.button2.TabIndex = 71;
             this.button2.Text = "Search";
             this.button2.UseVisualStyleBackColor = false;
@@ -1356,18 +1346,18 @@ namespace NMSCoordinates
             this.textBox25.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox25.Font = new System.Drawing.Font("Corbel", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox25.ForeColor = System.Drawing.Color.Azure;
-            this.textBox25.Location = new System.Drawing.Point(23, 24);
+            this.textBox25.Location = new System.Drawing.Point(8, 19);
             this.textBox25.Name = "textBox25";
-            this.textBox25.Size = new System.Drawing.Size(195, 22);
+            this.textBox25.Size = new System.Drawing.Size(178, 22);
             this.textBox25.TabIndex = 70;
             this.textBox25.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBox25_KeyUp);
             // 
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(193, 505);
+            this.label16.Location = new System.Drawing.Point(142, 444);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(119, 15);
+            this.label16.Size = new System.Drawing.Size(106, 13);
             this.label16.TabIndex = 58;
             this.label16.Text = "Total Space Stations";
             // 
@@ -1375,7 +1365,7 @@ namespace NMSCoordinates
             // 
             this.textBox20.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox20.ForeColor = System.Drawing.Color.Azure;
-            this.textBox20.Location = new System.Drawing.Point(157, 501);
+            this.textBox20.Location = new System.Drawing.Point(108, 440);
             this.textBox20.Multiline = true;
             this.textBox20.Name = "textBox20";
             this.textBox20.ReadOnly = true;
@@ -1388,10 +1378,9 @@ namespace NMSCoordinates
             this.listBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.listBox2.ForeColor = System.Drawing.Color.Azure;
             this.listBox2.FormattingEnabled = true;
-            this.listBox2.ItemHeight = 15;
-            this.listBox2.Location = new System.Drawing.Point(22, 51);
+            this.listBox2.Location = new System.Drawing.Point(8, 44);
             this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(277, 439);
+            this.listBox2.Size = new System.Drawing.Size(240, 394);
             this.listBox2.TabIndex = 20;
             this.listBox2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ListBox2_MouseClick);
             // 
@@ -1405,10 +1394,11 @@ namespace NMSCoordinates
             this.tabPage1.Controls.Add(this.groupBox15);
             this.tabPage1.Controls.Add(this.groupBox13);
             this.tabPage1.Controls.Add(this.groupBox12);
+            this.tabPage1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(868, 908);
+            this.tabPage1.Size = new System.Drawing.Size(710, 735);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Save Files";
             // 
@@ -1418,9 +1408,9 @@ namespace NMSCoordinates
             this.groupBox20.Controls.Add(this.button12);
             this.groupBox20.Controls.Add(this.checkBox1);
             this.groupBox20.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.groupBox20.Location = new System.Drawing.Point(519, 10);
+            this.groupBox20.Location = new System.Drawing.Point(441, 32);
             this.groupBox20.Name = "groupBox20";
-            this.groupBox20.Size = new System.Drawing.Size(208, 121);
+            this.groupBox20.Size = new System.Drawing.Size(153, 119);
             this.groupBox20.TabIndex = 68;
             this.groupBox20.TabStop = false;
             this.groupBox20.Text = "Travel Mode";
@@ -1430,20 +1420,20 @@ namespace NMSCoordinates
             // 
             this.label26.AutoSize = true;
             this.label26.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label26.Location = new System.Drawing.Point(36, 25);
+            this.label26.Location = new System.Drawing.Point(11, 21);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(134, 15);
+            this.label26.Size = new System.Drawing.Size(120, 13);
             this.label26.TabIndex = 72;
             this.label26.Text = "Select a save file to use";
             // 
             // button12
             // 
             this.button12.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button12.Location = new System.Drawing.Point(66, 82);
+            this.button12.Location = new System.Drawing.Point(20, 75);
             this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(75, 23);
+            this.button12.Size = new System.Drawing.Size(103, 23);
             this.button12.TabIndex = 71;
-            this.button12.Text = "Update SS ";
+            this.button12.Text = "Check Locations";
             this.toolTip3.SetToolTip(this.button12, "Press this button when you want to check for location\r\ndiscoveries that NMS delet" +
         "ed.");
             this.button12.UseVisualStyleBackColor = true;
@@ -1452,11 +1442,11 @@ namespace NMSCoordinates
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBox1.ForeColor = System.Drawing.Color.White;
-            this.checkBox1.Location = new System.Drawing.Point(51, 53);
+            this.checkBox1.Location = new System.Drawing.Point(24, 47);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(104, 20);
+            this.checkBox1.Size = new System.Drawing.Size(94, 19);
             this.checkBox1.TabIndex = 59;
             this.checkBox1.Text = "Travel Mode";
             this.toolTip2.SetToolTip(this.checkBox1, "Use when traveling thru a Terminus or Teleport to save the SpaceStations\r\nthat NM" +
@@ -1470,9 +1460,9 @@ namespace NMSCoordinates
             this.button9.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.button9.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button9.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.button9.Location = new System.Drawing.Point(581, 159);
+            this.button9.Location = new System.Drawing.Point(473, 168);
             this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(107, 39);
+            this.button9.Size = new System.Drawing.Size(91, 31);
             this.button9.TabIndex = 34;
             this.button9.Text = "Launch NMS";
             this.button9.UseVisualStyleBackColor = false;
@@ -1480,9 +1470,9 @@ namespace NMSCoordinates
             // 
             // progressBar2
             // 
-            this.progressBar2.Location = new System.Drawing.Point(148, 301);
+            this.progressBar2.Location = new System.Drawing.Point(52, 265);
             this.progressBar2.Name = "progressBar2";
-            this.progressBar2.Size = new System.Drawing.Size(560, 25);
+            this.progressBar2.Size = new System.Drawing.Size(600, 23);
             this.progressBar2.TabIndex = 70;
             this.progressBar2.Visible = false;
             // 
@@ -1490,12 +1480,12 @@ namespace NMSCoordinates
             // 
             this.textBox17.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox17.ForeColor = System.Drawing.Color.Azure;
-            this.textBox17.Location = new System.Drawing.Point(89, 332);
+            this.textBox17.Location = new System.Drawing.Point(32, 290);
             this.textBox17.Multiline = true;
             this.textBox17.Name = "textBox17";
             this.textBox17.ReadOnly = true;
             this.textBox17.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox17.Size = new System.Drawing.Size(690, 121);
+            this.textBox17.Size = new System.Drawing.Size(644, 121);
             this.textBox17.TabIndex = 2;
             // 
             // groupBox15
@@ -1505,9 +1495,9 @@ namespace NMSCoordinates
             this.groupBox15.Controls.Add(this.groupBox14);
             this.groupBox15.Controls.Add(this.pictureBox25);
             this.groupBox15.ForeColor = System.Drawing.Color.White;
-            this.groupBox15.Location = new System.Drawing.Point(15, 459);
+            this.groupBox15.Location = new System.Drawing.Point(32, 417);
             this.groupBox15.Name = "groupBox15";
-            this.groupBox15.Size = new System.Drawing.Size(837, 432);
+            this.groupBox15.Size = new System.Drawing.Size(644, 301);
             this.groupBox15.TabIndex = 69;
             this.groupBox15.TabStop = false;
             this.groupBox15.Text = "Current Player Location";
@@ -1522,9 +1512,9 @@ namespace NMSCoordinates
             this.groupBox11.Controls.Add(this.label20);
             this.groupBox11.Controls.Add(this.textBox22);
             this.groupBox11.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.groupBox11.Location = new System.Drawing.Point(23, 152);
+            this.groupBox11.Location = new System.Drawing.Point(13, 119);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(208, 243);
+            this.groupBox11.Size = new System.Drawing.Size(190, 166);
             this.groupBox11.TabIndex = 67;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Current Location Coordinates";
@@ -1532,9 +1522,9 @@ namespace NMSCoordinates
             // button13
             // 
             this.button13.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button13.Location = new System.Drawing.Point(38, 194);
+            this.button13.Location = new System.Drawing.Point(43, 129);
             this.button13.Name = "button13";
-            this.button13.Size = new System.Drawing.Size(115, 29);
+            this.button13.Size = new System.Drawing.Size(91, 23);
             this.button13.TabIndex = 70;
             this.button13.Text = "Backup Current";
             this.button13.UseVisualStyleBackColor = true;
@@ -1543,66 +1533,63 @@ namespace NMSCoordinates
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(118, 155);
+            this.label21.Location = new System.Drawing.Point(112, 102);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(81, 15);
+            this.label21.Size = new System.Drawing.Size(70, 13);
             this.label21.TabIndex = 32;
             this.label21.Text = "Galaxy Name";
             // 
             // textBox23
             // 
             this.textBox23.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.textBox23.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox23.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox23.ForeColor = System.Drawing.Color.Azure;
-            this.textBox23.Location = new System.Drawing.Point(19, 150);
-            this.textBox23.Multiline = true;
+            this.textBox23.Location = new System.Drawing.Point(13, 98);
             this.textBox23.Name = "textBox23";
             this.textBox23.ReadOnly = true;
-            this.textBox23.Size = new System.Drawing.Size(93, 24);
+            this.textBox23.Size = new System.Drawing.Size(95, 20);
             this.textBox23.TabIndex = 31;
             this.textBox23.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBox21
             // 
             this.textBox21.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.textBox21.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox21.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox21.ForeColor = System.Drawing.Color.Azure;
-            this.textBox21.Location = new System.Drawing.Point(20, 99);
-            this.textBox21.Multiline = true;
+            this.textBox21.Location = new System.Drawing.Point(13, 71);
             this.textBox21.Name = "textBox21";
             this.textBox21.ReadOnly = true;
-            this.textBox21.Size = new System.Drawing.Size(93, 24);
+            this.textBox21.Size = new System.Drawing.Size(95, 20);
             this.textBox21.TabIndex = 29;
             this.textBox21.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(119, 104);
+            this.label19.Location = new System.Drawing.Point(112, 75);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(71, 15);
+            this.label19.Size = new System.Drawing.Size(62, 13);
             this.label19.TabIndex = 30;
             this.label19.Text = "Portal Code";
             // 
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(35, 31);
+            this.label20.Location = new System.Drawing.Point(29, 25);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(120, 15);
+            this.label20.Size = new System.Drawing.Size(105, 13);
             this.label20.TabIndex = 22;
             this.label20.Text = "Galactic Coordinates";
             // 
             // textBox22
             // 
             this.textBox22.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.textBox22.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox22.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox22.ForeColor = System.Drawing.Color.Azure;
-            this.textBox22.Location = new System.Drawing.Point(19, 52);
-            this.textBox22.Multiline = true;
+            this.textBox22.Location = new System.Drawing.Point(13, 44);
             this.textBox22.Name = "textBox22";
             this.textBox22.ReadOnly = true;
-            this.textBox22.Size = new System.Drawing.Size(134, 24);
+            this.textBox22.Size = new System.Drawing.Size(134, 20);
             this.textBox22.TabIndex = 1;
             this.textBox22.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -1623,7 +1610,7 @@ namespace NMSCoordinates
             this.groupBox14.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBox14.Location = new System.Drawing.Point(13, 20);
             this.groupBox14.Name = "groupBox14";
-            this.groupBox14.Size = new System.Drawing.Size(805, 103);
+            this.groupBox14.Size = new System.Drawing.Size(624, 85);
             this.groupBox14.TabIndex = 68;
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "Glyph Coordinates";
@@ -1632,9 +1619,9 @@ namespace NMSCoordinates
             // 
             this.pictureBox13.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.pictureBox13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox13.Location = new System.Drawing.Point(10, 20);
+            this.pictureBox13.Location = new System.Drawing.Point(13, 19);
             this.pictureBox13.Name = "pictureBox13";
-            this.pictureBox13.Size = new System.Drawing.Size(65, 70);
+            this.pictureBox13.Size = new System.Drawing.Size(50, 50);
             this.pictureBox13.TabIndex = 43;
             this.pictureBox13.TabStop = false;
             // 
@@ -1643,9 +1630,9 @@ namespace NMSCoordinates
             this.pictureBox14.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.pictureBox14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox14.InitialImage = null;
-            this.pictureBox14.Location = new System.Drawing.Point(75, 20);
+            this.pictureBox14.Location = new System.Drawing.Point(63, 19);
             this.pictureBox14.Name = "pictureBox14";
-            this.pictureBox14.Size = new System.Drawing.Size(65, 70);
+            this.pictureBox14.Size = new System.Drawing.Size(50, 50);
             this.pictureBox14.TabIndex = 32;
             this.pictureBox14.TabStop = false;
             // 
@@ -1653,9 +1640,9 @@ namespace NMSCoordinates
             // 
             this.pictureBox24.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.pictureBox24.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox24.Location = new System.Drawing.Point(725, 20);
+            this.pictureBox24.Location = new System.Drawing.Point(113, 19);
             this.pictureBox24.Name = "pictureBox24";
-            this.pictureBox24.Size = new System.Drawing.Size(65, 70);
+            this.pictureBox24.Size = new System.Drawing.Size(50, 50);
             this.pictureBox24.TabIndex = 40;
             this.pictureBox24.TabStop = false;
             // 
@@ -1663,9 +1650,9 @@ namespace NMSCoordinates
             // 
             this.pictureBox23.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.pictureBox23.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox23.Location = new System.Drawing.Point(660, 20);
+            this.pictureBox23.Location = new System.Drawing.Point(163, 19);
             this.pictureBox23.Name = "pictureBox23";
-            this.pictureBox23.Size = new System.Drawing.Size(65, 70);
+            this.pictureBox23.Size = new System.Drawing.Size(50, 50);
             this.pictureBox23.TabIndex = 39;
             this.pictureBox23.TabStop = false;
             // 
@@ -1673,9 +1660,9 @@ namespace NMSCoordinates
             // 
             this.pictureBox21.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.pictureBox21.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox21.Location = new System.Drawing.Point(530, 20);
+            this.pictureBox21.Location = new System.Drawing.Point(213, 19);
             this.pictureBox21.Name = "pictureBox21";
-            this.pictureBox21.Size = new System.Drawing.Size(65, 70);
+            this.pictureBox21.Size = new System.Drawing.Size(50, 50);
             this.pictureBox21.TabIndex = 38;
             this.pictureBox21.TabStop = false;
             // 
@@ -1683,9 +1670,9 @@ namespace NMSCoordinates
             // 
             this.pictureBox15.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.pictureBox15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox15.Location = new System.Drawing.Point(140, 20);
+            this.pictureBox15.Location = new System.Drawing.Point(263, 19);
             this.pictureBox15.Name = "pictureBox15";
-            this.pictureBox15.Size = new System.Drawing.Size(65, 70);
+            this.pictureBox15.Size = new System.Drawing.Size(50, 50);
             this.pictureBox15.TabIndex = 33;
             this.pictureBox15.TabStop = false;
             // 
@@ -1693,9 +1680,9 @@ namespace NMSCoordinates
             // 
             this.pictureBox16.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.pictureBox16.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox16.Location = new System.Drawing.Point(205, 20);
+            this.pictureBox16.Location = new System.Drawing.Point(313, 19);
             this.pictureBox16.Name = "pictureBox16";
-            this.pictureBox16.Size = new System.Drawing.Size(65, 70);
+            this.pictureBox16.Size = new System.Drawing.Size(50, 50);
             this.pictureBox16.TabIndex = 34;
             this.pictureBox16.TabStop = false;
             // 
@@ -1703,9 +1690,9 @@ namespace NMSCoordinates
             // 
             this.pictureBox17.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.pictureBox17.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox17.Location = new System.Drawing.Point(270, 20);
+            this.pictureBox17.Location = new System.Drawing.Point(363, 19);
             this.pictureBox17.Name = "pictureBox17";
-            this.pictureBox17.Size = new System.Drawing.Size(65, 70);
+            this.pictureBox17.Size = new System.Drawing.Size(50, 50);
             this.pictureBox17.TabIndex = 35;
             this.pictureBox17.TabStop = false;
             // 
@@ -1713,9 +1700,9 @@ namespace NMSCoordinates
             // 
             this.pictureBox18.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.pictureBox18.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox18.Location = new System.Drawing.Point(335, 20);
+            this.pictureBox18.Location = new System.Drawing.Point(413, 19);
             this.pictureBox18.Name = "pictureBox18";
-            this.pictureBox18.Size = new System.Drawing.Size(65, 70);
+            this.pictureBox18.Size = new System.Drawing.Size(50, 50);
             this.pictureBox18.TabIndex = 36;
             this.pictureBox18.TabStop = false;
             // 
@@ -1723,9 +1710,9 @@ namespace NMSCoordinates
             // 
             this.pictureBox19.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.pictureBox19.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox19.Location = new System.Drawing.Point(400, 20);
+            this.pictureBox19.Location = new System.Drawing.Point(463, 19);
             this.pictureBox19.Name = "pictureBox19";
-            this.pictureBox19.Size = new System.Drawing.Size(65, 70);
+            this.pictureBox19.Size = new System.Drawing.Size(50, 50);
             this.pictureBox19.TabIndex = 37;
             this.pictureBox19.TabStop = false;
             // 
@@ -1733,9 +1720,9 @@ namespace NMSCoordinates
             // 
             this.pictureBox20.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.pictureBox20.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox20.Location = new System.Drawing.Point(465, 20);
+            this.pictureBox20.Location = new System.Drawing.Point(513, 19);
             this.pictureBox20.Name = "pictureBox20";
-            this.pictureBox20.Size = new System.Drawing.Size(65, 70);
+            this.pictureBox20.Size = new System.Drawing.Size(50, 50);
             this.pictureBox20.TabIndex = 42;
             this.pictureBox20.TabStop = false;
             // 
@@ -1743,18 +1730,18 @@ namespace NMSCoordinates
             // 
             this.pictureBox22.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.pictureBox22.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox22.Location = new System.Drawing.Point(595, 20);
+            this.pictureBox22.Location = new System.Drawing.Point(563, 19);
             this.pictureBox22.Name = "pictureBox22";
-            this.pictureBox22.Size = new System.Drawing.Size(65, 70);
+            this.pictureBox22.Size = new System.Drawing.Size(50, 50);
             this.pictureBox22.TabIndex = 41;
             this.pictureBox22.TabStop = false;
             // 
             // pictureBox25
             // 
             this.pictureBox25.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox25.Location = new System.Drawing.Point(274, 129);
+            this.pictureBox25.Location = new System.Drawing.Point(245, 111);
             this.pictureBox25.Name = "pictureBox25";
-            this.pictureBox25.Size = new System.Drawing.Size(490, 297);
+            this.pictureBox25.Size = new System.Drawing.Size(331, 184);
             this.pictureBox25.TabIndex = 69;
             this.pictureBox25.TabStop = false;
             this.pictureBox25.Click += new System.EventHandler(this.PictureBox25_Click);
@@ -1764,9 +1751,9 @@ namespace NMSCoordinates
             this.groupBox13.BackColor = System.Drawing.Color.Transparent;
             this.groupBox13.Controls.Add(this.textBox16);
             this.groupBox13.ForeColor = System.Drawing.Color.White;
-            this.groupBox13.Location = new System.Drawing.Point(120, 230);
+            this.groupBox13.Location = new System.Drawing.Point(52, 213);
             this.groupBox13.Name = "groupBox13";
-            this.groupBox13.Size = new System.Drawing.Size(607, 65);
+            this.groupBox13.Size = new System.Drawing.Size(600, 51);
             this.groupBox13.TabIndex = 2;
             this.groupBox13.TabStop = false;
             this.groupBox13.Text = "Current Save Path";
@@ -1774,13 +1761,12 @@ namespace NMSCoordinates
             // textBox16
             // 
             this.textBox16.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.textBox16.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox16.ForeColor = System.Drawing.Color.Azure;
-            this.textBox16.Location = new System.Drawing.Point(28, 25);
-            this.textBox16.Multiline = true;
+            this.textBox16.Location = new System.Drawing.Point(8, 19);
             this.textBox16.Name = "textBox16";
             this.textBox16.ReadOnly = true;
-            this.textBox16.Size = new System.Drawing.Size(560, 24);
+            this.textBox16.Size = new System.Drawing.Size(586, 20);
             this.textBox16.TabIndex = 1;
             // 
             // groupBox12
@@ -1796,9 +1782,9 @@ namespace NMSCoordinates
             this.groupBox12.Controls.Add(this.button4);
             this.groupBox12.Controls.Add(this.comboBox1);
             this.groupBox12.ForeColor = System.Drawing.Color.White;
-            this.groupBox12.Location = new System.Drawing.Point(120, 10);
+            this.groupBox12.Location = new System.Drawing.Point(180, 10);
             this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(393, 214);
+            this.groupBox12.Size = new System.Drawing.Size(244, 197);
             this.groupBox12.TabIndex = 1;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Load Save File";
@@ -1808,9 +1794,9 @@ namespace NMSCoordinates
             this.label30.AutoSize = true;
             this.label30.BackColor = System.Drawing.Color.Transparent;
             this.label30.ForeColor = System.Drawing.Color.LimeGreen;
-            this.label30.Location = new System.Drawing.Point(149, 25);
+            this.label30.Location = new System.Drawing.Point(30, 61);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(213, 15);
+            this.label30.Size = new System.Drawing.Size(185, 13);
             this.label30.TabIndex = 73;
             this.label30.Text = "Slot Selection Disabled (Travel Mode)";
             this.label30.Visible = false;
@@ -1818,10 +1804,10 @@ namespace NMSCoordinates
             // label28
             // 
             this.label28.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(76)))), ((int)(((byte)(76)))));
-            this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label28.Location = new System.Drawing.Point(286, 41);
+            this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label28.Location = new System.Drawing.Point(132, 21);
             this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(87, 23);
+            this.label28.Size = new System.Drawing.Size(87, 13);
             this.label28.TabIndex = 35;
             this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -1830,9 +1816,9 @@ namespace NMSCoordinates
             this.button10.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.button10.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button10.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.button10.Location = new System.Drawing.Point(90, 149);
+            this.button10.Location = new System.Drawing.Point(29, 157);
             this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(90, 31);
+            this.button10.Size = new System.Drawing.Size(91, 25);
             this.button10.TabIndex = 34;
             this.button10.Text = "Backup Save";
             this.toolTip4.SetToolTip(this.button10, "Backs up the selected save slot");
@@ -1844,7 +1830,7 @@ namespace NMSCoordinates
             this.textBox26.BackColor = System.Drawing.SystemColors.ControlLight;
             this.textBox26.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox26.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox26.Location = new System.Drawing.Point(90, 127);
+            this.textBox26.Location = new System.Drawing.Point(29, 135);
             this.textBox26.MinimumSize = new System.Drawing.Size(190, 18);
             this.textBox26.Name = "textBox26";
             this.textBox26.ReadOnly = true;
@@ -1855,9 +1841,9 @@ namespace NMSCoordinates
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(91, 25);
+            this.label24.Location = new System.Drawing.Point(30, 21);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(58, 15);
+            this.label24.Size = new System.Drawing.Size(53, 13);
             this.label24.TabIndex = 6;
             this.label24.Text = "Save Slot";
             // 
@@ -1867,9 +1853,9 @@ namespace NMSCoordinates
             this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox2.ForeColor = System.Drawing.Color.Azure;
             this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(91, 42);
+            this.comboBox2.Location = new System.Drawing.Point(30, 38);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(188, 23);
+            this.comboBox2.Size = new System.Drawing.Size(188, 21);
             this.comboBox2.Sorted = true;
             this.comboBox2.TabIndex = 5;
             this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.ComboBox2_SelectedIndexChanged);
@@ -1878,9 +1864,9 @@ namespace NMSCoordinates
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(90, 78);
+            this.label18.Location = new System.Drawing.Point(29, 86);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(137, 15);
+            this.label18.Size = new System.Drawing.Size(121, 13);
             this.label18.TabIndex = 4;
             this.label18.Text = "Please select a save file";
             // 
@@ -1889,9 +1875,9 @@ namespace NMSCoordinates
             this.button4.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button4.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.button4.Location = new System.Drawing.Point(188, 149);
+            this.button4.Location = new System.Drawing.Point(127, 157);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(90, 31);
+            this.button4.Size = new System.Drawing.Size(91, 25);
             this.button4.TabIndex = 3;
             this.button4.Text = "Reload Save";
             this.toolTip1.SetToolTip(this.button4, "Reloads the selected save slot");
@@ -1904,9 +1890,9 @@ namespace NMSCoordinates
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.ForeColor = System.Drawing.Color.Azure;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(91, 98);
+            this.comboBox1.Location = new System.Drawing.Point(30, 106);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(188, 23);
+            this.comboBox1.Size = new System.Drawing.Size(188, 21);
             this.comboBox1.TabIndex = 0;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.ComboBox1_SelectedIndexChanged);
             this.comboBox1.SelectionChangeCommitted += new System.EventHandler(this.ComboBox1_SelectionChangeCommitted);
@@ -1918,10 +1904,10 @@ namespace NMSCoordinates
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabControl1.Location = new System.Drawing.Point(12, 29);
+            this.tabControl1.Location = new System.Drawing.Point(6, 29);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(876, 936);
+            this.tabControl1.Size = new System.Drawing.Size(718, 763);
             this.tabControl1.TabIndex = 57;
             this.tabControl1.Selected += new System.Windows.Forms.TabControlEventHandler(this.TabControl1_Selected);
             // 
@@ -1934,10 +1920,11 @@ namespace NMSCoordinates
             this.tabPage4.Controls.Add(this.groupBox10);
             this.tabPage4.Controls.Add(this.label14);
             this.tabPage4.Controls.Add(this.groupBox18);
+            this.tabPage4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabPage4.Location = new System.Drawing.Point(4, 24);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(868, 908);
+            this.tabPage4.Size = new System.Drawing.Size(710, 735);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Manual Travel";
             // 
@@ -1947,9 +1934,9 @@ namespace NMSCoordinates
             this.groupBox21.Controls.Add(this.linkLabel1);
             this.groupBox21.Controls.Add(this.linkLabel2);
             this.groupBox21.ForeColor = System.Drawing.Color.White;
-            this.groupBox21.Location = new System.Drawing.Point(123, 616);
+            this.groupBox21.Location = new System.Drawing.Point(71, 542);
             this.groupBox21.Name = "groupBox21";
-            this.groupBox21.Size = new System.Drawing.Size(600, 193);
+            this.groupBox21.Size = new System.Drawing.Size(572, 164);
             this.groupBox21.TabIndex = 78;
             this.groupBox21.TabStop = false;
             this.groupBox21.Text = "Helpful links";
@@ -1957,11 +1944,11 @@ namespace NMSCoordinates
             // linkLabel3
             // 
             this.linkLabel3.AutoSize = true;
-            this.linkLabel3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLabel3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.linkLabel3.LinkColor = System.Drawing.Color.LawnGreen;
-            this.linkLabel3.Location = new System.Drawing.Point(184, 142);
+            this.linkLabel3.Location = new System.Drawing.Point(200, 118);
             this.linkLabel3.Name = "linkLabel3";
-            this.linkLabel3.Size = new System.Drawing.Size(176, 18);
+            this.linkLabel3.Size = new System.Drawing.Size(159, 16);
             this.linkLabel3.TabIndex = 78;
             this.linkLabel3.TabStop = true;
             this.linkLabel3.Text = "https://nomanssky.social/";
@@ -1970,11 +1957,11 @@ namespace NMSCoordinates
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.linkLabel1.LinkColor = System.Drawing.Color.LawnGreen;
-            this.linkLabel1.Location = new System.Drawing.Point(128, 40);
+            this.linkLabel1.Location = new System.Drawing.Point(147, 38);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(288, 18);
+            this.linkLabel1.Size = new System.Drawing.Size(264, 16);
             this.linkLabel1.TabIndex = 76;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "https://nomanssky.gamepedia.com/Galaxy";
@@ -1983,11 +1970,11 @@ namespace NMSCoordinates
             // linkLabel2
             // 
             this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLabel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.linkLabel2.LinkColor = System.Drawing.Color.LawnGreen;
-            this.linkLabel2.Location = new System.Drawing.Point(98, 91);
+            this.linkLabel2.Location = new System.Drawing.Point(123, 78);
             this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Size = new System.Drawing.Size(348, 18);
+            this.linkLabel2.Size = new System.Drawing.Size(312, 16);
             this.linkLabel2.TabIndex = 77;
             this.linkLabel2.TabStop = true;
             this.linkLabel2.Text = "https://www.reddit.com/r/NMSCoordinateExchange/";
@@ -1996,9 +1983,9 @@ namespace NMSCoordinates
             // label22
             // 
             this.label22.BackColor = System.Drawing.Color.Transparent;
-            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label22.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label22.Location = new System.Drawing.Point(123, 289);
+            this.label22.Location = new System.Drawing.Point(74, 249);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(411, 100);
             this.label22.TabIndex = 75;
@@ -2010,9 +1997,9 @@ namespace NMSCoordinates
             this.groupBox19.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
             this.groupBox19.Controls.Add(this.textBox15);
             this.groupBox19.ForeColor = System.Drawing.Color.Azure;
-            this.groupBox19.Location = new System.Drawing.Point(126, 402);
+            this.groupBox19.Location = new System.Drawing.Point(71, 362);
             this.groupBox19.Name = "groupBox19";
-            this.groupBox19.Size = new System.Drawing.Size(597, 194);
+            this.groupBox19.Size = new System.Drawing.Size(572, 174);
             this.groupBox19.TabIndex = 66;
             this.groupBox19.TabStop = false;
             this.groupBox19.Text = "Calculations Log";
@@ -2021,12 +2008,12 @@ namespace NMSCoordinates
             // 
             this.textBox15.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox15.ForeColor = System.Drawing.Color.Azure;
-            this.textBox15.Location = new System.Drawing.Point(22, 29);
+            this.textBox15.Location = new System.Drawing.Point(7, 19);
             this.textBox15.Multiline = true;
             this.textBox15.Name = "textBox15";
             this.textBox15.ReadOnly = true;
             this.textBox15.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox15.Size = new System.Drawing.Size(556, 149);
+            this.textBox15.Size = new System.Drawing.Size(557, 149);
             this.textBox15.TabIndex = 10;
             // 
             // label14
@@ -2034,7 +2021,7 @@ namespace NMSCoordinates
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label14.Location = new System.Drawing.Point(215, 44);
+            this.label14.Location = new System.Drawing.Point(127, 33);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(440, 25);
             this.label14.TabIndex = 65;
@@ -2049,9 +2036,9 @@ namespace NMSCoordinates
             this.groupBox18.Controls.Add(this.label13);
             this.groupBox18.Controls.Add(this.textBox14);
             this.groupBox18.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.groupBox18.Location = new System.Drawing.Point(123, 92);
+            this.groupBox18.Location = new System.Drawing.Point(71, 89);
             this.groupBox18.Name = "groupBox18";
-            this.groupBox18.Size = new System.Drawing.Size(310, 181);
+            this.groupBox18.Size = new System.Drawing.Size(274, 154);
             this.groupBox18.TabIndex = 41;
             this.groupBox18.TabStop = false;
             this.groupBox18.Text = "Coordinates";
@@ -2062,26 +2049,26 @@ namespace NMSCoordinates
             this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox3.ForeColor = System.Drawing.Color.Azure;
             this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(109, 38);
+            this.comboBox3.Location = new System.Drawing.Point(94, 27);
             this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(50, 23);
+            this.comboBox3.Size = new System.Drawing.Size(50, 21);
             this.comboBox3.TabIndex = 75;
             this.comboBox3.SelectionChangeCommitted += new System.EventHandler(this.ComboBox3_SelectionChangeCommitted);
             // 
             // progressBar4
             // 
-            this.progressBar4.Location = new System.Drawing.Point(3, 150);
+            this.progressBar4.Location = new System.Drawing.Point(6, 128);
             this.progressBar4.Name = "progressBar4";
-            this.progressBar4.Size = new System.Drawing.Size(301, 25);
+            this.progressBar4.Size = new System.Drawing.Size(261, 20);
             this.progressBar4.TabIndex = 74;
             this.progressBar4.Visible = false;
             // 
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(165, 41);
+            this.label15.Location = new System.Drawing.Point(147, 30);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(44, 15);
+            this.label15.Size = new System.Drawing.Size(39, 13);
             this.label15.TabIndex = 61;
             this.label15.Text = "Galaxy";
             // 
@@ -2090,9 +2077,9 @@ namespace NMSCoordinates
             this.button11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.button11.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button11.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button11.Location = new System.Drawing.Point(97, 117);
+            this.button11.Location = new System.Drawing.Point(79, 80);
             this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(112, 30);
+            this.button11.Size = new System.Drawing.Size(110, 25);
             this.button11.TabIndex = 58;
             this.button11.Text = "Move Player";
             this.button11.UseVisualStyleBackColor = false;
@@ -2101,9 +2088,9 @@ namespace NMSCoordinates
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(165, 80);
+            this.label13.Location = new System.Drawing.Point(147, 57);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(120, 15);
+            this.label13.Size = new System.Drawing.Size(105, 13);
             this.label13.TabIndex = 59;
             this.label13.Text = "Galactic Coordinates";
             // 
@@ -2111,11 +2098,10 @@ namespace NMSCoordinates
             // 
             this.textBox14.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox14.ForeColor = System.Drawing.Color.Azure;
-            this.textBox14.Location = new System.Drawing.Point(25, 77);
-            this.textBox14.Multiline = true;
+            this.textBox14.Location = new System.Drawing.Point(10, 54);
             this.textBox14.Name = "textBox14";
             this.textBox14.ReadOnly = true;
-            this.textBox14.Size = new System.Drawing.Size(134, 24);
+            this.textBox14.Size = new System.Drawing.Size(134, 20);
             this.textBox14.TabIndex = 57;
             this.textBox14.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -2130,7 +2116,7 @@ namespace NMSCoordinates
             this.label29.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
             this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label29.ForeColor = System.Drawing.Color.White;
-            this.label29.Location = new System.Drawing.Point(594, 24);
+            this.label29.Location = new System.Drawing.Point(608, 27);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(110, 23);
             this.label29.TabIndex = 36;
@@ -2148,7 +2134,7 @@ namespace NMSCoordinates
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            this.ClientSize = new System.Drawing.Size(898, 980);
+            this.ClientSize = new System.Drawing.Size(729, 798);
             this.Controls.Add(this.label29);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);

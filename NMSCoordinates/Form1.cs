@@ -28,7 +28,7 @@ namespace NMSCoordinates
             InitializeComponent();
 
             //Set Version here
-            label29.Text = "Version 1.0.12";
+            label29.Text = "Version 1.0.13";
 
             Glyphs();
             GIndex();
@@ -1845,21 +1845,31 @@ namespace NMSCoordinates
             Regex myRegex1 = new Regex("GC:.*?$", RegexOptions.Multiline);
             Match m1 = myRegex1.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
             string line1 = m1.ToString();
-            //line1 = line1.Replace("GC: ", ""); 
             AppendLine(textBox11, line1);
 
             Regex myRegex2 = new Regex("PC.*?--", RegexOptions.Multiline);
             Match m2 = myRegex2.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
             string line2 = m2.ToString();
-            //line2 = line2.Replace("PC: ", "");
             line2 = line2.Replace(" --", "");
             AppendLine(textBox11, line2);
 
             Regex myRegex3 = new Regex("^.*?\\)", RegexOptions.Multiline);
             Match m3 = myRegex3.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
             string line3 = m3.ToString();
-            //line3 = line3.Replace("Loc: ", "");
-            AppendLine(textBox11, line3);
+
+            Regex myRegex4 = new Regex(" .*?#", RegexOptions.Multiline);
+            Match m4 = myRegex4.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
+            string line3_2 = m4.ToString();
+
+            if (m3.Success)
+            {
+                AppendLine(textBox11, line3); 
+            }
+            else if (m4.Success)
+            {                
+                AppendLine(textBox11, line3_2);
+            }               
+
             AppendLine(textBox11, "---------------------");
 
         }
