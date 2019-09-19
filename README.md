@@ -46,8 +46,6 @@ alt="Video" width="550" height="410" border="10" /></a>
 
 
 ## Download
-*** New Update coming tonight -> NMSC size scaled down for lower res - Check back later! Lot’s of new releases, but I’m close to the final ***
-
 
 <!--* Download will be available later today. -->
 
