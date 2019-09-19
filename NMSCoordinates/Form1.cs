@@ -2197,16 +2197,48 @@ namespace NMSCoordinates
         }
         private async void Button11_Click(object sender, EventArgs e)
         {
+            X = "";
+            Y = "";
+            Z = "";
+            SSI = "";
+
             //Galactic coordinates to Voxel
             try
-            {
-                //Read-only galactic coord for now   
+            {                 
                 if (textBox14.Text != "")
                 {
-                    string[] value = textBox14.Text.Replace(" ", "").Split(':');
+                    string t2 = textBox14.Text.Replace(" ", "");
 
-                    GalacticToVoxelMan(value[0].Trim(), value[1].Trim(), value[2].Trim(), value[3].Trim());
-                    GetPortalCoord(iX, iY, iZ, iSSI);
+                    if (t2.Contains(":") && t2.Length == 19)
+                    {
+                        string[] value = t2.Replace(" ", "").Split(':');
+                        GalacticToVoxelMan(value[0].Trim(), value[1].Trim(), value[2].Trim(), value[3].Trim());
+                        GetPortalCoord(iX, iY, iZ, iSSI);
+
+                    }
+
+                    if (t2.Length == 16 && !t2.Contains(":"))
+                    {
+                        //0000 0000 0000 0000  XXXX:YYYY:ZZZZ:SSIX
+                        string g1 = t2.Substring(t2.Length - 4, 4);
+                        string g2 = t2.Substring(t2.Length - 8, 4);
+                        string g3 = t2.Substring(t2.Length - 12, 4);
+                        string g4 = t2.Substring(t2.Length - 16, 4);
+                        GalacticToVoxelMan(g4, g3, g2, g1);
+                        GetPortalCoord(iX, iY, iZ, iSSI);
+                    }
+
+                    if (t2.Replace(":", "").Length < 16 | t2.Replace(":", "").Length > 16 | t2.Length < 16)
+                    {
+                        //AppendLine(textBox7, "Incorrect Coordinate Input!");
+                        MessageBox.Show("Invalid Galaxy!", "Alert");
+                        return;
+                    }
+
+                    //string[] value = textBox14.Text.Replace(" ", "").Split(':');
+
+                    //GalacticToVoxelMan(value[0].Trim(), value[1].Trim(), value[2].Trim(), value[3].Trim());
+                    //GetPortalCoord(iX, iY, iZ, iSSI);
                     
                     if(comboBox3.SelectedIndex < 255)
                     {
@@ -2224,11 +2256,10 @@ namespace NMSCoordinates
                     return;
                 }
 
-                DialogResult dialogResult = MessageBox.Show("Move Player? ", "Fast Travel", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes)
+                if (galaxy != "" && X != "" && Y != "" && Z != "" && SSI != "" && saveslot >= 1 && saveslot <= 5)
                 {
-                    
-                    if (galaxy != "" && X != "" && Y != "" && Z != "" && SSI != "" && saveslot >= 1 && saveslot <= 5)
+                    DialogResult dialogResult = MessageBox.Show("Move Player? ", "Fast Travel", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
                     {
                         AppendLine(textBox15, "Move Player to: Galaxy: " + galaxy + " -- X:" + X + " -- Y:" + Y + " -- Z:" + Z + " -- SSI:" + SSI);
                         progressBar4.Visible = true;
@@ -2346,16 +2377,17 @@ namespace NMSCoordinates
                         AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
 
                         MessageBox.Show("Player moved successfully!", "Confirmation", MessageBoxButtons.OK);
+                        
                     }
-                    else
+                    else if (dialogResult == DialogResult.No)
                     {
-                        MessageBox.Show("Please select a save slot!", "Confirmation", MessageBoxButtons.OK);
+                        textBox15.Clear();
+                        return;
                     }
                 }
-                else if (dialogResult == DialogResult.No)
+                else
                 {
-                    textBox15.Clear();
-                    return;
+                    MessageBox.Show("Something went wrong!", "Alert", MessageBoxButtons.OK);
                 }
             }
             catch
@@ -2365,6 +2397,11 @@ namespace NMSCoordinates
                 comboBox3.SelectedIndex = -1;
                 AppendLine(textBox15, "Incorrect Coordinate Input!");
             }
+
+            X = "";
+            Y = "";
+            Z = "";
+            SSI = "";
         }
         private void TabControl1_Selected(object sender, TabControlEventArgs e)
         {
@@ -2542,6 +2579,7 @@ namespace NMSCoordinates
         {
             unlockedToolStripMenuItem.Checked = false;
             textBox14.ReadOnly = true;
+            label33.Visible = false;
             AppendLine(textBox17, "Manual Travel LOCKED.");
             MessageBox.Show("Manual Travel LOCKED", "Confirmation");            
         }
@@ -2552,7 +2590,8 @@ namespace NMSCoordinates
             if (dialogResult == DialogResult.Yes)
             {
                 lockedToolStripMenuItem.Checked = false;
-                textBox14.ReadOnly = false;                
+                textBox14.ReadOnly = false;
+                label33.Visible = true;
                 AppendLine(textBox17, "Manual Travel UNLOCKED, Enter Coord. on Manual Travel tab.");
                 MessageBox.Show("Manual travel UNLOCKED, Enter Coord. on Manual Travel tab. \r\n\n Make sure Coordinates are correct!", "Warning");
             }
@@ -2561,6 +2600,7 @@ namespace NMSCoordinates
                 lockedToolStripMenuItem.Checked = true;
                 unlockedToolStripMenuItem.Checked = false;
                 textBox14.ReadOnly = true;
+                label33.Visible = false;
             }
         }
 
