@@ -2479,7 +2479,9 @@ namespace NMSCoordinates
         {
             if (pgalaxy != null)
             {
-                //Read-only galactic coord for now
+                comboBox3.Items.Clear();
+
+                //Add Galaxy numbers
                 for (int i = 1; i <= 255; i++)
                 {
                     string[] numbers = { i.ToString() };
