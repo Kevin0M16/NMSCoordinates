@@ -1063,8 +1063,10 @@ namespace NMSCoordinates
         }
         private void Button10_Click(object sender, EventArgs e)
         {
-            BackUpSaveSlot(saveslot);
-
+            if (comboBox1.GetItemText(comboBox1.SelectedItem) != "")
+                BackUpSaveSlot(saveslot);
+            else
+                MessageBox.Show("Please select a save slot!", "Alert");
         }
         private async Task ReadSave(int slot)
         {
@@ -1148,7 +1150,7 @@ namespace NMSCoordinates
         }
         private async void Button3_Click(object sender, EventArgs e)
         {
-            if (saveslot >= 1 && saveslot <= 5)
+            if (saveslot >= 1 && saveslot <= 5 && textBox12.Text != "")
             {
                 if (textBox12.Text == "False" || textBox12.Text == "false")
                 {
@@ -1815,18 +1817,27 @@ namespace NMSCoordinates
         {
             try
             {
-                textBox18.Text = listBox3.Items.Count.ToString();
-                string[] locFile = File.ReadAllLines(@".\backup\" + listBox4.SelectedItem.ToString());
-                if (locFile[0].ToString() != "")
+                if (listBox4.GetItemText(listBox4.SelectedItem) != "")
                 {
-                    listBox3.DataSource = locFile;
-                    listBox3.SelectedIndex = 0;
-                    toolStripMenuItem1.Enabled = true;
+                    textBox18.Text = listBox3.Items.Count.ToString();
+                    string[] locFile = File.ReadAllLines(@".\backup\" + listBox4.SelectedItem.ToString());
+                    if (locFile[0].ToString() != "")
+                    {
+                        listBox3.DataSource = locFile;
+                        listBox3.SelectedIndex = 0;
+                        toolStripMenuItem1.Enabled = true;
+                    }
+                    else
+                    {
+                        toolStripMenuItem1.Enabled = false;
+                        AppendLine(textBox11, "File is Empty! Select another file.");
+                        AppendLine(textBox11, "---------------------");
+                    }
                 }
                 else
                 {
                     toolStripMenuItem1.Enabled = false;
-                    AppendLine(textBox11, "File is Empty! Select another file.");
+                    AppendLine(textBox11, "No File Selected or File Empty!");
                     AppendLine(textBox11, "---------------------");
                 }
             }
@@ -2722,7 +2733,8 @@ namespace NMSCoordinates
 
                 tabControl1.SelectedTab = tabPage3;
                 listBox4.SelectedItem = "player_locs.txt";
-                Button6_Click(this, new EventArgs());                
+                Button6_Click(this, new EventArgs());
+                listBox3.SelectedItem = currentloc;
             }
             else
             {
