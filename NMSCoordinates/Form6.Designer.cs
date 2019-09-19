@@ -61,6 +61,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -85,8 +86,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.listView1);
-            this.splitContainer1.Size = new System.Drawing.Size(560, 380);
-            this.splitContainer1.SplitterDistance = 263;
+            this.splitContainer1.Size = new System.Drawing.Size(573, 380);
+            this.splitContainer1.SplitterDistance = 269;
             this.splitContainer1.TabIndex = 1;
             // 
             // treeView1
@@ -101,7 +102,7 @@
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
             this.treeView1.SelectedImageIndex = 0;
-            this.treeView1.Size = new System.Drawing.Size(263, 380);
+            this.treeView1.Size = new System.Drawing.Size(269, 380);
             this.treeView1.TabIndex = 0;
             this.toolTip4.SetToolTip(this.treeView1, "Right click a .zip file to delete the file.\r\n");
             this.treeView1.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.TreeView1_AfterExpand);
@@ -141,7 +142,7 @@
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(293, 380);
+            this.listView1.Size = new System.Drawing.Size(300, 380);
             this.listView1.SmallImageList = this.imageList1;
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
@@ -164,7 +165,7 @@
             // 
             // splitContainer2
             // 
-            this.splitContainer2.Location = new System.Drawing.Point(625, 45);
+            this.splitContainer2.Location = new System.Drawing.Point(638, 45);
             this.splitContainer2.Name = "splitContainer2";
             // 
             // splitContainer2.Panel1
@@ -248,7 +249,7 @@
             // 
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
-            this.button1.Location = new System.Drawing.Point(569, 131);
+            this.button1.Location = new System.Drawing.Point(582, 131);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(50, 50);
             this.button1.TabIndex = 3;
@@ -261,7 +262,7 @@
             // 
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
-            this.button2.Location = new System.Drawing.Point(569, 247);
+            this.button2.Location = new System.Drawing.Point(582, 247);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(50, 50);
             this.button2.TabIndex = 4;
@@ -318,7 +319,7 @@
             // 
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(915, 428);
+            this.label4.Location = new System.Drawing.Point(928, 428);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(189, 29);
             this.label4.TabIndex = 70;
@@ -357,12 +358,26 @@
             this.label6.TabIndex = 72;
             this.label6.Text = "Always move both mf_save#.hg and save#.hg";
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.White;
+            this.label7.Location = new System.Drawing.Point(15, 464);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(364, 39);
+            this.label7.TabIndex = 73;
+            this.label7.Text = "savebackup[slot][date.time] = Move Player / Backup Save Button\r\nnmsbackup[date.ti" +
+    "me] = Backed Up on Startup / File --> Backups --> Saves\r\nsavemanager[date.time] " +
+    "= Created in the Save Manager\r\n";
+            // 
             // Form6
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
-            this.ClientSize = new System.Drawing.Size(1191, 523);
+            this.ClientSize = new System.Drawing.Size(1202, 523);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -432,5 +447,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.Label label7;
     }
 }

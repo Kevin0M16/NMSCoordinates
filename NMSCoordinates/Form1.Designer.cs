@@ -64,6 +64,7 @@ namespace NMSCoordinates
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label34 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.textBox18 = new System.Windows.Forms.TextBox();
@@ -194,6 +195,7 @@ namespace NMSCoordinates
             this.textBox15 = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.groupBox18 = new System.Windows.Forms.GroupBox();
+            this.label33 = new System.Windows.Forms.Label();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.progressBar4 = new System.Windows.Forms.ProgressBar();
             this.label15 = new System.Windows.Forms.Label();
@@ -206,7 +208,6 @@ namespace NMSCoordinates
             this.toolTip4 = new System.Windows.Forms.ToolTip(this.components);
             this.label29 = new System.Windows.Forms.Label();
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
-            this.label33 = new System.Windows.Forms.Label();
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -269,13 +270,13 @@ namespace NMSCoordinates
             this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem2});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(190, 26);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(181, 48);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(189, 22);
-            this.toolStripMenuItem2.Text = "Delete Locbackup File";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem2.Text = "Delete Location File";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.ToolStripMenuItem2_Click);
             // 
             // contextMenuStrip1
@@ -372,14 +373,14 @@ namespace NMSCoordinates
             // discoveriesToolStripMenuItem
             // 
             this.discoveriesToolStripMenuItem.Name = "discoveriesToolStripMenuItem";
-            this.discoveriesToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
-            this.discoveriesToolStripMenuItem.Text = "Backup Discoveries to *.txt";
+            this.discoveriesToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
+            this.discoveriesToolStripMenuItem.Text = "Backup Locations to *.txt";
             this.discoveriesToolStripMenuItem.Click += new System.EventHandler(this.DiscoveriesToolStripMenuItem_Click);
             // 
             // backupALLSaveFilesToolStripMenuItem
             // 
             this.backupALLSaveFilesToolStripMenuItem.Name = "backupALLSaveFilesToolStripMenuItem";
-            this.backupALLSaveFilesToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+            this.backupALLSaveFilesToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.backupALLSaveFilesToolStripMenuItem.Text = "Backup ALL Save Files";
             this.backupALLSaveFilesToolStripMenuItem.Click += new System.EventHandler(this.BackupALLSaveFilesToolStripMenuItem_Click);
             // 
@@ -413,7 +414,7 @@ namespace NMSCoordinates
             this.screenshotPageToolStripMenuItem1,
             this.screenshotPageToolStripMenuItem2});
             this.screenshotPageToolStripMenuItem.Name = "screenshotPageToolStripMenuItem";
-            this.screenshotPageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.screenshotPageToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.screenshotPageToolStripMenuItem.Text = "Screenshots...";
             // 
             // screenshotPageToolStripMenuItem1
@@ -436,7 +437,7 @@ namespace NMSCoordinates
             this.onToolStripMenuItem,
             this.offToolStripMenuItem});
             this.travelModeToolStripMenuItem.Name = "travelModeToolStripMenuItem";
-            this.travelModeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.travelModeToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.travelModeToolStripMenuItem.Text = "Travel Mode...";
             // 
             // onToolStripMenuItem
@@ -463,7 +464,7 @@ namespace NMSCoordinates
             this.lockedToolStripMenuItem,
             this.unlockedToolStripMenuItem});
             this.manualTravelToolStripMenuItem.Name = "manualTravelToolStripMenuItem";
-            this.manualTravelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.manualTravelToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.manualTravelToolStripMenuItem.Text = "Manual Travel ";
             // 
             // lockedToolStripMenuItem
@@ -472,7 +473,7 @@ namespace NMSCoordinates
             this.lockedToolStripMenuItem.CheckOnClick = true;
             this.lockedToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.lockedToolStripMenuItem.Name = "lockedToolStripMenuItem";
-            this.lockedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.lockedToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.lockedToolStripMenuItem.Text = "Locked";
             this.lockedToolStripMenuItem.Click += new System.EventHandler(this.LockedToolStripMenuItem_Click);
             // 
@@ -480,7 +481,7 @@ namespace NMSCoordinates
             // 
             this.unlockedToolStripMenuItem.CheckOnClick = true;
             this.unlockedToolStripMenuItem.Name = "unlockedToolStripMenuItem";
-            this.unlockedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.unlockedToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.unlockedToolStripMenuItem.Text = "Unlocked";
             this.unlockedToolStripMenuItem.Click += new System.EventHandler(this.UnlockedToolStripMenuItem_Click);
             // 
@@ -502,6 +503,7 @@ namespace NMSCoordinates
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
+            this.tabPage3.Controls.Add(this.label34);
             this.tabPage3.Controls.Add(this.label32);
             this.tabPage3.Controls.Add(this.label27);
             this.tabPage3.Controls.Add(this.textBox18);
@@ -519,6 +521,19 @@ namespace NMSCoordinates
             this.tabPage3.Size = new System.Drawing.Size(710, 735);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Coordinate Share";
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label34.ForeColor = System.Drawing.Color.White;
+            this.label34.Location = new System.Drawing.Point(11, 678);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(375, 39);
+            this.label34.TabIndex = 77;
+            this.label34.Text = "locbackup_deleted = Captured deleted locations from Travel Mode\r\nplayer_locs = Lo" +
+    "cations from Backup Current button\r\nlocbackup[saveslot][date.time] = Locations f" +
+    "rom File --> Backups --> Locations\r\n";
             // 
             // label32
             // 
@@ -2045,6 +2060,18 @@ namespace NMSCoordinates
             this.groupBox18.TabStop = false;
             this.groupBox18.Text = "Coordinates";
             // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.BackColor = System.Drawing.Color.Transparent;
+            this.label33.ForeColor = System.Drawing.Color.LimeGreen;
+            this.label33.Location = new System.Drawing.Point(44, 108);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(211, 13);
+            this.label33.TabIndex = 76;
+            this.label33.Text = "Make sure to Enter the Correct Coordinates";
+            this.label33.Visible = false;
+            // 
             // comboBox3
             // 
             this.comboBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
@@ -2130,18 +2157,6 @@ namespace NMSCoordinates
             this.fileSystemWatcher1.Filter = "*.hg";
             this.fileSystemWatcher1.SynchronizingObject = this;
             this.fileSystemWatcher1.Changed += new System.IO.FileSystemEventHandler(this.FileSystemWatcher1_Changed);
-            // 
-            // label33
-            // 
-            this.label33.AutoSize = true;
-            this.label33.BackColor = System.Drawing.Color.Transparent;
-            this.label33.ForeColor = System.Drawing.Color.LimeGreen;
-            this.label33.Location = new System.Drawing.Point(44, 108);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(211, 13);
-            this.label33.TabIndex = 76;
-            this.label33.Text = "Make sure to Enter the Correct Coordinates";
-            this.label33.Visible = false;
             // 
             // Form1
             // 
@@ -2528,6 +2543,7 @@ namespace NMSCoordinates
         private System.Windows.Forms.ToolStripMenuItem deleteSingleRecordToolStripMenuItem;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.Label label34;
     }
 }
 
