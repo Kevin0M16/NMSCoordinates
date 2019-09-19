@@ -77,7 +77,7 @@ Here is an overview of what you need to get started with NMSCoordinates
 
 ### Requirements
 
-The current version of NMSCoordinates requires No Man's Sky Beyond 2.11, but It could work with older versions.
+The current version of NMSCoordinates requires No Man's Sky Beyond 2.11 or 2.12.
  - [x] nmssavetool required - download the latest NMSCoordinates release .zip above ^, everything you need is included.
 
 :exclamation: **Always back up all your game data and saves before any mods**
