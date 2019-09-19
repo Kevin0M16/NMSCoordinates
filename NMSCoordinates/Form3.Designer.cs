@@ -43,9 +43,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(452, 610);
+            this.button1.Location = new System.Drawing.Point(446, 611);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(108, 41);
+            this.button1.Size = new System.Drawing.Size(120, 35);
             this.button1.TabIndex = 1;
             this.button1.Text = "Finished";
             this.button1.UseVisualStyleBackColor = true;

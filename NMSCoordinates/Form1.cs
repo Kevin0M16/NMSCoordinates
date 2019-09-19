@@ -28,7 +28,7 @@ namespace NMSCoordinates
             InitializeComponent();
 
             //Set Version here
-            label29.Text = "Version 1.0.13";
+            label29.Text = "Version 1.1.0";
 
             Glyphs();
             GIndex();
@@ -188,11 +188,13 @@ namespace NMSCoordinates
                 return;
             }
         }
-        private void BackupLoc(string path)
+        private async Task BackupLoc(string path)
         {           
 
             if (DiscList.Count > 0)
             {
+                tabControl1.SelectedTab = tabPage1;
+                await Task.Delay(300);
                 // Set Minimum to 1 to represent the first file being copied.
                 progressBar2.Minimum = 1;
                 // Set Maximum to the total number of files to copy.
@@ -223,8 +225,12 @@ namespace NMSCoordinates
 
                 string path2 = MakeUnique(path).ToString();
                 File.WriteAllLines(path2, Backuplist);
-                Process.Start(path2);
+                //Process.Start(path2);
+                //LoadTxt();
+                MessageBox.Show("Locations Backed up to .txt \n\n\r Open in Coordinate Share Tab", "Confirmation", MessageBoxButtons.OK);
                 LoadTxt();
+                tabControl1.SelectedTab = tabPage3;
+                Button6_Click(this, new EventArgs());
             }
             else
             {
@@ -587,7 +593,7 @@ namespace NMSCoordinates
                     //textBox10.Text = galaxyDict[galaxy];
                     GalaxyLookup(textBox10, galaxy);
                     GetGalacticCoord(iX, iY, iZ, iSSI);
-                    GetPortalCoord(iX, iY, iZ, iSSI);
+                    GetPortalCoord(iX, iY, iZ, iSSI, textBox3);
                     ShowGlyphs();
                     AppendLine(textBox1, GalacticCoord);
                     AppendLine(textBox2, PortalCode);
@@ -620,7 +626,7 @@ namespace NMSCoordinates
                                 TextBoxes();
                                 GalaxyLookup(textBox10, galaxy);
                                 GetGalacticCoord(iX, iY, iZ, iSSI);
-                                GetPortalCoord(iX, iY, iZ, iSSI);
+                                GetPortalCoord(iX, iY, iZ, iSSI, textBox3);
                                 ShowGlyphs();
                                 AppendLine(textBox1, GalacticCoord);
                                 AppendLine(textBox2, PortalCode);
@@ -670,7 +676,8 @@ namespace NMSCoordinates
             GalacticCoord = string.Format("{0:X4}:{1:X4}:{2:X4}:{3:X4}", ig1, ig2, ig3, ig4); //Format to 4 digit seperated by colon
             AppendLine(textBox3, "Galactic Coordinates: " + GalacticCoord);
         }
-        private void GetPortalCoord(int X, int Y, int Z, int SSI)
+
+        private void GetPortalCoord(int X, int Y, int Z, int SSI, TextBox tb)
         {
             //Galactic Coordinate to Portal Code
 
@@ -688,23 +695,23 @@ namespace NMSCoordinates
             int dec2 = Convert.ToInt32(g2, 16); // Y[HEX] to X[DEC]
             int dec3 = Convert.ToInt32(g3, 16); // Z[HEX] to X[DEC]
             int dec4 = Convert.ToInt32(g4, 16); // SSI[HEX] to SSI[DEC]
-            AppendLine(textBox3, "Galactic HEX to DEC: " + dec1.ToString() + " " + dec2.ToString() + " " + dec3.ToString() + " " + dec4);
+            AppendLine(tb, "Galactic HEX to DEC: " + dec1.ToString() + " " + dec2.ToString() + " " + dec3.ToString() + " " + dec4);
 
             int dec5 = Convert.ToInt32("801", 16); // 801[HEX] to 801[DEC]
             int dec6 = Convert.ToInt32("81", 16); // 81[HEX] to 81[DEC]
             int dec7 = Convert.ToInt32("1000", 16); // 100[HEX] to 1000[DEC]
             int dec8 = Convert.ToInt32("100", 16); // 100[HEX] to 100[DEC]
-            AppendLine(textBox3, "Shift HEX to DEC: " + "801:" + dec5.ToString() + " 81:" + dec6.ToString() + " 1000:" + dec7.ToString() + " 100:" + dec8.ToString());
+            AppendLine(tb, "Shift HEX to DEC: " + "801:" + dec5.ToString() + " 81:" + dec6.ToString() + " 1000:" + dec7.ToString() + " 100:" + dec8.ToString());
 
             int calc1 = (dec1 + dec5) % dec7; // (X[DEC] + 801[DEC]) MOD (1000[DEC])
             int calc2 = (dec2 + dec6) % dec8; // (Y[DEC] + 81[DEC]) MOD (100[DEC])
             int calc3 = (dec3 + dec5) % dec7; // (Z[DEC] + 801[DEC]) MOD (1000[DEC])
-            AppendLine(textBox3, "Calculate Portal DEC: " + "X:" + calc1.ToString() + " Y:" + calc2.ToString() + " Z:" + calc3.ToString() + " SSI:" + dec4);
+            AppendLine(tb, "Calculate Portal DEC: " + "X:" + calc1.ToString() + " Y:" + calc2.ToString() + " Z:" + calc3.ToString() + " SSI:" + dec4);
 
             string hexX = calc1.ToString("X"); //Calculated portal X[DEC] to X[HEX]
             string hexY = calc2.ToString("X"); //Calculated portal Y[DEC] to Y[HEX]
             string hexZ = calc3.ToString("X"); //Calculated portal Z[DEC] to Z[HEX]
-            AppendLine(textBox3, "Portal HEX numbers: " + "X:" + hexX + " Y:" + hexY + " Z:" + hexZ + " SSI:" + g4);
+            AppendLine(tb, "Portal HEX numbers: " + "X:" + hexX + " Y:" + hexY + " Z:" + hexZ + " SSI:" + g4);
 
             int ihexX = (Convert.ToInt32(hexX, 16) & 0xFFF); // X[HEX] to X[DEC] 3 digits
             int ihexY = (Convert.ToInt32(hexY, 16) & 0xFF); // Y[HEX] to Y[DEC] 2 digits
@@ -712,7 +719,7 @@ namespace NMSCoordinates
             int ihexSSI = (Convert.ToInt32(g4, 16) & 0xFFF); // SSI[HEX] to SSI[DEC] 3 digits
 
             PortalCode = string.Format("0{0:X3}{1:X2}{2:X3}{3:X3}", ihexSSI, ihexY, ihexZ, ihexX); // Format digits 0 3 2 3 3
-            AppendLine(textBox3, "[SSI][Y][Z][X] Portal Code: " + PortalCode);
+            AppendLine(tb, "[SSI][Y][Z][X] Portal Code: " + PortalCode);
 
             //Index chars in PortalCode
             _gl1 = PortalCode[0];
@@ -732,8 +739,67 @@ namespace NMSCoordinates
             //ShowGlyphs();
         }
 
+        private void GetPortalCoord(int X, int Y, int Z, int SSI)
+        {
+            //Galactic Coordinate to Portal Code
+
+            //Note: iX, iY, iZ, iSSI already Convert.ToInt32(X) in JSONMap()
+            int dd1 = X + 2047;
+            int dd2 = Y + 127;
+            int dd3 = Z + 2047;
+
+            string g1 = dd1.ToString("X");
+            string g2 = dd2.ToString("X");
+            string g3 = dd3.ToString("X");
+            string g4 = SSI.ToString("X");
+
+            int dec1 = Convert.ToInt32(g1, 16); // X[HEX] to X[DEC]
+            int dec2 = Convert.ToInt32(g2, 16); // Y[HEX] to X[DEC]
+            int dec3 = Convert.ToInt32(g3, 16); // Z[HEX] to X[DEC]
+            int dec4 = Convert.ToInt32(g4, 16); // SSI[HEX] to SSI[DEC]
+            //AppendLine(textBox3, "Galactic HEX to DEC: " + dec1.ToString() + " " + dec2.ToString() + " " + dec3.ToString() + " " + dec4);
+
+            int dec5 = Convert.ToInt32("801", 16); // 801[HEX] to 801[DEC]
+            int dec6 = Convert.ToInt32("81", 16); // 81[HEX] to 81[DEC]
+            int dec7 = Convert.ToInt32("1000", 16); // 100[HEX] to 1000[DEC]
+            int dec8 = Convert.ToInt32("100", 16); // 100[HEX] to 100[DEC]
+            //AppendLine(textBox3, "Shift HEX to DEC: " + "801:" + dec5.ToString() + " 81:" + dec6.ToString() + " 1000:" + dec7.ToString() + " 100:" + dec8.ToString());
+
+            int calc1 = (dec1 + dec5) % dec7; // (X[DEC] + 801[DEC]) MOD (1000[DEC])
+            int calc2 = (dec2 + dec6) % dec8; // (Y[DEC] + 81[DEC]) MOD (100[DEC])
+            int calc3 = (dec3 + dec5) % dec7; // (Z[DEC] + 801[DEC]) MOD (1000[DEC])
+            //AppendLine(textBox3, "Calculate Portal DEC: " + "X:" + calc1.ToString() + " Y:" + calc2.ToString() + " Z:" + calc3.ToString() + " SSI:" + dec4);
+
+            string hexX = calc1.ToString("X"); //Calculated portal X[DEC] to X[HEX]
+            string hexY = calc2.ToString("X"); //Calculated portal Y[DEC] to Y[HEX]
+            string hexZ = calc3.ToString("X"); //Calculated portal Z[DEC] to Z[HEX]
+            //AppendLine(textBox3, "Portal HEX numbers: " + "X:" + hexX + " Y:" + hexY + " Z:" + hexZ + " SSI:" + g4);
+
+            int ihexX = (Convert.ToInt32(hexX, 16) & 0xFFF); // X[HEX] to X[DEC] 3 digits
+            int ihexY = (Convert.ToInt32(hexY, 16) & 0xFF); // Y[HEX] to Y[DEC] 2 digits
+            int ihexZ = (Convert.ToInt32(hexZ, 16) & 0xFFF); // Z[HEX] to Z[DEC] 3 digits
+            int ihexSSI = (Convert.ToInt32(g4, 16) & 0xFFF); // SSI[HEX] to SSI[DEC] 3 digits
+
+            PortalCode = string.Format("0{0:X3}{1:X2}{2:X3}{3:X3}", ihexSSI, ihexY, ihexZ, ihexX); // Format digits 0 3 2 3 3
+            //AppendLine(textBox3, "[SSI][Y][Z][X] Portal Code: " + PortalCode);
+        }
+
         private void ShowPGlyphs()
         {
+            //Index chars in PortalCode
+            _gl1 = PortalCode[0];
+            _gl2 = PortalCode[1];
+            _gl3 = PortalCode[2];
+            _gl4 = PortalCode[3];
+            _gl5 = PortalCode[4];
+            _gl6 = PortalCode[5];
+            _gl7 = PortalCode[6];
+            _gl8 = PortalCode[7];
+            _gl9 = PortalCode[8];
+            _gl10 = PortalCode[9];
+            _gl11 = PortalCode[10];
+            _gl12 = PortalCode[11];
+
             //Display player glyph images
             pictureBox13.Image = glyphDict[_gl1];
             pictureBox13.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -1063,8 +1129,10 @@ namespace NMSCoordinates
         }
         private void Button10_Click(object sender, EventArgs e)
         {
-            BackUpSaveSlot(saveslot);
-
+            if (comboBox1.GetItemText(comboBox1.SelectedItem) != "")
+                BackUpSaveSlot(saveslot);
+            else
+                MessageBox.Show("Please select a save slot!", "Alert");
         }
         private async Task ReadSave(int slot)
         {
@@ -1144,11 +1212,12 @@ namespace NMSCoordinates
             //Turn back on file watcher
             fileSystemWatcher1.EnableRaisingEvents = true;
 
-            AppendLine(textBox27, "Save file on Slot: ( " + saveslot + " ) backed up to \\backup folder...");
+            //AppendLine(textBox27, "Save file on Slot: ( " + saveslot + " ) backed up to \\backup folder...");
+
         }
         private async void Button3_Click(object sender, EventArgs e)
         {
-            if (saveslot >= 1 && saveslot <= 5)
+            if (saveslot >= 1 && saveslot <= 5 && textBox12.Text != "")
             {
                 if (textBox12.Text == "False" || textBox12.Text == "false")
                 {
@@ -1206,6 +1275,7 @@ namespace NMSCoordinates
 
                         //Encrypt and write saveedit.json to selected save slot
                         await WriteSave(saveslot);
+                        AppendLine(textBox27, "Save file on Slot: ( " + saveslot + " ) backed up to \\backup folder...");
 
                         progressBar1.Invoke((Action)(() => progressBar1.Value = 90));
 
@@ -1244,10 +1314,9 @@ namespace NMSCoordinates
                 MessageBox.Show("Save slot not selected!", "Alert");
             }
         }
-        private void DiscoveriesToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void DiscoveriesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            BackupLoc(@".\backup\locbackup.txt");
-            //MessageBox.Show("Backup successful!", "Confirmation", MessageBoxButtons.OK);            
+            await BackupLoc(@".\backup\locbackup.txt");           
         }
         private void JsonKey()
         {
@@ -1394,10 +1463,10 @@ namespace NMSCoordinates
                         Regex myRegexPrtl2 = new Regex(rxPatternPrtl2, RegexOptions.Singleline);
                         Match prtl2 = myRegexPrtl2.Match(jsons);
                         rxValPrtl2 = prtl2.ToString();
-                        AppendLine(textBox12, rxValPrtl2);
+                        //AppendLine(textBox12, rxValPrtl2);
                         Regex myRegexPrtl3 = new Regex(rxPatternPrtl3, RegexOptions.Multiline);
                         rxValPrtl2 = Regex.Replace(rxValPrtl2, rxPatternPrtl3, rxValPrtl3, RegexOptions.Multiline);
-                        AppendLine(textBox12, rxValPrtl2);
+                        //AppendLine(textBox12, rxValPrtl2);
 
                         //Set the visited portal state array after changes made
                         jsons = Regex.Replace(jsons, rxPatternPrtl2, rxValPrtl2, RegexOptions.Singleline);
@@ -1415,12 +1484,14 @@ namespace NMSCoordinates
                         Match ssi = myRegex5.Match(jsons);
                         Match pi = myRegex6.Match(jsons);
                         Match ps = myRegexs.Match(myRegexps.Match(jsons).ToString());
-                        AppendLine(textBox27, "Player Move Data: " + g.ToString() + x.ToString() + y.ToString() + z.ToString() + ssi.ToString() + pi.ToString() + ps.ToString());
+                        AppendLine(textBox27, "Player Move Data: "); 
+                        AppendLine(textBox27, g.ToString() + x.ToString() + y.ToString() + z.ToString() + ssi.ToString() + pi.ToString() + ps.ToString());
 
                         progressBar1.Invoke((Action)(() => progressBar1.Value = 70));
 
                         //Write the new save file 
                         await WriteSave(saveslot);
+                        AppendLine(textBox27, "Save file on Slot: ( " + saveslot + " ) backed up to \\backup folder...");
 
                         //Set json to the new modified hg file
                         json = File.ReadAllText(hgFilePath);
@@ -1591,6 +1662,7 @@ namespace NMSCoordinates
         {
             if (Directory.Exists(nmsPath))
             {
+                tabControl1.SelectedTab = tabPage1;
                 progressBar2.Visible = true;
                 progressBar2.Invoke((Action)(() => progressBar2.Value = 10));
                 ProcessStartInfo startInfo = new ProcessStartInfo(@"Powershell.exe");
@@ -1610,7 +1682,7 @@ namespace NMSCoordinates
             }
         }
         private async void BackupALLSaveFilesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        {            
             await BackupSave();
             MessageBox.Show("Save Backup Completed!", "Confirmation", MessageBoxButtons.OK);
         }
@@ -1815,18 +1887,27 @@ namespace NMSCoordinates
         {
             try
             {
-                textBox18.Text = listBox3.Items.Count.ToString();
-                string[] locFile = File.ReadAllLines(@".\backup\" + listBox4.SelectedItem.ToString());
-                if (locFile[0].ToString() != "")
+                if (listBox4.GetItemText(listBox4.SelectedItem) != "")
                 {
-                    listBox3.DataSource = locFile;
-                    listBox3.SelectedIndex = 0;
-                    toolStripMenuItem1.Enabled = true;
+                    textBox18.Text = listBox3.Items.Count.ToString();
+                    string[] locFile = File.ReadAllLines(@".\backup\" + listBox4.SelectedItem.ToString());
+                    if (locFile[0].ToString() != "")
+                    {
+                        listBox3.DataSource = locFile;
+                        listBox3.SelectedIndex = 0;
+                        toolStripMenuItem1.Enabled = true;
+                    }
+                    else
+                    {
+                        toolStripMenuItem1.Enabled = false;
+                        AppendLine(textBox11, "File is Empty! Select another file.");
+                        AppendLine(textBox11, "---------------------");
+                    }
                 }
                 else
                 {
                     toolStripMenuItem1.Enabled = false;
-                    AppendLine(textBox11, "File is Empty! Select another file.");
+                    AppendLine(textBox11, "No File Selected or File Empty!");
                     AppendLine(textBox11, "---------------------");
                 }
             }
@@ -2054,12 +2135,13 @@ namespace NMSCoordinates
                         Match ssi = myRegex5.Match(jsons);
                         Match pi = myRegex6.Match(jsons);
                         Match ps = myRegexs.Match(myRegexps.Match(jsons).ToString());
-                        AppendLine(textBox27, "Player Move Data: " + g.ToString() + x.ToString() + y.ToString() + z.ToString() + ssi.ToString() + pi.ToString() + ps.ToString());
+                        AppendLine(textBox13, "Player Move Data: " + g.ToString() + x.ToString() + y.ToString() + z.ToString() + ssi.ToString() + pi.ToString() + ps.ToString());
 
                         progressBar3.Invoke((Action)(() => progressBar3.Value = 70));
 
                         //Write the new save file 
                         await WriteSave(saveslot);
+                        AppendLine(textBox13, "Save file on Slot: ( " + saveslot + " ) backed up to \\backup folder...");
 
                         //Set json to the new modified hg file
                         json = File.ReadAllText(hgFilePath);
@@ -2186,16 +2268,48 @@ namespace NMSCoordinates
         }
         private async void Button11_Click(object sender, EventArgs e)
         {
+            X = "";
+            Y = "";
+            Z = "";
+            SSI = "";
+
             //Galactic coordinates to Voxel
             try
-            {
-                //Read-only galactic coord for now   
+            {                 
                 if (textBox14.Text != "")
                 {
-                    string[] value = textBox14.Text.Replace(" ", "").Split(':');
+                    string t2 = textBox14.Text.Replace(" ", "");
 
-                    GalacticToVoxelMan(value[0].Trim(), value[1].Trim(), value[2].Trim(), value[3].Trim());
-                    GetPortalCoord(iX, iY, iZ, iSSI);
+                    if (t2.Contains(":") && t2.Length == 19)
+                    {
+                        string[] value = t2.Replace(" ", "").Split(':');
+                        GalacticToVoxelMan(value[0].Trim(), value[1].Trim(), value[2].Trim(), value[3].Trim());
+                        GetPortalCoord(iX, iY, iZ, iSSI);
+
+                    }
+
+                    if (t2.Length == 16 && !t2.Contains(":"))
+                    {
+                        //0000 0000 0000 0000  XXXX:YYYY:ZZZZ:SSIX
+                        string g1 = t2.Substring(t2.Length - 4, 4);
+                        string g2 = t2.Substring(t2.Length - 8, 4);
+                        string g3 = t2.Substring(t2.Length - 12, 4);
+                        string g4 = t2.Substring(t2.Length - 16, 4);
+                        GalacticToVoxelMan(g4, g3, g2, g1);
+                        GetPortalCoord(iX, iY, iZ, iSSI);
+                    }
+
+                    if (t2.Replace(":", "").Length < 16 | t2.Replace(":", "").Length > 16 | t2.Length < 16)
+                    {
+                        //AppendLine(textBox7, "Incorrect Coordinate Input!");
+                        MessageBox.Show("Invalid Galaxy!", "Alert");
+                        return;
+                    }
+
+                    //string[] value = textBox14.Text.Replace(" ", "").Split(':');
+
+                    //GalacticToVoxelMan(value[0].Trim(), value[1].Trim(), value[2].Trim(), value[3].Trim());
+                    //GetPortalCoord(iX, iY, iZ, iSSI);
                     
                     if(comboBox3.SelectedIndex < 255)
                     {
@@ -2213,11 +2327,10 @@ namespace NMSCoordinates
                     return;
                 }
 
-                DialogResult dialogResult = MessageBox.Show("Move Player? ", "Fast Travel", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes)
+                if (galaxy != "" && X != "" && Y != "" && Z != "" && SSI != "" && saveslot >= 1 && saveslot <= 5)
                 {
-                    
-                    if (galaxy != "" && X != "" && Y != "" && Z != "" && SSI != "" && saveslot >= 1 && saveslot <= 5)
+                    DialogResult dialogResult = MessageBox.Show("Move Player? ", "Fast Travel", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
                     {
                         AppendLine(textBox15, "Move Player to: Galaxy: " + galaxy + " -- X:" + X + " -- Y:" + Y + " -- Z:" + Z + " -- SSI:" + SSI);
                         progressBar4.Visible = true;
@@ -2316,6 +2429,7 @@ namespace NMSCoordinates
 
                         //Write the new save file 
                         await WriteSave(saveslot);
+                        AppendLine(textBox15, "Save file on Slot: ( " + saveslot + " ) backed up to \\backup folder...");
 
                         //Set json to the new modified hg file
                         json = File.ReadAllText(hgFilePath);
@@ -2335,16 +2449,17 @@ namespace NMSCoordinates
                         AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
 
                         MessageBox.Show("Player moved successfully!", "Confirmation", MessageBoxButtons.OK);
+                        
                     }
-                    else
+                    else if (dialogResult == DialogResult.No)
                     {
-                        MessageBox.Show("Please select a save slot!", "Confirmation", MessageBoxButtons.OK);
+                        textBox15.Clear();
+                        return;
                     }
                 }
-                else if (dialogResult == DialogResult.No)
+                else
                 {
-                    textBox15.Clear();
-                    return;
+                    MessageBox.Show("Something went wrong!", "Alert", MessageBoxButtons.OK);
                 }
             }
             catch
@@ -2354,12 +2469,19 @@ namespace NMSCoordinates
                 comboBox3.SelectedIndex = -1;
                 AppendLine(textBox15, "Incorrect Coordinate Input!");
             }
+
+            X = "";
+            Y = "";
+            Z = "";
+            SSI = "";
         }
         private void TabControl1_Selected(object sender, TabControlEventArgs e)
         {
             if (pgalaxy != null)
             {
-                //Read-only galactic coord for now
+                comboBox3.Items.Clear();
+
+                //Add Galaxy numbers
                 for (int i = 1; i <= 255; i++)
                 {
                     string[] numbers = { i.ToString() };
@@ -2421,8 +2543,8 @@ namespace NMSCoordinates
                         PrevSSlist.Add(item);
                     }
 
-                    AppendLine(textBox17, "Current Space Station locations saved.");
-                    MessageBox.Show("Current Space Station locations saved.", "Confirmation");
+                    AppendLine(textBox17, "Current Stored locations saved.");
+                    MessageBox.Show("Current Stored locations saved.", "Confirmation");
                 }
             }
             else
@@ -2531,6 +2653,7 @@ namespace NMSCoordinates
         {
             unlockedToolStripMenuItem.Checked = false;
             textBox14.ReadOnly = true;
+            label33.Visible = false;
             AppendLine(textBox17, "Manual Travel LOCKED.");
             MessageBox.Show("Manual Travel LOCKED", "Confirmation");            
         }
@@ -2541,7 +2664,8 @@ namespace NMSCoordinates
             if (dialogResult == DialogResult.Yes)
             {
                 lockedToolStripMenuItem.Checked = false;
-                textBox14.ReadOnly = false;                
+                textBox14.ReadOnly = false;
+                label33.Visible = true;
                 AppendLine(textBox17, "Manual Travel UNLOCKED, Enter Coord. on Manual Travel tab.");
                 MessageBox.Show("Manual travel UNLOCKED, Enter Coord. on Manual Travel tab. \r\n\n Make sure Coordinates are correct!", "Warning");
             }
@@ -2550,6 +2674,7 @@ namespace NMSCoordinates
                 lockedToolStripMenuItem.Checked = true;
                 unlockedToolStripMenuItem.Checked = false;
                 textBox14.ReadOnly = true;
+                label33.Visible = false;
             }
         }
 
@@ -2722,7 +2847,8 @@ namespace NMSCoordinates
 
                 tabControl1.SelectedTab = tabPage3;
                 listBox4.SelectedItem = "player_locs.txt";
-                Button6_Click(this, new EventArgs());                
+                Button6_Click(this, new EventArgs());
+                listBox3.SelectedItem = currentloc;
             }
             else
             {

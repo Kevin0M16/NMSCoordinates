@@ -95,33 +95,101 @@ namespace NMSCoordinates
             ssdPath = MyProperty2;
             SetSShot();
         }
-
+        private Form4 f4;
         private void PictureBox1_Click(object sender, EventArgs e)
         {
-            Form4 f4 = new Form4();
-            f4.MyProperty = pictureBox1.ImageLocation;
-            f4.ShowDialog();
+            //Form4 f4 = new Form4();            
+            f4 = (Form4)Application.OpenForms["Form4"];
+            //f4.MyProperty = pictureBox1.ImageLocation;
+            //f4.ShowDialog();
+            //f4.Show();
+
+            if (f4 == null)
+            {
+                f4 = new Form4();
+                f4.FormClosed += (_, arg) =>
+                {
+                    f4 = null;
+                };
+                f4.MyProperty = pictureBox1.ImageLocation;
+                f4.Show();
+            }
+            else
+            {
+                f4.BringToFront();
+            }
         }
 
         private void PictureBox2_Click(object sender, EventArgs e)
         {
-            Form4 f4 = new Form4();
-            f4.MyProperty = pictureBox2.ImageLocation;
-            f4.ShowDialog();
+            //Form4 f4 = new Form4();            
+            f4 = (Form4)Application.OpenForms["Form4"];
+            //f4.MyProperty = pictureBox2.ImageLocation;
+            //f4.ShowDialog();
+            //f4.Show();
+
+            if (f4 == null)
+            {
+                f4 = new Form4();
+                f4.FormClosed += (_, arg) =>
+                {
+                    f4 = null;
+                };
+                f4.MyProperty = pictureBox2.ImageLocation;
+                f4.Show();
+            }
+            else
+            {
+                f4.BringToFront();
+            }
         }
 
         private void PictureBox3_Click(object sender, EventArgs e)
         {
-            Form4 f4 = new Form4();
-            f4.MyProperty = pictureBox3.ImageLocation;
-            f4.ShowDialog();
+            //Form4 f4 = new Form4();            
+            f4 = (Form4)Application.OpenForms["Form4"];
+            //f4.MyProperty = pictureBox3.ImageLocation;
+            //f4.ShowDialog();
+            //f4.Show();
+
+            if (f4 == null)
+            {
+                f4 = new Form4();
+                f4.FormClosed += (_, arg) =>
+                {
+                    f4 = null;
+                };
+                f4.MyProperty = pictureBox3.ImageLocation;
+                f4.Show();
+            }
+            else
+            {
+                f4.BringToFront();
+            }
         }
 
         private void PictureBox4_Click(object sender, EventArgs e)
         {
-            Form4 f4 = new Form4();
-            f4.MyProperty = pictureBox4.ImageLocation;
-            f4.ShowDialog();
+            //Form4 f4 = new Form4();            
+            f4 = (Form4)Application.OpenForms["Form4"];
+            //f4.MyProperty = pictureBox4.ImageLocation;
+            //f4.ShowDialog();
+            //f4.Show();           
+
+            if (f4 == null)
+            {
+                f4 = new Form4();
+                f4.FormClosed += (_, arg) =>
+                {
+                    f4 = null;
+                };
+                f4.MyProperty = pictureBox4.ImageLocation;
+                f4.Show();
+            }
+            else
+            {               
+                f4.BringToFront();
+            }
         }
     }
 }
