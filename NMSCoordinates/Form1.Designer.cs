@@ -208,6 +208,7 @@ namespace NMSCoordinates
             this.toolTip4 = new System.Windows.Forms.ToolTip(this.components);
             this.label29 = new System.Windows.Forms.Label();
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
+            this.button14 = new System.Windows.Forms.Button();
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -270,12 +271,12 @@ namespace NMSCoordinates
             this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem2});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(181, 48);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(178, 26);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 22);
             this.toolStripMenuItem2.Text = "Delete Location File";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.ToolStripMenuItem2_Click);
             // 
@@ -1403,6 +1404,7 @@ namespace NMSCoordinates
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
+            this.tabPage1.Controls.Add(this.button14);
             this.tabPage1.Controls.Add(this.groupBox20);
             this.tabPage1.Controls.Add(this.button9);
             this.tabPage1.Controls.Add(this.progressBar2);
@@ -2158,6 +2160,19 @@ namespace NMSCoordinates
             this.fileSystemWatcher1.SynchronizingObject = this;
             this.fileSystemWatcher1.Changed += new System.IO.FileSystemEventHandler(this.FileSystemWatcher1_Changed);
             // 
+            // button14
+            // 
+            this.button14.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.button14.Location = new System.Drawing.Point(32, 91);
+            this.button14.Name = "button14";
+            this.button14.Size = new System.Drawing.Size(103, 23);
+            this.button14.TabIndex = 73;
+            this.button14.Text = "Move";
+            this.toolTip3.SetToolTip(this.button14, "Press this button when you want to check for location\r\ndiscoveries that NMS delet" +
+        "ed.");
+            this.button14.UseVisualStyleBackColor = true;
+            this.button14.Click += new System.EventHandler(this.Button14_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
@@ -2544,6 +2559,7 @@ namespace NMSCoordinates
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Button button14;
     }
 }
 
