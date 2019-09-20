@@ -2633,6 +2633,7 @@ namespace NMSCoordinates
 
         private void OnToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            tabControl1.SelectedTab = tabPage1;
             offToolStripMenuItem.Checked = false;
             groupBox20.Show();
             AppendLine(textBox17, "Travel Mode VISIBLE. Select a save and click the box");
@@ -2640,6 +2641,7 @@ namespace NMSCoordinates
 
         private void OffToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            tabControl1.SelectedTab = tabPage1;
             onToolStripMenuItem.Checked = false;
             if (checkBox1.Checked)
             {
@@ -2668,6 +2670,7 @@ namespace NMSCoordinates
                 label33.Visible = true;
                 AppendLine(textBox17, "Manual Travel UNLOCKED, Enter Coord. on Manual Travel tab.");
                 MessageBox.Show("Manual travel UNLOCKED, Enter Coord. on Manual Travel tab. \r\n\n Make sure Coordinates are correct!", "Warning");
+                tabControl1.SelectedTab = tabPage4;
             }
             else if (dialogResult == DialogResult.No)
             {
