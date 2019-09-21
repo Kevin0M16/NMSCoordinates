@@ -1,18 +1,11 @@
 # NMSCoordinates
 This a Coordinate Tool for No Man's Sky!
 
-|    Screenshots      |                     |
-|     :---:           |     :---:           |
-|<img src= "ss1.png"/>|<img src= "ss4.png"/>|	
-|<img src= "ss2.png"/>|<img src= "ss3.png"/>|
-
-|               Base & SpaceStation         |
+|               NMSC                        |
 |                :---:                      |
-|           <img src= "ss6.png"/>           |
+|       <img src= "Cover_Photo.png"/>       |
 
-|                Save File Manager          |
-|		    :---:	            |
-|           <img src= "ss5.png"/>           |
+* [More Screenshots - Here](./images)
 
 # NMSCoordinates
 
@@ -20,36 +13,23 @@ NMSCoordinates is an app for No Man’s Sky which allows you to view all your di
 You can clear portal interference while traveling through a portal, fast travel to known locations, or manually enter Galactic Coordinates and travel to them.
 Backup locations to txt file and and access and travel to these saved coordinates.
 
-## Youtube Video - Portal Interference example
+## Youtube Videos
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=-kipUjXrnOc
-" target="_blank"><img src="http://img.youtube.com/vi/-kipUjXrnOc/0.jpg" 
-alt="Video" width="550" height="410" border="10" /></a>
-
-## Youtube Video - Travel Mode example
-
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=LB7yqgLsW_0
-" target="_blank"><img src="http://img.youtube.com/vi/LB7yqgLsW_0/0.jpg" 
-alt="Video" width="550" height="410" border="10" /></a>
-
-## Youtube Video - Fast Travel example
-
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=Vx1xGk2TMIo
-" target="_blank"><img src="http://img.youtube.com/vi/Vx1xGk2TMIo/0.jpg" 
-alt="Video" width="550" height="410" border="10" /></a>
-
-## Youtube Video - Manual Travel example
-
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=ceSFVl9LFtI
-" target="_blank"><img src="http://img.youtube.com/vi/ceSFVl9LFtI/0.jpg" 
-alt="Video" width="550" height="410" border="10" /></a>
+|Example Videos|  |
+|:---:|:---:|
+|Portal Interference|Travel Mode|
+|<a href="http://www.youtube.com/watch?feature=player_embedded&v=-kipUjXrnOc" target="_blank"><img src="http://img.youtube.com/vi/-kipUjXrnOc/0.jpg" alt="Video" width="520" height="300" border="10" /></a>|<a href="http://www.youtube.com/watch?feature=player_embedded&v=LB7yqgLsW_0" target="_blank"><img src="http://img.youtube.com/vi/LB7yqgLsW_0/0.jpg" alt="Video" width="520" height="300" border="10" /></a>|
+|Fast Travel|Manual Travel|
+|<a href="http://www.youtube.com/watch?feature=player_embedded&v=ceSFVl9LFtI" target="_blank"><img src="http://img.youtube.com/vi/ceSFVl9LFtI/0.jpg" alt="Video" width="520" height="300" border="10" /></a>|<a href="http://www.youtube.com/watch?feature=player_embedded&v=Vx1xGk2TMIo" target="_blank"><img src="http://img.youtube.com/vi/Vx1xGk2TMIo/0.jpg" alt="Video" width="520" height="300" border="10" /></a>|
 
 
-## Download
+## Download - NEW UPDATE!!! 
 
 <!--* Download will be available later today. -->
+* NMSCoordinates now 100% faster on player moves and clearing portal interference
+* Improved search function
 
-<pre>  <a href="https://github.com/Kevin0M16/NMSCoordinates/releases/latest/download/NMSCoordinates-v1.1.0.zip"><img src="https://img.shields.io/badge/dynamic/json.svg?label=download&url=https://api.github.com/repos/Kevin0M16/NMSCoordinates/releases/latest&query=$.assets[0].name&style=for-the-badge" alt="download"/></a></pre>
+<pre>  <a href="https://github.com/Kevin0M16/NMSCoordinates/releases/latest/download/NMSCoordinates-v1.1.1.zip"><img src="https://img.shields.io/badge/dynamic/json.svg?label=download&url=https://api.github.com/repos/Kevin0M16/NMSCoordinates/releases/latest&query=$.assets[0].name&style=for-the-badge" alt="download"/></a></pre>
 
 ## Share - Upload locations to Google Drive
 
@@ -120,7 +100,7 @@ This project is licensed under the MIT License - see the [LICENSE](/LICENSE.txt)
 
 ## Acknowledgments
 
-* [nmssavetool](https://github.com/matthew-humphrey/nmssavetool) - For signing the save files. This tool is still awesome!
+* [nmssavetool](https://github.com/matthew-humphrey/nmssavetool) - Used the save file classes - This tool is still awesome!
 * [NMSSaveEditor](https://github.com/goatfungus/NMSSaveEditor) - For viewing raw Json and testing my tool, also shout out to goatfungus for answering a few questions!
 * [Swiss-Selector](https://kevin0m16.github.io/Swiss-Selector/) - For some code and examples. (My Car Mechanic tool)
 * [r/NoMansSkyMods](https://www.reddit.com/r/NoMansSkyMods/) - For coordinate conversion info

@@ -16,40 +16,43 @@ namespace NMSCoordinates
         public Form5()
         {
             InitializeComponent();
-
             Glyphs();
+            ShowGlyphKey();
+        }
 
-            pictureBox1.ImageLocation = @".\glyphs\0.png";
+        private void ShowGlyphKey()
+        { 
+            pictureBox1.Image = Properties.Resources._0;
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox2.ImageLocation = @".\glyphs\1.png";
+            pictureBox2.Image = Properties.Resources._1;
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox3.ImageLocation = @".\glyphs\2.png";
+            pictureBox3.Image = Properties.Resources._2;
             pictureBox3.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox4.ImageLocation = @".\glyphs\3.png";
+            pictureBox4.Image = Properties.Resources._3;
             pictureBox4.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox5.ImageLocation = @".\glyphs\4.png";
+            pictureBox5.Image = Properties.Resources._4;
             pictureBox5.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox6.ImageLocation = @".\glyphs\5.png";
+            pictureBox6.Image = Properties.Resources._5;
             pictureBox6.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox7.ImageLocation = @".\glyphs\6.png";
+            pictureBox7.Image = Properties.Resources._6;
             pictureBox7.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox8.ImageLocation = @".\glyphs\7.png";
+            pictureBox8.Image = Properties.Resources._7;
             pictureBox8.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox9.ImageLocation = @".\glyphs\8.png";
+            pictureBox9.Image = Properties.Resources._8;
             pictureBox9.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox10.ImageLocation = @".\glyphs\9.png";
+            pictureBox10.Image = Properties.Resources._9;
             pictureBox10.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox11.ImageLocation = @".\glyphs\A.png";
+            pictureBox11.Image = Properties.Resources.A;
             pictureBox11.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox12.ImageLocation = @".\glyphs\B.png";
+            pictureBox12.Image = Properties.Resources.B;
             pictureBox12.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox13.ImageLocation = @".\glyphs\C.png";
+            pictureBox13.Image = Properties.Resources.C;
             pictureBox13.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox14.ImageLocation = @".\glyphs\D.png";
+            pictureBox14.Image = Properties.Resources.D;
             pictureBox14.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox15.ImageLocation = @".\glyphs\E.png";
+            pictureBox15.Image = Properties.Resources.E;
             pictureBox15.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox16.ImageLocation = @".\glyphs\F.png";
+            pictureBox16.Image = Properties.Resources.F;
             pictureBox16.SizeMode = PictureBoxSizeMode.StretchImage;
         }
         private void ShowGlyphs()
@@ -600,8 +603,6 @@ namespace NMSCoordinates
                     string[] value = GalacticCoord.Replace(" ", "").Split(':');
                     GalacticToPortal(value[0].Trim(), value[1].Trim(), value[2].Trim(), value[3].Trim());
                     textBox1.Text = PortalCode;
-                    //PortalLookup();
-                    //ShowGlyphs();
                 }
             }
             catch
@@ -758,30 +759,32 @@ namespace NMSCoordinates
         private Form1 f1;
         private void ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            //f1 = new Form1();
-            f1 = (Form1)Application.OpenForms["Form1"];
-            if (!f1.TextBoxPerm == true)
+            if (textBox2.Text != "")
             {
-                f1.TextBoxValue = textBox2.Text;
-
-                if (f1 == null)
+                f1 = (Form1)Application.OpenForms["Form1"];
+                if (!f1.TextBoxPerm == true)
                 {
-                    f1 = new Form1();
-                    f1.FormClosed += (_, arg) =>
+                    f1.TextBoxValue = textBox2.Text;
+
+                    if (f1 == null)
                     {
-                        f1 = null;
-                    };
-                    f1.Show();
+                        f1 = new Form1();
+                        f1.FormClosed += (_, arg) =>
+                        {
+                            f1 = null;
+                        };
+                        f1.Show();
+                    }
+                    else
+                    {
+                        f1.BringToFront();
+                    }
                 }
                 else
                 {
-                    f1.BringToFront();
+                    AppendLine(textBox7, "Please UNLOCK Manual Travel!");
+                    MessageBox.Show("PLease UNLOCK Manual Travel!", "Alert");
                 }
-            }
-            else
-            {
-                AppendLine(textBox7, "Please UNLOCK Manual Travel!");
-                MessageBox.Show("PLease UNLOCK Manual Travel!", "Alert");
             }
         }
 
