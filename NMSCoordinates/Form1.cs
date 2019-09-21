@@ -146,19 +146,20 @@ namespace NMSCoordinates
 
         private void SetPrevSS()
         {
-            // Set Minimum to 1 to represent the first file being copied.
-            progressBar2.Minimum = 1;
-            // Set Maximum to the total number of files to copy.
-            progressBar2.Maximum = SSlist.Count;
-            // Set the initial value of the ProgressBar.
-            progressBar2.Value = 1;
-            // Set the Step property to a value of 1 to represent each file being copied.
-            progressBar2.Step = 1;
-            // Display the ProgressBar control.
-            progressBar2.Visible = true;
-
             if (SSlist.Count > 0)
             {
+                // Set Minimum to 1 to represent the first file being copied.
+                progressBar2.Minimum = 1;
+                // Set Maximum to the total number of files to copy.
+                progressBar2.Maximum = SSlist.Count;
+                // Set the initial value of the ProgressBar.
+                progressBar2.Value = 1;
+                // Set the Step property to a value of 1 to represent each file being copied.
+                progressBar2.Step = 1;
+                // Display the ProgressBar control.
+                progressBar2.Visible = true;
+
+            
                 foreach (string item in SSlist)
                 {
                     PrevSSlist.Add(item);
@@ -2117,7 +2118,7 @@ namespace NMSCoordinates
 
         private void ComboBox3_SelectionChangeCommitted(object sender, EventArgs e)
         {
-
+            pgalaxy = comboBox3.SelectedIndex.ToString();
         }
 
         private void ListBox4_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -2146,7 +2147,8 @@ namespace NMSCoordinates
 
         private void CheckBox1_CheckStateChanged(object sender, EventArgs e)
         {
-            if (checkBox1.Checked)
+            string selected = this.comboBox1.GetItemText(this.comboBox1.SelectedItem);
+            if (selected != "" && checkBox1.Checked)
             {
                 comboBox2.Enabled = false;
                 label30.Visible = true;
@@ -2158,15 +2160,14 @@ namespace NMSCoordinates
                 //DeletedSSlist.Clear();
                 AppendLine(textBox17, "Reading all locations...");
                 CheckSS();
-                SetPrevSS();
-
-                
+                SetPrevSS();                
             }
-            else
+            else if (selected == "" && checkBox1.Checked)
             {
                 comboBox2.Enabled = true;
                 label30.Visible = false;
-                //comboBox1.Enabled = true;
+                checkBox1.Checked = false;
+                MessageBox.Show("Select a Save Slot!", "Alert");
             }
         }
 
@@ -2263,7 +2264,7 @@ namespace NMSCoordinates
                 checkBox1.Checked = false;
             }
             groupBox20.Hide();
-            AppendLine(textBox17, "Travel Mode NOT VISIBLE.");
+            AppendLine(textBox17, "Travel Mode HIDDEN.");
         }
 
         private void LockedToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2286,7 +2287,8 @@ namespace NMSCoordinates
                 label33.Visible = true;
                 AppendLine(textBox17, "Manual Travel UNLOCKED, Enter Coord. on Manual Travel tab.");
                 MessageBox.Show("Manual travel UNLOCKED, Enter Coord. on Manual Travel tab. \r\n\n Make sure Coordinates are correct!", "Warning");
-                tabControl1.SelectedTab = tabPage4;
+                if(pgalaxy != null && pgalaxy != "")
+                    tabControl1.SelectedTab = tabPage4;
             }
             else if (dialogResult == DialogResult.No)
             {
