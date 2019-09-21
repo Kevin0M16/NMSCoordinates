@@ -2390,24 +2390,21 @@ namespace NMSCoordinates
 
         }
 
-        private void RunPowerToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //ProcessStartInfo startInfo = new ProcessStartInfo(@"Powershell.exe", @"-NoExit function prompt {\""NMSC >\""} .\nmssavetool\nmssavetool.exe decrypt --help cd nmssavetool");            
-            //Process.Start(startInfo);
-
-            Process.Start(@"Powershell.exe", @"-NoExit function prompt {\""NMSC >\""} cd nmssavetool;
-                            write-host 
-                            \""************ NMSCoordinates ***** Save File Editing ***************************
-
-                                First Decrypt Save: .\nmssavetool.exe decrypt -g[saveslot] -f [filename].json
-
-                               ----- Now you can Modify [filename].json file externally - Ex. Notepad++ ------
-
-                                Last Encrypt Save: .\nmssavetool.exe encrypt -g[saveslot] -f [filename].json
-
-                               -------------------------------------------------------------------------------
-                            \""");
-        }
+        //private void RunPowerToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    Process.Start(@"Powershell.exe", @"-NoExit function prompt {\""NMSC >\""} cd nmssavetool;
+        //                    write-host 
+        //                    \""************ NMSCoordinates ***** Save File Editing ***************************
+        //
+        //                        First Decrypt Save: .\nmssavetool.exe decrypt -g[saveslot] -f [filename].json
+        //
+        //                       ----- Now you can Modify [filename].json file externally - Ex. Notepad++ ------
+        //
+        //                        Last Encrypt Save: .\nmssavetool.exe encrypt -g[saveslot] -f [filename].json
+        //
+        //                      -------------------------------------------------------------------------------
+        //                    \""");
+        //}
 
         private void OpenBackupFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2669,21 +2666,22 @@ namespace NMSCoordinates
             try
             {
                 formattedJson = _gs.ToFormattedJsonString();
+                File.WriteAllText(@".\backup\save.json", formattedJson);
             }
-            catch (Exception x)
+            catch //(Exception x)
             {
-                throw new Exception(string.Format("Error formatting JSON (invalid save?): {0}", x.Message));
+                //throw new Exception(string.Format("Error formatting JSON (invalid save?): {0}", x.Message));
             }
 
             //LogVerbose("Writing formatted JSON to:\n   {0}", @".\backup\save.json");
-            try
-            {
-                File.WriteAllText(@".\backup\save.json", formattedJson);
-            }
-            catch (Exception x)
-            {
-                throw new Exception(string.Format("Error writing decrypted JSON: {0}", x.Message));
-            }
+            //try
+            //{
+            //    File.WriteAllText(@".\backup\save.json", formattedJson);
+            //}
+            //catch //(Exception x)
+            //{
+                //throw new Exception(string.Format("Error writing decrypted JSON: {0}", x.Message));
+            //}
 
             //Log("Wrote save game to formatted JSON file: {0}", @".\backup\save.json");
         }
@@ -2843,9 +2841,9 @@ namespace NMSCoordinates
                 //Read edited saveedit.json
                 _gs = _gsm.ReadUnencryptedGameSave(@".\backup\saveedit.json");
             }
-            catch (Exception x)
+            catch //(Exception x)
             {
-                throw new Exception(string.Format("Error reading or parsing save game file: {0}", x.Message));
+                //throw new Exception(string.Format("Error reading or parsing save game file: {0}", x.Message));
             }
             try
             {
@@ -2853,20 +2851,12 @@ namespace NMSCoordinates
                 _gsm.WriteSaveFile(_gs, _gameSlot);
                 pb.Invoke((Action)(() => pb.Value = 90));
             }
-            catch (Exception x)
+            catch //(Exception x)
             {
-                throw new Exception(string.Format("Error storing save file: {0}", x.Message));
+                //throw new Exception(string.Format("Error storing save file: {0}", x.Message));
             }
 
             //Log("Encrypted game save file \"{0}\" and wrote to latest game save for game slot {1}", @".\backup\saveedit.json", _gameSlot);
-        }
-
-        private void Button14_Click(object sender, EventArgs e)
-        {
-            //WriteSaveMove(progressBar2, textBox17, saveslot);
-            //WriteSavePortal();
-            //RunBackupAll();
-            //MessageBox.Show("Player Moved", "Confirmation");
         }
     }
 }

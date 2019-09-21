@@ -49,7 +49,6 @@ namespace NMSCoordinates
             this.backupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.discoveriesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backupALLSaveFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.runPowerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.screenshotPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -208,7 +207,6 @@ namespace NMSCoordinates
             this.toolTip4 = new System.Windows.Forms.ToolTip(this.components);
             this.label29 = new System.Windows.Forms.Label();
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
-            this.button14 = new System.Windows.Forms.Button();
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -326,7 +324,6 @@ namespace NMSCoordinates
             this.selectSaveFolderToolStripMenuItem,
             this.openBackupFolderToolStripMenuItem,
             this.backupToolStripMenuItem,
-            this.runPowerToolStripMenuItem,
             this.saveFileManagerToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -384,13 +381,6 @@ namespace NMSCoordinates
             this.backupALLSaveFilesToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.backupALLSaveFilesToolStripMenuItem.Text = "Backup ALL Save Files";
             this.backupALLSaveFilesToolStripMenuItem.Click += new System.EventHandler(this.BackupALLSaveFilesToolStripMenuItem_Click);
-            // 
-            // runPowerToolStripMenuItem
-            // 
-            this.runPowerToolStripMenuItem.Name = "runPowerToolStripMenuItem";
-            this.runPowerToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.runPowerToolStripMenuItem.Text = "Run PowerShell";
-            this.runPowerToolStripMenuItem.Click += new System.EventHandler(this.RunPowerToolStripMenuItem_Click);
             // 
             // saveFileManagerToolStripMenuItem
             // 
@@ -1404,7 +1394,6 @@ namespace NMSCoordinates
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
-            this.tabPage1.Controls.Add(this.button14);
             this.tabPage1.Controls.Add(this.groupBox20);
             this.tabPage1.Controls.Add(this.button9);
             this.tabPage1.Controls.Add(this.progressBar2);
@@ -2160,19 +2149,6 @@ namespace NMSCoordinates
             this.fileSystemWatcher1.SynchronizingObject = this;
             this.fileSystemWatcher1.Changed += new System.IO.FileSystemEventHandler(this.FileSystemWatcher1_Changed);
             // 
-            // button14
-            // 
-            this.button14.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button14.Location = new System.Drawing.Point(32, 91);
-            this.button14.Name = "button14";
-            this.button14.Size = new System.Drawing.Size(103, 23);
-            this.button14.TabIndex = 73;
-            this.button14.Text = "Move";
-            this.toolTip3.SetToolTip(this.button14, "Press this button when you want to check for location\r\ndiscoveries that NMS delet" +
-        "ed.");
-            this.button14.UseVisualStyleBackColor = true;
-            this.button14.Click += new System.EventHandler(this.Button14_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
@@ -2546,7 +2522,6 @@ namespace NMSCoordinates
         private System.Windows.Forms.LinkLabel linkLabel3;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem runPowerToolStripMenuItem;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.ToolStripMenuItem openBackupFolderToolStripMenuItem;
@@ -2559,7 +2534,6 @@ namespace NMSCoordinates
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label label34;
-        private System.Windows.Forms.Button button14;
     }
 }
 
