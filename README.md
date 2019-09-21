@@ -3,7 +3,7 @@ This a Coordinate Tool for No Man's Sky!
 
 |               NMSC                        |
 |                :---:                      |
-|       <img src= "cover_photo.png"/>       |
+|       <img src= "Cover_Photo.png"/>       |
 
 
 # NMSCoordinates
