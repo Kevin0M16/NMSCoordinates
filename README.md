@@ -26,6 +26,8 @@ Backup locations to txt file and and access and travel to these saved coordinate
 ## Download - NEW UPDATE!!! 
 
 <!--* Download will be available later today. -->
+* NMSCoordinates now 100% faster on player moves and clearing portal interference
+* Improved search function
 
 <pre>  <a href="https://github.com/Kevin0M16/NMSCoordinates/releases/latest/download/NMSCoordinates-v1.1.1.zip"><img src="https://img.shields.io/badge/dynamic/json.svg?label=download&url=https://api.github.com/repos/Kevin0M16/NMSCoordinates/releases/latest&query=$.assets[0].name&style=for-the-badge" alt="download"/></a></pre>
 
