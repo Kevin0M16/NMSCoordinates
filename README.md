@@ -13,29 +13,12 @@ NMSCoordinates is an app for No Man’s Sky which allows you to view all your di
 You can clear portal interference while traveling through a portal, fast travel to known locations, or manually enter Galactic Coordinates and travel to them.
 Backup locations to txt file and and access and travel to these saved coordinates.
 
-## Youtube Video - Portal Interference example
+## Youtube Videos
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=-kipUjXrnOc
-" target="_blank"><img src="http://img.youtube.com/vi/-kipUjXrnOc/0.jpg" 
-alt="Video" width="550" height="410" border="10" /></a>
-
-## Youtube Video - Travel Mode example
-
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=LB7yqgLsW_0
-" target="_blank"><img src="http://img.youtube.com/vi/LB7yqgLsW_0/0.jpg" 
-alt="Video" width="550" height="410" border="10" /></a>
-
-## Youtube Video - Fast Travel example
-
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=Vx1xGk2TMIo
-" target="_blank"><img src="http://img.youtube.com/vi/Vx1xGk2TMIo/0.jpg" 
-alt="Video" width="550" height="410" border="10" /></a>
-
-## Youtube Video - Manual Travel example
-
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=ceSFVl9LFtI
-" target="_blank"><img src="http://img.youtube.com/vi/ceSFVl9LFtI/0.jpg" 
-alt="Video" width="550" height="410" border="10" /></a>
+|																																																	Example Videos																																																		|
+|																																																		:---:																																																			|
+|<a href="http://www.youtube.com/watch?feature=player_embedded&v=-kipUjXrnOc" target="_blank"><img src="http://img.youtube.com/vi/-kipUjXrnOc/0.jpg" alt="Video" width="550" height="410" border="10" /></a>|<a href="http://www.youtube.com/watch?feature=player_embedded&v=LB7yqgLsW_0" target="_blank"><img src="http://img.youtube.com/vi/LB7yqgLsW_0/0.jpg" alt="Video" width="550" height="410" border="10" /></a>|
+|<a href="http://www.youtube.com/watch?feature=player_embedded&v=ceSFVl9LFtI" target="_blank"><img src="http://img.youtube.com/vi/ceSFVl9LFtI/0.jpg" alt="Video" width="550" height="410" border="10" /></a>|<a href="http://www.youtube.com/watch?feature=player_embedded&v=Vx1xGk2TMIo" target="_blank"><img src="http://img.youtube.com/vi/Vx1xGk2TMIo/0.jpg" alt="Video" width="550" height="410" border="10" /></a>|
 
 
 ## Download - NEW UPDATE!!! 
