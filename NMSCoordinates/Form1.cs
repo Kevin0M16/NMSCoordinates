@@ -861,7 +861,7 @@ namespace NMSCoordinates
                 if (lb.Items[i].ToString().IndexOf(searchString, StringComparison.OrdinalIgnoreCase) >= 0)
                     return i;
             }
-            return -1;
+            return Find(lb, searchString, 0);
         }
 
         private List<string> Contains(List<string> list1, List<string> list2)
@@ -928,6 +928,15 @@ namespace NMSCoordinates
                 MessageBox.Show(ex.Message + "\r\n\r\n Save path problem!");
                 return;
             }
+        }
+        private void CreateBackupDir()
+        {
+            if (!Directory.Exists(@".\backup"))
+                Directory.CreateDirectory(@".\backup");
+                Directory.CreateDirectory(@".\backup\json");
+
+            if (!Directory.Exists(@".\backup\json"))
+                Directory.CreateDirectory(@".\backup\json");
         }
 
         public void BuildSaveFile()
@@ -1047,13 +1056,17 @@ namespace NMSCoordinates
         private void Button1_Click(object sender, EventArgs e)
         {
             Clearforsearch();
-            listBox1.SelectedIndex = Find(listBox1, textBox24.Text, 0);
+            if (listBox1.Items.Count >= 1)
+                listBox1.SelectedIndex = Find(listBox1, textBox24.Text, listBox1.SelectedIndex + 1);
+                ListBox1_MouseClick(this, new EventArgs());
         }
 
         private void Button2_Click(object sender, EventArgs e)
         {
             Clearforsearch();
-            listBox2.SelectedIndex = Find(listBox2, textBox25.Text, 0);
+            if (listBox2.Items.Count >= 1)                
+                listBox2.SelectedIndex = Find(listBox2, textBox25.Text, listBox2.SelectedIndex + 1);
+                ListBox2_MouseClick(this, new EventArgs());
         }
 
         private void TextBox24_KeyUp(object sender, KeyEventArgs e)
@@ -1099,7 +1112,7 @@ namespace NMSCoordinates
 
                     if (msg == true)
                     {
-                        MessageBox.Show("Save slot backup up to: " + GetNewestZip(@".\backup"), "Save Backup", MessageBoxButtons.OK);
+                        MessageBox.Show("Save slot backup up to: savebackup_" + slot + "_" + datetime + ".zip", "Save Backup", MessageBoxButtons.OK);
                     }
                     else
                     {                        
@@ -1139,87 +1152,7 @@ namespace NMSCoordinates
             else
                 MessageBox.Show("Please select a save slot!", "Alert");
         }
-        private async Task ReadSave(int slot, TextBox tb)
-        {
-            //Turn off file watcher
-            fileSystemWatcher1.EnableRaisingEvents = false;
-
-            //Backup original save file
-            BackUpSaveSlot(tb, slot, false);
-
-            string mf_hgFilePath = hgFilePath;
-            mf_hgFilePath = String.Format("{0}{1}{2}{3}", Path.GetDirectoryName(mf_hgFilePath) + @"\", "mf_", Path.GetFileNameWithoutExtension(mf_hgFilePath), Path.GetExtension(mf_hgFilePath));
-
-            //Sets the save to be the last modified for nmssavetool
-            File.SetLastWriteTime(mf_hgFilePath, DateTime.Now);
-            File.SetLastWriteTime(hgFilePath, DateTime.Now);
-
-            switch (slot)
-            {
-                case 1:
-                    decrypt = @"/c .\nmssavetool\nmssavetool.exe decrypt -g1 -f .\nmssavetool\save.json";
-                    break;
-                case 2:
-                    decrypt = @"/c .\nmssavetool\nmssavetool.exe decrypt -g2 -f .\nmssavetool\save.json";
-                    break;
-                case 3:
-                    decrypt = @"/c .\nmssavetool\nmssavetool.exe decrypt -g3 -f .\nmssavetool\save.json";
-                    break;
-                case 4:
-                    decrypt = @"/c .\nmssavetool\nmssavetool.exe decrypt -g4 -f .\nmssavetool\save.json";
-                    break;
-                case 5:
-                    decrypt = @"/c .\nmssavetool\nmssavetool.exe decrypt -g5 -f .\nmssavetool\save.json";
-                    break;
-            }
-
-            ProcessStartInfo startInfo = new ProcessStartInfo(@"Powershell.exe");
-            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            startInfo.Arguments = decrypt;
-            Process.Start(startInfo);
-
-            await Task.Delay(2000);
-
-            //Turn back on file watcher
-            fileSystemWatcher1.EnableRaisingEvents = true;
-        }
-        private async Task WriteSave(int slot)
-        {
-            switch (slot)
-            {
-                case 1:
-                    encrypt = @"/c .\nmssavetool\nmssavetool.exe encrypt -g1 -f .\nmssavetool\saveedit.json";
-                    break;
-                case 2:
-                    encrypt = @"/c .\nmssavetool\nmssavetool.exe encrypt -g2 -f .\nmssavetool\saveedit.json";
-                    break;
-                case 3:
-                    encrypt = @"/c .\nmssavetool\nmssavetool.exe encrypt -g3 -f .\nmssavetool\saveedit.json";
-                    break;
-                case 4:
-                    encrypt = @"/c .\nmssavetool\nmssavetool.exe encrypt -g4 -f .\nmssavetool\saveedit.json";
-                    break;
-                case 5:
-                    encrypt = @"/c .\nmssavetool\nmssavetool.exe encrypt -g5 -f .\nmssavetool\saveedit.json";
-                    break;
-            }
-
-            //Turn off file watcher
-            fileSystemWatcher1.EnableRaisingEvents = false;
-
-            ProcessStartInfo startInfo = new ProcessStartInfo(@"Powershell.exe");
-            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            startInfo.Arguments = encrypt;
-            Process.Start(startInfo);
-
-            await Task.Delay(2000);
-
-            //Turn back on file watcher
-            fileSystemWatcher1.EnableRaisingEvents = true;
-
-            //AppendLine(textBox27, "Save file on Slot: ( " + saveslot + " ) backed up to \\backup folder...");
-
-        }
+        
         private void Button3_Click(object sender, EventArgs e)
         {
             if (saveslot >= 1 && saveslot <= 5 && textBox12.Text != "")
@@ -1328,6 +1261,20 @@ namespace NMSCoordinates
                     break;
             }
         }
+
+        private bool CheckForSameLoc()
+        {
+            var nms = Nms.FromJson(json);
+            var galaxy = nms.The6F.YhJ.Iis.ToString();
+            var pX = nms.The6F.YhJ.OZw["dZj"].ToString();
+            var pY = nms.The6F.YhJ.OZw["IyE"].ToString();
+            var pZ = nms.The6F.YhJ.OZw["uXE"].ToString();
+            var pSSI = nms.The6F.YhJ.OZw["vby"].ToString();
+
+            bool b = X == pX && Y == pY && Z == pZ && SSI == pSSI && pgalaxy == galaxy;
+            return b;
+        }
+
         private void Button5_ClickAsync(object sender, EventArgs e)
         {
             if (listBox1.GetItemText(listBox1.SelectedItem) != "" || listBox2.GetItemText(listBox2.SelectedItem) != "")
@@ -1337,6 +1284,12 @@ namespace NMSCoordinates
                 {
                     if (galaxy != "" && X != "" && Y != "" && Z != "" && SSI != "" && saveslot >= 1 && saveslot <= 5)
                     {
+                        if (CheckForSameLoc())
+                        {
+                            MessageBox.Show("Same as Current location!", "Alert");
+                            return;
+                        }                            
+
                         AppendLine(textBox27, "Move Player to: Galaxy: " + galaxy + " -- X:" + X + " -- Y:" + Y + " -- Z:" + Z + " -- SSI:" + SSI);
 
                         WriteSaveMove(progressBar1, textBox27, saveslot);                        
@@ -1478,6 +1431,9 @@ namespace NMSCoordinates
             BuildSaveFile();
             ReloadSave();
 
+            //Make sure backup dir exists or create it
+            CreateBackupDir();
+
             //Set and load screenshots
             SetSShot();
             LoadSS();
@@ -1491,38 +1447,10 @@ namespace NMSCoordinates
         }
         private async void Form1_Shown(object sender, EventArgs e)
         {
-            //Toggle for testing
-            //await BackupSave();
             await Task.Delay(300);
             RunBackupAll(hgFileDir);
         }
-        private async Task BackupSave()
-        {
-            if (Directory.Exists(nmsPath))
-            {
-                tabControl1.SelectedTab = tabPage1;
-
-                progressBar2.Visible = true;
-                progressBar2.Invoke((Action)(() => progressBar2.Value = 10));
-                await Task.Delay(200);
-
-                ProcessStartInfo startInfo = new ProcessStartInfo(@"Powershell.exe");
-                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                startInfo.Arguments = @"/c .\nmssavetool\nmssavetool.exe backupall -b .\backup\nms-backup-" + DateTime.Now.ToString("yyyy-MM-dd-HHmmss") + ".zip";
-                progressBar2.Invoke((Action)(() => progressBar2.Value = 30));
-                Process.Start(startInfo);
-                progressBar2.Invoke((Action)(() => progressBar2.Value = 50));
-                await Task.Delay(2000);
-
-                progressBar2.Invoke((Action)(() => progressBar2.Value = 100));
-                progressBar2.Visible = false;
-                AppendLine(textBox17, "All saves backed up to zip file created in \\backup folder...");
-            }
-            else
-            {
-                MessageBox.Show("No Man's Sky save game folder not found, select it manually!", "Alert", MessageBoxButtons.OK);
-            }
-        }
+        
         private void BackupALLSaveFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //await BackupSave();
@@ -1884,6 +1812,12 @@ namespace NMSCoordinates
 
                     if (galaxy != "" && X != "" && Y != "" && Z != "" && SSI != "" && saveslot >= 1 && saveslot <= 5)
                     {
+                        if (CheckForSameLoc())
+                        {
+                            MessageBox.Show("Same as Current location!", "Alert");
+                            return;
+                        }
+
                         AppendLine(textBox13, "Move Player to: Galaxy: " + galaxy + " -- X:" + X + " -- Y:" + Y + " -- Z:" + Z + " -- SSI:" + SSI);
 
                         WriteSaveMove(progressBar3, textBox13, saveslot);
@@ -2077,6 +2011,12 @@ namespace NMSCoordinates
                     DialogResult dialogResult = MessageBox.Show("Move Player? ", "Fast Travel", MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.Yes)
                     {
+                        if (CheckForSameLoc())
+                        {
+                            MessageBox.Show("Same as Current location!", "Alert");
+                            return;
+                        }
+
                         AppendLine(textBox15, "Move Player to: Galaxy: " + galaxy + " -- X:" + X + " -- Y:" + Y + " -- Z:" + Z + " -- SSI:" + SSI);
 
                         WriteSaveMove(progressBar4, textBox15, saveslot);
@@ -2650,6 +2590,13 @@ namespace NMSCoordinates
 
             try
             {
+                string mf_hgFilePath = hgFilePath;
+                mf_hgFilePath = String.Format("{0}{1}{2}{3}", Path.GetDirectoryName(mf_hgFilePath) + @"\", "mf_", Path.GetFileNameWithoutExtension(mf_hgFilePath), Path.GetExtension(mf_hgFilePath));
+
+                //Sets the save to be the last modified
+                File.SetLastWriteTime(mf_hgFilePath, DateTime.Now);
+                File.SetLastWriteTime(hgFilePath, DateTime.Now);
+
                 _gs = _gsm.ReadSaveFile(GameSlot);
             }
             catch
@@ -2665,8 +2612,8 @@ namespace NMSCoordinates
 
             try
             {
-                formattedJson = _gs.ToFormattedJsonString();
-                File.WriteAllText(@".\backup\save.json", formattedJson);
+                formattedJson = _gs.ToFormattedJsonString(); 
+                File.WriteAllText(@".\backup\json\save.json", formattedJson);
             }
             catch //(Exception x)
             {
@@ -2697,7 +2644,7 @@ namespace NMSCoordinates
             //progressBar1.Invoke((Action)(() => progressBar1.Value = 30));
 
             //Read decrypted save.json to a string
-            string jsons = File.ReadAllText(@".\backup\save.json");
+            string jsons = File.ReadAllText(@".\backup\json\save.json");
 
             pb.Invoke((Action)(() => pb.Value = 45));
 
@@ -2721,7 +2668,7 @@ namespace NMSCoordinates
             jsons = Regex.Replace(jsons, rxPatternPrtl2, rxValPrtl2, RegexOptions.Singleline);
 
             //Write the modified JSON string to saveedit.json
-            File.WriteAllText(@".\backup\saveedit.json", jsons);
+            File.WriteAllText(@".\backup\json\saveedit.json", jsons);
 
             pb.Invoke((Action)(() => pb.Value = 60));
         }
@@ -2737,7 +2684,7 @@ namespace NMSCoordinates
             //progressBar1.Invoke((Action)(() => progressBar1.Value = 25));
 
             //Read all the JSON text from nmssavetool decrypt
-            string jsons = File.ReadAllText(@".\backup\save.json");
+            string jsons = File.ReadAllText(@".\backup\json\save.json");
 
             ////Set Player Location
             //Get the Player location text array
@@ -2815,7 +2762,7 @@ namespace NMSCoordinates
             pb.Invoke((Action)(() => pb.Value = 40));
 
             //Write all modifications of file to saveedit.json
-            File.WriteAllText(@".\backup\saveedit.json", jsons);
+            File.WriteAllText(@".\backup\json\saveedit.json", jsons);
 
             //Show log of changes in txtbox
             Match g = myRegex1.Match(jsons);
@@ -2825,8 +2772,8 @@ namespace NMSCoordinates
             Match ssi = myRegex5.Match(jsons);
             Match pi = myRegex6.Match(jsons);
             Match ps = myRegexs.Match(myRegexps.Match(jsons).ToString());
-            AppendLine(tb, "Player Move Data: " + g.ToString() + x.ToString() + y.ToString() + z.ToString() + ssi.ToString() + pi.ToString() + ps.ToString());
-
+            AppendLine(tb, "Player Move Data: ");
+            AppendLine(tb, g.ToString() + x.ToString() + y.ToString() + z.ToString() + ssi.ToString() + pi.ToString() + ps.ToString());
             pb.Invoke((Action)(() => pb.Value = 70));
         }
 
@@ -2839,7 +2786,7 @@ namespace NMSCoordinates
             try
             {
                 //Read edited saveedit.json
-                _gs = _gsm.ReadUnencryptedGameSave(@".\backup\saveedit.json");
+                _gs = _gsm.ReadUnencryptedGameSave(@".\backup\json\saveedit.json");
             }
             catch //(Exception x)
             {

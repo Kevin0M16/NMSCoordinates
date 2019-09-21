@@ -45,7 +45,7 @@ alt="Video" width="550" height="410" border="10" /></a>
 alt="Video" width="550" height="410" border="10" /></a>
 
 
-## Download
+## Download - NEW UPDATE!!! 
 
 <!--* Download will be available later today. -->
 
@@ -120,7 +120,7 @@ This project is licensed under the MIT License - see the [LICENSE](/LICENSE.txt)
 
 ## Acknowledgments
 
-* [nmssavetool](https://github.com/matthew-humphrey/nmssavetool) - For signing the save files. This tool is still awesome!
+* [nmssavetool](https://github.com/matthew-humphrey/nmssavetool) - Used the save file classes - This tool is still awesome!
 * [NMSSaveEditor](https://github.com/goatfungus/NMSSaveEditor) - For viewing raw Json and testing my tool, also shout out to goatfungus for answering a few questions!
 * [Swiss-Selector](https://kevin0m16.github.io/Swiss-Selector/) - For some code and examples. (My Car Mechanic tool)
 * [r/NoMansSkyMods](https://www.reddit.com/r/NoMansSkyMods/) - For coordinate conversion info

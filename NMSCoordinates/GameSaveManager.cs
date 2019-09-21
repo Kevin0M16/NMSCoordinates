@@ -5,20 +5,10 @@ using System.Text.RegularExpressions;
 using System.IO.Compression;
 using System.Text;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace NMSCoordinates
 {
-    /// <summary>
-    /// Represents the available NMS game modes.
-    /// </summary>
-    public enum GameModes
-    {
-        normal,
-        survival,
-        creative,
-        permadeath
-    }
-
     /// <summary>
     /// Provides an abstraction over the default NMS game save directory and the naming
     /// of files within this directory.
@@ -54,7 +44,7 @@ namespace NMSCoordinates
                 }
                 else
                 {
-                    throw new FileNotFoundException(string.Format("Specified save game directory does not contain any save game files: {0}", saveDir));
+                    MessageBox.Show(string.Format("Specified save game directory does not contain any save game files: {0}" + saveDir));
                 }
             }
             else
@@ -62,7 +52,7 @@ namespace NMSCoordinates
                 var nmsPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HelloGames"), "NMS");
                 if (!Directory.Exists(nmsPath))
                 {
-                    throw new FileNotFoundException(string.Format("No Man's Sky save game folder not found at expected location: {0}", nmsPath));
+                    MessageBox.Show(string.Format("No Man's Sky save game folder not found at expected location: {0}" + nmsPath));
                 }
 
                 //LogVerbose("Using NMS AppData folder: {0}", nmsPath);
@@ -100,7 +90,7 @@ namespace NMSCoordinates
 
                 if (null == _savePath)
                 {
-                    throw new FileNotFoundException(string.Format("No save game profile folder found in NMS save game folder: {0}", nmsPath));
+                    MessageBox.Show(string.Format("No save game profile folder found in NMS save game folder: {0}" + nmsPath));
                 }
             }
 
@@ -242,7 +232,6 @@ namespace NMSCoordinates
             return null;
         }
 
-
         private string ArchiveNumberToMetadataFileName(uint archiveNumber)
         {
             if (archiveNumber == 0)
@@ -314,7 +303,6 @@ namespace NMSCoordinates
             storagePath = null;
             archiveNumber = 0;
 
-
             ValidateGameSlot(gameSlot);
 
             var archiveNumbers = new uint[] { 2 * (gameSlot - 1), 2 * (gameSlot - 1) + 1 };
@@ -342,7 +330,7 @@ namespace NMSCoordinates
             }
             else
             {
-                throw new FileNotFoundException(string.Format("No save games found for game slot {0}", gameSlot));
+                MessageBox.Show(string.Format("No save games found for game slot {0}" + gameSlot));
             }
         }
 
@@ -350,7 +338,7 @@ namespace NMSCoordinates
         {
             if (gameSlot < 1 || gameSlot > MaxGameSlots)
             {
-                throw new ArgumentException(string.Format("Invalid game slot: {0}", gameSlot));
+                MessageBox.Show(string.Format("Invalid game slot: {0}" + gameSlot));
             }
         }
         #endregion
