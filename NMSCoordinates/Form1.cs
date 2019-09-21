@@ -144,9 +144,38 @@ namespace NMSCoordinates
             }
         }
 
+        private void SetPrevSS()
+        {
+            // Set Minimum to 1 to represent the first file being copied.
+            progressBar2.Minimum = 1;
+            // Set Maximum to the total number of files to copy.
+            progressBar2.Maximum = SSlist.Count;
+            // Set the initial value of the ProgressBar.
+            progressBar2.Value = 1;
+            // Set the Step property to a value of 1 to represent each file being copied.
+            progressBar2.Step = 1;
+            // Display the ProgressBar control.
+            progressBar2.Visible = true;
+
+            if (SSlist.Count > 0)
+            {
+                foreach (string item in SSlist)
+                {
+                    PrevSSlist.Add(item);
+                    progressBar2.PerformStep();
+                }
+                progressBar2.Visible = false;
+                AppendLine(textBox17, "Current Stored locations saved.");
+                MessageBox.Show("Current Stored locations saved.", "Confirmation");
+            }
+            else
+            {
+                return;
+            }
+        }
+
         private void CheckSS()
         {
-
             if (DiscList.Count > 0)
             {
                 // Set Minimum to 1 to represent the first file being copied.
@@ -185,7 +214,6 @@ namespace NMSCoordinates
 
         private async Task BackupLoc(string path)
         {
-
             if (DiscList.Count > 0)
             {
                 tabControl1.SelectedTab = tabPage1;
@@ -861,7 +889,7 @@ namespace NMSCoordinates
                 if (lb.Items[i].ToString().IndexOf(searchString, StringComparison.OrdinalIgnoreCase) >= 0)
                     return i;
             }
-            return Find(lb, searchString, 0);
+            return -1; //Find(lb, searchString, 0);
         }
 
         private List<string> Contains(List<string> list1, List<string> list2)
@@ -1056,8 +1084,9 @@ namespace NMSCoordinates
         private void Button1_Click(object sender, EventArgs e)
         {
             Clearforsearch();
-            if (listBox1.Items.Count >= 1)
+            if (listBox1.Items.Count >= 1)                
                 listBox1.SelectedIndex = Find(listBox1, textBox24.Text, listBox1.SelectedIndex + 1);
+            if (listBox1.SelectedIndex != -1)
                 ListBox1_MouseClick(this, new EventArgs());
         }
 
@@ -1066,6 +1095,7 @@ namespace NMSCoordinates
             Clearforsearch();
             if (listBox2.Items.Count >= 1)                
                 listBox2.SelectedIndex = Find(listBox2, textBox25.Text, listBox2.SelectedIndex + 1);
+            if (listBox2.SelectedIndex != -1)
                 ListBox2_MouseClick(this, new EventArgs());
         }
 
@@ -1207,6 +1237,7 @@ namespace NMSCoordinates
         }
         private async void DiscoveriesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Backuplist.Clear();
             await BackupLoc(@".\backup\locbackup.txt");
         }
         private void JsonKey()
@@ -1886,8 +1917,9 @@ namespace NMSCoordinates
                     if (listBox4.GetItemText(listBox4.SelectedItem) != "")
                     {
                         File.Delete(@".\backup\" + listBox4.GetItemText(listBox4.SelectedItem));
-                        MessageBox.Show("File deleted Successfully.", "Confirmation");
                         LoadTxt();
+                        MessageBox.Show("File deleted Successfully.", "Confirmation");
+                        
                     }
                     else
                     {
@@ -2054,7 +2086,6 @@ namespace NMSCoordinates
             }
             catch
             {
-                //textBox14.Clear();
                 textBox15.Clear();
                 comboBox3.SelectedIndex = -1;
                 AppendLine(textBox15, "Incorrect Coordinate Input!");
@@ -2078,7 +2109,9 @@ namespace NMSCoordinates
                     comboBox3.Items.AddRange(numbers);
                 }
                 comboBox3.SelectedIndex = Convert.ToInt32(pgalaxy);
-                textBox14.Text = textBox22.Text;
+
+                if(unlockedToolStripMenuItem.Checked == false)
+                    textBox14.Text = textBox22.Text;
             }
         }
 
@@ -2125,17 +2158,9 @@ namespace NMSCoordinates
                 //DeletedSSlist.Clear();
                 AppendLine(textBox17, "Reading all locations...");
                 CheckSS();
+                SetPrevSS();
 
-                if (SSlist.Count > 0)
-                {
-                    foreach (string item in SSlist)
-                    {
-                        PrevSSlist.Add(item);
-                    }
-
-                    AppendLine(textBox17, "Current Stored locations saved.");
-                    MessageBox.Show("Current Stored locations saved.", "Confirmation");
-                }
+                
             }
             else
             {
@@ -2246,6 +2271,7 @@ namespace NMSCoordinates
             unlockedToolStripMenuItem.Checked = false;
             textBox14.ReadOnly = true;
             label33.Visible = false;
+            textBox14.Text = textBox22.Text;
             AppendLine(textBox17, "Manual Travel LOCKED.");
             MessageBox.Show("Manual Travel LOCKED", "Confirmation");
         }

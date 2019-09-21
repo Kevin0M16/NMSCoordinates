@@ -603,8 +603,6 @@ namespace NMSCoordinates
                     string[] value = GalacticCoord.Replace(" ", "").Split(':');
                     GalacticToPortal(value[0].Trim(), value[1].Trim(), value[2].Trim(), value[3].Trim());
                     textBox1.Text = PortalCode;
-                    //PortalLookup();
-                    //ShowGlyphs();
                 }
             }
             catch
@@ -761,30 +759,32 @@ namespace NMSCoordinates
         private Form1 f1;
         private void ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            //f1 = new Form1();
-            f1 = (Form1)Application.OpenForms["Form1"];
-            if (!f1.TextBoxPerm == true)
+            if (textBox2.Text != "")
             {
-                f1.TextBoxValue = textBox2.Text;
-
-                if (f1 == null)
+                f1 = (Form1)Application.OpenForms["Form1"];
+                if (!f1.TextBoxPerm == true)
                 {
-                    f1 = new Form1();
-                    f1.FormClosed += (_, arg) =>
+                    f1.TextBoxValue = textBox2.Text;
+
+                    if (f1 == null)
                     {
-                        f1 = null;
-                    };
-                    f1.Show();
+                        f1 = new Form1();
+                        f1.FormClosed += (_, arg) =>
+                        {
+                            f1 = null;
+                        };
+                        f1.Show();
+                    }
+                    else
+                    {
+                        f1.BringToFront();
+                    }
                 }
                 else
                 {
-                    f1.BringToFront();
+                    AppendLine(textBox7, "Please UNLOCK Manual Travel!");
+                    MessageBox.Show("PLease UNLOCK Manual Travel!", "Alert");
                 }
-            }
-            else
-            {
-                AppendLine(textBox7, "Please UNLOCK Manual Travel!");
-                MessageBox.Show("PLease UNLOCK Manual Travel!", "Alert");
             }
         }
 
