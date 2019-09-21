@@ -1,18 +1,10 @@
 # NMSCoordinates
 This a Coordinate Tool for No Man's Sky!
 
-|    Screenshots      |                     |
-|     :---:           |     :---:           |
-|<img src= "ss1.png"/>|<img src= "ss4.png"/>|	
-|<img src= "ss2.png"/>|<img src= "ss3.png"/>|
-
-|               Base & SpaceStation         |
+|               NMSC                        |
 |                :---:                      |
-|           <img src= "ss6.png"/>           |
+|       <img src= "cover_photo.png"/>       |
 
-|                Save File Manager          |
-|		    :---:	            |
-|           <img src= "ss5.png"/>           |
 
 # NMSCoordinates
 
