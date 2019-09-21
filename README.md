@@ -19,7 +19,7 @@ Backup locations to txt file and and access and travel to these saved coordinate
 |:---:|:---:|
 |Portal Interference|Travel Mode|
 |<a href="http://www.youtube.com/watch?feature=player_embedded&v=-kipUjXrnOc" target="_blank"><img src="http://img.youtube.com/vi/-kipUjXrnOc/0.jpg" alt="Video" width="520" height="300" border="10" /></a>|<a href="http://www.youtube.com/watch?feature=player_embedded&v=LB7yqgLsW_0" target="_blank"><img src="http://img.youtube.com/vi/LB7yqgLsW_0/0.jpg" alt="Video" width="520" height="300" border="10" /></a>|
-|Fast Travel|Manual Travel|
+|Manual Travel|Fast Travel|
 |<a href="http://www.youtube.com/watch?feature=player_embedded&v=ceSFVl9LFtI" target="_blank"><img src="http://img.youtube.com/vi/ceSFVl9LFtI/0.jpg" alt="Video" width="520" height="300" border="10" /></a>|<a href="http://www.youtube.com/watch?feature=player_embedded&v=Vx1xGk2TMIo" target="_blank"><img src="http://img.youtube.com/vi/Vx1xGk2TMIo/0.jpg" alt="Video" width="520" height="300" border="10" /></a>|
 
 
