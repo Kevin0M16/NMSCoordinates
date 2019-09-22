@@ -62,24 +62,25 @@ The current version of NMSCoordinates requires No Man's Sky Beyond 2.11 or 2.12.
 
 ### Installation and setup
 
-	1. Backup all you save files! C:\Users\[Name]\AppData\Roaming\HelloGames\NMS\st_xxxxxxxxx
-	2. Download the lastest release .zip file. Releases at the top ^
+	1. (Optional NMSC backups up saves on startup) Backup all you save files at Location: C:\Users\[Name]\AppData\Roaming\HelloGames\NMS\st_xxxxxxxxx
+	2. Download the latest release .zip file.
 	3. Extract the .zip to your desired location.
-	4. Open and run NMSCoordinate.exe or create shortcut for your desktop
-	5. Select Save slot, and have fun! 
+	4. Create a shortcut to NMSCoordinate.exe for your desktop.
+	5. Run NMSCoordinate.exe. 6. Select Save slot, and have fun!
 
 ### Instructions
 
-	1. Select a Save Slot. This loads all space station and base locations on that slot/save on the Base and Space Station tab.
-	2. Click a location in one of the listboxes to view the location info. Glyphs and Galactic Coordinates, Portal Code, and Voxel will be displayed.
-	3. Move player to that location by clicking the Move Player Here button, then reload the save in game that you selected on the first screen.
-	4. If you traveled through a portral and want to clear the Portal Interference, click the Clear Interference button, then reload the save selected in game.
-	5. Go to File --> Backups --> backup discoveries to .txt and save all your locations to a locbackup file in .\backup these are accessed on the coordinate share tab.
-	6. Import a locbackup file on the Coordniate Share tab by clicking the import locbackup txt button. Click a location to view a location summary, and click the Move Player here button to fast travel to the selected locaiton.
-	7. Right click a location in the top listbox on the Coordinate Share tab to create a one record locbackup file to share with others.
-	8. Right click the lower listbox to delete unwanted locbackup files.
-	9. Use the Coordinate Calculator by clicking the Coordinate Calculator button and entering (1) coordinate at a time in the textboxes and clicking the button below it. View all converted coordinates at the bottom.
-	10. Enable Travel Mode to start tracking your Terminus locations before traveling through a terminus. See video above.
+* Select a Save Slot. This loads all space station and base locations on that slot/save on the Base and Space Station tab.
+* Click a location in one of the Listboxes to view the location info. Glyphs and Galactic Coordinates, Portal Code, and Voxel will be displayed.
+* Move player to that location by clicking the Move Player Here button, then reload your save in NMS.
+* If you traveled through a portal and want to clear the Portal Interference, click the Clear Interference button, then reload your save in NMS.
+* Go to File --> Backups --> backup discoveries to .txt and save all your locations to a txt file in .\backup. These are accessed on the Coordinate Share Tab.
+* View location files on the Coordinate Share tab by double-clicking the file or the load lockbackup button. Click a location to view a location summary, and click the Move Player Here button to fast travel to the selected location.
+* Right-click a location in the top Listbox on the Coordinate Share tab to create a one record location file to share with others or delete single records.
+* Right-click the lower Listbox to delete unwanted location files.
+* Use the Coordinate Calculator by clicking the Coordinate Calculator button and entering (1) coordinate at a time in the textboxes and clicking the button below it. View all converted coordinates at the bottom.
+* On the Coordinate Calculator, clicking the glyphs will populate the Portal Code field. Then click calculate to see the coordinates.
+* Enable Travel Mode to start tracking your Terminus locations before traveling through a terminus or when hitting the limit. See video above.
 
 
 ## Built With
