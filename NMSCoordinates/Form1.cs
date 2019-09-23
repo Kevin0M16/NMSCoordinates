@@ -21,7 +21,7 @@ namespace NMSCoordinates
             InitializeComponent();
 
             //Set Version here
-            label29.Text = "Version 1.1.4";
+            label29.Text = "Version 1.1.4.1";
 
             Glyphs();
             GIndex();
@@ -60,34 +60,46 @@ namespace NMSCoordinates
         private void CheckGoG()
         {
             DirectoryInfo dinfo = new DirectoryInfo(nmsPath);
-            
-            if (dinfo.GetDirectories().Count() > 1)
-            {
-                foreach (DirectoryInfo dir in dinfo.GetDirectories())
-                {
-                    if (dir.GetFiles("save*.hg",SearchOption.AllDirectories).Length > 0)
-                        SaveDirs.Add(dir);
-                }
-                if (SaveDirs.Count() > 1)
-                {
-                    f8 = new Form8(SaveDirs);
-                    f8.ShowDialog();
-                    nmsPath = f8.GoGPath;
 
-                    if (Directory.Exists(nmsPath))
-                    {
-                        WriteTxt("nmsPath", nmsPath, savePath);                        
-                        return;
-                    }                        
-                }
-                else if (SaveDirs.Count() == 1)
+            if (Directory.Exists(nmsPath))
+            {
+                if (dinfo.GetDirectories().Count() > 1)
                 {
-                    WriteTxt("nmsPath", nmsPath, savePath);
-                    return;
+                    foreach (DirectoryInfo dir in dinfo.GetDirectories())
+                    {
+                        if (dir.GetFiles("save*.hg", SearchOption.AllDirectories).Length > 0)
+                            SaveDirs.Add(dir);
+                    }
+                    if (SaveDirs.Count() > 1)
+                    {
+                        f8 = new Form8(SaveDirs);
+                        f8.ShowDialog();
+                        nmsPath = f8.GoGPath;
+
+                        if (Directory.Exists(nmsPath))
+                        {
+                            WriteTxt("nmsPath", nmsPath, savePath);
+                            return;
+                        }
+                    }
+                    else if (SaveDirs.Count() == 1)
+                    {
+                        WriteTxt("nmsPath", nmsPath, savePath);
+                        return;
+                    }
                 }
-            }
-            if (dinfo.GetFiles("save*.hg", SearchOption.AllDirectories).Length > 0)
-                WriteTxt("nmsPath", nmsPath, savePath);
+                if (dinfo.GetFiles("save*.hg", SearchOption.AllDirectories).Length > 0)
+                {
+                    if (dinfo.GetDirectories().Count() == 1)
+                    {
+                        foreach (DirectoryInfo dir in dinfo.GetDirectories("*", SearchOption.TopDirectoryOnly))
+                        {
+                            nmsPath = dir.FullName;
+                        }
+                        WriteTxt("nmsPath", nmsPath, savePath);
+                    }
+                }
+            }                         
         }
 
         public void LoadCmbx()
@@ -99,8 +111,8 @@ namespace NMSCoordinates
                 MessageBox.Show("No Man's Sky save game folder not found, select it manually!", "Alert", MessageBoxButtons.OK);
                 return;
             }
-            DirectoryInfo dinfo = new DirectoryInfo(nmsPath);  
-            FileInfo[] Files = dinfo.GetFiles("save*.hg", SearchOption.AllDirectories);
+            DirectoryInfo dinfo = new DirectoryInfo(nmsPath);
+            FileInfo[] Files = dinfo.GetFiles("save*.hg", SearchOption.TopDirectoryOnly);// SearchOption.AllDirectories);
 
             if (Files.Length != 0)
             {
@@ -1485,7 +1497,7 @@ namespace NMSCoordinates
             if (Directory.Exists(hgFileDir) && selected != "")
             {
                 DirectoryInfo dinfo = new DirectoryInfo(hgFileDir);
-                FileInfo[] Files = dinfo.GetFiles(selected, SearchOption.AllDirectories);
+                FileInfo[] Files = dinfo.GetFiles(selected, SearchOption.TopDirectoryOnly); //AllDirectories);
 
                 if (Files.Length != 0)
                 {
