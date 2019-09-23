@@ -1097,26 +1097,41 @@ namespace NMSCoordinates
 
         private void AppDataDefaultToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            nmsPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HelloGames"), "NMS");
-            CheckGoG();
-            //WriteTxt("nmsPath", nmsPath, savePath);
+            if (checkBox1.Checked == false)
+            {
+                nmsPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HelloGames"), "NMS");
+                CheckGoG();
+                //WriteTxt("nmsPath", nmsPath, savePath);
 
-            comboBox1.DataSource = null;
-            comboBox2.DataSource = null;
-            comboBox1.SelectedIndex = -1;
-            ClearAll();
-            LoadCmbx();
+                comboBox1.DataSource = null;
+                comboBox2.DataSource = null;
+                comboBox1.SelectedIndex = -1;
+                ClearAll();
+                LoadCmbx();
+            }
+            else
+            {
+                MessageBox.Show("Turn off Travel Mode!", "Alert");
+            }
+            
         }
 
         private void ManuallySelectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SetSavePath();
+            if (checkBox1.Checked == false)
+            {
+                SetSavePath();
 
             comboBox1.DataSource = null;
             comboBox2.DataSource = null;
             comboBox1.SelectedIndex = -1;
             ClearAll();
             LoadCmbx();
+            }
+            else
+            {
+                MessageBox.Show("Turn off Travel Mode!", "Alert");
+            }
         }
 
         private void Button1_Click(object sender, EventArgs e)
@@ -2316,6 +2331,12 @@ namespace NMSCoordinates
                 label30.Visible = false;
                 checkBox1.Checked = false;
                 MessageBox.Show("Select a Save Slot!", "Alert");
+            }
+            if (selected != "" && checkBox1.Checked == false)
+            {
+                comboBox2.Enabled = true;
+                label30.Visible = false;
+                checkBox1.Checked = false;
             }
         }
 
