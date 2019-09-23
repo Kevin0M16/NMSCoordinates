@@ -24,6 +24,7 @@ namespace NMSCoordinates
 
             foreach (DirectoryInfo dir in SaveDirs)
             {
+                //Only include st and gog dirs
                 if (dir.Name.Contains("st_"))
                 {
                     string sname = "[STEAM] " + dir;

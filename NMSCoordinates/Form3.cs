@@ -57,6 +57,7 @@ namespace NMSCoordinates
                     }
                     else
                     {
+                        //Note: can move this to include both jpg and png
                         if (Files2.Length != 0)
                         {
                             foreach (FileInfo file in Files2.OrderByDescending(f => f.LastWriteTime))
