@@ -54,6 +54,7 @@ namespace NMSCoordinates
             this.screenshotPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.screenshotPageToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.screenshotPageToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.setSSDefaultSteamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.travelModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.onToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.offToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -146,6 +147,8 @@ namespace NMSCoordinates
             this.button12 = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.button9 = new System.Windows.Forms.Button();
+            this.contextMenuStrip3 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.setShortcutToGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.progressBar2 = new System.Windows.Forms.ProgressBar();
             this.textBox17 = new System.Windows.Forms.TextBox();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
@@ -207,6 +210,7 @@ namespace NMSCoordinates
             this.toolTip4 = new System.Windows.Forms.ToolTip(this.components);
             this.label29 = new System.Windows.Forms.Label();
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -238,6 +242,7 @@ namespace NMSCoordinates
             this.groupBox1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox20.SuspendLayout();
+            this.contextMenuStrip3.SuspendLayout();
             this.groupBox15.SuspendLayout();
             this.groupBox11.SuspendLayout();
             this.groupBox14.SuspendLayout();
@@ -403,7 +408,8 @@ namespace NMSCoordinates
             // 
             this.screenshotPageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.screenshotPageToolStripMenuItem1,
-            this.screenshotPageToolStripMenuItem2});
+            this.screenshotPageToolStripMenuItem2,
+            this.setSSDefaultSteamToolStripMenuItem});
             this.screenshotPageToolStripMenuItem.Name = "screenshotPageToolStripMenuItem";
             this.screenshotPageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.screenshotPageToolStripMenuItem.Text = "Screenshots...";
@@ -411,16 +417,23 @@ namespace NMSCoordinates
             // screenshotPageToolStripMenuItem1
             // 
             this.screenshotPageToolStripMenuItem1.Name = "screenshotPageToolStripMenuItem1";
-            this.screenshotPageToolStripMenuItem1.Size = new System.Drawing.Size(178, 22);
+            this.screenshotPageToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.screenshotPageToolStripMenuItem1.Text = "Screen Shot Page";
             this.screenshotPageToolStripMenuItem1.Click += new System.EventHandler(this.ScreenshotPageToolStripMenuItem1_Click);
             // 
             // screenshotPageToolStripMenuItem2
             // 
             this.screenshotPageToolStripMenuItem2.Name = "screenshotPageToolStripMenuItem2";
-            this.screenshotPageToolStripMenuItem2.Size = new System.Drawing.Size(178, 22);
+            this.screenshotPageToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
             this.screenshotPageToolStripMenuItem2.Text = "Set Screenshot Path";
             this.screenshotPageToolStripMenuItem2.Click += new System.EventHandler(this.ScreenshotPageToolStripMenuItem2_Click);
+            // 
+            // setSSDefaultSteamToolStripMenuItem
+            // 
+            this.setSSDefaultSteamToolStripMenuItem.Name = "setSSDefaultSteamToolStripMenuItem";
+            this.setSSDefaultSteamToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.setSSDefaultSteamToolStripMenuItem.Text = "Set SS to Default";
+            this.setSSDefaultSteamToolStripMenuItem.Click += new System.EventHandler(this.SetSSDefaultSteamToolStripMenuItem_Click);
             // 
             // travelModeToolStripMenuItem
             // 
@@ -435,7 +448,7 @@ namespace NMSCoordinates
             // 
             this.onToolStripMenuItem.CheckOnClick = true;
             this.onToolStripMenuItem.Name = "onToolStripMenuItem";
-            this.onToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.onToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.onToolStripMenuItem.Text = "Show";
             this.onToolStripMenuItem.Click += new System.EventHandler(this.OnToolStripMenuItem_Click);
             // 
@@ -445,7 +458,7 @@ namespace NMSCoordinates
             this.offToolStripMenuItem.CheckOnClick = true;
             this.offToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.offToolStripMenuItem.Name = "offToolStripMenuItem";
-            this.offToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.offToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.offToolStripMenuItem.Text = "Hide";
             this.offToolStripMenuItem.Click += new System.EventHandler(this.OffToolStripMenuItem_Click);
             // 
@@ -464,7 +477,7 @@ namespace NMSCoordinates
             this.lockedToolStripMenuItem.CheckOnClick = true;
             this.lockedToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.lockedToolStripMenuItem.Name = "lockedToolStripMenuItem";
-            this.lockedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.lockedToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.lockedToolStripMenuItem.Text = "Locked";
             this.lockedToolStripMenuItem.Click += new System.EventHandler(this.LockedToolStripMenuItem_Click);
             // 
@@ -472,7 +485,7 @@ namespace NMSCoordinates
             // 
             this.unlockedToolStripMenuItem.CheckOnClick = true;
             this.unlockedToolStripMenuItem.Name = "unlockedToolStripMenuItem";
-            this.unlockedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.unlockedToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.unlockedToolStripMenuItem.Text = "Unlocked";
             this.unlockedToolStripMenuItem.Click += new System.EventHandler(this.UnlockedToolStripMenuItem_Click);
             // 
@@ -1465,6 +1478,7 @@ namespace NMSCoordinates
             // button9
             // 
             this.button9.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.button9.ContextMenuStrip = this.contextMenuStrip3;
             this.button9.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button9.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.button9.Location = new System.Drawing.Point(473, 168);
@@ -1474,6 +1488,20 @@ namespace NMSCoordinates
             this.button9.Text = "Launch NMS";
             this.button9.UseVisualStyleBackColor = false;
             this.button9.Click += new System.EventHandler(this.Button9_Click);
+            // 
+            // contextMenuStrip3
+            // 
+            this.contextMenuStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.setShortcutToGameToolStripMenuItem});
+            this.contextMenuStrip3.Name = "contextMenuStrip3";
+            this.contextMenuStrip3.Size = new System.Drawing.Size(187, 26);
+            // 
+            // setShortcutToGameToolStripMenuItem
+            // 
+            this.setShortcutToGameToolStripMenuItem.Name = "setShortcutToGameToolStripMenuItem";
+            this.setShortcutToGameToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.setShortcutToGameToolStripMenuItem.Text = "Set Shortcut to Game";
+            this.setShortcutToGameToolStripMenuItem.Click += new System.EventHandler(this.SetShortcutToGameToolStripMenuItem_Click);
             // 
             // progressBar2
             // 
@@ -2149,6 +2177,10 @@ namespace NMSCoordinates
             this.fileSystemWatcher1.SynchronizingObject = this;
             this.fileSystemWatcher1.Changed += new System.IO.FileSystemEventHandler(this.FileSystemWatcher1_Changed);
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.OpenFileDialog1_FileOk);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
@@ -2210,6 +2242,7 @@ namespace NMSCoordinates
             this.tabPage1.PerformLayout();
             this.groupBox20.ResumeLayout(false);
             this.groupBox20.PerformLayout();
+            this.contextMenuStrip3.ResumeLayout(false);
             this.groupBox15.ResumeLayout(false);
             this.groupBox11.ResumeLayout(false);
             this.groupBox11.PerformLayout();
@@ -2247,12 +2280,11 @@ namespace NMSCoordinates
         }
 
         #endregion
-
-        public string GCvalue { get; set; }
+        public string GamePath;
+        public string nmsPath;
         public string savePath;
         public string hgFilePath;
-        public string hgFileDir;
-        public string nmsPath;
+        public string hgFileDir;        
         public string currentKey;
         public string stmPath;
         public string ssdPath;
@@ -2294,9 +2326,6 @@ namespace NMSCoordinates
         public dynamic jsonObj;
         public dynamic jsonArray;
 
-        private string decrypt;
-        private string encrypt;
-
         public string rxPatternP;
         public string rxValP;
         public string rxPatternSt;
@@ -2333,7 +2362,7 @@ namespace NMSCoordinates
         public Dictionary<int, string> sn4;
         public Dictionary<int, string> sn5;
 
-        
+        public List<DirectoryInfo> SaveDirs = new List<DirectoryInfo>();
 
         public List<string> DiscList { get; private set; }
 
@@ -2534,6 +2563,10 @@ namespace NMSCoordinates
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip3;
+        private System.Windows.Forms.ToolStripMenuItem setShortcutToGameToolStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.ToolStripMenuItem setSSDefaultSteamToolStripMenuItem;
     }
 }
 

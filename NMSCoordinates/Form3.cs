@@ -44,6 +44,7 @@ namespace NMSCoordinates
                         
                     DirectoryInfo dinfo2 = new DirectoryInfo(ssdPath);
                     FileInfo[] Files = dinfo2.GetFiles("*.jpg", SearchOption.AllDirectories);
+                    FileInfo[] Files2 = dinfo2.GetFiles("*.png", SearchOption.AllDirectories);
 
                     if (Files.Length != 0)
                     {
@@ -51,17 +52,28 @@ namespace NMSCoordinates
                         {
                             if (!file.DirectoryName.Contains("thumbnails"))
                                 list.Add(file.FullName);
-                            //AppendLine(textBox1, file.FullName.ToString());
+                                //AppendLine(textBox1, file.FullName.ToString());
                         }
                     }
                     else
                     {
-                        pictureBox1.Image = null;
-                        pictureBox2.Image = null;
-                        pictureBox3.Image = null;
-                        pictureBox4.Image = null;
-                        AppendLine(textBox1, "ssPath error! 855");
-                        return;
+                        if (Files2.Length != 0)
+                        {
+                            foreach (FileInfo file in Files2.OrderByDescending(f => f.LastWriteTime))
+                            {
+                                list.Add(file.FullName);
+                                //AppendLine(textBox1, file.FullName.ToString());
+                            }
+                        }
+                        else
+                        {
+                            pictureBox1.Image = null;
+                            pictureBox2.Image = null;
+                            pictureBox3.Image = null;
+                            pictureBox4.Image = null;
+                            AppendLine(textBox1, "ssPath error! 855");
+                            return;
+                        }                        
                     }
                     
                     pictureBox1.ImageLocation = list[0].ToString();
@@ -97,12 +109,8 @@ namespace NMSCoordinates
         }
         private Form4 f4;
         private void PictureBox1_Click(object sender, EventArgs e)
-        {
-            //Form4 f4 = new Form4();            
+        {          
             f4 = (Form4)Application.OpenForms["Form4"];
-            //f4.MyProperty = pictureBox1.ImageLocation;
-            //f4.ShowDialog();
-            //f4.Show();
 
             if (f4 == null)
             {
@@ -121,12 +129,8 @@ namespace NMSCoordinates
         }
 
         private void PictureBox2_Click(object sender, EventArgs e)
-        {
-            //Form4 f4 = new Form4();            
+        {         
             f4 = (Form4)Application.OpenForms["Form4"];
-            //f4.MyProperty = pictureBox2.ImageLocation;
-            //f4.ShowDialog();
-            //f4.Show();
 
             if (f4 == null)
             {
@@ -145,12 +149,8 @@ namespace NMSCoordinates
         }
 
         private void PictureBox3_Click(object sender, EventArgs e)
-        {
-            //Form4 f4 = new Form4();            
+        {          
             f4 = (Form4)Application.OpenForms["Form4"];
-            //f4.MyProperty = pictureBox3.ImageLocation;
-            //f4.ShowDialog();
-            //f4.Show();
 
             if (f4 == null)
             {
@@ -169,12 +169,8 @@ namespace NMSCoordinates
         }
 
         private void PictureBox4_Click(object sender, EventArgs e)
-        {
-            //Form4 f4 = new Form4();            
-            f4 = (Form4)Application.OpenForms["Form4"];
-            //f4.MyProperty = pictureBox4.ImageLocation;
-            //f4.ShowDialog();
-            //f4.Show();           
+        {      
+            f4 = (Form4)Application.OpenForms["Form4"]; 
 
             if (f4 == null)
             {

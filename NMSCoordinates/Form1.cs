@@ -55,6 +55,37 @@ namespace NMSCoordinates
             }
             return recentFile.Name;
         }
+        public Form8 f8;       
+
+        private void CheckGoG()
+        {
+            DirectoryInfo dinfo = new DirectoryInfo(nmsPath);
+            
+            if (dinfo.GetDirectories().Count() > 1)
+            {
+                foreach (DirectoryInfo dir in dinfo.GetDirectories())
+                {
+                    if (dir.GetFiles("save*.hg",SearchOption.AllDirectories).Length > 0)
+                        SaveDirs.Add(dir);
+                }
+                if (SaveDirs.Count() > 1)
+                {
+                    f8 = new Form8(SaveDirs);
+                    f8.ShowDialog();
+                    nmsPath = f8.GoGPath;
+
+                    if (Directory.Exists(nmsPath))
+                    {
+                        WriteTxt("nmsPath", nmsPath, savePath);                        
+                        return;
+                    }                        
+                }
+                else if (SaveDirs.Count() == 1)
+                {
+                    WriteTxt("nmsPath", nmsPath, savePath);
+                }
+            }
+        }
 
         public void LoadCmbx()
         {
@@ -63,8 +94,9 @@ namespace NMSCoordinates
             if (!Directory.Exists(nmsPath))
             {
                 MessageBox.Show("No Man's Sky save game folder not found, select it manually!", "Alert", MessageBoxButtons.OK);
+                return;
             }
-            DirectoryInfo dinfo = new DirectoryInfo(nmsPath);
+            DirectoryInfo dinfo = new DirectoryInfo(nmsPath);  
             FileInfo[] Files = dinfo.GetFiles("save*.hg", SearchOption.AllDirectories);
 
             if (Files.Length != 0)
@@ -380,6 +412,8 @@ namespace NMSCoordinates
             listBox2.DataSource = null;
             listBox1.Items.Clear();
             listBox2.Items.Clear();
+
+            SaveDirs.Clear();
 
             galaxy = "";
             X = "";
@@ -933,13 +967,14 @@ namespace NMSCoordinates
 
                     if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                     {
-                        string[] files = Directory.GetFiles(fbd.SelectedPath, "save*.hg");
+                        string[] files = Directory.GetFiles(fbd.SelectedPath, "save*.hg");//,SearchOption.AllDirectories);
 
                         if (files.Length != 0)
-                        {
+                        {                            
                             nmsPath = fbd.SelectedPath;
+                            CheckGoG();
                             //AppendLine(textBox16, fbd.SelectedPath + "save.hg");
-                            MessageBox.Show(files.Length.ToString() + "\r\n\r\nSave files found... ", "Message");
+                            MessageBox.Show("Path to save files set.", "Confirmation");
                         }
                         else
                         {
@@ -1059,8 +1094,8 @@ namespace NMSCoordinates
         private void AppDataDefaultToolStripMenuItem_Click(object sender, EventArgs e)
         {
             nmsPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HelloGames"), "NMS");
-
-            WriteTxt("nmsPath", nmsPath, savePath);
+            CheckGoG();
+            //WriteTxt("nmsPath", nmsPath, savePath);
 
             comboBox1.DataSource = null;
             comboBox2.DataSource = null;
@@ -1072,8 +1107,6 @@ namespace NMSCoordinates
         private void ManuallySelectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SetSavePath();
-
-            WriteTxt("nmsPath", nmsPath, savePath);
 
             comboBox1.DataSource = null;
             comboBox2.DataSource = null;
@@ -1469,8 +1502,9 @@ namespace NMSCoordinates
             //Set and load screenshots
             SetSShot();
             LoadSS();
+            
+            //LoadCmbx();
 
-            LoadCmbx();
             LoadTxt();
 
             DiscList = new List<string>();
@@ -1479,6 +1513,8 @@ namespace NMSCoordinates
         }
         private async void Form1_Shown(object sender, EventArgs e)
         {
+            CheckGoG();
+            LoadCmbx();
             await Task.Delay(300);
             RunBackupAll(hgFileDir);
         }
@@ -1530,8 +1566,12 @@ namespace NMSCoordinates
                 }
                 else
                 {
-                    AppendLine(textBox17, "ssPath error! 145");
-                    return;
+                    ssdPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + @"\No Mans Sky";
+                    if (!Directory.Exists(ssdPath))
+                    {
+                        AppendLine(textBox17, ssdPath + "ssPath error! 145");
+                        return;
+                    }                    
                 }
             }
             catch
@@ -1550,6 +1590,7 @@ namespace NMSCoordinates
                     List<string> list = new List<string>();
                     DirectoryInfo dinfo2 = new DirectoryInfo(ssdPath);
                     FileInfo[] Files = dinfo2.GetFiles("*.jpg", SearchOption.AllDirectories);
+                    FileInfo[] Files2 = dinfo2.GetFiles("*.png", SearchOption.AllDirectories);
 
                     if (Files.Length != 0)
                     {
@@ -1561,9 +1602,19 @@ namespace NMSCoordinates
                     }
                     else
                     {
-                        pictureBox25.Image = null;
-                        AppendLine(textBox17, "ssPath error! 855");
-                        return;
+                        if (Files2.Length != 0)
+                        {
+                            foreach (FileInfo file in Files2.OrderByDescending(f => f.LastWriteTime))
+                            {
+                                list.Add(file.FullName);
+                            }
+                        }
+                        else
+                        {
+                            pictureBox25.Image = null;
+                            AppendLine(textBox17, "ssPath error! 855");
+                            return;
+                        }                            
                     }
                     ssPath = list[0].ToString();
                     AppendLine(textBox17, "ScreenShot: " + list[0].ToString());
@@ -1597,16 +1648,24 @@ namespace NMSCoordinates
                     if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                     {
                         string[] files = Directory.GetFiles(fbd.SelectedPath, "*.jpg");
+                        string[] files2 = Directory.GetFiles(fbd.SelectedPath, "*.png");
 
                         if (files.Length != 0)
                         {
                             ssdPath = fbd.SelectedPath;
-
                             MessageBox.Show(files.Length.ToString() + "\r\n\r\nScreenshot files found... ", "Message");
                         }
                         else
                         {
-                            MessageBox.Show("No Screenshot files found! ", "Message");
+                            if (files2.Length != 0)
+                            {
+                                ssdPath = fbd.SelectedPath;
+                                MessageBox.Show(files2.Length.ToString() + "\r\n\r\nScreenshot files found... ", "Message");
+                            }
+                            else
+                            {
+                                MessageBox.Show("No Screenshot files found! ", "Message");
+                            }
                         }
                     }
                     else if (result == DialogResult.Cancel)
@@ -1619,6 +1678,7 @@ namespace NMSCoordinates
                 {
                     DirectoryInfo dinfo2 = new DirectoryInfo(ssdPath);
                     FileInfo[] Files = dinfo2.GetFiles("*.jpg", SearchOption.AllDirectories);
+                    FileInfo[] Files2 = dinfo2.GetFiles("*.png", SearchOption.AllDirectories);
 
                     if (Files.Length != 0)
                     {
@@ -1630,9 +1690,19 @@ namespace NMSCoordinates
                     }
                     else
                     {
-                        //pictureBox25.Image = null;
-                        AppendLine(textBox17, "ssPath error! 855");
-                        return;
+                        if (Files2.Length != 0)
+                        {
+                            foreach (FileInfo file in Files2.OrderByDescending(f => f.LastWriteTime))
+                            {
+                                list2.Add(file.FullName);
+                            }
+                        }
+                        else
+                        {
+                            //pictureBox25.Image = null;
+                            AppendLine(textBox17, "ssPath error! 855");
+                            return;
+                        }                            
                     }
                     ssPath = list2[0].ToString();
                     AppendLine(textBox17, "ScreenShot: " + list2[0].ToString());
@@ -1654,6 +1724,13 @@ namespace NMSCoordinates
         private void ScreenshotPageToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             SetSSPath();
+            WriteTxt("ssdPath", ssdPath, savePath);
+            LoadSS();
+        }        
+        private void SetSSDefaultSteamToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetssdPath();
+            SetSShot();
             WriteTxt("ssdPath", ssdPath, savePath);
             LoadSS();
         }
@@ -1939,9 +2016,31 @@ namespace NMSCoordinates
                 MessageBox.Show("Cancelled! No file deleted.", "Alert");
             }
         }
+
+        private void SetShortcutToGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.ShowDialog();
+        }
+
+        private void OpenFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            GamePath = openFileDialog1.FileName;
+            AppendLine(textBox17, GamePath);
+        }
+
         private void Button9_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("steam://rungameid/275850");
+            try
+            {
+                if (GamePath == "" || GamePath == null)
+                    System.Diagnostics.Process.Start("steam://rungameid/275850");
+                else
+                    System.Diagnostics.Process.Start(GamePath);
+            }
+            catch
+            {
+                return;
+            }            
         }
 
         private void GalacticToVoxelMan(string oX, string oY, string oZ, string oSSI)
@@ -2381,13 +2480,19 @@ namespace NMSCoordinates
 
         private void SaveFileManagerToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            comboBox1.DataSource = null;
+            comboBox2.DataSource = null;
+            comboBox1.SelectedIndex = -1;
+            ClearAll();
+
             Form6 f6 = new Form6();
             f6.nmsPath = nmsPath;
             f6.ShowDialog();
+            
+            LoadCmbx();
         }
 
         private List<String> _changedFiles = new List<string>();
-
 
         private void FileSystemWatcher1_Changed(object sender, FileSystemEventArgs e)
         {
