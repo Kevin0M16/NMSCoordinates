@@ -21,7 +21,7 @@ namespace NMSCoordinates
             InitializeComponent();
 
             //Set Version here
-            label29.Text = "Version 1.1.2";
+            label29.Text = "Version 1.1.3";
 
             Glyphs();
             GIndex();
@@ -1461,6 +1461,11 @@ namespace NMSCoordinates
                 comboBox1.ValueMember = "KEY";
                 comboBox1.DataSource = sn5.ToArray();
             }
+            if (selected == "(Select Save Slot)")
+            {                
+                comboBox1.DataSource = null;
+                ClearAll();
+            }                
         }
         private void ComboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
