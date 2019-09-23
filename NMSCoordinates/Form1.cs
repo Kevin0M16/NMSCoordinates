@@ -83,8 +83,11 @@ namespace NMSCoordinates
                 else if (SaveDirs.Count() == 1)
                 {
                     WriteTxt("nmsPath", nmsPath, savePath);
+                    return;
                 }
             }
+            if (dinfo.GetFiles("save*.hg", SearchOption.AllDirectories).Length > 0)
+                WriteTxt("nmsPath", nmsPath, savePath);
         }
 
         public void LoadCmbx()
@@ -967,7 +970,7 @@ namespace NMSCoordinates
 
                     if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                     {
-                        string[] files = Directory.GetFiles(fbd.SelectedPath, "save*.hg");//,SearchOption.AllDirectories);
+                        string[] files = Directory.GetFiles(fbd.SelectedPath, "save*.hg");
 
                         if (files.Length != 0)
                         {                            

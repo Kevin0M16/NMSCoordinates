@@ -30,8 +30,7 @@ namespace NMSCoordinates
                     listBox1.Items.Add(sname);
                     saveDict.Add(new KeyValuePair<string, string>(sname, dir.FullName));
                 }
-
-                if (dir.Name.Contains("DefaultUser"))
+                else if (dir.Name.Contains("DefaultUser"))
                 {
                     string gogname = "[GoG] " + dir;
                     listBox1.Items.Add(gogname);
@@ -39,12 +38,13 @@ namespace NMSCoordinates
                 }
             }
         }
-        private Form1 f1;
+        
         public string GoGPath { get; set; }
         private void Button1_Click(object sender, EventArgs e)
         {
             string selected = listBox1.SelectedItem.ToString();
-            GoGPath = saveDict[selected];
+            if (saveDict.ContainsKey(selected))
+                GoGPath = saveDict[selected];
 
             this.Close();
         }
