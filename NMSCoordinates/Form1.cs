@@ -21,7 +21,7 @@ namespace NMSCoordinates
             InitializeComponent();
 
             //Set Version here
-            label29.Text = "Version 1.1.3";
+            label29.Text = "Version 1.1.4";
 
             Glyphs();
             GIndex();
@@ -378,6 +378,9 @@ namespace NMSCoordinates
             textBox9.Clear();
             textBox10.Clear();
             textBox12.Clear();
+            textBox14.Clear();
+            textBox19.Clear();
+            textBox20.Clear();
             textBox22.Clear();
             textBox21.Clear();
             textBox23.Clear();
@@ -418,6 +421,9 @@ namespace NMSCoordinates
 
             SaveDirs.Clear();
 
+            comboBox3.Items.Clear();
+            pgalaxy = "";
+
             galaxy = "";
             X = "";
             Y = "";
@@ -428,6 +434,8 @@ namespace NMSCoordinates
             PortalCode = "";
             GalacticCoord = "";
             GalacticCoord2 = "";
+
+            textBox16.Text = nmsPath;
         }
 
         private void TextBoxes()
@@ -2264,7 +2272,7 @@ namespace NMSCoordinates
         private void TabControl1_Selected(object sender, TabControlEventArgs e)
         {
             //populates the combobox when moving tabs
-            if (pgalaxy != null)
+            if (pgalaxy != null && pgalaxy != "")
             {
                 comboBox3.Items.Clear();
 

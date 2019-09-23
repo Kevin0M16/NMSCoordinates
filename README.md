@@ -28,7 +28,7 @@ Backup locations to txt file and and access and travel to these saved coordinate
 <!--* Download will be available later today. -->
 * Major Optimization Update - NMSC now is 100% faster on MovePlayer and ClearPortal Interference!
 
-<pre>  <a href="https://github.com/Kevin0M16/NMSCoordinates/releases/latest/download/NMSCoordinates-v1.1.3.zip"><img src="https://img.shields.io/badge/dynamic/json.svg?label=download&url=https://api.github.com/repos/Kevin0M16/NMSCoordinates/releases/latest&query=$.assets[0].name&style=for-the-badge" alt="download"/></a></pre>
+<pre>  <a href="https://github.com/Kevin0M16/NMSCoordinates/releases/latest/download/NMSCoordinates-v1.1.4.zip"><img src="https://img.shields.io/badge/dynamic/json.svg?label=download&url=https://api.github.com/repos/Kevin0M16/NMSCoordinates/releases/latest&query=$.assets[0].name&style=for-the-badge" alt="download"/></a></pre>
 
 ## Share - Upload locations to Google Drive
 
