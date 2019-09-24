@@ -211,6 +211,7 @@ namespace NMSCoordinates
             this.label29 = new System.Windows.Forms.Label();
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.linkLabel4 = new System.Windows.Forms.LinkLabel();
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -417,22 +418,22 @@ namespace NMSCoordinates
             // screenshotPageToolStripMenuItem1
             // 
             this.screenshotPageToolStripMenuItem1.Name = "screenshotPageToolStripMenuItem1";
-            this.screenshotPageToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.screenshotPageToolStripMenuItem1.Size = new System.Drawing.Size(187, 22);
             this.screenshotPageToolStripMenuItem1.Text = "Screen Shot Page";
             this.screenshotPageToolStripMenuItem1.Click += new System.EventHandler(this.ScreenshotPageToolStripMenuItem1_Click);
             // 
             // screenshotPageToolStripMenuItem2
             // 
             this.screenshotPageToolStripMenuItem2.Name = "screenshotPageToolStripMenuItem2";
-            this.screenshotPageToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.screenshotPageToolStripMenuItem2.Size = new System.Drawing.Size(187, 22);
             this.screenshotPageToolStripMenuItem2.Text = "Set Screenshot Path";
             this.screenshotPageToolStripMenuItem2.Click += new System.EventHandler(this.ScreenshotPageToolStripMenuItem2_Click);
             // 
             // setSSDefaultSteamToolStripMenuItem
             // 
             this.setSSDefaultSteamToolStripMenuItem.Name = "setSSDefaultSteamToolStripMenuItem";
-            this.setSSDefaultSteamToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.setSSDefaultSteamToolStripMenuItem.Text = "Set SS to Default";
+            this.setSSDefaultSteamToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.setSSDefaultSteamToolStripMenuItem.Text = "Set SS Path to Default";
             this.setSSDefaultSteamToolStripMenuItem.Click += new System.EventHandler(this.SetSSDefaultSteamToolStripMenuItem_Click);
             // 
             // travelModeToolStripMenuItem
@@ -448,7 +449,7 @@ namespace NMSCoordinates
             // 
             this.onToolStripMenuItem.CheckOnClick = true;
             this.onToolStripMenuItem.Name = "onToolStripMenuItem";
-            this.onToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.onToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.onToolStripMenuItem.Text = "Show";
             this.onToolStripMenuItem.Click += new System.EventHandler(this.OnToolStripMenuItem_Click);
             // 
@@ -458,7 +459,7 @@ namespace NMSCoordinates
             this.offToolStripMenuItem.CheckOnClick = true;
             this.offToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.offToolStripMenuItem.Name = "offToolStripMenuItem";
-            this.offToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.offToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.offToolStripMenuItem.Text = "Hide";
             this.offToolStripMenuItem.Click += new System.EventHandler(this.OffToolStripMenuItem_Click);
             // 
@@ -477,7 +478,7 @@ namespace NMSCoordinates
             this.lockedToolStripMenuItem.CheckOnClick = true;
             this.lockedToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.lockedToolStripMenuItem.Name = "lockedToolStripMenuItem";
-            this.lockedToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.lockedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.lockedToolStripMenuItem.Text = "Locked";
             this.lockedToolStripMenuItem.Click += new System.EventHandler(this.LockedToolStripMenuItem_Click);
             // 
@@ -485,7 +486,7 @@ namespace NMSCoordinates
             // 
             this.unlockedToolStripMenuItem.CheckOnClick = true;
             this.unlockedToolStripMenuItem.Name = "unlockedToolStripMenuItem";
-            this.unlockedToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.unlockedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.unlockedToolStripMenuItem.Text = "Unlocked";
             this.unlockedToolStripMenuItem.Click += new System.EventHandler(this.UnlockedToolStripMenuItem_Click);
             // 
@@ -2181,12 +2182,28 @@ namespace NMSCoordinates
             // 
             this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.OpenFileDialog1_FileOk);
             // 
+            // linkLabel4
+            // 
+            this.linkLabel4.AutoSize = true;
+            this.linkLabel4.BackColor = System.Drawing.Color.Transparent;
+            this.linkLabel4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLabel4.LinkColor = System.Drawing.Color.LawnGreen;
+            this.linkLabel4.Location = new System.Drawing.Point(424, 30);
+            this.linkLabel4.Name = "linkLabel4";
+            this.linkLabel4.Size = new System.Drawing.Size(162, 15);
+            this.linkLabel4.TabIndex = 80;
+            this.linkLabel4.TabStop = true;
+            this.linkLabel4.Text = "Newer Version Available";
+            this.linkLabel4.Visible = false;
+            this.linkLabel4.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel4_LinkClicked);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(75)))), ((int)(((byte)(75)))));
             this.ClientSize = new System.Drawing.Size(730, 798);
+            this.Controls.Add(this.linkLabel4);
             this.Controls.Add(this.label29);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
@@ -2280,6 +2297,7 @@ namespace NMSCoordinates
         }
 
         #endregion
+        public string Version;
         public string GamePath;
         public string nmsPath;
         public string savePath;
@@ -2567,6 +2585,7 @@ namespace NMSCoordinates
         private System.Windows.Forms.ToolStripMenuItem setShortcutToGameToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.ToolStripMenuItem setSSDefaultSteamToolStripMenuItem;
+        private System.Windows.Forms.LinkLabel linkLabel4;
     }
 }
 

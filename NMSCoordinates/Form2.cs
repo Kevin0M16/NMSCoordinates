@@ -19,9 +19,10 @@ namespace NMSCoordinates
 
     public partial class Form2 : Form
     {
-        public Form2()
+        public Form2(string version)
         {
             InitializeComponent();
+            Version = version;
         }       
 
         private void LinkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -64,6 +65,12 @@ namespace NMSCoordinates
             {
                 MessageBox.Show("Unable to open link that was clicked.");
             }
+        }
+
+        private void Button9_Click(object sender, EventArgs e)
+        {
+            Form9 f9 = new Form9(Version);
+            f9.ShowDialog();
         }
     }
 }

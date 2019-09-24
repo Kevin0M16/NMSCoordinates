@@ -20,7 +20,8 @@ namespace NMSCoordinates
         }
         private void GetSaveDirs(List<DirectoryInfo> SaveDirs)
         {
-            saveDict = new Dictionary<string, string>();            
+            saveDict = new Dictionary<string, string>();
+            saveDict.Clear();
 
             foreach (DirectoryInfo dir in SaveDirs)
             {
