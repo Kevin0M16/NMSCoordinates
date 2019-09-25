@@ -33,10 +33,10 @@ namespace NMSCoordinates
                 GetFiles(info.GetFiles(), rootNode);
                 treeView1.Nodes.Add(rootNode);
 
-                if (treeView1.Nodes[0].Nodes.Count >= 1)
-                    treeView1.SelectedNode = treeView1.Nodes[0].LastNode;
-                else
-                    treeView1.SelectedNode = treeView1.TopNode;
+                //if (treeView1.Nodes[0].Nodes.Count >= 1)
+                //    treeView1.SelectedNode = treeView1.Nodes[0].LastNode;
+                //else
+                    //treeView1.SelectedNode = treeView1.TopNode;
             }
         }
         private void PopulateTreeView2()
@@ -53,32 +53,39 @@ namespace NMSCoordinates
                 GetDirectories(info2.GetDirectories(), rootNode2);
                 treeView2.Nodes.Add(rootNode2);
 
-                if (treeView2.Nodes[0].Nodes.Count >= 1)
-                    treeView2.SelectedNode = treeView2.Nodes[0].LastNode;
-                else
+                //if (treeView2.Nodes[0].Nodes.Count >= 1)
+                //    treeView2.SelectedNode = treeView2.Nodes[0].LastNode;
+                //else
                     treeView2.SelectedNode = treeView2.TopNode;
             }
         }
         private void GetFiles(FileInfo[] files, TreeNode nodeToAddTo)
         {
-            TreeNode aNode;
-            foreach (FileInfo file in files)
-            { 
-                if (file.Extension == ".zip")
+            try
+            {
+                TreeNode aNode;
+                foreach (FileInfo file in files)
                 {
-                    using (ZipArchive archive = ZipFile.OpenRead(file.FullName))
+                    if (file.Extension == ".zip")
                     {
-                       if (archive.Entries.Count == 0)
-                           File.Delete(file.FullName);
-                    }                        
-                    
-                    aNode = new TreeNode(file.Name, 1, 1);
-                    //aNode.StateImageIndex = 1;
-                    aNode.Tag = file;
-                    aNode.ImageKey = "file";
-                    nodeToAddTo.Nodes.Add(aNode);                    
+                        using (ZipArchive archive = ZipFile.OpenRead(file.FullName))
+                        {
+                            if (archive.Entries.Count == 0)
+                                File.Delete(file.FullName);
+                        }
+
+                        aNode = new TreeNode(file.Name, 1, 1);
+                        //aNode.StateImageIndex = 1;
+                        aNode.Tag = file;
+                        aNode.ImageKey = "file";
+                        nodeToAddTo.Nodes.Add(aNode);
+                    }
                 }
             }
+            catch
+            {
+                return;
+            }            
         }
         private void GetDirectories(DirectoryInfo[] subDirs, TreeNode nodeToAddTo)
         {
@@ -233,7 +240,7 @@ namespace NMSCoordinates
 
         private void Button2_Click(object sender, EventArgs e)
         {            
-            TreeNode newSelected = treeView2.SelectedNode;       
+            TreeNode newSelected = treeView2.SelectedNode;
             
             if (newSelected != null && listView2.SelectedItems.Count != 0)
             {
@@ -244,27 +251,39 @@ namespace NMSCoordinates
                     {
                         Directory.Delete(@".\backup\temp", true);
                     }
-
-                    foreach (ListViewItem item in listView2.SelectedItems)
+                    try
                     {
-                        FileInfo[] files = nodeDirInfo.GetFiles(item.Text);
-                        //textBox1.Text = item.Text;
-                        foreach (FileInfo file in files)
+                        foreach (ListViewItem item in listView2.SelectedItems)
                         {
-                            Directory.CreateDirectory(@".\backup\temp\");
-                            File.Copy(file.FullName, @".\backup\temp\" + file.Name, true);
-                            textBox1.AppendText("Zipped: " + file.Name + "\r\n");
+                            FileInfo[] files = nodeDirInfo.GetFiles(item.Text);
+                            //textBox1.Text = item.Text;
+                            foreach (FileInfo file in files)
+                            {
+                                Directory.CreateDirectory(@".\backup\temp\");
+                                File.Copy(file.FullName, @".\backup\temp\" + file.Name, true);
+                                textBox1.AppendText("Zipped: " + file.Name + "\r\n");
+                                
+                            }
                         }
+                        string now = DateTime.Now.ToString("yyyy-MM-dd-HHmmss");
+                        if (Directory.GetDirectories(@".\backup\temp").Length != 0)
+                        {
+                            ZipFile.CreateFromDirectory(@".\backup\temp", @".\backup\savemanager_" + now + ".zip");
+                            textBox1.AppendText("Created: savemanager_" + now + ".zip \r\n");
+                        }                        
+
+                        Directory.Delete(@".\backup\temp", true);
+
+                        listView1.Items.Clear();
+                        //listView2.Items.Clear();
+                        PopulateTreeView1();
+                        if (treeView1.Nodes[0].Nodes.Count >= 1)
+                            treeView1.SelectedNode = treeView1.Nodes[0].LastNode;
                     }
-                    string now = DateTime.Now.ToString("yyyy-MM-dd-HHmmss");
-                    ZipFile.CreateFromDirectory(@".\backup\temp", @".\backup\savemanager_" + now + ".zip");
-                    textBox1.AppendText("Created: savemanager_" + now + ".zip \r\n");
-
-                    Directory.Delete(@".\backup\temp", true);
-
-                    listView1.Items.Clear();
-                    //listView2.Items.Clear();
-                    PopulateTreeView1();
+                    catch
+                    {
+                        return;
+                    }                    
                 }
             }
         }
@@ -294,7 +313,6 @@ namespace NMSCoordinates
 
                         listView1.Items.Clear();
                         PopulateTreeView1();
-                        
                     }
                     else if (dialogResult == DialogResult.No)
                     {
@@ -323,7 +341,7 @@ namespace NMSCoordinates
                         }
                     }
                     listView2.Items.Clear();
-                    PopulateTreeView2();
+                    PopulateTreeView2();                    
                 }
                 else if (dialogResult == DialogResult.No)
                 {
@@ -333,13 +351,12 @@ namespace NMSCoordinates
         }
         private void TreeView2_AfterExpand(object sender, TreeViewEventArgs e)
         {
-            //treeView2.SelectedNode = treeView2.Nodes[0].Nodes[0];
-            treeView2.SelectedNode = treeView2.Nodes[0].LastNode;
+            //treeView2.SelectedNode = treeView2.Nodes[0].LastNode;
+            treeView2.SelectedNode = treeView2.TopNode;
         }
 
         private void TreeView1_AfterExpand(object sender, TreeViewEventArgs e)
         {
-            //treeView1.SelectedNode = treeView1.Nodes[0].Nodes[0];
             treeView1.SelectedNode = treeView1.Nodes[0].LastNode;
         }        
     }
