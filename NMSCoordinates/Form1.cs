@@ -22,7 +22,7 @@ namespace NMSCoordinates
             InitializeComponent();
 
             //Set Version here
-            Version = "v1.1.5";
+            Version = "v1.1.6";
             label29.Text = "Version " + Version;
 
             Glyphs();
@@ -32,20 +32,20 @@ namespace NMSCoordinates
 
             //Default Paths
             nmsPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HelloGames"), "NMS");
-            savePath = System.Windows.Forms.Application.CommonAppDataPath + "\\save.txt";
-
+            savePath = System.Windows.Forms.Application.CommonAppDataPath + "\\save.nmsc";
+            oldsavePath = System.Windows.Forms.Application.CommonAppDataPath + "\\save.txt";
             //SetssdPath();
         }
 
         public Form8 f8;
 
         private void CheckGoG()
-        {
-            DirectoryInfo dinfo = new DirectoryInfo(nmsPath);
-
+        {      
             if (Directory.Exists(nmsPath))
             {
-                if (dinfo.GetDirectories().Count() > 1)
+                DirectoryInfo dinfo = new DirectoryInfo(nmsPath);
+
+                if (dinfo.GetDirectories().Count() > 1 && dinfo.Name == "NMS")
                 {
                     foreach (DirectoryInfo dir in dinfo.GetDirectories())
                     {
@@ -70,15 +70,35 @@ namespace NMSCoordinates
                         return;
                     }
                 }
-                if (dinfo.GetFiles("save*.hg", SearchOption.AllDirectories).Length > 0)
-                {
-                    if (dinfo.GetDirectories().Count() == 1)
+                else if (dinfo.GetFiles("save*.hg", SearchOption.AllDirectories).Length > 0)
+                {                       
+                    if (dinfo.GetFiles("save*.hg", SearchOption.TopDirectoryOnly).Length > 0)
                     {
-                        foreach (DirectoryInfo dir in dinfo.GetDirectories("*", SearchOption.TopDirectoryOnly))
-                        {
-                            nmsPath = dir.FullName;
-                        }
+                        //Check if hg files are here if so set nmsPath
+                        nmsPath = dinfo.FullName;
                         WriteTxt("nmsPath", nmsPath, savePath);
+                        AppendLine(textBox17, "Set Dir: " + nmsPath);
+                        return;
+                    }
+
+                    if (dinfo.GetDirectories("st_*", SearchOption.TopDirectoryOnly).Length > 0)
+                    {
+                        //
+                        DirectoryInfo[] dirname1 = dinfo.GetDirectories("st_*", SearchOption.TopDirectoryOnly);
+                        nmsPath = dirname1[0].FullName;
+                        WriteTxt("nmsPath", nmsPath, savePath);
+                        AppendLine(textBox17, "Set Dir: " + nmsPath);
+                        return;
+                    }
+
+                    if (dinfo.GetDirectories("DefaultUser", SearchOption.TopDirectoryOnly).Length > 0)
+                    {
+                        //
+                        DirectoryInfo[] dirname2 = dinfo.GetDirectories("DefaultUser", SearchOption.TopDirectoryOnly);
+                        nmsPath = dirname2[0].FullName;
+                        WriteTxt("nmsPath", nmsPath, savePath);
+                        AppendLine(textBox17, "Set Dir: " + nmsPath);
+                        return;
                     }
                 }
             }
@@ -1010,6 +1030,11 @@ namespace NMSCoordinates
 
         public void BuildSaveFile()
         {
+            if (File.Exists(oldsavePath))
+            {
+                File.Delete(oldsavePath);
+            }
+            
             if (!File.Exists(savePath))
             {
                 File.Create(savePath).Close();
@@ -1054,9 +1079,24 @@ namespace NMSCoordinates
         }
 
         public void ReloadSave()
-        {
+        {            
             Read("nmsPath", savePath);
             nmsPath = currentKey;
+
+            //If save.nmsc gets corrupt, back to defaults on nmsPath
+            if (Directory.Exists(nmsPath))
+            {
+                DirectoryInfo dinfo = new DirectoryInfo(nmsPath);
+                if (dinfo.GetFiles("save*.hg", SearchOption.TopDirectoryOnly).Length <= 0)
+                {
+                    nmsPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HelloGames"), "NMS");
+                }
+            }
+            else if(!Directory.Exists(nmsPath))
+            {
+                nmsPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HelloGames"), "NMS");
+            }               
+            
             Read("ssdPath", savePath);
             ssdPath = currentKey;
         }
@@ -1111,6 +1151,7 @@ namespace NMSCoordinates
                 comboBox1.SelectedIndex = -1;
                 ClearAll();
                 LoadCmbx();
+                tabControl1.SelectedTab = tabPage1;
             }
             else
             {
@@ -1133,6 +1174,7 @@ namespace NMSCoordinates
                 comboBox1.SelectedIndex = -1;
                 ClearAll();
                 LoadCmbx();
+                tabControl1.SelectedTab = tabPage1;
             }
             else
             {
@@ -1946,10 +1988,10 @@ namespace NMSCoordinates
         }
         private void ScreenshotPageToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            //Manually select a SS path and save it in save.txt
+            //Manually select a SS path and save it in save.nmsc
             //SetSSPath();
             SetGoGSSPath();
-
+            tabControl1.SelectedTab = tabPage1;
             //WriteTxt("ssdPath", ssdPath, savePath);
             //LoadSS();
         }        
@@ -1959,7 +2001,7 @@ namespace NMSCoordinates
             //SetssdPath();
             //SetSShot();
             SetGoGSShot();
-
+            tabControl1.SelectedTab = tabPage1;
             //WriteTxt("ssdPath", ssdPath, savePath);
             //LoadSS();
         }
@@ -2760,16 +2802,24 @@ namespace NMSCoordinates
 
         private void SaveFileManagerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            comboBox1.DataSource = null;
-            comboBox2.DataSource = null;
-            comboBox1.SelectedIndex = -1;
-            ClearAll();
+            if (checkBox1.Checked == false)
+            {
+                comboBox1.DataSource = null;
+                comboBox2.DataSource = null;
+                comboBox1.SelectedIndex = -1;
+                ClearAll();
 
-            Form6 f6 = new Form6();
-            f6.nmsPath = nmsPath;
-            f6.ShowDialog();
-            
-            LoadCmbx();
+                Form6 f6 = new Form6();
+                f6.nmsPath = nmsPath;
+                f6.ShowDialog();
+
+                tabControl1.SelectedTab = tabPage1;
+                LoadCmbx();
+            }
+            else
+            {
+                MessageBox.Show("Turn off Travel Mode!", "Alert");
+            }
         }
 
         private List<String> _changedFiles = new List<string>();

@@ -1,4 +1,6 @@
-﻿namespace NMSCoordinates
+﻿using System.Windows.Forms;
+
+namespace NMSCoordinates
 {
     partial class Form6
     {

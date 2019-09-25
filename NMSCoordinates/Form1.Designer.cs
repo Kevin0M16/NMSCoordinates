@@ -2301,6 +2301,7 @@ namespace NMSCoordinates
         public string GamePath;
         public string nmsPath;
         public string savePath;
+        public string oldsavePath;
         public string hgFilePath;
         public string hgFileDir;        
         public string currentKey;
