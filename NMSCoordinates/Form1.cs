@@ -49,7 +49,6 @@ namespace NMSCoordinates
             savePath = System.Windows.Forms.Application.CommonAppDataPath + "\\save.nmsc";
             oldsavePath = System.Windows.Forms.Application.CommonAppDataPath + "\\save.txt";
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             //Save preference file
@@ -65,7 +64,6 @@ namespace NMSCoordinates
             DiscList = new List<string>();
             BaseList = new List<string>();
         }
-
         private async void Form1_Shown(object sender, EventArgs e)
         {
             //Check to see if there is more than on dir in nmspath
@@ -73,10 +71,10 @@ namespace NMSCoordinates
 
             //Set SS path
             SetGoGSShot();
-            //LoadSS();
 
             //load all the save files in cmbx for later
             LoadCmbx();
+
             //give time for form to show
             await Task.Delay(300);
             RunBackupAll(hgFileDir);
@@ -84,7 +82,6 @@ namespace NMSCoordinates
             //Check Github releases for a newer version
             CheckForUpdates();
         }
-
         private async void CheckForUpdates()
         {
             //Check Github releases for a newer version method
@@ -110,7 +107,6 @@ namespace NMSCoordinates
             {
                 AppendLine(textBox17, "Github Server not available. Could not check version");
             }
-
         }
 
         public Form8 f8;
@@ -185,7 +181,6 @@ namespace NMSCoordinates
                 }
             }
         }
-
         public void LoadCmbx()
         {
             //Load save file names in combobox1 
@@ -277,7 +272,112 @@ namespace NMSCoordinates
                 return;
             }
         }
+        private void ComboBox2_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            string selected = this.comboBox2.GetItemText(this.comboBox2.SelectedItem);
 
+            //Gets the dictionaries set in loadcmbbx and sets the data source for save dropdown
+            if (selected == "Slot 1")
+            {
+                saveslot = 1;
+                comboBox1.DisplayMember = "VALUE";
+                comboBox1.ValueMember = "KEY";
+                comboBox1.DataSource = sn1.ToArray();
+                return;
+            }
+            if (selected == "Slot 2")
+            {
+                saveslot = 2;
+                comboBox1.DisplayMember = "VALUE";
+                comboBox1.ValueMember = "KEY";
+                comboBox1.DataSource = sn2.ToArray();
+                return;
+            }
+            if (selected == "Slot 3")
+            {
+                saveslot = 3;
+                comboBox1.DisplayMember = "VALUE";
+                comboBox1.ValueMember = "KEY";
+                comboBox1.DataSource = sn3.ToArray();
+                return;
+            }
+            if (selected == "Slot 4")
+            {
+                saveslot = 4;
+                comboBox1.DisplayMember = "VALUE";
+                comboBox1.ValueMember = "KEY";
+                comboBox1.DataSource = sn4.ToArray();
+                return;
+            }
+            if (selected == "Slot 5")
+            {
+                saveslot = 5;
+                comboBox1.DisplayMember = "VALUE";
+                comboBox1.ValueMember = "KEY";
+                comboBox1.DataSource = sn5.ToArray();
+                return;
+            }
+            if (selected == "(Select Save Slot)")
+            {
+                comboBox1.DataSource = null;
+                ClearAll();
+                LoadCmbx(); //insert here?
+                return;
+            }
+        }        
+        private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //After selecting a saveslot, this triggers + after selecting a different save   
+            string selected = this.comboBox1.GetItemText(this.comboBox1.SelectedItem);
+            if (selected != "")
+            {
+                ClearAll();
+                GetSaveFile(selected);
+                Loadlsb1();
+                Loadlsb3();
+                GetPlayerCoord();
+            }            
+        }
+        private void GetSaveFile(string selected)
+        {
+            //Main save file loader
+            if (Directory.Exists(hgFileDir) && selected != "")
+            {
+                DirectoryInfo dinfo = new DirectoryInfo(hgFileDir);
+                FileInfo[] Files = dinfo.GetFiles(selected, SearchOption.TopDirectoryOnly); //AllDirectories);
+
+                if (Files.Length != 0)
+                {
+                    foreach (FileInfo file in Files)
+                    {
+                        //sets the file path to work with
+                        hgFilePath = file.FullName;
+                    }
+                }
+                else
+                {
+                    AppendLine(textBox17, "** Code 3 ** " + selected);
+                    return;
+                }
+
+                //shows the file path in the path textbox
+                textBox16.Clear();
+                AppendLine(textBox16, hgFilePath);
+
+                //displays the last write time
+                FileInfo hgfile = new FileInfo(hgFilePath);
+                textBox26.Clear();
+                AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
+
+                //Sets json from the selected save file
+                json = File.ReadAllText(hgFilePath);
+
+                //looksup and then displays the game mode
+                var nms = Nms.FromJson(json);
+                gamemode = nms.F2P.ToString();
+                GameModeLookup(label28, gamemode);
+            }
+        }
         private void SetPrevSS()
         {
             //Travel Mode, Store all discoveries to compare later
@@ -309,7 +409,6 @@ namespace NMSCoordinates
                 return;
             }
         }
-
         private void CheckSS()
         {
             //Take the list of current discoveries and add them to SSList for comparison to PrevSSlist
@@ -348,7 +447,6 @@ namespace NMSCoordinates
                 return;
             }
         }
-
         private async Task BackupLoc(string path)
         {
             //Backup all locations to a new locbackup file
@@ -398,7 +496,6 @@ namespace NMSCoordinates
                 MessageBox.Show("No Locations found! ", "Message");
             }
         }
-
         public FileInfo MakeUnique(string path)
         {
             //Makes path in \backup unique by date.time
@@ -406,7 +503,6 @@ namespace NMSCoordinates
             return new FileInfo(path);
 
         }
-
         public static void AppendLine(TextBox source, string value)
         {
             //My neat little textbox handler
@@ -415,7 +511,6 @@ namespace NMSCoordinates
             else
                 source.AppendText("\r\n" + value);
         }
-
         private void GetPlayerCoord()
         {
             //Gets the player position off the save file and prints the info on tab1
@@ -438,7 +533,6 @@ namespace NMSCoordinates
             AppendLine(textBox21, PortalCode);
             GalaxyLookup(textBox23, pgalaxy);
         }
-
         private void Clearforsearch()
         {
             textBox1.Clear();
@@ -464,7 +558,6 @@ namespace NMSCoordinates
             pictureBox11.Image = null;
             pictureBox12.Image = null;
         }
-
         private void ClearAll()
         {
             label28.ResetText();
@@ -541,7 +634,6 @@ namespace NMSCoordinates
 
             textBox16.Text = nmsPath;
         }
-
         private void TextBoxes()
         {
             textBox1.Clear();
@@ -560,7 +652,6 @@ namespace NMSCoordinates
             textBox8.Text = SSI;
             textBox9.Text = PI;
         }
-
         private void JsonMap(int i)
         {
             //lookup info from the Json hg file
@@ -587,7 +678,6 @@ namespace NMSCoordinates
                 return;
             }
         }
-
         private void Glyphs()
         {
             //Set the dictionary to find glyphs
@@ -609,7 +699,6 @@ namespace NMSCoordinates
             glyphDict.Add('E', Properties.Resources.E);
             glyphDict.Add('F', Properties.Resources.F);
         }
-
         private void GMode()
         {
             //Set the dictionary for game modes
@@ -625,7 +714,6 @@ namespace NMSCoordinates
             //gameMode.Add(new KeyValuePair<string, string>("", "Creative"));
 
         }
-
         private void GIndex()
         {
             //Main dictionary for galaxies
@@ -659,7 +747,6 @@ namespace NMSCoordinates
             galaxyDict.Add(new KeyValuePair<string, string>("140", "Kimycuristh"));
             //galaxyDict.Add(new KeyValuePair<string, string>("24", "Twerbetek"));
         }
-
         private void Loadlsb1()
         {
             //Method to load all location discovered in listbox1
@@ -707,7 +794,6 @@ namespace NMSCoordinates
                 textBox12.Text = "False";
             }
         }
-
         private void Loadlsb3()
         {
             //Method to load all location discovered in location files
@@ -755,8 +841,8 @@ namespace NMSCoordinates
             }
             catch
             {
-                source.Text = galaxy;
-                AppendLine(textBox17, "Galaxy Not Found, update needed.");
+                source.Text = (Convert.ToInt32(galaxy) + 1).ToString();
+                //AppendLine(textBox17, "Galaxy Not Found, update needed.");
             }
         }
         private void ListBox1_MouseClick(object sender, EventArgs e)
@@ -827,7 +913,6 @@ namespace NMSCoordinates
                 return;
             }
         }
-
         private void GetGalacticCoord(int X, int Y, int Z, int SSI)
         {
             //Voxel Coordinates to Galactic Coordinate
@@ -856,7 +941,6 @@ namespace NMSCoordinates
             GalacticCoord = string.Format("{0:X4}:{1:X4}:{2:X4}:{3:X4}", ig1, ig2, ig3, ig4); //Format to 4 digit seperated by colon
             AppendLine(textBox3, "Galactic Coordinates: " + GalacticCoord);
         }
-
         private void GetPortalCoord(int X, int Y, int Z, int SSI, TextBox tb)
         {
             //Galactic Coordinate to Portal Code
@@ -918,7 +1002,6 @@ namespace NMSCoordinates
             //Display Glyph images
             //ShowGlyphs();
         }
-
         private void GetPortalCoord(int X, int Y, int Z, int SSI)
         {
             //Galactic Coordinate to Portal Code
@@ -963,7 +1046,6 @@ namespace NMSCoordinates
             PortalCode = string.Format("0{0:X3}{1:X2}{2:X3}{3:X3}", ihexSSI, ihexY, ihexZ, ihexX); // Format digits 0 3 2 3 3
             //AppendLine(textBox3, "[SSI][Y][Z][X] Portal Code: " + PortalCode);
         }
-
         private void ShowPGlyphs()
         {
             //Index chars in PortalCode
@@ -1034,12 +1116,10 @@ namespace NMSCoordinates
             pictureBox12.Image = glyphDict[_gl12];
             pictureBox12.SizeMode = PictureBoxSizeMode.StretchImage;
         }
-
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             System.Windows.Forms.Application.Exit();
         }
-
         int Find(ListBox lb, string searchString, int startIndex)
         {
             //Find method for search bars on top of listboxes
@@ -1051,7 +1131,6 @@ namespace NMSCoordinates
             }
             return -1; //Find(lb, searchString, 0);
         }
-
         private List<string> Contains(List<string> list1, List<string> list2)
         {
             //Compare two lists and send back differences
@@ -1062,7 +1141,6 @@ namespace NMSCoordinates
 
             return result;
         }
-
         private void Button4_Click(object sender, EventArgs e)
         {
             //Reload save button
@@ -1083,7 +1161,6 @@ namespace NMSCoordinates
                 MessageBox.Show("No Save Slot Selected!", "Alert");
             }
         }
-
         private void SetSavePath()
         {
             //Manually set save path method
@@ -1155,7 +1232,6 @@ namespace NMSCoordinates
                 return;
             }
         }
-
         private void Read(string key, string path)
         {
             //Read the save.nmsc file and get the value from key
@@ -1185,7 +1261,6 @@ namespace NMSCoordinates
                 return;
             }
         }
-
         public void ReloadSave()
         {            
             Read("nmsPath", savePath);
@@ -1208,7 +1283,6 @@ namespace NMSCoordinates
             Read("ssdPath", savePath);
             ssdPath = currentKey;
         }
-
         public void WriteTxt(string key, string newKey, string path)
         {
             //Write to save.nmsc method
@@ -1244,7 +1318,6 @@ namespace NMSCoordinates
                 return;
             }
         }
-
         private void AppDataDefaultToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Set back to default AppData\HelloGames\NMS
@@ -1269,7 +1342,6 @@ namespace NMSCoordinates
             }
 
         }
-
         private void ManuallySelectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Manually select a save hg file path
@@ -1292,7 +1364,6 @@ namespace NMSCoordinates
                 MessageBox.Show("Turn off Travel Mode!", "Alert");
             }
         }
-
         private void Button1_Click(object sender, EventArgs e)
         {
             //Left search button
@@ -1302,7 +1373,6 @@ namespace NMSCoordinates
             if (listBox1.SelectedIndex != -1)
                 ListBox1_MouseClick(this, new EventArgs());
         }
-
         private void Button2_Click(object sender, EventArgs e)
         {
             //Right search button
@@ -1312,7 +1382,6 @@ namespace NMSCoordinates
             if (listBox2.SelectedIndex != -1)
                 ListBox2_MouseClick(this, new EventArgs());
         }
-
         private void TextBox24_KeyUp(object sender, KeyEventArgs e)
         {
             //Pressing Enter searches listboxes
@@ -1321,7 +1390,6 @@ namespace NMSCoordinates
                 Button1_Click(this, new EventArgs());
             }
         }
-
         private void TextBox25_KeyUp(object sender, KeyEventArgs e)
         {
             //Pressing Enter searches listboxes
@@ -1330,7 +1398,6 @@ namespace NMSCoordinates
                 Button2_Click(this, new EventArgs());
             }
         }
-
         public void BackUpSaveSlot(TextBox tb, int slot, bool msg)
         {
             //Backup a single save slot Method
@@ -1391,7 +1458,6 @@ namespace NMSCoordinates
                 }
             }
         }
-
         private void Button10_Click(object sender, EventArgs e)
         {
             //backup a single save slot
@@ -1400,7 +1466,6 @@ namespace NMSCoordinates
             else
                 MessageBox.Show("Please select a save slot!", "Alert");
         }
-
         private void Button3_Click(object sender, EventArgs e)
         {
             //Clear Interference Button
@@ -1513,7 +1578,6 @@ namespace NMSCoordinates
                     break;
             }
         }
-
         private bool CheckForSameLoc()
         {
             //looks up the players current location
@@ -1528,7 +1592,6 @@ namespace NMSCoordinates
             bool b = X == pX && Y == pY && Z == pZ && SSI == pSSI && pgalaxy == galaxy;
             return b;
         }
-
         private void Button5_ClickAsync(object sender, EventArgs e)
         {
             //Move Player here button on 2nd tab
@@ -1584,124 +1647,12 @@ namespace NMSCoordinates
                 MessageBox.Show("Please click a location!", "Confirmation", MessageBoxButtons.OK);
             }
         }
-        private void ComboBox2_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            string selected = this.comboBox2.GetItemText(this.comboBox2.SelectedItem);
-
-            //Gets the dictionaries set in loadcmbbx and sets the data source for save dropdown
-            if (selected == "Slot 1")
-            {
-                saveslot = 1;
-                comboBox1.DisplayMember = "VALUE";
-                comboBox1.ValueMember = "KEY";
-                comboBox1.DataSource = sn1.ToArray();
-
-            }
-            if (selected == "Slot 2")
-            {
-                saveslot = 2;
-                comboBox1.DisplayMember = "VALUE";
-                comboBox1.ValueMember = "KEY";
-                comboBox1.DataSource = sn2.ToArray();
-
-            }
-            if (selected == "Slot 3")
-            {
-                saveslot = 3;
-                comboBox1.DisplayMember = "VALUE";
-                comboBox1.ValueMember = "KEY";
-                comboBox1.DataSource = sn3.ToArray();
-            }
-            if (selected == "Slot 4")
-            {
-                saveslot = 4;
-                comboBox1.DisplayMember = "VALUE";
-                comboBox1.ValueMember = "KEY";
-                comboBox1.DataSource = sn4.ToArray();
-
-            }
-            if (selected == "Slot 5")
-            {
-                saveslot = 5;
-                comboBox1.DisplayMember = "VALUE";
-                comboBox1.ValueMember = "KEY";
-                comboBox1.DataSource = sn5.ToArray();
-            }
-            if (selected == "(Select Save Slot)")
-            {
-                comboBox1.DataSource = null;
-                ClearAll();
-                //LoadCmbx(); insert here?
-            }
-        }
-        private void ComboBox2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-        private void GetSaveFile(string selected)
-        {
-            //Main save file loader
-            if (Directory.Exists(hgFileDir) && selected != "")
-            {
-                DirectoryInfo dinfo = new DirectoryInfo(hgFileDir);
-                FileInfo[] Files = dinfo.GetFiles(selected, SearchOption.TopDirectoryOnly); //AllDirectories);
-
-                if (Files.Length != 0)
-                {
-                    foreach (FileInfo file in Files)
-                    {
-                        //sets the file path to work with
-                        hgFilePath = file.FullName;
-                    }
-                }
-                else
-                {
-                    AppendLine(textBox17, "** Code 3 ** " + selected);
-                    return;
-                }
-
-                //shows the file path in the path textbox
-                textBox16.Clear();
-                AppendLine(textBox16, hgFilePath);
-
-                //displays the last write time
-                FileInfo hgfile = new FileInfo(hgFilePath);
-                textBox26.Clear();
-                AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
-
-                //Sets json from the selected save file
-                json = File.ReadAllText(hgFilePath);
-
-                //looksup and then displays the game mode
-                var nms = Nms.FromJson(json);
-                gamemode = nms.F2P.ToString();
-                GameModeLookup(label28, gamemode);
-            }
-        }
-        private void ComboBox1_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-
-        }
-        private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //After selecting a saveslot, this triggers + after selecting a different save
-            ClearAll();
-
-            string selected = this.comboBox1.GetItemText(this.comboBox1.SelectedItem);
-            GetSaveFile(selected);
-
-            Loadlsb1();
-            Loadlsb3();
-            GetPlayerCoord();
-        }
-        
         private void BackupALLSaveFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Manually backup all save files in nmspath dir
             RunBackupAll(hgFileDir);
             MessageBox.Show("Save Backup Completed!", "Confirmation", MessageBoxButtons.OK);
         }
-
         //Not used, future?
         public Bitmap CropImage(Bitmap source, Rectangle section)
         {
@@ -1715,8 +1666,7 @@ namespace NMSCoordinates
             g.DrawImage(source, 0, 0, section, GraphicsUnit.Pixel);
 
             return bmp;
-        }
-        
+        }        
         private void SetGoGSShot()
         {
             //Set the screenshot paths
@@ -1804,15 +1754,13 @@ namespace NMSCoordinates
                 AppendLine(textBox17, "ssPath error! ss155");
                 return;
             }
-        }
-        
+        }        
         private void LoadSS()
         {
             //Show picture from screenshot path
             pictureBox25.ImageLocation = ssPath;
             pictureBox25.SizeMode = PictureBoxSizeMode.StretchImage;
         }
-
         private void SetGoGSSPath()
         {
             //Manually set screenshot path method
@@ -1872,8 +1820,7 @@ namespace NMSCoordinates
                 MessageBox.Show(ex.Message + "\r\n\r\n Screenshot path problem!");
                 return;
             }
-        }
-        
+        }        
         private void ScreenshotPageToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             //Open the screenshot page, pass ssdpath to it
@@ -2199,7 +2146,6 @@ namespace NMSCoordinates
             GamePath = openFileDialog1.FileName;
             AppendLine(textBox17, GamePath);
         }
-
         private void Button9_Click(object sender, EventArgs e)
         {
             //shortcut NMS button
@@ -2223,7 +2169,6 @@ namespace NMSCoordinates
                 return;
             }            
         }
-
         private void GalacticToVoxelMan(string oX, string oY, string oZ, string oSSI)
         {
             //Galactic Coordinate to Voxel Coordinates 
@@ -2403,13 +2348,11 @@ namespace NMSCoordinates
                     textBox14.Text = textBox22.Text;
             }
         }
-
         private void ComboBox3_SelectionChangeCommitted(object sender, EventArgs e)
         {
             //sets the player galaxy when combobox change committed to fast travel
             pgalaxy = comboBox3.SelectedIndex.ToString();
         }
-
         private void ListBox4_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             //Double click a location txt file to load
@@ -2441,12 +2384,6 @@ namespace NMSCoordinates
                 MessageBox.Show("Unable to open link that was clicked.");
             }
         }
-
-        private void CheckBox1_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void CheckBox1_CheckStateChanged(object sender, EventArgs e)
         {
             //Travel Mode checkbox
@@ -2480,7 +2417,6 @@ namespace NMSCoordinates
                 checkBox1.Checked = false;
             }
         }
-
         private void Button12_Click(object sender, EventArgs e)
         {
             //Check for deletions button
@@ -2561,7 +2497,6 @@ namespace NMSCoordinates
                 MessageBox.Show("Not Enabled!", "Alert");
             }
         }
-
         private void OnToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Travel Mode ON
@@ -2570,7 +2505,6 @@ namespace NMSCoordinates
             groupBox20.Show();
             AppendLine(textBox17, "Travel Mode VISIBLE. Select a save and click the box");
         }
-
         private void OffToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Travel Mode OFF
@@ -2583,7 +2517,6 @@ namespace NMSCoordinates
             groupBox20.Hide();
             AppendLine(textBox17, "Travel Mode HIDDEN.");
         }
-
         private void LockedToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Manual travel LOCK
@@ -2594,7 +2527,6 @@ namespace NMSCoordinates
             AppendLine(textBox17, "Manual Travel LOCKED.");
             MessageBox.Show("Manual Travel LOCKED", "Confirmation");
         }
-
         private void UnlockedToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Manual Travel Unlock
@@ -2617,7 +2549,6 @@ namespace NMSCoordinates
                 label33.Visible = false;
             }
         }
-
         private void PictureBox25_Click(object sender, EventArgs e)
         {
             //Click the pick to refresh the screenshot
@@ -2640,7 +2571,6 @@ namespace NMSCoordinates
                 }
             }
         }
-
         private void LinkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             try
@@ -2654,7 +2584,6 @@ namespace NMSCoordinates
                 MessageBox.Show("Unable to open link that was clicked.");
             }
         }
-
         private void LinkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             try
@@ -2669,7 +2598,6 @@ namespace NMSCoordinates
             }
 
         }
-
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             //MessageBox.Show("Created by: Kevin0M16 \r\n\r\n 8-2019");
@@ -2699,7 +2627,6 @@ namespace NMSCoordinates
             //Open the \backup dir in file explorer
             Process.Start(@".\backup");
         }
-
         private void SaveFileManagerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Open the save file manager
@@ -2774,7 +2701,6 @@ namespace NMSCoordinates
                 timer.Start();
             }
         }
-
         private void Button13_Click(object sender, EventArgs e)
         {
             //Save current player location to txt
@@ -2812,7 +2738,6 @@ namespace NMSCoordinates
                 MessageBox.Show("Please select a save slot!", "Confirmation", MessageBoxButtons.OK);
             }
         }
-
         private void DeleteSingleRecordToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //delete a single location record
@@ -2862,13 +2787,11 @@ namespace NMSCoordinates
                 AppendLine(textBox13, "No record deleted! Please select a txt!");
             }
         }
-
         public int ProgressValue
         {
             get { return progressBar2.Value; }
             set { progressBar2.Value = value; }
         }
-
         public ProgressBar ProgressBar
         {
             get { return progressBar2; }
@@ -2891,7 +2814,6 @@ namespace NMSCoordinates
 
             fileSystemWatcher1.EnableRaisingEvents = true;
         }
-
         private void WriteSaveMove(ProgressBar pb, TextBox tb, int saveslot)
         {
             //Main method for writing a player move
@@ -2904,18 +2826,15 @@ namespace NMSCoordinates
 
             fileSystemWatcher1.EnableRaisingEvents = true;
         }
-
         private void DecryptSave(int saveslot)
         {
             LoadRun(saveslot);
             RunDecrypt();
         }
-
         private void EncryptSave(ProgressBar pb, int saveslot)
         {
             RunEncrypt(pb, saveslot);
         }
-
         private void RunBackupAll(string Path)
         {
             DoCommon();
@@ -2941,13 +2860,11 @@ namespace NMSCoordinates
                 //throw new Exception(string.Format("Error backing up all save games: {0}", x.Message));
             }
         }
-
         private void DoGameSlotCommon(int saveslot)
         {
             DoCommon();
             _gameSlot = Convert.ToUInt32(saveslot);
         }
-
         private void DoCommon()
         {
             _gsm = new GameSaveManager(hgFileDir);//, _log, _logVerbose);
@@ -2974,7 +2891,6 @@ namespace NMSCoordinates
                 //throw new Exception(string.Format("Error loading or parsing save file: {0}", x.Message));
             }
         }
-
         private void RunDecrypt()
         {
             //LogVerbose("Parsing and formatting save game JSON");
@@ -3002,7 +2918,6 @@ namespace NMSCoordinates
 
             //Log("Wrote save game to formatted JSON file: {0}", @".\backup\save.json");
         }
-
         private void EditSavePortal(ProgressBar pb)
         {
             //Set the JSON search patterns
@@ -3042,7 +2957,6 @@ namespace NMSCoordinates
 
             pb.Invoke((Action)(() => pb.Value = 60));
         }
-
         private void EditSaveMove(ProgressBar pb, TextBox tb)
         {
             //Set all Regex values
@@ -3146,7 +3060,6 @@ namespace NMSCoordinates
             AppendLine(tb, g.ToString() + x.ToString() + y.ToString() + z.ToString() + ssi.ToString() + pi.ToString() + ps.ToString());
             pb.Invoke((Action)(() => pb.Value = 70));
         }
-
         private void RunEncrypt(ProgressBar pb, int saveslot)
         {
             DoGameSlotCommon(saveslot);

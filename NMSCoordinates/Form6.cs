@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.IO.Compression;
@@ -253,24 +248,23 @@ namespace NMSCoordinates
                     }
                     try
                     {
+                        Directory.CreateDirectory(@".\backup\temp\");
                         foreach (ListViewItem item in listView2.SelectedItems)
                         {
                             FileInfo[] files = nodeDirInfo.GetFiles(item.Text);
                             //textBox1.Text = item.Text;
                             foreach (FileInfo file in files)
-                            {
-                                Directory.CreateDirectory(@".\backup\temp\");
+                            {                                
                                 File.Copy(file.FullName, @".\backup\temp\" + file.Name, true);
-                                textBox1.AppendText("Zipped: " + file.Name + "\r\n");
-                                
+                                textBox1.AppendText("Zipped: " + file.Name + "\r\n");                                
                             }
                         }
                         string now = DateTime.Now.ToString("yyyy-MM-dd-HHmmss");
-                        if (Directory.GetDirectories(@".\backup\temp").Length != 0)
+                        if (Directory.GetFiles(@".\backup\temp").Length != 0)
                         {
                             ZipFile.CreateFromDirectory(@".\backup\temp", @".\backup\savemanager_" + now + ".zip");
                             textBox1.AppendText("Created: savemanager_" + now + ".zip \r\n");
-                        }                        
+                        }
 
                         Directory.Delete(@".\backup\temp", true);
 
