@@ -1473,7 +1473,6 @@ namespace NMSCoordinates
             this.toolTip2.SetToolTip(this.checkBox1, "Use when traveling thru a Terminus or Teleport to save the SpaceStations\r\nthat NM" +
         "S deletes to locbackup_deleted.txt. Must use an Autosave file.");
             this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
             this.checkBox1.CheckStateChanged += new System.EventHandler(this.CheckBox1_CheckStateChanged);
             // 
             // button9
@@ -1894,7 +1893,6 @@ namespace NMSCoordinates
             this.comboBox2.Size = new System.Drawing.Size(188, 21);
             this.comboBox2.Sorted = true;
             this.comboBox2.TabIndex = 5;
-            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.ComboBox2_SelectedIndexChanged);
             this.comboBox2.SelectionChangeCommitted += new System.EventHandler(this.ComboBox2_SelectionChangeCommitted);
             // 
             // label18
@@ -1931,7 +1929,6 @@ namespace NMSCoordinates
             this.comboBox1.Size = new System.Drawing.Size(188, 21);
             this.comboBox1.TabIndex = 0;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.ComboBox1_SelectedIndexChanged);
-            this.comboBox1.SelectionChangeCommitted += new System.EventHandler(this.ComboBox1_SelectionChangeCommitted);
             // 
             // tabControl1
             // 
