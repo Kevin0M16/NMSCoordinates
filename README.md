@@ -5,7 +5,7 @@ This a Coordinate Tool for No Man's Sky!
 |                :---:                      |
 |       <img src= "Cover_Photo.png"/>       |
 
-* [More Screenshots - Here](./images)
+* [More Screenshots - Here](https://github.com/Kevin0M16/NMSCoordinates/tree/master/images)
 
 # NMSCoordinates
 
