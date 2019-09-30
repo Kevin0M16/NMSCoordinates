@@ -21,7 +21,7 @@ using Octokit;
 |                                                          |
 | Developed by:                                            |
 |   Code Author: Kevin Lozano / Kevin0M16                  |
-|   Email: <kevin@nmscoordiantes.com>                      |
+|   Email: <kevin@nmscoordinates.com>                      |
 |                                                          |
 |                                                          |
 \**********************************************************/
@@ -36,7 +36,7 @@ namespace NMSCoordinates
             InitializeComponent();
 
             //Set Version here
-            Version = "v1.1.7";
+            Version = "v1.1.8";
             label29.Text = "Version " + Version;
 
             Glyphs();
@@ -334,7 +334,7 @@ namespace NMSCoordinates
                 ClearAll();
                 GetSaveFile(selected);
                 Loadlsb1();
-                Loadlsb3();
+                LoadBaselsbx();
                 GetPlayerCoord();
             }            
         }
@@ -794,9 +794,9 @@ namespace NMSCoordinates
                 textBox12.Text = "False";
             }
         }
-        private void Loadlsb3()
+        private void LoadBaselsbx()
         {
-            //Method to load all location discovered in location files
+            //Future use to add Persistent Bases to a Listbox
             var nms = Nms.FromJson(json);
             try
             {
@@ -851,7 +851,7 @@ namespace NMSCoordinates
             listBox2.SelectedIndex = -1;
             try
             {
-                if (listBox1.SelectedItem.ToString() != "")
+                if (listBox1.GetItemText(listBox1.SelectedItem) != "")
                 {
                     int i = listBox1.SelectedIndex;
                     JsonMap(i);
@@ -877,7 +877,7 @@ namespace NMSCoordinates
             listBox1.SelectedIndex = -1;
             try
             {
-                if (listBox2.SelectedItem.ToString() != "")
+                if (listBox2.GetItemText(listBox2.SelectedItem) != "")
                 {
                     object selecteditem = listBox2.SelectedItem;
                     string si = selecteditem.ToString();
@@ -1151,7 +1151,7 @@ namespace NMSCoordinates
                 AppendLine(textBox17, "Loading Save File...");
                 GetSaveFile(selected);
                 Loadlsb1();
-                Loadlsb3();
+                LoadBaselsbx();
                 GetPlayerCoord();
                 LoadTxt();
                 AppendLine(textBox17, "Save File Reloaded.");
@@ -1683,6 +1683,9 @@ namespace NMSCoordinates
                 if (dname.Name == "DefaultUser")
                 {
                     ssdPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + @"\No Mans Sky";
+
+                    if (!Directory.Exists(ssdPath))
+                        ssdPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\GOG Galaxy\Screenshots\No Man's Sky";
                 }
                 else
                 {
@@ -1845,6 +1848,9 @@ namespace NMSCoordinates
         {
             //Loads all the txt files in listbox4 for selection
             listBox3.DataSource = null;
+            textBox11.Clear();
+            textBox13.Clear();
+            textBox18.Clear();
 
             if (Directory.Exists(@".\backup"))
             {
@@ -1911,39 +1917,43 @@ namespace NMSCoordinates
         private void ListBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
             //Location summary viewer box
-            textBox18.Text = listBox3.Items.Count.ToString();
-
-            Regex myRegex1 = new Regex("GC:.*?$", RegexOptions.Multiline);
-            Match m1 = myRegex1.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
-            string line1 = m1.ToString();
-            AppendLine(textBox11, line1);
-
-            Regex myRegex2 = new Regex("PC.*?--", RegexOptions.Multiline);
-            Match m2 = myRegex2.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
-            string line2 = m2.ToString();
-            line2 = line2.Replace(" --", "");
-            AppendLine(textBox11, line2);
-
-            Regex myRegex3 = new Regex("^.*?\\)", RegexOptions.Multiline);
-            Match m3 = myRegex3.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
-            string line3 = m3.ToString();
-
-            Regex myRegex4 = new Regex(" .*?#", RegexOptions.Multiline);
-            Match m4 = myRegex4.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
-            string line3_2 = m4.ToString();
-
-            if (m3.Success)
+            if (listBox3.GetItemText(listBox3.SelectedItem) != "")
             {
-                AppendLine(textBox11, line3);
-            }
-            else if (m4.Success)
-            {
-                AppendLine(textBox11, line3_2);
-            }
+                textBox18.Text = listBox3.Items.Count.ToString();
 
-            AppendLine(textBox11, "---------------------");
+                Regex myRegex1 = new Regex("GC:.*?$", RegexOptions.Multiline);
+                Match m1 = myRegex1.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
+                string line1 = m1.ToString();
+                string g1 = line1.Substring(0, 23);
+                AppendLine(textBox11, g1);
 
+                Regex myRegex2 = new Regex("PC.*?--", RegexOptions.Multiline);
+                Match m2 = myRegex2.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
+                string line2 = m2.ToString();
+                line2 = line2.Replace(" --", "");
+                AppendLine(textBox11, line2);
+
+                Regex myRegex3 = new Regex("^.*?\\)", RegexOptions.Multiline);
+                Match m3 = myRegex3.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
+                string line3 = m3.ToString();
+
+                Regex myRegex4 = new Regex(" .*?#", RegexOptions.Multiline);
+                Match m4 = myRegex4.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
+                string line3_2 = m4.ToString();
+
+                if (m3.Success)
+                {
+                    AppendLine(textBox11, line3);
+                }
+                else if (m4.Success)
+                {
+                    AppendLine(textBox11, line3_2);
+                }
+
+                AppendLine(textBox11, "---------------------");
+            }  
         }
+
         //Check is manual travel is unlocked
         public bool TextBoxPerm
         {
@@ -2021,7 +2031,10 @@ namespace NMSCoordinates
                     line1 = line1.Replace("GC: ", "");
                     line1 = line1.Replace(" ", "");
                     string[] value = line1.Split(':');
-                    GalacticToVoxel(value[0].Trim(), value[1].Trim(), value[2].Trim(), value[3].Trim());
+
+                    //Only take 4 digits from the last array so can add notes GC: 0000:0000:0000:[0000]
+                    string g1 = value[3].Trim().Substring(0, 4);    
+                    GalacticToVoxel(value[0].Trim(), value[1].Trim(), value[2].Trim(), g1);
 
                     //grabs the galaxy
                     Regex myRegexG = new Regex("G:.*?-", RegexOptions.Multiline);
@@ -2088,7 +2101,6 @@ namespace NMSCoordinates
             if (listBox3.GetItemText(listBox3.SelectedItem) != "")
             {
                 List<string> list = new List<string>();
-                //list.Add("Loc: " + DiscList[i] + " - G: " + galaxy + " - PC: " + PortalCode + " -- GC: " + GalacticCoord);
                 list.Add(listBox3.GetItemText(listBox3.SelectedItem));
                 string path2 = MakeUnique(@".\backup\locbackup.txt").ToString();
                 File.WriteAllLines(path2, list);
@@ -2105,17 +2117,25 @@ namespace NMSCoordinates
         private void ToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             //Delete a locbackup file
-            DialogResult dialogResult = MessageBox.Show("Delete " + listBox4.GetItemText(listBox4.SelectedItem) + " ? ", "Locbackup Manager", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
+            if (listBox4.GetItemText(listBox4.SelectedItem) != "")
             {
-                if (File.Exists(@".\backup\" + listBox4.GetItemText(listBox4.SelectedItem)))
+                DialogResult dialogResult = MessageBox.Show("Delete " + listBox4.GetItemText(listBox4.SelectedItem) + " ? ", "Locbackup Manager", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
                 {
-                    if (listBox4.GetItemText(listBox4.SelectedItem) != "")
+                    if (File.Exists(@".\backup\" + listBox4.GetItemText(listBox4.SelectedItem)))
                     {
-                        File.Delete(@".\backup\" + listBox4.GetItemText(listBox4.SelectedItem));
-                        LoadTxt();
-                        MessageBox.Show("File deleted Successfully.", "Confirmation");
-                        
+                        if (listBox4.GetItemText(listBox4.SelectedItem) != "")
+                        {
+                            File.Delete(@".\backup\" + listBox4.GetItemText(listBox4.SelectedItem));
+                            LoadTxt();
+                            MessageBox.Show("File deleted Successfully.", "Confirmation");
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("No file found, not deleted.", "Alert");
+                            LoadTxt();
+                        }
                     }
                     else
                     {
@@ -2123,16 +2143,11 @@ namespace NMSCoordinates
                         LoadTxt();
                     }
                 }
-                else
+                else if (dialogResult == DialogResult.No)
                 {
-                    MessageBox.Show("No file found, not deleted.", "Alert");
-                    LoadTxt();
+                    MessageBox.Show("Cancelled! No file deleted.", "Alert");
                 }
-            }
-            else if (dialogResult == DialogResult.No)
-            {
-                MessageBox.Show("Cancelled! No file deleted.", "Alert");
-            }
+            }                
         }
 
         //Future use, doesn't save changed currently
@@ -2155,7 +2170,7 @@ namespace NMSCoordinates
                 {
                     DirectoryInfo dname = new DirectoryInfo(nmsPath);
                     if (dname.Name == "DefaultUser")
-                        System.Diagnostics.Process.Start(@"C:\Program Files(x86)\GOG Galaxy\Games\No Man's Sky\Binaries\NMS.exe");
+                        System.Diagnostics.Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) + @"\GOG Galaxy\Games\No Man's Sky\Binaries\NMS.exe");
                     else
                         System.Diagnostics.Process.Start("steam://rungameid/275850");
                 }
@@ -2427,7 +2442,7 @@ namespace NMSCoordinates
                 AppendLine(textBox17, "Loading Save File...");
                 GetSaveFile(selected);
                 Loadlsb1();
-                Loadlsb3();
+                LoadBaselsbx();
                 GetPlayerCoord();
 
                 SSlist.Clear();
