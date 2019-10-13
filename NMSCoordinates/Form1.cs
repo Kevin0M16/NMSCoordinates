@@ -17,7 +17,7 @@ using Octokit;
 |                                                          |
 | NMSCoordinates 2019  -- Form1.cs                         |
 |                                                          | 
-| A fast travel application for No Man's Sky                 |
+| A fast travel application for No Man's Sky               |
 |                                                          |
 | Developed by:                                            |
 |   Code Author: Kevin Lozano / Kevin0M16                  |
@@ -2324,6 +2324,7 @@ namespace NMSCoordinates
                         GetPortalCoord(iX, iY, iZ, iSSI);
 
                     }
+
                     //if format 0000000000000000
                     if (t2.Length == 16 && !t2.Contains(":"))
                     {
@@ -2344,6 +2345,7 @@ namespace NMSCoordinates
                         GalacticToVoxelMan(A, B, C, D);
                         GetPortalCoord(iX, iY, iZ, iSSI);
                     }
+
                     //if invalid format
                     if (t2.Replace(":", "").Length < 16 | t2.Replace(":", "").Length > 16 | t2.Length < 16)
                     {
@@ -2352,6 +2354,7 @@ namespace NMSCoordinates
                         return;
                     }
 
+                    //Validate and set galaxy
                     if (comboBox3.SelectedIndex <= 254) //selectedindex 0-254 = galaxy 1-255
                     {
                         galaxy = comboBox3.SelectedIndex.ToString();

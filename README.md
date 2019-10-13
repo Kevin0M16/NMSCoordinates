@@ -48,6 +48,7 @@ NMSCoordinates now validates manually entered, shared, or calculator galactic co
 * You can view the last 4 screenshots taken in the game within the tool. It displays 1 on front and all 4 can be accessed in Tools --> Screenshot Page.
 * NMSCoordinates shows all calculation results in the textbox, if you like HEX and DEC.
 * NMSCoordinates Calculator is a useful tool when messing with coordinates. This converts Portal->Galactic, Galactic->Portal, Voxel to Portal/Galactic. Check it out!
+* NMSCoordinates checks for the latest version and shows at the top-right if a newer version is available.
 
 ## Getting Started
 
@@ -55,7 +56,7 @@ Here is an overview of what you need to get started with NMSCoordinates
 
 ### Requirements
 
-The current version of NMSCoordinates requires No Man's Sky Beyond 2.11 or 2.12.
+The current version of NMSCoordinates requires No Man's Sky Beyond 2.11, 2.12, 2.13, or 2.14.
 
 :exclamation: **Always back up all your game data and saves before any mods**
 
@@ -74,6 +75,7 @@ The current version of NMSCoordinates requires No Man's Sky Beyond 2.11 or 2.12.
 * Click a location in one of the Listboxes to view the location info. Glyphs and Galactic Coordinates, Portal Code, and Voxel will be displayed.
 * Move player to that location by clicking the Move Player Here button, then reload your save in NMS.
 * If you traveled through a portal and want to clear the Portal Interference, click the Clear Interference button, then reload your save in NMS.
+* Enable Manual Travel to travel to any valid coordinates. On the Manual Travel Tab, Select a galaxy then enter Galactic Coordinates, then click the move player button.
 * Go to File --> Backups --> backup discoveries to .txt and save all your locations to a txt file in .\backup. These are accessed on the Coordinate Share Tab.
 * View location files on the Coordinate Share tab by double-clicking the file or the load lockbackup button. Click a location to view a location summary, and click the Move Player Here button to fast travel to the selected location.
 * Right-click a location in the top Listbox on the Coordinate Share tab to create a one record location file to share with others or delete single records.
@@ -82,6 +84,9 @@ The current version of NMSCoordinates requires No Man's Sky Beyond 2.11 or 2.12.
 * On the Coordinate Calculator, clicking the glyphs will populate the Portal Code field. Then click calculate to see the coordinates.
 * Enable Travel Mode to start tracking your Terminus locations before traveling through a terminus or when hitting the limit. See video above.
 
+
+## Change Log
+* [Changelog](https://github.com/Kevin0M16/NMSCoordinates/blob/master/CHANGELOG.md) - For viewing version history.
 
 ## Built With
 
