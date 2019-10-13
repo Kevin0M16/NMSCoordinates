@@ -111,3 +111,4 @@ This project is licensed under the MIT License - see the [LICENSE](/LICENSE.txt)
 * [r/NoMansSkyMods](https://www.reddit.com/r/NoMansSkyMods/) - For coordinate conversion info
 * [nmsportals](https://nmsportals.github.io/) - For Glyph images
 * [NMSGamepedia](https://nomanssky.gamepedia.com/Galaxy) - for galaxy numbers to names
+* [NMSPortals](https://github.com/nmsportals/nmsportals.github.io) - for coordinate validation calculation math.
