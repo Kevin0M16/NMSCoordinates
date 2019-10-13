@@ -65,7 +65,8 @@ The current version of NMSCoordinates requires No Man's Sky Beyond 2.11 or 2.12.
 	2. Download the latest release .zip file.
 	3. Extract the .zip to your desired location.
 	4. Create a shortcut to NMSCoordinate.exe for your desktop.
-	5. Run NMSCoordinate.exe. 6. Select Save slot, and have fun!
+	5. Run NMSCoordinate.exe. 
+	6. Select Save slot, and have fun!
 
 ### Instructions
 
