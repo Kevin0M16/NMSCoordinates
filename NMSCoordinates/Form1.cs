@@ -17,7 +17,7 @@ using Octokit;
 |                                                          |
 | NMSCoordinates 2019  -- Form1.cs                         |
 |                                                          | 
-| A companion application for No Man's Sky                 |
+| A fast travel application for No Man's Sky                 |
 |                                                          |
 | Developed by:                                            |
 |   Code Author: Kevin Lozano / Kevin0M16                  |
@@ -36,7 +36,7 @@ namespace NMSCoordinates
             InitializeComponent();
 
             //Set Version here
-            Version = "v1.1.8";
+            Version = "v1.1.9";
             label29.Text = "Version " + Version;
 
             Glyphs();
@@ -96,6 +96,7 @@ namespace NMSCoordinates
                     linkLabel4.Text = "Version " + latest.Name + " Available";
                     linkLabel4.Visible = true;
                     AppendLine(textBox17, "Current Version: " + Version + " Latest Version: " + latest.Name);
+                    
                 }
 
                 if (Version == latest.Name)
@@ -106,6 +107,22 @@ namespace NMSCoordinates
             catch
             {
                 AppendLine(textBox17, "Github Server not available. Could not check version");
+            }
+        }
+        private async void SoftBlink(Control ctrl, Color c1, Color c2, short CycleTime_ms, bool BkClr)
+        {
+            var sw = new Stopwatch(); sw.Start();
+            short halfCycle = (short)Math.Round(CycleTime_ms * 0.5);
+            while (true)
+            {
+                await Task.Delay(1);
+                var n = sw.ElapsedMilliseconds % CycleTime_ms;
+                var per = (double)Math.Abs(n - halfCycle) / halfCycle;
+                var red = (short)Math.Round((c2.R - c1.R) * per) + c1.R;
+                var grn = (short)Math.Round((c2.G - c1.G) * per) + c1.G;
+                var blw = (short)Math.Round((c2.B - c1.B) * per) + c1.B;
+                var clr = Color.FromArgb(red, grn, blw);
+                if (BkClr) ctrl.BackColor = clr; else ctrl.ForeColor = clr;
             }
         }
 
@@ -319,6 +336,7 @@ namespace NMSCoordinates
             }
             if (selected == "(Select Save Slot)")
             {
+                saveslot = -1;
                 comboBox1.DataSource = null;
                 ClearAll();
                 LoadCmbx(); //insert here?
@@ -616,7 +634,7 @@ namespace NMSCoordinates
 
             SaveDirs.Clear();
 
-            //json = ""; Insert here??
+            //json = ""; Insert here 1.1.8??
 
             comboBox3.Items.Clear();
             pgalaxy = "";
@@ -1578,6 +1596,11 @@ namespace NMSCoordinates
                     break;
             }
         }
+        private bool ValidateCoord(string A, string B, string C, string D)
+        {
+            bool x = Convert.ToInt32(A, 16) > 4096 || Convert.ToInt32(B, 16) > 255 || Convert.ToInt32(C, 16) > 4096 || Convert.ToInt32(D, 16) > 767;
+            return x;
+        }
         private bool CheckForSameLoc()
         {
             //looks up the players current location
@@ -1594,57 +1617,70 @@ namespace NMSCoordinates
         }
         private void Button5_ClickAsync(object sender, EventArgs e)
         {
-            //Move Player here button on 2nd tab
-            if (listBox1.GetItemText(listBox1.SelectedItem) != "" || listBox2.GetItemText(listBox2.SelectedItem) != "")
+            try
             {
-                DialogResult dialogResult = MessageBox.Show("Move Player to: " + listBox1.GetItemText(listBox1.SelectedItem) + listBox2.GetItemText(listBox2.SelectedItem) + " ? ", "Fast Travel", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes)
+                if (saveslot < 1 || saveslot > 5)
                 {
-                    if (galaxy != "" && X != "" && Y != "" && Z != "" && SSI != "" && saveslot >= 1 && saveslot <= 5)
-                    {
-                        if (CheckForSameLoc())
-                        {
-                            MessageBox.Show("Same as Current location!", "Alert");
-                            return;
-                        }
-
-                        AppendLine(textBox27, "Move Player to: Galaxy: " + galaxy + " -- X:" + X + " -- Y:" + Y + " -- Z:" + Z + " -- SSI:" + SSI);
-                        
-                        //Read - Edit - Write Json save file for move player
-                        WriteSaveMove(progressBar1, textBox27, saveslot);
-
-                        //Set json to the new modified hg file
-                        json = File.ReadAllText(hgFilePath);
-
-                        //Read the new json and check portal interference state
-                        var nms = Nms.FromJson(json);
-                        textBox12.Clear();
-                        textBox12.Text = nms.The6F.DaC.ToString();
-                        GetPlayerCoord();
-
-                        progressBar1.Invoke((Action)(() => progressBar1.Value = 100));
-                        progressBar1.Visible = false;
-
-                        //set the last write time box
-                        textBox26.Clear();
-                        FileInfo hgfile = new FileInfo(hgFilePath);
-                        AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
-
-                        MessageBox.Show("Player moved successfully!", "Confirmation", MessageBoxButtons.OK);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Please click a location!", "Confirmation", MessageBoxButtons.OK);
-                    }
-                }
-                else if (dialogResult == DialogResult.No)
-                {
+                    MessageBox.Show("Please select a save slot!", "Confirmation", MessageBoxButtons.OK);
                     return;
                 }
+
+                //Move Player here button on 2nd tab
+                if (listBox1.GetItemText(listBox1.SelectedItem) != "" || listBox2.GetItemText(listBox2.SelectedItem) != "")
+                {
+                    DialogResult dialogResult = MessageBox.Show("Move Player to: " + listBox1.GetItemText(listBox1.SelectedItem) + listBox2.GetItemText(listBox2.SelectedItem) + " ? ", "Fast Travel", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        if (galaxy != "" && X != "" && Y != "" && Z != "" && SSI != "")// && saveslot >= 1 && saveslot <= 5)
+                        {
+                            //Check if location is the same as cuurent
+                            if (CheckForSameLoc())
+                            {
+                                MessageBox.Show("Same as Current location!", "Alert");
+                                return;
+                            }
+                            AppendLine(textBox27, "Move Player to: Galaxy: " + galaxy + " -- X:" + X + " -- Y:" + Y + " -- Z:" + Z + " -- SSI:" + SSI);
+                        
+                            //Read - Edit - Write Json save file for move player
+                            WriteSaveMove(progressBar1, textBox27, saveslot);
+
+                            //Set json to the new modified hg file
+                            json = File.ReadAllText(hgFilePath);
+
+                            //Read the new json and check portal interference state
+                            var nms = Nms.FromJson(json);
+                            textBox12.Clear();
+                            textBox12.Text = nms.The6F.DaC.ToString();
+                            GetPlayerCoord();
+
+                            progressBar1.Invoke((Action)(() => progressBar1.Value = 100));
+                            progressBar1.Visible = false;
+
+                            //set the last write time box
+                            textBox26.Clear();
+                            FileInfo hgfile = new FileInfo(hgFilePath);
+                            AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
+
+                            MessageBox.Show("Player moved successfully!", "Confirmation", MessageBoxButtons.OK);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Please click a location!", "Confirmation", MessageBoxButtons.OK);
+                        }
+                    }
+                    else if (dialogResult == DialogResult.No)
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Please click a location!", "Confirmation", MessageBoxButtons.OK);
+                }
             }
-            else
+            catch
             {
-                MessageBox.Show("Please click a location!", "Confirmation", MessageBoxButtons.OK);
+                AppendLine(textBox27, "Invalid Coordinates!");
             }
         }
         private void BackupALLSaveFilesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2018,81 +2054,107 @@ namespace NMSCoordinates
         }
         private void Button8_Click(object sender, EventArgs e)
         {
-            //Move player button share coordinate tab
-            if (listBox3.GetItemText(listBox3.SelectedItem) != "")
-            {
-                DialogResult dialogResult = MessageBox.Show("Move Player? ", "Fast Travel", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes)
+            try
+            {            
+                //Move player button share coordinate tab
+                if (listBox3.GetItemText(listBox3.SelectedItem) != "")
                 {
-                    //grabs the galactic coordinate
-                    Regex myRegexGC = new Regex("GC:.*?$", RegexOptions.Multiline);
-                    Match m1 = myRegexGC.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
-                    string line1 = m1.ToString();
-                    line1 = line1.Replace("GC: ", "");
-                    line1 = line1.Replace(" ", "");
-                    string[] value = line1.Split(':');
-
-                    //Only take 4 digits from the last array so can add notes GC: 0000:0000:0000:[0000]
-                    string g1 = value[3].Trim().Substring(0, 4);    
-                    GalacticToVoxel(value[0].Trim(), value[1].Trim(), value[2].Trim(), g1);
-
-                    //grabs the galaxy
-                    Regex myRegexG = new Regex("G:.*?-", RegexOptions.Multiline);
-                    Match m2 = myRegexG.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
-                    string line2 = m2.ToString();
-                    line2 = line2.Replace("G: ", "");
-                    line2 = line2.Replace("-", "");
-                    line2 = line2.Replace(" ", "");
-                    galaxy = line2;
-                    AppendLine(textBox13, "Galaxy: " + galaxy + " -- X:" + X + " -- Y:" + Y + " -- Z:" + Z + " -- SSI:" + SSI);
-
-
-                    if (galaxy != "" && X != "" && Y != "" && Z != "" && SSI != "" && saveslot >= 1 && saveslot <= 5)
+                    if (saveslot < 1 || saveslot > 5)
                     {
-                        if (CheckForSameLoc())
+                        MessageBox.Show("Please select a save slot!", "Confirmation", MessageBoxButtons.OK);
+                        return;
+                    }
+
+                    DialogResult dialogResult = MessageBox.Show("Move Player? ", "Fast Travel", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        //grabs the galactic coordinate
+                        Regex myRegexGC = new Regex("GC:.*?$", RegexOptions.Multiline);
+                        Match m1 = myRegexGC.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
+                        string line1 = m1.ToString();
+                        line1 = line1.Replace("GC: ", "");
+                        line1 = line1.Replace(" ", "");
+                        string[] value = line1.Split(':');
+
+                        //Only take 4 digits from the last array so can add notes GC: 0000:0000:0000:[0000] A:B:C:D
+                        string A = value[0].Trim();
+                        string B = value[1].Trim();
+                        string C = value[2].Trim();
+                        string D = value[3].Trim().Substring(0, 4);
+
+                        //Validate Coordinates
+                        if (ValidateCoord(A, B, C, D))
                         {
-                            MessageBox.Show("Same as Current location!", "Alert");
+                            MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
                             return;
                         }
 
-                        AppendLine(textBox13, "Move Player to: Galaxy: " + galaxy + " -- X:" + X + " -- Y:" + Y + " -- Z:" + Z + " -- SSI:" + SSI);
+                        //sets x,y,z,ssi ix,iy,iz,issi from given ABCD
+                        GalacticToVoxel(A, B, C, D);
 
-                        //Main save writer
-                        WriteSaveMove(progressBar3, textBox13, saveslot);
+                        //grabs the galaxy
+                        Regex myRegexG = new Regex("G:.*?-", RegexOptions.Multiline);
+                        Match m2 = myRegexG.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
+                        string line2 = m2.ToString();
+                        line2 = line2.Replace("G: ", "");
+                        line2 = line2.Replace("-", "");
+                        line2 = line2.Replace(" ", "");
+                        galaxy = line2;
 
-                        //Set json to the new modified hg file
-                        json = File.ReadAllText(hgFilePath);
+                        AppendLine(textBox13, "Galaxy: " + galaxy + " -- X:" + X + " -- Y:" + Y + " -- Z:" + Z + " -- SSI:" + SSI);
+                        
+                        if (galaxy != "" && X != "" && Y != "" && Z != "" && SSI != "") // && saveslot >= 1 && saveslot <= 5)
+                        {
+                            //Check if location is the same as cuurent
+                            if (CheckForSameLoc())
+                            {
+                                MessageBox.Show("Same as Current location!", "Alert");
+                                return;
+                            }
+                            AppendLine(textBox13, "Move Player to: Galaxy: " + galaxy + " -- X:" + X + " -- Y:" + Y + " -- Z:" + Z + " -- SSI:" + SSI);
 
-                        //Read the new json and check portal interference state
-                        var nms = Nms.FromJson(json);
-                        textBox12.Clear();
-                        textBox12.Text = nms.The6F.DaC.ToString();
-                        GetPlayerCoord();
+                            //Main save writer
+                            WriteSaveMove(progressBar3, textBox13, saveslot);
 
-                        progressBar3.Invoke((Action)(() => progressBar3.Value = 100));
-                        progressBar3.Visible = false;
+                            //Set json to the new modified hg file
+                            json = File.ReadAllText(hgFilePath);
 
-                        //set the last write time box
-                        textBox26.Clear();
-                        FileInfo hgfile = new FileInfo(hgFilePath);
-                        AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
+                            //Read the new json and check portal interference state
+                            var nms = Nms.FromJson(json);
+                            textBox12.Clear();
+                            textBox12.Text = nms.The6F.DaC.ToString();
+                            GetPlayerCoord();
 
-                        MessageBox.Show("Player moved successfully!", "Confirmation", MessageBoxButtons.OK);
+                            progressBar3.Invoke((Action)(() => progressBar3.Value = 100));
+                            progressBar3.Visible = false;
+
+                            //set the last write time box
+                            textBox26.Clear();
+                            FileInfo hgfile = new FileInfo(hgFilePath);
+                            AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
+
+                            MessageBox.Show("Player moved successfully!", "Confirmation", MessageBoxButtons.OK);
+                        }
+                        else
+                        {
+                            //MessageBox.Show("Please select a save slot!", "Confirmation", MessageBoxButtons.OK);
+                            MessageBox.Show("Something went wrong!", "Alert", MessageBoxButtons.OK);
+                        }
                     }
-                    else
+                    else if (dialogResult == DialogResult.No)
                     {
-                        MessageBox.Show("Please select a save slot!", "Confirmation", MessageBoxButtons.OK);
+                        return;
                     }
                 }
-                else if (dialogResult == DialogResult.No)
+                else
                 {
-                    return;
+                    AppendLine(textBox13, "Please load and select a location!");
+                    MessageBox.Show("Please load and select a location!", "Alert");
                 }
             }
-            else
-            {
-                AppendLine(textBox13, "Please load and select a location!");
-                MessageBox.Show("Please load and select a location!", "Alert");
+            catch
+            {                
+                AppendLine(textBox15, "Invalid Coordinates!");
             }
         }
         private void ToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -2232,44 +2294,65 @@ namespace NMSCoordinates
             {
                 if (textBox14.Text != "")
                 {
+                    if (saveslot < 1 || saveslot > 5)
+                    {
+                        MessageBox.Show("Please select a save slot!", "Confirmation", MessageBoxButtons.OK);
+                        return;
+                    }
+
                     //removes all spaces
                     string t2 = textBox14.Text.Replace(" ", "");
 
-                    //if format 0000:0000:0000:0000
+                    //if format 0000:0000:0000:0000 A:B:C:D
                     if (t2.Contains(":") && t2.Length == 19)
                     {
                         string[] value = t2.Replace(" ", "").Split(':');
-                        //sets x,y,z,ssi ix,iy,iz,issi from given g1-4
-                        GalacticToVoxelMan(value[0].Trim(), value[1].Trim(), value[2].Trim(), value[3].Trim());
+                        string A = value[0].Trim();
+                        string B = value[1].Trim();
+                        string C = value[2].Trim();
+                        string D = value[3].Trim();
+
+                        //Validate Coordinates
+                        if (ValidateCoord(A, B, C, D))
+                        {
+                            MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
+                            return;
+                        }
+
+                        //sets x,y,z,ssi ix,iy,iz,issi from given ABCD
+                        GalacticToVoxelMan(A, B, C, D);
                         GetPortalCoord(iX, iY, iZ, iSSI);
 
                     }
                     //if format 0000000000000000
                     if (t2.Length == 16 && !t2.Contains(":"))
                     {
-                        //0000 0000 0000 0000  XXXX:YYYY:ZZZZ:SSIX
-                        string g1 = t2.Substring(t2.Length - 4, 4);
-                        string g2 = t2.Substring(t2.Length - 8, 4);
-                        string g3 = t2.Substring(t2.Length - 12, 4);
-                        string g4 = t2.Substring(t2.Length - 16, 4);
-                        //sets x,y,z,ssi ix,iy,iz,issi from given g1-4
-                        GalacticToVoxelMan(g4, g3, g2, g1);
+                        //0000 0000 0000 0000  XXXX:YYYY:ZZZZ:SSIX  A B C D
+                        string A = t2.Substring(t2.Length - 16, 4);
+                        string B = t2.Substring(t2.Length - 12, 4);
+                        string C = t2.Substring(t2.Length - 8, 4);
+                        string D = t2.Substring(t2.Length - 4, 4);
+
+                        //Validate Coordinates
+                        if (ValidateCoord(A, B, C, D))
+                        {
+                            MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
+                            return;
+                        }
+
+                        //sets x,y,z,ssi ix,iy,iz,issi from given ABCD
+                        GalacticToVoxelMan(A, B, C, D);
                         GetPortalCoord(iX, iY, iZ, iSSI);
                     }
                     //if invalid format
                     if (t2.Replace(":", "").Length < 16 | t2.Replace(":", "").Length > 16 | t2.Length < 16)
                     {
                         //AppendLine(textBox7, "Incorrect Coordinate Input!");
-                        MessageBox.Show("Invalid Galaxy!", "Alert");
+                        MessageBox.Show("Invalid Coordinate Input!", "Alert");
                         return;
                     }
 
-                    //string[] value = textBox14.Text.Replace(" ", "").Split(':');
-
-                    //GalacticToVoxelMan(value[0].Trim(), value[1].Trim(), value[2].Trim(), value[3].Trim());
-                    //GetPortalCoord(iX, iY, iZ, iSSI);
-
-                    if (comboBox3.SelectedIndex < 255)
+                    if (comboBox3.SelectedIndex <= 254) //selectedindex 0-254 = galaxy 1-255
                     {
                         galaxy = comboBox3.SelectedIndex.ToString();
                     }
@@ -2285,17 +2368,17 @@ namespace NMSCoordinates
                     return;
                 }
 
-                if (galaxy != "" && X != "" && Y != "" && Z != "" && SSI != "" && saveslot >= 1 && saveslot <= 5)
+                if (galaxy != "" && X != "" && Y != "" && Z != "" && SSI != "")// && saveslot >= 1 && saveslot <= 5)
                 {
                     DialogResult dialogResult = MessageBox.Show("Move Player? ", "Fast Travel", MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.Yes)
                     {
+                        //Check if location is the same as cuurent
                         if (CheckForSameLoc())
                         {
                             MessageBox.Show("Same as Current location!", "Alert");
                             return;
                         }
-
                         AppendLine(textBox15, "Move Player to: Galaxy: " + galaxy + " -- X:" + X + " -- Y:" + Y + " -- Z:" + Z + " -- SSI:" + SSI);
 
                         WriteSaveMove(progressBar4, textBox15, saveslot);
@@ -2329,6 +2412,7 @@ namespace NMSCoordinates
                 else
                 {
                     MessageBox.Show("Something went wrong!", "Alert", MessageBoxButtons.OK);
+                    return;
                 }
             }
             catch

@@ -100,14 +100,14 @@ namespace NMSCoordinates
             else
                 source.AppendText("\r\n" + value);
         }        
-        private void CalculateVoxelFromHex(TextBox textBox)
+        private void CalculateVoxelFromHex(string hx)
         {
             //PlanetNumber--SolarSystemIndex--GalaxyNumber--VoxelY--VoxelZ--VoxelX
             //4 bit--12 bit--8 bit--8 bit--12 bit--12 bit
             //"0x2 049 00 01 D37 652" 460 475 89 64 091 954  0 04A FB 9F6 C9D
             //textBox7.Clear();
 
-            string basehx = textBox.Text;
+            string basehx = hx;
             string b6 = basehx.Substring(basehx.Length - 3, 3);
             string b5 = basehx.Substring(basehx.Length - 6, 3);
             string b4 = basehx.Substring(basehx.Length - 8, 2);
@@ -495,6 +495,11 @@ namespace NMSCoordinates
                 Clear();
             }
         }
+        private bool ValidateCoord(string A, string B, string C, string D)
+        {
+            bool x = Convert.ToInt32(A, 16) > 4096 || Convert.ToInt32(B, 16) > 255 || Convert.ToInt32(C, 16) > 4096 || Convert.ToInt32(D, 16) > 767;
+            return x;
+        }
         private void Button1_Click(object sender, EventArgs e)
         {
             //Portal to Voxel
@@ -508,6 +513,7 @@ namespace NMSCoordinates
                     textBox5.Clear();
                     textBox6.Clear();
                     textBox7.Clear();
+                    textBox8.Clear();
 
                     string t1 = textBox1.Text.Replace(" ", "");
 
@@ -515,6 +521,22 @@ namespace NMSCoordinates
                     {
                         //Gives both Galactic and Voxel
                         PortalToVoxel(t1);
+
+                        string[] value = GalacticCoord2.Replace(" ", "").Split(':');
+                        string A = value[0].Trim();
+                        string B = value[1].Trim();
+                        string C = value[2].Trim();
+                        string D = value[3].Trim();
+
+                        //Validate Coordinates
+                        if (ValidateCoord(A, B, C, D))
+                        {
+                            MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
+                            Clear();
+                            AppendLine(textBox7, "Invalid Coordinates!");
+                            return;
+                        }
+
                         textBox2.Text = GalacticCoord2;
                         PortalCode = textBox1.Text;
                     }
@@ -546,28 +568,52 @@ namespace NMSCoordinates
                     textBox5.Clear();
                     textBox6.Clear();
                     textBox7.Clear();
+                    textBox8.Clear();
 
                     string t2 = textBox2.Text.Replace(" ", "");
 
                     if (t2.Contains(":") && t2.Length == 19)
                     {
                         string[] value = t2.Replace(" ", "").Split(':');
-                        GalacticToVoxel(value[0].Trim(), value[1].Trim(), value[2].Trim(), value[3].Trim());
-                        GalacticToPortal(value[0].Trim(), value[1].Trim(), value[2].Trim(), value[3].Trim());
+
+                        string A = value[0].Trim();
+                        string B = value[1].Trim();
+                        string C = value[2].Trim();
+                        string D = value[3].Trim();
+
+                        //Validate Coordinates
+                        if (ValidateCoord(A, B, C, D))
+                        {
+                            MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
+                            Clear();
+                            AppendLine(textBox7, "Invalid Coordinates!");
+                            return;
+                        }
+
+                        GalacticToVoxel(A, B, C, D);
+                        GalacticToPortal(A, B, C, D);
 
                         textBox1.Text = PortalCode;
                     }
 
                     if(t2.Length == 16 && !t2.Contains(":"))
                     {
-                        //string gc = textBox2.Text.Replace(" ", "");  //0000 0000 0000 0000
-                        string g1 = t2.Substring(t2.Length - 4, 4);
-                        string g2 = t2.Substring(t2.Length - 8, 4);
-                        string g3 = t2.Substring(t2.Length - 12, 4);
-                        string g4 = t2.Substring(t2.Length - 16, 4);
+                        //0000 0000 0000 0000  XXXX:YYYY:ZZZZ:SSIX  A B C D
+                        string A = t2.Substring(t2.Length - 16, 4);
+                        string B = t2.Substring(t2.Length - 12, 4);
+                        string C = t2.Substring(t2.Length - 8, 4);
+                        string D = t2.Substring(t2.Length - 4, 4);
 
-                        GalacticToVoxel(g4, g3, g2, g1);
-                        GalacticToPortal(g4, g3, g2, g1);
+                        if (ValidateCoord(A, B, C, D))
+                        {
+                            MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
+                            Clear();
+                            AppendLine(textBox7, "Invalid Coordinates!");
+                            return;
+                        }
+
+                        GalacticToVoxel(A, B, C, D);
+                        GalacticToPortal(A, B, C, D);
 
                         textBox1.Text = PortalCode;
                     }
@@ -597,11 +643,29 @@ namespace NMSCoordinates
                     textBox1.Clear();
                     textBox2.Clear();
                     textBox7.Clear();
+                    textBox8.Clear();
 
                     VoxelToGalacticCoord(Convert.ToInt32(textBox3.Text), Convert.ToInt32(textBox4.Text), Convert.ToInt32(textBox5.Text), Convert.ToInt32(textBox6.Text));
-                    textBox2.Text = GalacticCoord;
+
                     string[] value = GalacticCoord.Replace(" ", "").Split(':');
-                    GalacticToPortal(value[0].Trim(), value[1].Trim(), value[2].Trim(), value[3].Trim());
+                    string A = value[0].Trim();
+                    string B = value[1].Trim();
+                    string C = value[2].Trim();
+                    string D = value[3].Trim();
+
+                    //Validate Coordinates
+                    if (ValidateCoord(A, B, C, D))
+                    {
+                        MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
+                        Clear();
+                        AppendLine(textBox7, "Invalid Coordinates!");
+                        return;
+                    }
+
+                    textBox2.Text = GalacticCoord;
+
+                    //string[] value = GalacticCoord.Replace(" ", "").Split(':');
+                    GalacticToPortal(A, B, C, D);
                     textBox1.Text = PortalCode;
                 }
             }
@@ -618,8 +682,34 @@ namespace NMSCoordinates
             {
                 if (textBox8.Text != "")
                 {
-                    HexToVoxel(textBox8.Text);
-                    CalculateVoxelFromHex(textBox8);
+                    textBox1.Clear();
+                    textBox2.Clear();
+                    textBox3.Clear();
+                    textBox4.Clear();
+                    textBox5.Clear();
+                    textBox6.Clear();
+                    textBox7.Clear();
+
+                    string t8 = textBox8.Text.Replace(" ", "");
+
+                    HexToVoxel(t8);
+
+                    string[] value = GalacticCoord2.Replace(" ", "").Split(':');
+                    string A = value[0].Trim();
+                    string B = value[1].Trim();
+                    string C = value[2].Trim();
+                    string D = value[3].Trim();
+
+                    //Validate Coordinates
+                    if (ValidateCoord(A, B, C, D))
+                    {
+                        MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
+                        Clear();
+                        AppendLine(textBox7, "Invalid Coordinates!");
+                        return;
+                    }
+
+                    CalculateVoxelFromHex(t8);
                 }
             }
             catch

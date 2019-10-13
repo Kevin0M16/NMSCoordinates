@@ -1045,13 +1045,13 @@ namespace NMSCoordinates
         //private string voxel;
         private string PortalCode;
 
-        public string galaxy;
-        public string X;
-        public string Y;
-        public string Z;
-        public string SSI;
+        //public string galaxy;
+        //public string X;
+        //public string Y;
+        //public string Z;
+        //public string SSI;
 
-        public int igalaxy;
+        //public int igalaxy;
         public int iX;
         public int iY;
         public int iZ;
