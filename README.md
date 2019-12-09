@@ -23,11 +23,12 @@ Backup locations to txt file and and access and travel to these saved coordinate
 |<a href="http://www.youtube.com/watch?feature=player_embedded&v=ceSFVl9LFtI" target="_blank"><img src="http://img.youtube.com/vi/ceSFVl9LFtI/0.jpg" alt="Video" width="520" height="300" border="10" /></a>|<a href="http://www.youtube.com/watch?feature=player_embedded&v=Vx1xGk2TMIo" target="_blank"><img src="http://img.youtube.com/vi/Vx1xGk2TMIo/0.jpg" alt="Video" width="520" height="300" border="10" /></a>|
 
 
-## Download - UPDATE!!!
+## Download - UPDATE v1.1.10 (12-8-2019)
 
-NMSCoordinates now validates manually entered, shared, or calculator galactic coordinates.
+Updated NMSCoordinates for Synthesis (fixed game mode not found)
+NMSCoordinates now shows galaxy type and some galaxy names next to galaxy combobox on Manual Travel Tab.
 <!--* Download will be available later today. -->
-<pre>  <a href="https://github.com/Kevin0M16/NMSCoordinates/releases/latest/download/NMSCoordinates-v1.1.9.zip"><img src="https://img.shields.io/badge/dynamic/json.svg?label=download&url=https://api.github.com/repos/Kevin0M16/NMSCoordinates/releases/latest&query=$.assets[0].name&style=for-the-badge" alt="download"/></a></pre>
+<pre>  <a href="https://github.com/Kevin0M16/NMSCoordinates/releases/latest/download/NMSCoordinates-v1.1.10.zip"><img src="https://img.shields.io/badge/dynamic/json.svg?label=download&url=https://api.github.com/repos/Kevin0M16/NMSCoordinates/releases/latest&query=$.assets[0].name&style=for-the-badge" alt="download"/></a></pre>
 
 ## Share - Upload locations to Google Drive
 
@@ -56,7 +57,7 @@ Here is an overview of what you need to get started with NMSCoordinates
 
 ### Requirements
 
-The current version of NMSCoordinates requires No Man's Sky Beyond 2.11, 2.12, 2.13, or 2.14.
+The current version of NMSCoordinates requires No Man's Sky Beyond or Synthesis 2.2-2.23
 
 :exclamation: **Always back up all your game data and saves before any mods**
 
