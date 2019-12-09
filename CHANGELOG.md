@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## V1.1.10 (Dec 8 2019)
+- Fixed Game mode not found due to synthesis update
+- Galaxy type and name are now shown next to combobox on manual travel tab.
+- Fixed a rare issue when NMS isn't installed in normal dir
+
 ## V1.1.9 (Oct 13 2019)
 - NMSCoordinates now validates manually entered, shared, or calculator galactic coordinates.
 

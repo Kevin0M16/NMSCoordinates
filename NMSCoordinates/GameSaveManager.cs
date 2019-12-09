@@ -90,7 +90,7 @@ namespace NMSCoordinates
 
                 if (null == _savePath)
                 {
-                    MessageBox.Show(string.Format("No save game profile folder found in NMS save game folder: {0}" + nmsPath));
+                    MessageBox.Show(string.Format("No save game profile folder found in NMS save game folder: " + nmsPath));
                 }
             }
 
