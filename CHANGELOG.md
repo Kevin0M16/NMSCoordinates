@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## V1.1.11 (Dec 12 2019)
+- Added a New Feature: Users can now trigger a freighter battle on the next warp after save reload. Button on the Manual Travel Tab.
+
 ## V1.1.10 (Dec 8 2019)
 - Fixed Game mode not found due to synthesis update
 - Galaxy type and name are now shown next to combobox on manual travel tab.

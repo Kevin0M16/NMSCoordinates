@@ -36,7 +36,7 @@ namespace NMSCoordinates
             InitializeComponent();
 
             //Set Version here
-            Version = "v1.1.10";
+            Version = "v1.1.11";
             label29.Text = "Version " + Version;
 
             Glyphs();
@@ -1647,6 +1647,64 @@ namespace NMSCoordinates
                 MessageBox.Show("Save slot not selected!", "Alert");
             }
         }
+        private void Button14_Click(object sender, EventArgs e)
+        {
+            //Freighter Battle Button
+            if (saveslot >= 1 && saveslot <= 5)
+            {
+                DialogResult dialogResult = MessageBox.Show("Trigger a Freighter Battle ? ", "Freighter Battle", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    //Read - Edit - Write Json save file for portal
+                    WriteSaveFB(progressBar4, textBox15, saveslot);
+
+                    //Read and check save file
+                    json = File.ReadAllText(hgFilePath);
+
+                    var nms = Nms.FromJson(json);
+                    bool O5J = nms.The6F.O5J == 0;
+                    bool Ebr = nms.The6F.Ebr == 0;
+                    bool Exx = nms.The6F.Exx == 0;
+
+                    //Check save file edits         
+                    Regex myRegexFB1 = new Regex(rxPatternTLFB, RegexOptions.Multiline);
+                    Match FB1 = myRegexFB1.Match(json);
+                    string fb1 = FB1.ToString();
+                    //AppendLine(textBox15, fb1);
+
+                    Regex myRegexFB2 = new Regex(rxPatternWLFB, RegexOptions.Multiline);
+                    Match FB2 = myRegexFB2.Match(json);
+                    string fb2 = FB2.ToString();
+                    //AppendLine(textBox15, fb2);
+
+                    Regex myRegexFB3 = new Regex(rxPatternAFBUA, RegexOptions.Multiline);
+                    Match FB3 = myRegexFB3.Match(json);
+                    string fb3 = FB3.ToString();
+                    AppendLine(textBox15, fb1 + " " + fb2 + " " + fb3);
+
+                    if (O5J && Ebr && Exx)
+                    {
+                        progressBar4.Invoke((Action)(() => progressBar1.Value = 100));
+                        progressBar4.Visible = false;
+
+                        AppendLine(textBox15, "Freighter Battle Triggered, Reload save and warp.");
+                        MessageBox.Show("Freighter Battle triggered successfully! \r\n\r\n Reload Save and warp.", "Confirmation", MessageBoxButtons.OK);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Freighter Battle Problem!", "Error");
+                    }
+                }
+                else if (dialogResult == DialogResult.No)
+                {
+                    return;
+                }                
+            }
+            else
+            {
+                MessageBox.Show("Save slot not selected!", "Alert");
+            }
+        }
         private async void DiscoveriesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //backup all discoveries to txt file
@@ -1669,6 +1727,10 @@ namespace NMSCoordinates
             rxPatternPrtl = "\"DaC\".*?,";
             rxPatternPrtl2 = "\"3fO\".*?,";
             rxPatternPrtl3 = "true.*?";
+
+            rxPatternTLFB = "\"05J\".*?,";
+            rxPatternWLFB = "\"8br\".*?,";
+            rxPatternAFBUA = "\"8xx\".*?,";
         }
         private void JsonSet(string value)
         {
@@ -1703,6 +1765,12 @@ namespace NMSCoordinates
                     rxValPs = "\"jk4\": \"InShip\",";
                     rxValPrtl = "\"DaC\": false,";
                     rxValPrtl3 = "false";
+                    break;
+                //Freighter battle values
+                case "fb":
+                    rxValTLFB = "\"05J\": 0,";
+                    rxValWLFB = "\"8br\": 0,";
+                    rxValAFBUA = "\"8xx\": 0,";
                     break;
             }
         }
@@ -1771,7 +1839,7 @@ namespace NMSCoordinates
                             FileInfo hgfile = new FileInfo(hgFilePath);
                             AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
 
-                            MessageBox.Show("Player moved successfully!", "Confirmation", MessageBoxButtons.OK);
+                            MessageBox.Show("Player moved successfully! \r\n\r\n Reload Save.", "Confirmation", MessageBoxButtons.OK);
                         }
                         else
                         {
@@ -2243,7 +2311,7 @@ namespace NMSCoordinates
                             FileInfo hgfile = new FileInfo(hgFilePath);
                             AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
 
-                            MessageBox.Show("Player moved successfully!", "Confirmation", MessageBoxButtons.OK);
+                            MessageBox.Show("Player moved successfully! \r\n\r\n Reload Save.", "Confirmation", MessageBoxButtons.OK);
                         }
                         else
                         {
@@ -2513,7 +2581,7 @@ namespace NMSCoordinates
                         FileInfo hgfile = new FileInfo(hgFilePath);
                         AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
 
-                        MessageBox.Show("Player moved successfully!", "Confirmation", MessageBoxButtons.OK);
+                        MessageBox.Show("Player moved successfully! \r\n\r\n Reload Save.", "Confirmation", MessageBoxButtons.OK);
 
                     }
                     else if (dialogResult == DialogResult.No)
@@ -2862,7 +2930,7 @@ namespace NMSCoordinates
             {
                 //Call the Process.Start method to open the default browser
                 //with a URL:
-                System.Diagnostics.Process.Start("https://nomanssky.social/");
+                System.Diagnostics.Process.Start("https://www.nexusmods.com/nomanssky/mods/1312");
             }
             catch
             {
@@ -2954,8 +3022,12 @@ namespace NMSCoordinates
                     var selected = comboBox2.SelectedItem;
                     ClearAll();
                     LoadCmbx();
-                    comboBox2.SelectedItem = selected;
+                    comboBox2.SelectedItem = selected;                 
                     ComboBox2_SelectionChangeCommitted(this, new EventArgs());
+                    if (tabControl1.SelectedTab == tabPage4)
+                    {
+                        tabControl1.SelectedTab = tabPage1; //added v1.1.11
+                    }                        
                 }
                 else
                 {
@@ -3074,6 +3146,18 @@ namespace NMSCoordinates
         private GameSaveManager _gsm;
         private uint _gameSlot;
 
+        private void WriteSaveFB(ProgressBar pb, TextBox tb, int saveslot)
+        {
+            //Main method for writing a change for a freighter battle
+            fileSystemWatcher1.EnableRaisingEvents = false;
+
+            BackUpSaveSlot(tb, saveslot, false);
+            DecryptSave(saveslot);
+            EditSaveFB(pb);
+            EncryptSave(pb, saveslot);
+
+            fileSystemWatcher1.EnableRaisingEvents = true;
+        }
         private void WriteSavePortal(ProgressBar pb, TextBox tb, int saveslot)
         {
             //Main method for writing a change in portal status
@@ -3189,6 +3273,48 @@ namespace NMSCoordinates
             //}
 
             //Log("Wrote save game to formatted JSON file: {0}", @".\backup\save.json");
+        }
+        private void EditSaveFB(ProgressBar pb)
+        {
+            //Set JSON search pattern
+            JsonSet("fb");
+
+            pb.Visible = true;
+            pb.Invoke((Action)(() => pb.Value = 5)); //progressBar1.Value = 5));
+
+            //Read decrypted save.json to a string
+            string jsons = File.ReadAllText(@".\backup\json\save.json");
+
+            pb.Invoke((Action)(() => pb.Value = 45));
+
+            //Find the value for Time Last Freighter Battle
+            Regex myRegexFB1 = new Regex(rxPatternTLFB, RegexOptions.Multiline);
+            Match FB1 = myRegexFB1.Match(jsons);
+            string fb1 = FB1.ToString();
+
+            //Set the value for Time Last Freighter Battle
+            jsons = Regex.Replace(jsons, rxPatternTLFB, rxValTLFB, RegexOptions.Multiline);
+
+            //Find the value for Warps Last Freighter Battle
+            Regex myRegexFB2 = new Regex(rxPatternWLFB, RegexOptions.Multiline);
+            Match FB2 = myRegexFB2.Match(jsons);
+            string fb2 = FB2.ToString();
+
+            //Set the value for Warps Last Freighter Battle
+            jsons = Regex.Replace(jsons, rxPatternWLFB, rxValWLFB, RegexOptions.Multiline);
+
+            //Find the value for Active Space Battle UA
+            Regex myRegexFB3 = new Regex(rxPatternAFBUA, RegexOptions.Multiline);
+            Match FB3 = myRegexFB3.Match(jsons);
+            string fb3 = FB3.ToString();
+
+            //Set the value for Active Space Battle UA
+            jsons = Regex.Replace(jsons, rxPatternAFBUA, rxValAFBUA, RegexOptions.Multiline);
+
+            //Write the modified JSON string to saveedit.json
+            File.WriteAllText(@".\backup\json\saveedit.json", jsons);
+
+            pb.Invoke((Action)(() => pb.Value = 60));
         }
         private void EditSavePortal(ProgressBar pb)
         {
