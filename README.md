@@ -23,12 +23,12 @@ Backup locations to txt file and and access and travel to these saved coordinate
 |<a href="http://www.youtube.com/watch?feature=player_embedded&v=ceSFVl9LFtI" target="_blank"><img src="http://img.youtube.com/vi/ceSFVl9LFtI/0.jpg" alt="Video" width="520" height="300" border="10" /></a>|<a href="http://www.youtube.com/watch?feature=player_embedded&v=Vx1xGk2TMIo" target="_blank"><img src="http://img.youtube.com/vi/Vx1xGk2TMIo/0.jpg" alt="Video" width="520" height="300" border="10" /></a>|
 
 
-## Download - UPDATE v1.1.10 (12-8-2019)
+## Download - UPDATE v1.1.11 (12-12-2019)
 
-Updated NMSCoordinates for Synthesis (fixed game mode not found)
-NMSCoordinates now shows galaxy type and some galaxy names next to galaxy combobox on Manual Travel Tab.
+NEW FEATURE!!! Users can now trigger a freighter battle on the next warp after save reload. Button on the Manual Travel Tab.
+
 <!--* Download will be available later today. -->
-<pre>  <a href="https://github.com/Kevin0M16/NMSCoordinates/releases/latest/download/NMSCoordinates-v1.1.10.zip"><img src="https://img.shields.io/badge/dynamic/json.svg?label=download&url=https://api.github.com/repos/Kevin0M16/NMSCoordinates/releases/latest&query=$.assets[0].name&style=for-the-badge" alt="download"/></a></pre>
+<pre>  <a href="https://github.com/Kevin0M16/NMSCoordinates/releases/latest/download/NMSCoordinates-v1.1.11.zip"><img src="https://img.shields.io/badge/dynamic/json.svg?label=download&url=https://api.github.com/repos/Kevin0M16/NMSCoordinates/releases/latest&query=$.assets[0].name&style=for-the-badge" alt="download"/></a></pre>
 
 ## Share - Upload locations to Google Drive
 
@@ -37,6 +37,7 @@ NMSCoordinates now shows galaxy type and some galaxy names next to galaxy combob
 
 ## Features
 
+* NEW!! Trigger a Freighter Battle.
 * View all space station and base locations discovered across all save slots and see their Glyphs, Galactic Coordinates, Portal Code, and even Voxel X,Y,Z,SSI
 * Fast travel to any selected location in the list of discoveries.
 * Enable Manual Travel and manually enter Galactic Coordinates and Galaxy that you need to travel to.
@@ -74,13 +75,14 @@ The current version of NMSCoordinates requires No Man's Sky Beyond or Synthesis 
 
 * Select a Save Slot. This loads all space station and base locations on that slot/save on the Base and Space Station tab.
 * Click a location in one of the Listboxes to view the location info. Glyphs and Galactic Coordinates, Portal Code, and Voxel will be displayed.
-* Move player to that location by clicking the Move Player Here button, then reload your save in NMS.
-* If you traveled through a portal and want to clear the Portal Interference, click the Clear Interference button, then reload your save in NMS.
+* Move player to that location by clicking the Move Player Here button, then RELOAD YOUR SAVE in NMS.
+* If you traveled through a portal and want to clear the Portal Interference, click the Clear Interference button, then RELOAD YOUR SAVE in NMS.
 * Enable Manual Travel to travel to any valid coordinates. On the Manual Travel Tab, Select a galaxy then enter Galactic Coordinates, then click the move player button.
+* Trigger a Freighter Battle by clicking the "Trigger Freighter Battle" button on the Manual Travel tab, then RELOAD YOUR SAVE in NMS.
 * Go to File --> Backups --> backup discoveries to .txt and save all your locations to a txt file in .\backup. These are accessed on the Coordinate Share Tab.
 * View location files on the Coordinate Share tab by double-clicking the file or the load lockbackup button. Click a location to view a location summary, and click the Move Player Here button to fast travel to the selected location.
 * Right-click a location in the top Listbox on the Coordinate Share tab to create a one record location file to share with others or delete single records.
-* Right-click the lower Listbox to delete unwanted location files.
+* Right-click the lower Listbox on the Coordinate Share tab to delete unwanted location files.
 * Use the Coordinate Calculator by clicking the Coordinate Calculator button and entering (1) coordinate at a time in the textboxes and clicking the button below it. View all converted coordinates at the bottom.
 * On the Coordinate Calculator, clicking the glyphs will populate the Portal Code field. Then click calculate to see the coordinates.
 * Enable Travel Mode to start tracking your Terminus locations before traveling through a terminus or when hitting the limit. See video above.

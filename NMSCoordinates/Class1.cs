@@ -43,6 +43,15 @@ namespace QuickType
 
         [JsonProperty("F?0")]
         public F0[] F0 { get; set; }
+
+        [JsonProperty("05J")]
+        public long O5J { get; set; }
+
+        [JsonProperty("8br")]
+        public long Ebr { get; set; }
+
+        [JsonProperty("8xx")]
+        public long Exx { get; set; }
     }
     public partial class F0
     {
