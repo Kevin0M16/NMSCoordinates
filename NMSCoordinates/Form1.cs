@@ -866,6 +866,7 @@ namespace NMSCoordinates
         {
             //Method to load all location discovered in listbox1
             DiscList.Clear();
+            listBox1.Items.Clear();
             listBox2.Items.Clear();
             TextBoxes();
 
@@ -874,7 +875,6 @@ namespace NMSCoordinates
             {
                 for (int i = 0; i < nms.The6F.NlG.Length; i++)
                 {
-                    //string discd = jsonObj["6f="]["nlG"][i]["NKm"];
                     string discd = nms.The6F.NlG[i].NKm;
 
                     if (nms.The6F.NlG[i].IAf == "Spacestation")
@@ -883,10 +883,11 @@ namespace NMSCoordinates
                         DiscList.Add(ss);
                         listBox2.Items.Add(ss);
                     }
-                    else
+                    else if (nms.The6F.NlG[i].IAf != "Spacestation")
                     {
                         string bl = discd + " (B)";
                         DiscList.Add(bl);
+                        listBox1.Items.Add(bl);
                     }
                 }
             }
@@ -895,7 +896,8 @@ namespace NMSCoordinates
                 AppendLine(textBox17, "** Code 111 **");
                 return;
             }
-            listBox1.DataSource = DiscList;
+            
+            //listBox1.DataSource = DiscList; //Removed v1.1.11
             textBox19.Text = listBox1.Items.Count.ToString();
             textBox20.Text = listBox2.Items.Count.ToString();
             listBox1.SelectedIndex = -1;
@@ -973,7 +975,7 @@ namespace NMSCoordinates
                 //AppendLine(textBox17, "Galaxy Not Found, update needed.");
             }
         }
-        private void ListBox1_MouseClick(object sender, EventArgs e)
+        private void lsb1mclick() //backup of changes made on v1.1.11
         {
             //When a location is clicked on listbox1, get all the info
             listBox2.SelectedIndex = -1;
@@ -996,6 +998,48 @@ namespace NMSCoordinates
             catch
             {
                 AppendLine(textBox17, "** Code 1 **");
+                return;
+            }
+        }
+        private void ListBox1_MouseClick(object sender, EventArgs e)
+        {
+            //When a location is clicked on listbox1, get all the info
+            listBox2.SelectedIndex = -1;
+            try
+            {
+                if (listBox1.GetItemText(listBox1.SelectedItem) != "")
+                {
+                    object selecteditem = listBox1.SelectedItem;
+                    string si = selecteditem.ToString();
+                    si = si.Replace(" (B)", "");
+                    var nms = Nms.FromJson(json);
+                    try
+                    {
+                        for (int i = 0; i < nms.The6F.NlG.Length; i++)
+                        {
+                            if (nms.The6F.NlG[i].NKm.ToString() == si)
+                            {
+                                JsonMap(i);
+                                TextBoxes();
+                                GalaxyLookup(textBox10, galaxy);
+                                GetGalacticCoord(iX, iY, iZ, iSSI);
+                                GetPortalCoord(iX, iY, iZ, iSSI, textBox3);
+                                ShowGlyphs();
+                                AppendLine(textBox1, GalacticCoord);
+                                AppendLine(textBox2, PortalCode);
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        AppendLine(textBox17, "** Code 51l1 **");
+                        return;
+                    }
+                }
+            }
+            catch
+            {
+                AppendLine(textBox17, "** Code 5l1 **");
                 return;
             }
         }
@@ -1030,14 +1074,14 @@ namespace NMSCoordinates
                     }
                     catch
                     {
-                        AppendLine(textBox17, "** Code 51 **");
+                        AppendLine(textBox17, "** Code 51l2 **");
                         return;
                     }
                 }
             }
             catch
             {
-                AppendLine(textBox17, "** Code 5 **");
+                AppendLine(textBox17, "** Code 5l2 **");
                 return;
             }
         }
@@ -1687,8 +1731,8 @@ namespace NMSCoordinates
                         progressBar4.Invoke((Action)(() => progressBar1.Value = 100));
                         progressBar4.Visible = false;
 
-                        AppendLine(textBox15, "Freighter Battle Triggered, Reload save and warp.");
-                        MessageBox.Show("Freighter Battle triggered successfully! \r\n\r\n Reload Save and warp.", "Confirmation", MessageBoxButtons.OK);
+                        AppendLine(textBox15, "Freighter Battle Triggered, Reload save in game and warp.");
+                        MessageBox.Show("Freighter Battle triggered successfully! \r\n\r\n Reload Save in game and warp.", "Confirmation", MessageBoxButtons.OK);
                     }
                     else
                     {
@@ -1839,7 +1883,7 @@ namespace NMSCoordinates
                             FileInfo hgfile = new FileInfo(hgFilePath);
                             AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
 
-                            MessageBox.Show("Player moved successfully! \r\n\r\n Reload Save.", "Confirmation", MessageBoxButtons.OK);
+                            MessageBox.Show("Player moved successfully! \r\n\r\n Reload Save in game.", "Confirmation", MessageBoxButtons.OK);
                         }
                         else
                         {
@@ -2084,7 +2128,7 @@ namespace NMSCoordinates
                 else
                 {
                     toolStripMenuItem1.Enabled = false;
-                    AppendLine(textBox11, "error! 855");
+                    AppendLine(textBox11, "Error! 855");
                     return;
                 }
                 listBox4.DataSource = list;
@@ -2135,11 +2179,28 @@ namespace NMSCoordinates
             {
                 textBox18.Text = listBox3.Items.Count.ToString();
 
+                if (textBox11.Text == "")
+                {
+                    AppendLine(textBox11, "---------------------");
+                }
+
                 Regex myRegex1 = new Regex("GC:.*?$", RegexOptions.Multiline);
                 Match m1 = myRegex1.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
                 string line1 = m1.ToString();
                 string g1 = line1.Substring(0, 23);
-                AppendLine(textBox11, g1);
+                //AppendLine(textBox11, g1);
+
+                if (line1.Length > 23)
+                {
+                    string gN = line1.Substring(line1.Length - (line1.Length - 23), line1.Length - 23);
+                    AppendLine(textBox11, gN);
+                    AppendLine(textBox11, g1);
+                }
+                else
+                {
+                    AppendLine(textBox11, " ");
+                    AppendLine(textBox11, g1);
+                }
 
                 Regex myRegex2 = new Regex("PC.*?--", RegexOptions.Multiline);
                 Match m2 = myRegex2.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
@@ -2153,7 +2214,7 @@ namespace NMSCoordinates
 
                 Regex myRegex4 = new Regex(" .*?#", RegexOptions.Multiline);
                 Match m4 = myRegex4.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
-                string line3_2 = m4.ToString();
+                string line3_2 = m4.ToString().Replace("#", "");
 
                 if (m3.Success)
                 {
@@ -2311,7 +2372,7 @@ namespace NMSCoordinates
                             FileInfo hgfile = new FileInfo(hgFilePath);
                             AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
 
-                            MessageBox.Show("Player moved successfully! \r\n\r\n Reload Save.", "Confirmation", MessageBoxButtons.OK);
+                            MessageBox.Show("Player moved successfully! \r\n\r\n Reload Save in game.", "Confirmation", MessageBoxButtons.OK);
                         }
                         else
                         {
@@ -2353,6 +2414,25 @@ namespace NMSCoordinates
                 AppendLine(textBox13, "No record saved! Please select a txt!");
             }
 
+        }
+        private void OpenLocationFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Open a locbackup file
+            if (listBox4.GetItemText(listBox4.SelectedItem) == "")
+            {
+                return;
+            }
+
+            if (File.Exists(@".\backup\" + listBox4.GetItemText(listBox4.SelectedItem)))
+            {
+                Process.Start(@".\backup\" + listBox4.GetItemText(listBox4.SelectedItem));
+                LoadTxt();
+            }
+            else
+            {
+                MessageBox.Show("No file found.", "Alert");
+                LoadTxt();
+            }
         }
         private void ToolStripMenuItem2_Click(object sender, EventArgs e)
         {
@@ -2500,7 +2580,6 @@ namespace NMSCoordinates
                         //sets x,y,z,ssi ix,iy,iz,issi from given ABCD
                         GalacticToVoxelMan(A, B, C, D);
                         GetPortalCoord(iX, iY, iZ, iSSI);
-
                     }
 
                     //if format 0000000000000000
@@ -2581,7 +2660,7 @@ namespace NMSCoordinates
                         FileInfo hgfile = new FileInfo(hgFilePath);
                         AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
 
-                        MessageBox.Show("Player moved successfully! \r\n\r\n Reload Save.", "Confirmation", MessageBoxButtons.OK);
+                        MessageBox.Show("Player moved successfully! \r\n\r\n Reload Save in game.", "Confirmation", MessageBoxButtons.OK);
 
                     }
                     else if (dialogResult == DialogResult.No)
