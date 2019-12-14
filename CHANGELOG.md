@@ -2,6 +2,10 @@
 
 ## V1.1.11 (Dec 12 2019)
 - Added a New Feature: Users can now trigger a freighter battle on the next warp after save reload. Button on the Manual Travel Tab.
+- Changed listbox1 on the bases and space stations tab to only show bases.
+- Right click to Open location file from coordinates share tab
+- Added a line in the location summary on the coordiantes share tab to show notes added at end of line.
+- Added "reload save in game" to popups for clarity
 
 ## V1.1.10 (Dec 8 2019)
 - Fixed Game mode not found due to synthesis update

@@ -25,7 +25,7 @@ Backup locations to txt file and and access and travel to these saved coordinate
 
 ## Download - UPDATE v1.1.11 (12-12-2019)
 
-Added a New Feature: Users can now trigger a freighter battle on the next warp after save reload. Button on the Manual Travel Tab.
+NEW FEATURE!!! Users can now trigger a freighter battle on the next warp after save reload. Button on the Manual Travel Tab.
 
 <!--* Download will be available later today. -->
 <pre>  <a href="https://github.com/Kevin0M16/NMSCoordinates/releases/latest/download/NMSCoordinates-v1.1.11.zip"><img src="https://img.shields.io/badge/dynamic/json.svg?label=download&url=https://api.github.com/repos/Kevin0M16/NMSCoordinates/releases/latest&query=$.assets[0].name&style=for-the-badge" alt="download"/></a></pre>
@@ -37,7 +37,7 @@ Added a New Feature: Users can now trigger a freighter battle on the next warp a
 
 ## Features
 
-* Trigger a Freighter Battle.
+* NEW!! Trigger a Freighter Battle.
 * View all space station and base locations discovered across all save slots and see their Glyphs, Galactic Coordinates, Portal Code, and even Voxel X,Y,Z,SSI
 * Fast travel to any selected location in the list of discoveries.
 * Enable Manual Travel and manually enter Galactic Coordinates and Galaxy that you need to travel to.
