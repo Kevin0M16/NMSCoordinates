@@ -36,7 +36,7 @@ namespace NMSCoordinates
             InitializeComponent();
 
             //Set Version here
-            Version = "v1.1.11";
+            Version = "v1.1.13";
             label29.Text = "Version " + Version;
 
             Glyphs();
@@ -392,8 +392,44 @@ namespace NMSCoordinates
 
                 //looksup and then displays the game mode
                 var nms = Nms.FromJson(json);
-                gamemode = nms.F2P.ToString();
-                GameModeLookup(label28, gamemode);
+                //gamemode = nms.F2P.ToString(); // removed v1.1.13
+                //GameModeLookup(label28, gamemode);
+                try
+                {
+                    gamemodeint = Convert.ToInt32(nms.F2P);
+                    GameModeLookupInt(gamemodeint);
+                }
+                catch
+                {
+                    return;
+                }
+            }
+        }
+        private void GameModeLookupInt(int mode)
+        {
+            //Looks up game mode in ranges to prevent "not found"
+            try
+            {
+                if (mode > 4600 & mode < 4700)
+                {
+                    label28.Text = "Normal";
+                }
+                if (mode > 5600 & mode < 5700)
+                {
+                    label28.Text = "Survival";
+                }
+                if (mode > 6600 & mode < 6700)
+                {
+                    label28.Text = "Permadeath";
+                }
+                if (mode > 5100 & mode < 5200)
+                {
+                    label28.Text = "Creative";
+                }
+            }
+            catch
+            {
+                return;
             }
         }
         private void SetPrevSS()
