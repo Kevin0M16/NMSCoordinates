@@ -1844,7 +1844,7 @@ namespace NMSCoordinates
             this.label30.AutoSize = true;
             this.label30.BackColor = System.Drawing.Color.Transparent;
             this.label30.ForeColor = System.Drawing.Color.LimeGreen;
-            this.label30.Location = new System.Drawing.Point(30, 61);
+            this.label30.Location = new System.Drawing.Point(30, 65);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(185, 13);
             this.label30.TabIndex = 73;
@@ -1855,7 +1855,7 @@ namespace NMSCoordinates
             // 
             this.label28.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(76)))), ((int)(((byte)(76)))));
             this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label28.Location = new System.Drawing.Point(132, 21);
+            this.label28.Location = new System.Drawing.Point(132, 25);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(87, 13);
             this.label28.TabIndex = 35;
@@ -1866,7 +1866,7 @@ namespace NMSCoordinates
             this.button10.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.button10.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button10.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.button10.Location = new System.Drawing.Point(29, 157);
+            this.button10.Location = new System.Drawing.Point(29, 154);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(91, 25);
             this.button10.TabIndex = 34;
@@ -1880,22 +1880,22 @@ namespace NMSCoordinates
             this.textBox26.BackColor = System.Drawing.SystemColors.ControlLight;
             this.textBox26.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox26.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox26.Location = new System.Drawing.Point(29, 135);
+            this.textBox26.Location = new System.Drawing.Point(30, 132);
             this.textBox26.MinimumSize = new System.Drawing.Size(190, 18);
             this.textBox26.Name = "textBox26";
             this.textBox26.ReadOnly = true;
-            this.textBox26.Size = new System.Drawing.Size(190, 14);
+            this.textBox26.Size = new System.Drawing.Size(190, 18);
             this.textBox26.TabIndex = 33;
             this.textBox26.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(30, 21);
+            this.label24.Location = new System.Drawing.Point(30, 25);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(53, 13);
+            this.label24.Size = new System.Drawing.Size(86, 13);
             this.label24.TabIndex = 6;
-            this.label24.Text = "Save Slot";
+            this.label24.Text = "Select Save Slot";
             // 
             // comboBox2
             // 
@@ -1903,9 +1903,9 @@ namespace NMSCoordinates
             this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox2.ForeColor = System.Drawing.Color.Azure;
             this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(30, 38);
+            this.comboBox2.Location = new System.Drawing.Point(30, 42);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(188, 21);
+            this.comboBox2.Size = new System.Drawing.Size(190, 21);
             this.comboBox2.Sorted = true;
             this.comboBox2.TabIndex = 5;
             this.comboBox2.SelectionChangeCommitted += new System.EventHandler(this.ComboBox2_SelectionChangeCommitted);
@@ -1913,18 +1913,18 @@ namespace NMSCoordinates
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(29, 86);
+            this.label18.Location = new System.Drawing.Point(29, 83);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(121, 13);
+            this.label18.Size = new System.Drawing.Size(51, 13);
             this.label18.TabIndex = 4;
-            this.label18.Text = "Please select a save file";
+            this.label18.Text = "Save File";
             // 
             // button4
             // 
             this.button4.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button4.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.button4.Location = new System.Drawing.Point(127, 157);
+            this.button4.Location = new System.Drawing.Point(130, 154);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(91, 25);
             this.button4.TabIndex = 3;
@@ -1939,9 +1939,9 @@ namespace NMSCoordinates
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.ForeColor = System.Drawing.Color.Azure;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(30, 106);
+            this.comboBox1.Location = new System.Drawing.Point(30, 103);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(188, 21);
+            this.comboBox1.Size = new System.Drawing.Size(190, 21);
             this.comboBox1.TabIndex = 0;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.ComboBox1_SelectedIndexChanged);
             // 
@@ -2381,6 +2381,7 @@ namespace NMSCoordinates
         public string ssPath;
 
         public string gamemode;
+        public int gamemodeint;
         public string galaxy;
         public string X;
         public string Y;

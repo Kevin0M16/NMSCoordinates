@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## V1.1.13 (Dec 16 2019)
+- Fixed Gamemode not found for NMS 2.24, gamemode now uses ranges instead of specific values to prevent this in the future.
+
 ## V1.1.11 (Dec 12 2019)
 - Added a New Feature: Users can now trigger a freighter battle on the next warp after save reload. Button on the Manual Travel Tab.
 - Changed listbox1 on the bases and space stations tab to only show bases.
