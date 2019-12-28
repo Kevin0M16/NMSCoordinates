@@ -65,6 +65,10 @@ namespace NMSCoordinates
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label38 = new System.Windows.Forms.Label();
+            this.button16 = new System.Windows.Forms.Button();
+            this.button15 = new System.Windows.Forms.Button();
+            this.textBox28 = new System.Windows.Forms.TextBox();
             this.label34 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
@@ -218,6 +222,7 @@ namespace NMSCoordinates
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.linkLabel4 = new System.Windows.Forms.LinkLabel();
+            this.button17 = new System.Windows.Forms.Button();
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -523,6 +528,10 @@ namespace NMSCoordinates
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
+            this.tabPage3.Controls.Add(this.label38);
+            this.tabPage3.Controls.Add(this.button16);
+            this.tabPage3.Controls.Add(this.button15);
+            this.tabPage3.Controls.Add(this.textBox28);
             this.tabPage3.Controls.Add(this.label34);
             this.tabPage3.Controls.Add(this.label32);
             this.tabPage3.Controls.Add(this.label27);
@@ -541,6 +550,56 @@ namespace NMSCoordinates
             this.tabPage3.Size = new System.Drawing.Size(710, 745);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Coordinate Share";
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label38.ForeColor = System.Drawing.Color.DarkOrange;
+            this.label38.Location = new System.Drawing.Point(279, 370);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(423, 16);
+            this.label38.TabIndex = 81;
+            this.label38.Text = "^ Add a note to a record by typing in the textbox and clicking Add Note.";
+            this.label38.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // button16
+            // 
+            this.button16.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.button16.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button16.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.button16.Location = new System.Drawing.Point(459, 346);
+            this.button16.Name = "button16";
+            this.button16.Size = new System.Drawing.Size(70, 21);
+            this.button16.TabIndex = 80;
+            this.button16.Text = "Clear Note";
+            this.button16.UseVisualStyleBackColor = false;
+            this.button16.Click += new System.EventHandler(this.Button16_Click);
+            // 
+            // button15
+            // 
+            this.button15.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.button15.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button15.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.button15.Location = new System.Drawing.Point(383, 346);
+            this.button15.Name = "button15";
+            this.button15.Size = new System.Drawing.Size(70, 21);
+            this.button15.TabIndex = 79;
+            this.button15.Text = "Add Note";
+            this.button15.UseVisualStyleBackColor = false;
+            this.button15.Click += new System.EventHandler(this.Button15_Click);
+            // 
+            // textBox28
+            // 
+            this.textBox28.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.textBox28.ForeColor = System.Drawing.Color.Azure;
+            this.textBox28.Location = new System.Drawing.Point(236, 346);
+            this.textBox28.MaxLength = 20;
+            this.textBox28.Multiline = true;
+            this.textBox28.Name = "textBox28";
+            this.textBox28.Size = new System.Drawing.Size(141, 21);
+            this.textBox28.TabIndex = 78;
+            this.textBox28.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label34
             // 
@@ -591,7 +650,7 @@ namespace NMSCoordinates
             // 
             // progressBar3
             // 
-            this.progressBar3.Location = new System.Drawing.Point(9, 413);
+            this.progressBar3.Location = new System.Drawing.Point(9, 394);
             this.progressBar3.Name = "progressBar3";
             this.progressBar3.Size = new System.Drawing.Size(693, 23);
             this.progressBar3.TabIndex = 74;
@@ -649,15 +708,15 @@ namespace NMSCoordinates
             // 
             // label11
             // 
+            this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label11.Location = new System.Drawing.Point(20, 376);
+            this.label11.Location = new System.Drawing.Point(13, 423);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(688, 39);
+            this.label11.Size = new System.Drawing.Size(573, 16);
             this.label11.TabIndex = 41;
             this.label11.Text = "After backing up your locations to a txt file, at ( File --> Backup to txt ) you " +
-    "can access them here. You can also share locbackup files between friends to see " +
-    "and visit their locations.";
+    "can access them below.";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupBox9
@@ -684,6 +743,7 @@ namespace NMSCoordinates
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.button17);
             this.groupBox8.Controls.Add(this.label31);
             this.groupBox8.Controls.Add(this.listBox4);
             this.groupBox8.Controls.Add(this.button6);
@@ -723,7 +783,7 @@ namespace NMSCoordinates
             // 
             this.button6.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button6.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button6.Location = new System.Drawing.Point(66, 187);
+            this.button6.Location = new System.Drawing.Point(25, 183);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(120, 25);
             this.button6.TabIndex = 34;
@@ -1884,7 +1944,7 @@ namespace NMSCoordinates
             this.textBox26.MinimumSize = new System.Drawing.Size(190, 18);
             this.textBox26.Name = "textBox26";
             this.textBox26.ReadOnly = true;
-            this.textBox26.Size = new System.Drawing.Size(190, 18);
+            this.textBox26.Size = new System.Drawing.Size(190, 14);
             this.textBox26.TabIndex = 33;
             this.textBox26.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -2266,6 +2326,18 @@ namespace NMSCoordinates
             this.linkLabel4.Text = "Newer Version Available";
             this.linkLabel4.Visible = false;
             this.linkLabel4.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel4_LinkClicked);
+            // 
+            // button17
+            // 
+            this.button17.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button17.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.button17.Location = new System.Drawing.Point(150, 183);
+            this.button17.Name = "button17";
+            this.button17.Size = new System.Drawing.Size(69, 25);
+            this.button17.TabIndex = 40;
+            this.button17.Text = "Refresh";
+            this.button17.UseVisualStyleBackColor = true;
+            this.button17.Click += new System.EventHandler(this.Button17_Click);
             // 
             // Form1
             // 
@@ -2672,6 +2744,11 @@ namespace NMSCoordinates
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.Button button14;
         private System.Windows.Forms.ToolStripMenuItem openLocationFileToolStripMenuItem;
+        private System.Windows.Forms.Button button15;
+        private System.Windows.Forms.TextBox textBox28;
+        private System.Windows.Forms.Button button16;
+        private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.Button button17;
     }
 }
 

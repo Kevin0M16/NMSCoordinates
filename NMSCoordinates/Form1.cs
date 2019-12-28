@@ -36,7 +36,7 @@ namespace NMSCoordinates
             InitializeComponent();
 
             //Set Version here
-            Version = "v1.1.13";
+            Version = "v1.1.14";
             label29.Text = "Version " + Version;
 
             Glyphs();
@@ -541,8 +541,13 @@ namespace NMSCoordinates
                 File.WriteAllLines(path2, Backuplist);
                 MessageBox.Show("Locations Backed up to .txt \n\n\r Open in Coordinate Share Tab", "Confirmation", MessageBoxButtons.OK);
                 LoadTxt();
+
                 tabControl1.SelectedTab = tabPage3;
-                Button6_Click(this, new EventArgs());
+                if (File.Exists(path2))
+                {                    
+                    listBox4.SelectedItem = Path.GetFileName(path2);
+                    Button6_Click(this, new EventArgs());
+                }                
             }
             else
             {
@@ -1816,24 +1821,6 @@ namespace NMSCoordinates
         {
             switch (value)
             {
-                case "g":
-                    rxValG = "\"Iis\": " + textBox4.Text + ",";
-                    break;
-                case "x":
-                    rxValX = "\"dZj\": " + textBox5.Text + ",";
-                    break;
-                case "y":
-                    rxValY = "\"IyE\": " + textBox6.Text + ",";
-                    break;
-                case "z":
-                    rxValZ = "\"uXE\": " + textBox7.Text + ",";
-                    break;
-                case "ssi":
-                    rxValSSI = "\"vby\": " + textBox8.Text + ",";
-                    break;
-                case "pi":
-                    rxValPI = "\"jsv\": " + textBox9.Text + ",";
-                    break;
                 //Main regex replace values
                 case "all":
                     rxValG = "\"Iis\": " + galaxy + ",";
@@ -1875,6 +1862,7 @@ namespace NMSCoordinates
         }
         private void Button5_ClickAsync(object sender, EventArgs e)
         {
+            //Move Player button on Base and Space Station tab
             try
             {
                 if (saveslot < 1 || saveslot > 5)
@@ -1882,8 +1870,7 @@ namespace NMSCoordinates
                     MessageBox.Show("Please select a save slot!", "Confirmation", MessageBoxButtons.OK);
                     return;
                 }
-
-                //Move Player here button on 2nd tab
+                
                 if (listBox1.GetItemText(listBox1.SelectedItem) != "" || listBox2.GetItemText(listBox2.SelectedItem) != "")
                 {
                     DialogResult dialogResult = MessageBox.Show("Move Player to: " + listBox1.GetItemText(listBox1.SelectedItem) + listBox2.GetItemText(listBox2.SelectedItem) + " ? ", "Fast Travel", MessageBoxButtons.YesNo);
@@ -2179,7 +2166,16 @@ namespace NMSCoordinates
                 if (listBox4.GetItemText(listBox4.SelectedItem) != "")
                 {
                     textBox18.Text = listBox3.Items.Count.ToString();
-                    string[] locFile = File.ReadAllLines(@".\backup\" + listBox4.SelectedItem.ToString());
+                    string path = @".\backup\" + listBox4.SelectedItem.ToString();
+
+                    if (!File.Exists(path))
+                    {
+                        MessageBox.Show("File Not Found!", "Alert", MessageBoxButtons.OK);
+                        LoadTxt();
+                        return;
+                    }
+
+                    string[] locFile = File.ReadAllLines(path);
                     if (locFile[0].ToString() != "")
                     {
                         listBox3.DataSource = locFile;
@@ -2223,6 +2219,25 @@ namespace NMSCoordinates
                 Regex myRegex1 = new Regex("GC:.*?$", RegexOptions.Multiline);
                 Match m1 = myRegex1.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
                 string line1 = m1.ToString();
+
+                if (line1.Length < 23) // if text file problem
+                {
+                    textBox11.Clear();
+                    AppendLine(textBox11, "File Error");
+                    AppendLine(textBox11, "---------------------");
+
+                    DialogResult dialogResult2 = MessageBox.Show("Something went wrong! \r\n\nSelected line has errors. \r\n\nWould you like to Delete the Line?", "Fast Travel", MessageBoxButtons.YesNo);
+                    if (dialogResult2 == DialogResult.Yes)
+                    {
+                        DeleteSingleRecordToolStripMenuItem_Click(this, new EventArgs());
+                        return;
+                    }
+                    else if (dialogResult2 == DialogResult.No)
+                    {
+                        return;
+                    }
+                }
+                    
                 string g1 = line1.Substring(0, 23);
                 //AppendLine(textBox11, g1);
 
@@ -2329,9 +2344,9 @@ namespace NMSCoordinates
         }
         private void Button8_Click(object sender, EventArgs e)
         {
+            //Move player button share coordinate tab
             try
-            {            
-                //Move player button share coordinate tab
+            {
                 if (listBox3.GetItemText(listBox3.SelectedItem) != "")
                 {
                     if (saveslot < 1 || saveslot > 5)
@@ -2350,6 +2365,22 @@ namespace NMSCoordinates
                         line1 = line1.Replace("GC: ", "");
                         line1 = line1.Replace(" ", "");
                         string[] value = line1.Split(':');
+
+                        //Check for errors on GC
+                        string gc = line1.Replace(":", "");
+                        if (gc.Length < 16)
+                        {
+                            DialogResult dialogResult2 = MessageBox.Show("Something went wrong! \r\n\nSelected line has errors. \r\n\nWould you like to Delete the Line?", "Fast Travel", MessageBoxButtons.YesNo);
+                            if (dialogResult2 == DialogResult.Yes)
+                            {
+                                DeleteSingleRecordToolStripMenuItem_Click(this, new EventArgs());
+                                return;
+                            }
+                            else if (dialogResult2 == DialogResult.No)
+                            {
+                                return;
+                            }                                                       
+                        }
 
                         //Only take 4 digits from the last array so can add notes GC: 0000:0000:0000:[0000] A:B:C:D
                         string A = value[0].Trim();
@@ -2429,7 +2460,7 @@ namespace NMSCoordinates
             }
             catch
             {                
-                AppendLine(textBox15, "Invalid Coordinates!");
+                AppendLine(textBox13, "Invalid Coordinates!");
             }
         }
         private void ToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -2437,13 +2468,22 @@ namespace NMSCoordinates
             //Save a single location record to a new txt file
             if (listBox3.GetItemText(listBox3.SelectedItem) != "")
             {
+                var selectedrecord = listBox3.GetItemText(listBox3.SelectedItem);
+
                 List<string> list = new List<string>();
                 list.Add(listBox3.GetItemText(listBox3.SelectedItem));
                 string path2 = MakeUnique(@".\backup\locbackup.txt").ToString();
                 File.WriteAllLines(path2, list);
-                Process.Start(path2);
+                //Process.Start(path2); //v1.1.14
                 AppendLine(textBox13, "Single Record saved!");
                 LoadTxt();
+
+                if (File.Exists(path2))
+                {
+                    listBox4.SelectedItem = Path.GetFileName(path2);
+                    Button6_Click(this, new EventArgs());
+                    listBox3.SelectedItem = selectedrecord;
+                }                    
             }
             else
             {
@@ -2577,6 +2617,7 @@ namespace NMSCoordinates
         }
         private void Button11_Click(object sender, EventArgs e)
         {
+            //Move player button on Manual Travel Tab
             //clears all voxels for upcoming steps
             X = "";
             Y = "";
@@ -3188,9 +3229,12 @@ namespace NMSCoordinates
                 LoadTxt();
 
                 tabControl1.SelectedTab = tabPage3;
-                listBox4.SelectedItem = "player_locs.txt";
-                Button6_Click(this, new EventArgs());
-                listBox3.SelectedItem = currentloc;
+                if (File.Exists(@".\backup\player_locs.txt"))
+                {
+                    listBox4.SelectedItem = "player_locs.txt";
+                    Button6_Click(this, new EventArgs());
+                    listBox3.SelectedItem = currentloc;
+                }                
             }
             else
             {
@@ -3208,6 +3252,14 @@ namespace NMSCoordinates
             if (record != "" && filename != "")
             {
                 string path = @".\backup\" + filename;
+
+                if (!File.Exists(path))
+                {
+                    MessageBox.Show("File Not Found!", "Alert", MessageBoxButtons.OK);
+                    LoadTxt();
+                    return;
+                }
+
                 List<string> filelist = File.ReadAllLines(path).ToList();
 
                 if (filelist.Contains(record) && filelist.Count <= 1)
@@ -3232,13 +3284,16 @@ namespace NMSCoordinates
                     AppendLine(textBox13, "Single Record deleted!");
                     LoadTxt();
 
-                    listBox4.SelectedItem = selectedfile;
-                    Button6_Click(this, new EventArgs());
-
-                    if (selectedrecord == 0)
-                        listBox3.SelectedIndex = selectedrecord;
-                    else
-                        listBox3.SelectedIndex = selectedrecord - 1;
+                    if (File.Exists(path))
+                    {
+                        listBox4.SelectedItem = selectedfile;
+                        Button6_Click(this, new EventArgs());
+                        
+                        if (selectedrecord == 0)
+                            listBox3.SelectedIndex = selectedrecord;
+                        else
+                            listBox3.SelectedIndex = selectedrecord - 1;
+                    }
                 }
             }
             else
@@ -3600,6 +3655,219 @@ namespace NMSCoordinates
             }
 
             //Log("Encrypted game save file \"{0}\" and wrote to latest game save for game slot {1}", @".\backup\saveedit.json", _gameSlot);
+        }
+
+        private void Button15_Click(object sender, EventArgs e)
+        {
+            //Add Note Button
+            if (listBox3.GetItemText(listBox3.SelectedItem) == "")
+            {
+                MessageBox.Show("No record selected!", "Alert", MessageBoxButtons.OK);
+                //AppendLine(textBox13, "No record selected!");
+                return;
+            }
+
+            if (textBox28.Text == "")
+            {
+                MessageBox.Show("No Note added. Please type a note!", "Alert", MessageBoxButtons.OK);
+                //AppendLine(textBox13, "No Note added. Please type a note!");
+                return;
+            }
+
+            //add a note to a single location record
+            string record = listBox3.GetItemText(listBox3.SelectedItem);
+            string filename = listBox4.GetItemText(listBox4.SelectedItem);
+            int selectedrecord = listBox3.SelectedIndex;
+            var selectedfile = listBox4.SelectedItem;
+
+            if (record != "" && filename != "")
+            {
+                string path = @".\backup\" + filename;
+
+                if(!File.Exists(path))
+                {
+                    MessageBox.Show("File Not Found!", "Alert", MessageBoxButtons.OK);
+                    LoadTxt();
+                    return;
+                }
+
+                List<string> filelist = File.ReadAllLines(path).ToList();
+                int index = filelist.FindIndex(a => a.Contains(record));
+
+                if (filelist.Contains(record) && filelist.Count > 0)
+                {
+                    //grabs the end of the line after GC:
+                    Regex myRegexGC = new Regex("GC:.*?$", RegexOptions.Multiline);
+                    Match m1 = myRegexGC.Match(listBox3.GetItemText(listBox3.SelectedItem));
+                    string line1 = m1.ToString();
+                    line1 = line1.Replace("GC: ", "");
+                    //line1 = line1.Replace(" ", "");
+                    string[] value = line1.Split(':');
+
+                    //Check for errors on GC
+                    string gc = line1.Replace(":", "");
+                    if (gc.Length < 16)
+                    {
+                        DialogResult dialogResult2 = MessageBox.Show("Something went wrong! \r\n\nSelected line has errors. \r\n\nWould you like to Delete the Line?", "Add Note", MessageBoxButtons.YesNo);
+                        if (dialogResult2 == DialogResult.Yes)
+                        {
+                            DeleteSingleRecordToolStripMenuItem_Click(this, new EventArgs());
+                            return;
+                        }
+                        else if (dialogResult2 == DialogResult.No)
+                        {
+                            return;
+                        }
+                    }
+
+                    //grab the end of the line and the last 4 of GC
+                    string D = value[3].Trim().Substring(0, 4);
+
+                    if (value[3].Length > 4)
+                    {
+                        DialogResult dialogResult = MessageBox.Show("Are you sure want to replace the note? ", "Replace/Change Note", MessageBoxButtons.YesNo);
+                        if (dialogResult == DialogResult.Yes)
+                        {
+                            //removes the last 4 of GC
+                            string E = value[3].Replace(D, "");
+
+                            //removes the note from the record
+                            record = record.Replace(E, "");
+                        }
+                        else if (dialogResult == DialogResult.No)
+                        {
+                            return;
+                        }                        
+                    }
+
+                    //replaces the record at the selected filelist index
+                    filelist[index] = record.Replace(record, record + " -- " + textBox28.Text);
+
+                    //writes the new file from the modified filelist
+                    File.WriteAllLines(path, filelist);
+                    AppendLine(textBox13, "Note Added.");
+
+                    LoadTxt();
+
+                    if (File.Exists(path))
+                    {
+                        listBox4.SelectedItem = selectedfile;
+                        Button6_Click(this, new EventArgs());
+
+                        listBox3.SelectedIndex = selectedrecord;
+                    }                    
+
+                    textBox28.Clear();
+                }
+            }
+        }
+
+        private void Button16_Click(object sender, EventArgs e)
+        {
+            //Clear Note Button
+            if (listBox3.GetItemText(listBox3.SelectedItem) == "")
+            {
+                MessageBox.Show("No record selected!", "Alert", MessageBoxButtons.OK);
+                //AppendLine(textBox13, "No record selected!");
+                return;
+            }
+
+            //delete a note to a single location record
+            string record = listBox3.GetItemText(listBox3.SelectedItem);
+            string filename = listBox4.GetItemText(listBox4.SelectedItem);
+            int selectedrecord = listBox3.SelectedIndex;
+            var selectedfile = listBox4.SelectedItem;
+
+            if (record != "" && filename != "")
+            {
+                string path = @".\backup\" + filename;
+
+                if (!File.Exists(path))
+                {
+                    MessageBox.Show("File Not Found!", "Alert", MessageBoxButtons.OK);
+                    LoadTxt();
+                    return;
+                }
+
+                List<string> filelist = File.ReadAllLines(path).ToList();
+                int index = filelist.FindIndex(a => a.Contains(record));
+
+                if (filelist.Contains(record) && filelist.Count > 0)
+                {
+                    //grabs the end of the line after GC:
+                    Regex myRegexGC = new Regex("GC:.*?$", RegexOptions.Multiline);
+                    Match m1 = myRegexGC.Match(listBox3.GetItemText(listBox3.SelectedItem));
+                    string line1 = m1.ToString();
+                    line1 = line1.Replace("GC: ", "");
+                    //line1 = line1.Replace(" ", "");
+                    string[] value = line1.Split(':');
+
+                    //Check for errors on GC
+                    string gc = line1.Replace(":", "");
+                    if (gc.Length < 16)
+                    {
+                        DialogResult dialogResult2 = MessageBox.Show("Something went wrong! \r\n\nSelected line has errors. \r\n\nWould you like to Delete the Line?", "Remove Note", MessageBoxButtons.YesNo);
+                        if (dialogResult2 == DialogResult.Yes)
+                        {
+                            DeleteSingleRecordToolStripMenuItem_Click(this, new EventArgs());
+                            return;
+                        }
+                        else if (dialogResult2 == DialogResult.No)
+                        {
+                            return;
+                        }
+                    }
+
+                    //grab the end of the line and the last 4 of GC
+                    string D = value[3].Trim().Substring(0, 4);
+
+                    if (value[3].Length > 4)
+                    {
+                        DialogResult dialogResult = MessageBox.Show("Are you sure want to Remove the note? ", "Remove Note", MessageBoxButtons.YesNo);
+                        if (dialogResult == DialogResult.Yes)
+                        {
+                            //removes the last 4 of GC
+                            string E = value[3].Replace(D, "");
+
+                            //removes the note from the record
+                            record = record.Replace(E, "");
+                        }
+                        else if (dialogResult == DialogResult.No)
+                        {
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("No Note Found!", "Alert", MessageBoxButtons.OK);
+                        //AppendLine(textBox13, "No Note Removed.");
+                        return;
+                    }
+
+                    //replaces the record at the selected filelist index
+                    filelist[index] = record;
+
+                    File.WriteAllLines(path, filelist);
+                    AppendLine(textBox13, "Note Removed.");
+
+                    LoadTxt();
+
+                    if (File.Exists(path))
+                    {
+                        listBox4.SelectedItem = selectedfile;
+                        Button6_Click(this, new EventArgs());
+
+                        listBox3.SelectedIndex = selectedrecord;
+                    }
+
+                    textBox28.Clear();
+                }
+            }
+        }
+
+        private void Button17_Click(object sender, EventArgs e)
+        {
+            LoadTxt();
         }
     }
 }
