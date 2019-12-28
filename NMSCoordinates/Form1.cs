@@ -96,7 +96,7 @@ namespace NMSCoordinates
                     linkLabel4.Text = "Version " + latest.Name + " Available";
                     linkLabel4.Visible = true;
                     AppendLine(textBox17, "Current Version: " + Version + " Latest Version: " + latest.Name);
-                    
+                    MessageBox.Show("A newer version of NMSCoordinates is available\r\n\nLatest Version: " + latest.Name + "  Now available for download.\r\n\n", "Update Available", MessageBoxButtons.OK);
                 }
 
                 if (Version == latest.Name)
@@ -108,23 +108,7 @@ namespace NMSCoordinates
             {
                 AppendLine(textBox17, "Github Server not available. Could not check version");
             }
-        }
-        private async void SoftBlink(Control ctrl, Color c1, Color c2, short CycleTime_ms, bool BkClr)
-        {
-            var sw = new Stopwatch(); sw.Start();
-            short halfCycle = (short)Math.Round(CycleTime_ms * 0.5);
-            while (true)
-            {
-                await Task.Delay(1);
-                var n = sw.ElapsedMilliseconds % CycleTime_ms;
-                var per = (double)Math.Abs(n - halfCycle) / halfCycle;
-                var red = (short)Math.Round((c2.R - c1.R) * per) + c1.R;
-                var grn = (short)Math.Round((c2.G - c1.G) * per) + c1.G;
-                var blw = (short)Math.Round((c2.B - c1.B) * per) + c1.B;
-                var clr = Color.FromArgb(red, grn, blw);
-                if (BkClr) ctrl.BackColor = clr; else ctrl.ForeColor = clr;
-            }
-        }
+        }        
 
         public Form8 f8;
 
@@ -3376,14 +3360,11 @@ namespace NMSCoordinates
                     archivePath = basePath + ".zip";
                     _gsm.ArchiveSaveDirTo(archivePath);
                     AppendLine(textBox17, "All saves backed up to zip file created in \\backup folder...");
-                }
-
-                //_gsm.ArchiveSaveDirTo(archivePath);                
+                }              
             }
-            catch// (Exception x)
+            catch
             {
-                MessageBox.Show("No Man's Sky save game folder not found, select it manually!", "Alert", MessageBoxButtons.OK);
-                //throw new Exception(string.Format("Error backing up all save games: {0}", x.Message));
+                MessageBox.Show("No Man's Sky save game folder not found, select it manually!", "Alert", MessageBoxButtons.OK);                
             }
         }
         private void DoGameSlotCommon(int saveslot)
@@ -3393,7 +3374,7 @@ namespace NMSCoordinates
         }
         private void DoCommon()
         {
-            _gsm = new GameSaveManager(hgFileDir);//, _log, _logVerbose);
+            _gsm = new GameSaveManager(hgFileDir);
         }
         private void LoadRun(int saveslot)
         {
@@ -3414,12 +3395,12 @@ namespace NMSCoordinates
             }
             catch
             {
-                //throw new Exception(string.Format("Error loading or parsing save file: {0}", x.Message));
+                return;
             }
         }
         private void RunDecrypt()
         {
-            //LogVerbose("Parsing and formatting save game JSON");
+            //Parsing and formatting save game JSON
             string formattedJson;
 
             try
@@ -3427,22 +3408,10 @@ namespace NMSCoordinates
                 formattedJson = _gs.ToFormattedJsonString(); 
                 File.WriteAllText(@".\backup\json\save.json", formattedJson);
             }
-            catch //(Exception x)
+            catch
             {
-                //throw new Exception(string.Format("Error formatting JSON (invalid save?): {0}", x.Message));
+                return;
             }
-
-            //LogVerbose("Writing formatted JSON to:\n   {0}", @".\backup\save.json");
-            //try
-            //{
-            //    File.WriteAllText(@".\backup\save.json", formattedJson);
-            //}
-            //catch //(Exception x)
-            //{
-                //throw new Exception(string.Format("Error writing decrypted JSON: {0}", x.Message));
-            //}
-
-            //Log("Wrote save game to formatted JSON file: {0}", @".\backup\save.json");
         }
         private void EditSaveFB(ProgressBar pb)
         {
@@ -3493,8 +3462,6 @@ namespace NMSCoordinates
 
             pb.Visible = true;
             pb.Invoke((Action)(() => pb.Value = 5));//progressBar1.Value = 5));
-
-            //progressBar1.Invoke((Action)(() => progressBar1.Value = 30));
 
             //Read decrypted save.json to a string
             string jsons = File.ReadAllText(@".\backup\json\save.json");
@@ -3632,16 +3599,14 @@ namespace NMSCoordinates
         {
             DoGameSlotCommon(saveslot);
 
-            //LogVerbose("Loading JSON save game data from: {0}", @".\backup\saveedit.json");
-
             try
             {
                 //Read edited saveedit.json
                 _gs = _gsm.ReadUnencryptedGameSave(@".\backup\json\saveedit.json");
             }
-            catch //(Exception x)
+            catch
             {
-                //throw new Exception(string.Format("Error reading or parsing save game file: {0}", x.Message));
+                return;
             }
             try
             {
@@ -3649,12 +3614,10 @@ namespace NMSCoordinates
                 _gsm.WriteSaveFile(_gs, _gameSlot);
                 pb.Invoke((Action)(() => pb.Value = 90));
             }
-            catch //(Exception x)
+            catch
             {
-                //throw new Exception(string.Format("Error storing save file: {0}", x.Message));
+                return;
             }
-
-            //Log("Encrypted game save file \"{0}\" and wrote to latest game save for game slot {1}", @".\backup\saveedit.json", _gameSlot);
         }
 
         private void Button15_Click(object sender, EventArgs e)
