@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using QuickType;
 using Octokit;
+using AutoUpdaterDotNET;
 
 /**********************************************************\
 |                                                          |
@@ -87,6 +88,8 @@ namespace NMSCoordinates
             //Check Github releases for a newer version method
             try
             {
+                AutoUpdater.Start("https://github.com/Kevin0M16/NMSCoordinates/blob/v1.1.14/AutoUpdate.xml"); //https://kevin0m16.github.io/NMSCoordinates/AutoUpdate.xml");
+
                 var client = new GitHubClient(new ProductHeaderValue("NMSCoordinates"));
                 var releases = await client.Repository.Release.GetAll("Kevin0M16", "NMSCoordinates");
                 var latest = releases[0];
