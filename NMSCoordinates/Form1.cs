@@ -81,14 +81,19 @@ namespace NMSCoordinates
             RunBackupAll(hgFileDir);
 
             //Check Github releases for a newer version
-            CheckForUpdates();
+            //CheckForUpdates();
+
+            //System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+            AutoUpdater.ReportErrors = true;
+            //AutoUpdater.DownloadPath = Environment.CurrentDirectory;
+            AutoUpdater.Start("https://raw.githubusercontent.com/Kevin0M16/NMSCoordinates/v1.1.14/AutoUpdate.xml"); //https://kevin0m16.github.io/NMSCoordinates/AutoUpdate.xml");
         }
         private async void CheckForUpdates()
         {
             //Check Github releases for a newer version method
             try
             {
-                AutoUpdater.Start("https://github.com/Kevin0M16/NMSCoordinates/blob/v1.1.14/AutoUpdate.xml"); //https://kevin0m16.github.io/NMSCoordinates/AutoUpdate.xml");
+                
 
                 var client = new GitHubClient(new ProductHeaderValue("NMSCoordinates"));
                 var releases = await client.Repository.Release.GetAll("Kevin0M16", "NMSCoordinates");
