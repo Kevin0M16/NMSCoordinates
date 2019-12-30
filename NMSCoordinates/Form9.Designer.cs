@@ -37,6 +37,14 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.linkLabel3 = new System.Windows.Forms.LinkLabel();
+            this.labelSpd = new System.Windows.Forms.Label();
+            this.labelPerc = new System.Windows.Forms.Label();
+            this.labelDownloaded = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label2
@@ -65,11 +73,11 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(157, 193);
+            this.button1.Location = new System.Drawing.Point(157, 156);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(90, 30);
             this.button1.TabIndex = 6;
-            this.button1.Text = "OK";
+            this.button1.Text = "Update";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
@@ -122,7 +130,7 @@
             this.linkLabel3.AutoSize = true;
             this.linkLabel3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.linkLabel3.LinkColor = System.Drawing.Color.LawnGreen;
-            this.linkLabel3.Location = new System.Drawing.Point(106, 157);
+            this.linkLabel3.Location = new System.Drawing.Point(103, 376);
             this.linkLabel3.Name = "linkLabel3";
             this.linkLabel3.Size = new System.Drawing.Size(193, 18);
             this.linkLabel3.TabIndex = 79;
@@ -130,12 +138,86 @@
             this.linkLabel3.Text = "https://nmscoordinates.com";
             this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel3_LinkClicked);
             // 
+            // labelSpd
+            // 
+            this.labelSpd.AutoSize = true;
+            this.labelSpd.ForeColor = System.Drawing.Color.White;
+            this.labelSpd.Location = new System.Drawing.Point(294, 84);
+            this.labelSpd.Name = "labelSpd";
+            this.labelSpd.Size = new System.Drawing.Size(89, 13);
+            this.labelSpd.TabIndex = 80;
+            this.labelSpd.Text = "Download Speed";
+            // 
+            // labelPerc
+            // 
+            this.labelPerc.AutoSize = true;
+            this.labelPerc.ForeColor = System.Drawing.Color.White;
+            this.labelPerc.Location = new System.Drawing.Point(177, 84);
+            this.labelPerc.Name = "labelPerc";
+            this.labelPerc.Size = new System.Drawing.Size(44, 13);
+            this.labelPerc.TabIndex = 81;
+            this.labelPerc.Text = "Percent";
+            // 
+            // labelDownloaded
+            // 
+            this.labelDownloaded.AutoSize = true;
+            this.labelDownloaded.ForeColor = System.Drawing.Color.White;
+            this.labelDownloaded.Location = new System.Drawing.Point(16, 84);
+            this.labelDownloaded.Name = "labelDownloaded";
+            this.labelDownloaded.Size = new System.Drawing.Size(67, 13);
+            this.labelDownloaded.TabIndex = 82;
+            this.labelDownloaded.Text = "Downloaded";
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(16, 52);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(367, 23);
+            this.progressBar1.TabIndex = 83;
+            // 
+            // textBox3
+            // 
+            this.textBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.textBox3.ForeColor = System.Drawing.Color.White;
+            this.textBox3.Location = new System.Drawing.Point(161, 21);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(222, 20);
+            this.textBox3.TabIndex = 84;
+            this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Location = new System.Drawing.Point(32, 25);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(126, 13);
+            this.label5.TabIndex = 85;
+            this.label5.Text = "Downloading Latest File: ";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.progressBar1);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.labelSpd);
+            this.groupBox1.Controls.Add(this.textBox3);
+            this.groupBox1.Controls.Add(this.labelPerc);
+            this.groupBox1.Controls.Add(this.labelDownloaded);
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
+            this.groupBox1.Location = new System.Drawing.Point(12, 199);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(396, 120);
+            this.groupBox1.TabIndex = 86;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Update";
+            // 
             // Form9
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(391, 245);
+            this.ClientSize = new System.Drawing.Size(419, 403);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.linkLabel3);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -149,6 +231,8 @@
             this.Name = "Form9";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NMSCoordinates Updates";
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -166,5 +250,12 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.LinkLabel linkLabel3;
+        private System.Windows.Forms.Label labelSpd;
+        private System.Windows.Forms.Label labelPerc;
+        private System.Windows.Forms.Label labelDownloaded;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

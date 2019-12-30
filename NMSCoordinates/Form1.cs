@@ -96,7 +96,7 @@ namespace NMSCoordinates
                     linkLabel4.Text = "Version " + latest.Name + " Available";
                     linkLabel4.Visible = true;
                     AppendLine(textBox17, "Current Version: " + Version + " Latest Version: " + latest.Name);
-                    MessageBox.Show("A newer version of NMSCoordinates is available\r\n\nLatest Version: " + latest.Name + "  Now available for download.\r\n\n", "Update Available", MessageBoxButtons.OK);
+                    //MessageBox.Show("A newer version of NMSCoordinates is available\r\n\nLatest Version: " + latest.Name + "  Now available for download.\r\n\n", "Update Available", MessageBoxButtons.OK);
                 }
 
                 if (Version == latest.Name)
@@ -3831,6 +3831,12 @@ namespace NMSCoordinates
         private void Button17_Click(object sender, EventArgs e)
         {
             LoadTxt();
+        }
+
+        private void CheckForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form9 f9 = new Form9(Version);
+            f9.ShowDialog();
         }
     }
 }

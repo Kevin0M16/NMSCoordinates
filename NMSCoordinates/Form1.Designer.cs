@@ -82,6 +82,7 @@ namespace NMSCoordinates
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.textBox11 = new System.Windows.Forms.TextBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.button17 = new System.Windows.Forms.Button();
             this.label31 = new System.Windows.Forms.Label();
             this.listBox4 = new System.Windows.Forms.ListBox();
             this.button6 = new System.Windows.Forms.Button();
@@ -222,7 +223,7 @@ namespace NMSCoordinates
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.linkLabel4 = new System.Windows.Forms.LinkLabel();
-            this.button17 = new System.Windows.Forms.Button();
+            this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -513,7 +514,8 @@ namespace NMSCoordinates
             // helpToolStripMenuItem1
             // 
             this.helpToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutToolStripMenuItem1});
+            this.aboutToolStripMenuItem1,
+            this.checkForUpdatesToolStripMenuItem});
             this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
             this.helpToolStripMenuItem1.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem1.Text = "Help";
@@ -521,7 +523,7 @@ namespace NMSCoordinates
             // aboutToolStripMenuItem1
             // 
             this.aboutToolStripMenuItem1.Name = "aboutToolStripMenuItem1";
-            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(182, 22);
             this.aboutToolStripMenuItem1.Text = "About";
             this.aboutToolStripMenuItem1.Click += new System.EventHandler(this.AboutToolStripMenuItem1_Click);
             // 
@@ -754,6 +756,18 @@ namespace NMSCoordinates
             this.groupBox8.TabIndex = 38;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Location Backup Files";
+            // 
+            // button17
+            // 
+            this.button17.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button17.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.button17.Location = new System.Drawing.Point(150, 183);
+            this.button17.Name = "button17";
+            this.button17.Size = new System.Drawing.Size(69, 25);
+            this.button17.TabIndex = 40;
+            this.button17.Text = "Refresh";
+            this.button17.UseVisualStyleBackColor = true;
+            this.button17.Click += new System.EventHandler(this.Button17_Click);
             // 
             // label31
             // 
@@ -2327,17 +2341,12 @@ namespace NMSCoordinates
             this.linkLabel4.Visible = false;
             this.linkLabel4.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel4_LinkClicked);
             // 
-            // button17
+            // checkForUpdatesToolStripMenuItem
             // 
-            this.button17.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button17.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button17.Location = new System.Drawing.Point(150, 183);
-            this.button17.Name = "button17";
-            this.button17.Size = new System.Drawing.Size(69, 25);
-            this.button17.TabIndex = 40;
-            this.button17.Text = "Refresh";
-            this.button17.UseVisualStyleBackColor = true;
-            this.button17.Click += new System.EventHandler(this.Button17_Click);
+            this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
+            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.checkForUpdatesToolStripMenuItem.Text = "Check For Updates...";
+            this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.CheckForUpdatesToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -2749,6 +2758,7 @@ namespace NMSCoordinates
         private System.Windows.Forms.Button button16;
         private System.Windows.Forms.Label label38;
         private System.Windows.Forms.Button button17;
+        private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
     }
 }
 
