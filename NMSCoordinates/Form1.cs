@@ -97,6 +97,15 @@ namespace NMSCoordinates
                     linkLabel4.Visible = true;
                     AppendLine(textBox17, "Current Version: " + Version + " Latest Version: " + latest.Name);
                     //MessageBox.Show("A newer version of NMSCoordinates is available\r\n\nLatest Version: " + latest.Name + "  Now available for download.\r\n\n", "Update Available", MessageBoxButtons.OK);
+                    DialogResult dialogResult = MessageBox.Show("A newer version of NMSCoordinates is available\r\n\nLatest Version: " + latest.Name + "  Update Now?\r\n\n", "Update Available", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        UpdateApp();
+                    }
+                    else if (dialogResult == DialogResult.No)
+                    {
+                        return;
+                    }
                 }
 
                 if (Version == latest.Name)
@@ -3833,10 +3842,52 @@ namespace NMSCoordinates
             LoadTxt();
         }
 
+        private void UpdateApp()
+        {
+            string apath = Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath);
+            if (!Directory.Exists(apath))
+            {
+                MessageBox.Show("Updater Not Found!", "Alert", MessageBoxButtons.OK);
+                return;
+            }
+
+            DirectoryInfo workingdir = new DirectoryInfo(apath);
+            string bpath = Path.Combine(workingdir.FullName, "updater");
+            if (!Directory.Exists(bpath))
+            {
+                MessageBox.Show("Updater Not Found!", "Alert", MessageBoxButtons.OK);
+                return;
+            }
+
+            FileInfo[] files = workingdir.GetFiles("NMSCoordinatesUpdater.exe", SearchOption.AllDirectories);
+            if (files.Length != 0)
+            {
+                foreach (FileInfo file in files)//.OrderByDescending(f => f.LastWriteTime))
+                {
+                    if (file.DirectoryName == bpath)
+                    {
+                        var startInfo = new ProcessStartInfo();
+                        startInfo.WorkingDirectory = Path.GetDirectoryName(files[0].FullName); // working directory
+                        startInfo.FileName = "NMSCoordinatesUpdater.exe";
+                        Process.Start(startInfo);
+                        Close();
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Updater Not Found!", "Alert", MessageBoxButtons.OK);
+            }
+        }
+
         private void CheckForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form9 f9 = new Form9(Version);
-            f9.ShowDialog();
+            //Form9 f9 = new Form9(Version);
+            //f9.ShowDialog();
+
+            CheckForUpdates();
+
+            //UpdateApp();
         }
     }
 }
