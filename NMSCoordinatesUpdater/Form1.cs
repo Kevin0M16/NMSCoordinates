@@ -8,12 +8,17 @@ using System.IO.Compression;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace NMSCoordinatesUpdater
 {
     public partial class Form1 : Form
     {
         private string config;
+        private string oldconfig;
+        private string workingDir;
+        private string workingDirName;
+        
         private string readKey;
 
         private string version;
@@ -24,8 +29,8 @@ namespace NMSCoordinatesUpdater
 
         private string app;
         private string approotDir;
+        private string appexcDirName;
 
-        //temp file strings
         private string apptempDir;
         private string tempDir;
         private string tempRootDir;
@@ -36,38 +41,35 @@ namespace NMSCoordinatesUpdater
         WebClient webClient;
         Stopwatch sw = new Stopwatch();
 
-        private List<string> tempappfiles = new List<string>();
-        private List<string> appfiles = new List<string>();
+        private List<string> loglist = new List<string>();
 
         private bool fullupdate;
 
         public Form1()
         {
             InitializeComponent();
-
-            //config = Path.GetFullPath("uconfig.nmsc");
+                        
             config = Path.Combine(Directory.GetCurrentDirectory(), "uconfig.nmsc");
+            oldconfig = Path.Combine(Directory.GetCurrentDirectory(), "config_old.nmsc");
 
-            //repo = "NMSCoordinates";
-            //user = "Kevin0M16";
-
-            //version = "1.1.14";
-            //updateZip = "latest.zip";
-
-            //app = "NMSCoordinates.exe";
-            //approotDir = Path.GetFullPath(@"..\");
-
-            //apptempDir = Path.GetFullPath(@".\app_temp");
-            //tempDir = Path.GetFullPath(@".\temp");
-
-            //fullupdate = false;
-
-            //StartUp();
-            //GetConfig();
-            //CheckForUpdates();
+            //log box
+            textBox4.Visible = false;
         }
         private void Form1_Shown(object sender, EventArgs e)
         {
+            workingDir = Directory.GetCurrentDirectory();
+            AppendLine(textBox4, "workingDir: " + workingDir);
+
+            if (!Directory.Exists(workingDir))
+            {
+                AppendLine(textBox4, "Error: workingDir: " + workingDir + "not found!");
+                return;
+            }
+
+            DirectoryInfo dir = new DirectoryInfo(workingDir);
+            workingDirName = dir.Name;
+            AppendLine(textBox4, "workingDirName: " + workingDirName);
+
             GetConfig();
             CheckForUpdates();
         }
@@ -76,7 +78,26 @@ namespace NMSCoordinatesUpdater
             GetConfig();
             CheckForUpdates();
         }
-        public static void AppendLine(TextBox source, string value)
+        public void AppendLine(TextBox source, string value)
+        {
+            string log = "log.txt";            
+            if (source.Text.Length == 0)
+            {
+                source.Text = value;
+
+                loglist.Add(value);
+                File.WriteAllLines(log, loglist);
+            }                
+            else
+            {
+                source.AppendText("\r\n" + value);
+
+                loglist = File.ReadAllLines(log).ToList();
+                loglist.Add(value);
+                File.WriteAllLines(log, loglist);
+            }                
+        }
+        public static void AppendLineB(TextBox source, string value)
         {
             //My neat little textbox handler
             if (source.Text.Length == 0)
@@ -89,29 +110,38 @@ namespace NMSCoordinatesUpdater
             File.Create("uconfig.nmsc").Close();
             TextWriter tw = new StreamWriter("uconfig.nmsc");
             tw.WriteLine("config=uconfig.nmsc");
+            tw.WriteLine("oldconfig=config_old.nmsc");
             tw.WriteLine("repo=");
             tw.WriteLine("user=");
             tw.WriteLine("version=1.0.0.0");
             tw.WriteLine("updatezip=latest.zip");
             tw.WriteLine("app=");
+            tw.WriteLine("fullupdate=false");
             tw.WriteLine("approotdir=" + @"..\");
             tw.WriteLine("apptempdir=" + @".\app_temp");
+            tw.WriteLine("appexcdirname=backup");
             tw.WriteLine("tempdir=" + @".\temp");
-            tw.WriteLine("fullupdate=false");
             tw.Close();
         }
-        private void GetConfig()
+        private void GetConfig() // update to (string cfgpath) for readalllines new cfg?
         {
+            //Read config file and set parameters
+            AppendLine(textBox4, "***Start of Read config file***");
+
             if (!File.Exists(config))
             {
                 CreateConfig();
-            }
+            }            
 
             Read("config", config);
             config = readKey;
 
+            Read("oldconfig", config);
+            oldconfig = readKey;
+
             Read("repo", config);
             repo = readKey;
+            label2.Text = repo;
 
             Read("user", config);
             user = readKey;
@@ -120,19 +150,10 @@ namespace NMSCoordinatesUpdater
             version = readKey;
 
             Read("updatezip", config);
-            updateZip = readKey;
+            updateZip = readKey;            
 
             Read("app", config);
-            app = readKey;
-
-            Read("approotdir", config);
-            approotDir = Path.GetFullPath(readKey);
-
-            Read("apptempdir", config);
-            apptempDir = Path.GetFullPath(readKey);
-
-            Read("tempdir", config);
-            tempDir= Path.GetFullPath(readKey);
+            app = readKey;            
 
             Read("fullupdate", config);
             if (readKey == "true" || readKey == "True")
@@ -143,67 +164,110 @@ namespace NMSCoordinatesUpdater
             {
                 fullupdate = false;
             }
+
+            Read("approotdir", config);
+            approotDir = Path.GetFullPath(readKey);
+
+            Read("apptempdir", config);
+            apptempDir = Path.GetFullPath(readKey);
+
+            Read("appexcdirname", config);
+            appexcDirName = readKey; //just a string of dname
+
+            Read("tempdir", config);
+            tempDir = Path.GetFullPath(readKey);
+
+            AppendLine(textBox4, "approotDir Full Path: " + approotDir);
+            //AppendLine(textBox4, "apptempDir Full Path: " + apptempDir);
+            //AppendLine(textBox4, "tempDir Full Path: " + tempDir);
+
+            AppendLine(textBox4, "***End of Read config file***\r\n");
         }
         private void Read(string key, string path)
         {
             readKey = "";
-            //Read the config file and get the value from key
             try
             {
-                if (File.Exists(path))
+                if (!File.Exists(path))
                 {
-                    string[] array = File.ReadAllLines(path).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
-                    for (int i = 0; i < array.Length; i++)
-                    {
-                        string a = array[i].Substring(0, array[i].IndexOf("="));
-                        string s = array[i].Substring(array[i].IndexOf("=") + 1);
-
-                        if (a == key)
-                        {
-                            readKey = s.Replace(" ", "");
-                        }
-
-                    }
                     return;
+                }
+                List<string> filelist = File.ReadAllLines(path).ToList();
+                foreach (string lst in filelist)
+                {
+                    if (lst.Contains(key))
+                    {
+                        //grabs the end of the line before key
+                        Regex myRegexLS = new Regex(".*?=", RegexOptions.Multiline);
+                        Match m1 = myRegexLS.Match(lst);
+                        string line = m1.ToString();
+                        line = line.Replace("=", "");
+
+                        if (line == key)
+                        {
+                            string record = filelist.IndexOf(lst).ToString();
+
+                            //grabs the end of the line after key
+                            Regex myRegexRC = new Regex("=.*?$", RegexOptions.Multiline);
+                            Match m2= myRegexRC.Match(lst);
+                            string line2 = m2.ToString();
+
+                            line2 = line2.Replace("=", "");
+                            string value = line2.Replace(" ", "");
+                            readKey = value;
+                            AppendLine(textBox4, "Read: " + key + "=" + value);
+                        }    
+                    }
                 }
             }
             catch
             {
-                AppendLine(textBox4, "Config File Corrupted!");
+                AppendLine(textBox4, "Error: Read() catch // " + key + " // " + path);
                 return;
             }
         }
-        public void Write(string key, string newKey, string path)
+        private void Write(string key, string newKey, string path)
         {
-            //Write to config
             try
             {
-                if (File.Exists(path))
+                if (!File.Exists(path))
                 {
-                    string[] array = File.ReadAllLines(path).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
-
-                    for (int i = 0; i < array.Length; i++)
-                    {
-                        string a = array[i].Substring(0, array[i].IndexOf("="));
-                        string s = array[i].Substring(array[i].IndexOf("=") + 1);
-                        if (a == key)
-                        {
-                            string text = File.ReadAllText(path);
-                            text = text.Replace(key + "=" + s, key + "=" + newKey);
-                            File.WriteAllText(path, text);
-                        }
-                    }
                     return;
                 }
-                else
+                List<string> filelist = File.ReadAllLines(path).ToList();
+                foreach (string lst in filelist)
                 {
-                    AppendLine(textBox4, "Error config file not found!");
-                    return;
+                    if (lst.Contains(key))
+                    {
+                        //grabs the end of the line before key
+                        Regex myRegexLS = new Regex(".*?=", RegexOptions.Multiline);
+                        Match m1 = myRegexLS.Match(lst);
+                        string line = m1.ToString();
+                        line = line.Replace("=", "");
+
+                        if (line == key)
+                        {
+                            //grabs the end of the line after key
+                            Regex myRegexRC = new Regex("=.*?$", RegexOptions.Multiline);
+                            Match m2 = myRegexRC.Match(lst);
+                            string line2 = m2.ToString();
+
+                            line2 = line2.Replace("=", "");
+                            string value = line2.Replace(" ", "");
+
+                            //replaces the record at the selected filelist index
+                            int index = filelist.IndexOf(lst);
+                            string record = lst.Replace(value, newKey);
+                            filelist[index] = record;
+                            File.WriteAllLines(path, filelist);
+                            return;
+                        }
+                    }
                 }
             }
             catch
             {
-                AppendLine(textBox4, "Config file Corrupted!");
+                AppendLine(textBox4, "Error: Write() catch //" + key +" // "+ newKey +" // " + path);
                 return;
             }
         }
@@ -228,8 +292,14 @@ namespace NMSCoordinatesUpdater
 
                 if (version == latest.Name)
                 {
-                    //MessageBox.Show("You have the latest version from Github", "Alert", MessageBoxButtons.OK);  
-                    DialogResult dialogResult = MessageBox.Show("You have the latest version from Github\r\n\nOpen" + app + " Now? ", "Confirmation", MessageBoxButtons.YesNo);
+                    button2.Text = "Repair";
+                    
+                    DialogResult dialogResult = MessageBox.Show("You have the latest version from Github\r\n\n" +
+                        "Open" + app + 
+                        " Now? ", 
+                        "Confirmation", 
+                        MessageBoxButtons.YesNo);
+
                     if (dialogResult == DialogResult.Yes)
                     {
                         OpenApp();
@@ -239,9 +309,14 @@ namespace NMSCoordinatesUpdater
                         return;
                     }
                 }
+                else
+                {
+                    button2.Text = "Update";
+                }
             }
             catch
             {
+                AppendLine(textBox4, "Error: Github Server Problem. Could not check version");
                 MessageBox.Show("Github Server Problem. Could not check version", "Alert");
             }
         }
@@ -266,15 +341,19 @@ namespace NMSCoordinatesUpdater
             }
             catch
             {
+                AppendLine(textBox4, "Error: Problem Opening " + app + " !");
                 MessageBox.Show("Problem Opening " + app + " !", "Alert", MessageBoxButtons.OK);
             }
         }
         private void Button1_Click(object sender, System.EventArgs e)
         {
-            DownloadFile(assetUrl, updateZip);       
+            AppendLine(textBox4, "***Start of Download***");
+            DownloadFile(assetUrl, updateZip);
+            AppendLine(textBox4, "***End of Download***");
         }
         public void DownloadFile(string urlAddress, string location)
         {
+            AppendLine(textBox4, "Download: " + urlAddress + " to " + location);
             using (webClient = new WebClient())
             {
                 webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
@@ -292,13 +371,13 @@ namespace NMSCoordinatesUpdater
                     // Start downloading the file
                     webClient.DownloadFileAsync(uri, location);
                 }
-                catch (Exception ex)
+                catch //(Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    AppendLine(textBox4, "Error: webClient Error!");
+                    //MessageBox.Show(ex.Message);
                 }
             }
         }
-
         // The event that will fire whenever the progress of the WebClient is changed
         private void ProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
@@ -316,7 +395,6 @@ namespace NMSCoordinatesUpdater
                 (e.BytesReceived / 1024d / 1024d).ToString("0.00"),
                 (e.TotalBytesToReceive / 1024d / 1024d).ToString("0.00"));
         }
-
         // The event that will trigger when the WebClient is completed
         private void Completed(object sender, AsyncCompletedEventArgs e)
         {
@@ -343,36 +421,54 @@ namespace NMSCoordinatesUpdater
         }
         private void Install()
         {
+            //Main install method
+            AppendLine(textBox4, "***Start of Install***");
             //Looks in approot directory for the app and backup to app_temp
             if (!Directory.Exists(approotDir))
             {
+                AppendLine(textBox4, "Error: approotDir: " + approotDir + " not found!");
                 return;
             }
-            DirectoryInfo NMSCdinfo = new DirectoryInfo(approotDir);
-            FileInfo[] NMSCFiles = NMSCdinfo.GetFiles(app, SearchOption.TopDirectoryOnly);
-            if (NMSCFiles.Length == 0) //!= 0)
+            DirectoryInfo approotdinfo = new DirectoryInfo(approotDir);
+            FileInfo[] approotfiles = approotdinfo.GetFiles(app, SearchOption.TopDirectoryOnly);
+            if (approotfiles.Length == 0)
             {
+                AppendLine(textBox4, "Error: approotfiles.Length is 0");
                 return;
             }
             if (Directory.Exists(apptempDir))
             {
                 Directory.Delete(apptempDir, true);
+                AppendLine(textBox4, "Remove: apptempDir: " + apptempDir + " found and deleted");
             }
-            DirectoryCopy(approotDir, apptempDir, true, true, null, "temp");
+            AppendLine(textBox4, "***Start of Directory Copy - approotDir to apptempDir***");
+            DirectoryInfo temp1dinfo = new DirectoryInfo(apptempDir);
+            string temp1 = temp1dinfo.Name;
+            DirectoryInfo temp2dinfo = new DirectoryInfo(tempDir);
+            string temp2 = temp2dinfo.Name;
+            AppendLine(textBox4, "Copy: " + approotDir + " to " + apptempDir + " exclude // " + temp1 + " // " + temp2);
+            DirectoryCopy(approotDir, apptempDir, true, true, temp1, temp2);
+            AppendLine(textBox4, "***End of Directory Copy - approotDir to apptempDir***\r\n");
 
-
-            //Looks in temp directory for the app then copies temp to approot
+            //Looks in temp directory for the app then copies tem
             if (Directory.Exists(tempDir))
             {
                 Directory.Delete(tempDir, true);
+                AppendLine(textBox4, "Remove: tempDir: " + tempDir + " found and deleted");
             }
             if (!File.Exists(updateZip))
             {
+                AppendLine(textBox4, "Error: updateZip:" + updateZip + " not found!");
                 return;
             }
+
+            //Extract Zip File to tempDir \temp
             ZipFile.ExtractToDirectory(updateZip, tempDir);
+
+            //Check if \temp exists
             if (!Directory.Exists(tempDir))
             {
+                AppendLine(textBox4, "Error: tempDir: " + tempDir + " not found!");
                 return;
             }
             DirectoryInfo dinfo = new DirectoryInfo(tempDir);
@@ -383,56 +479,121 @@ namespace NMSCoordinatesUpdater
                 {
                     //find the root folder in temp that contains the app and set it
                     tempRootDir = file.DirectoryName;
+                    AppendLine(textBox4, "tempRootDir: " + tempRootDir);
                 }
-                DirectoryCopy(tempRootDir, tempDir, true, true, null, tempRootDir);
 
-                //Don't move backup if exists
-                if (Directory.Exists(Path.Combine(approotDir, "backup")))
+                //Looks to see if tempDir is already the root if not move it
+                if (tempRootDir != tempDir)
                 {
-                    Directory.Delete(Path.Combine(tempDir, "backup"), true);
+                    AppendLine(textBox4, "***Start of Directory Copy - tempRootDir to tempDir***");
+                    AppendLine(textBox4, "Copy: " + tempRootDir + " to " + tempDir + " exclude // " + tempRootDir);
+                    DirectoryCopy(tempRootDir, tempDir, true, true, tempRootDir);
+                    AppendLine(textBox4, "***End of Directory Copy - tempRootDir to tempDir***\r\n");
                 }
 
+                //If tempRootDir exist delete it
                 if (Directory.Exists(tempRootDir))
                 {
                     Directory.Delete(tempRootDir, true);
+                    AppendLine(textBox4, "Remove: tempRootDir: " + tempRootDir + " deleted");
                 }
 
+                //Checks if tempDir\app and apptempDir\app exists
                 if (!Directory.Exists(tempDir) || !File.Exists(Path.Combine(tempDir, app)))
                 {
+                    AppendLine(textBox4, "Error: tempDir: " + tempDir + " or " + Path.Combine(tempDir, app) + " not found!");
                     return;
                 }
-
                 if (!Directory.Exists(apptempDir) || !File.Exists(Path.Combine(apptempDir, app))) 
                 {
+                    AppendLine(textBox4, "Error: apptempDir: " + apptempDir + " or " + Path.Combine(apptempDir, app) + " not found!");
                     return;
                 }
             }
+            AppendLine(textBox4, "***End of Install***\r\n");
         }
-        private static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs, bool ovrwrite, string ext, string dname)
+        private void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs, bool ovrwrite, string dname1, string dname2)
         {
+            //Copy directories method
+
             // Get the subdirectories for the specified directory.
             DirectoryInfo dir = new DirectoryInfo(sourceDirName);
 
             if (!dir.Exists)
             {
+                AppendLine(textBox4, "Error: sourceDirName: " + sourceDirName + " not found");
                 return;
             }
 
             DirectoryInfo[] dirs = dir.GetDirectories();
+
             // If the destination directory doesn't exist, create it.
-            if (!Directory.Exists(destDirName))
+            if (!Directory.Exists(destDirName) && destDirName != workingDir && sourceDirName != workingDir)
             {
                 Directory.CreateDirectory(destDirName);
+                AppendLine(textBox4, "destDirName: " + destDirName + " not found, created");
             }
 
             // Get the files in the directory and copy them to the new location.
             FileInfo[] files = dir.GetFiles();
             foreach (FileInfo file in files)
             {
-                string temppath = Path.Combine(destDirName, file.Name);
-                //if (file.Extension != ext && !file.DirectoryName.Contains(dname))
-                if (Path.GetExtension(temppath) != ext)// && Path.GetDirectoryName(temppath).Contains(dname))
+                if (file.Directory.FullName != workingDir)
+                {
+                    string temppath = Path.Combine(destDirName, file.Name);
                     file.CopyTo(temppath, ovrwrite);
+                    AppendLine(textBox4, "Copy: " + file + " to " + temppath + " // " + file.LastWriteTime);
+                }                                  
+            }
+
+            // If copying subdirectories, copy them and their contents to new location.
+            if (copySubDirs)
+            {
+                foreach (DirectoryInfo subdir in dirs)
+                {                    
+                    string temppath = Path.Combine(destDirName, subdir.Name);
+                    if (temppath != workingDir)
+                    {
+                        if (subdir.Name != dname1 && subdir.Name != dname2)// && subdir.FullName != workingDir)// && subdir.Name != workingDirName)
+                        {
+                            AppendLine(textBox4, "Copy: " + subdir.FullName + " to " + temppath + " exclude // " + dname1 + " // " + dname2);
+                            DirectoryCopy(subdir.FullName, temppath, copySubDirs, ovrwrite, dname1, dname2);
+                        }
+                    }                    
+                }
+            }
+        }
+        private void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs, bool ovrwrite, string dname)
+        {
+            //Copy directories method
+
+            // Get the subdirectories for the specified directory.
+            DirectoryInfo dir = new DirectoryInfo(sourceDirName);
+
+            if (!dir.Exists)
+            {
+                AppendLine(textBox4, "Error: sourceDirName: " + sourceDirName + " not found");
+                return;
+            }
+
+            DirectoryInfo[] dirs = dir.GetDirectories();
+            // If the destination directory doesn't exist, create it.
+            if (!Directory.Exists(destDirName) && destDirName != workingDir && sourceDirName != workingDir)
+            {
+                Directory.CreateDirectory(destDirName);
+                AppendLine(textBox4, "destDirName: " + destDirName + " not found, created");
+            }
+
+            // Get the files in the directory and copy them to the new location.
+            FileInfo[] files = dir.GetFiles();
+            foreach (FileInfo file in files)
+            {
+                if (file.Directory.FullName != workingDir)
+                {
+                    string temppath = Path.Combine(destDirName, file.Name);
+                    file.CopyTo(temppath, ovrwrite);
+                    AppendLine(textBox4, "Copy: " + file + " to " + temppath + " // " + file.LastWriteTime);
+                }                               
             }
 
             // If copying subdirectories, copy them and their contents to new location.
@@ -441,245 +602,321 @@ namespace NMSCoordinatesUpdater
                 foreach (DirectoryInfo subdir in dirs)
                 {
                     string temppath = Path.Combine(destDirName, subdir.Name);
-                    if (!subdir.Name.Contains(dname))
-                        DirectoryCopy(subdir.FullName, temppath, copySubDirs, ovrwrite, null, dname);
+                    if (temppath != workingDir)
+                    {
+                        if (subdir.Name != dname)// && subdir.FullName != workingDir)// && subdir.Name != workingDirName) //!subdir.Name.Contains(dname))
+                        {
+                            AppendLine(textBox4, "Copy: " + subdir.FullName + " to " + temppath + " exclude // " + dname);
+                            DirectoryCopy(subdir.FullName, temppath, copySubDirs, ovrwrite, dname);
+                        }
+                    }                      
                 }
             }
-        }
-
+        }        
         private void UpdateApp()
         {
-            //Check if backup of files exists
+            //Main Update Method
+            AppendLine(textBox4, "***Start of Update***");
+
+            //Check if backup of files exists app_temp
             if (!Directory.Exists(apptempDir)) //apptempDir = Path.GetFullPath(@".\app_temp");
             {
+                AppendLine(textBox4, "Error: apptempDir: " + apptempDir + " doesn't exist!");
                 return;
             }
             DirectoryInfo apptempdinfo = new DirectoryInfo(apptempDir);
             FileInfo[] apptempfilesCheck = apptempdinfo.GetFiles(app, SearchOption.TopDirectoryOnly);
             if (apptempfilesCheck.Length == 0)
             {
+                AppendLine(textBox4, "Error: apptempfilesCheck.Length = 0");
                 return;
             }
 
             //Check if approot contains app
             if (!Directory.Exists(approotDir)) //approotDir = Path.GetFullPath(@"..\");
             {
+                AppendLine(textBox4, "Error: approotDir: " + approotDir + " doesn't exist!");
                 return;
             }
             DirectoryInfo adinfo = new DirectoryInfo(approotDir);
             FileInfo[] afilesCheck = adinfo.GetFiles(app, SearchOption.TopDirectoryOnly);
             if (afilesCheck.Length == 0)
             {
+                AppendLine(textBox4, "Error: afilesCheck.Length = 0");
                 return;
             }
 
-            // Check if tempdir contains app and check config
+            // Check if tempdir exists and contains app and check config
             if (!Directory.Exists(tempDir))
             {
+                AppendLine(textBox4, "Error: tempDir: " + tempDir + " doesn't exist!");
                 return;
             }
             DirectoryInfo tempdinfo = new DirectoryInfo(tempDir); //tempDir = Path.GetFullPath(@".\temp");
             FileInfo[] tempfilesCheck = tempdinfo.GetFiles(app, SearchOption.TopDirectoryOnly);
             if (tempfilesCheck.Length == 0)
             {
+                AppendLine(textBox4, "Error: tempfilesCheck.Length = 0");
                 return;
             }
-            FileInfo[] tempfilesCheck2 = tempdinfo.GetFiles(config, SearchOption.AllDirectories);
-            if (tempfilesCheck2.Length != 0)
+
+            //Check if existing config file exist
+            if (!File.Exists(config))
             {
-                foreach (FileInfo file in tempfilesCheck2)
-                {
-                    Read("version", file.FullName); //read from new config
-                    string newversion = readKey;
-                    Write("version", newversion, config); //write to existing config
-                    Read("version", config); //read to check config
-
-                    if (newversion == readKey) // set if successful
-                        version = readKey;
-
-                    string updaterPath = Path.GetDirectoryName(file.FullName);
-                    Directory.Delete(updaterPath, true);
-                }
+                AppendLine(textBox4, "Error: No config file found // "+ config);
+                return;
             }
+            AppendLine(textBox4, "config name: " + config);
+
+            //Check config is in tempDir look in entire folder and subs
+            FileInfo[] tempdfilesCheck2 = tempdinfo.GetFiles(config, SearchOption.AllDirectories);
+            if (tempdfilesCheck2.Length == 0)
+            {
+                AppendLine(textBox4, "Error: tempdfilesCheck2.Length = 0");
+                return;
+            }
+
+            //Check update config and write to existing config
+            foreach (FileInfo file in tempdfilesCheck2)
+            {
+                AppendLine(textBox4, "tempDir config: " + file.FullName);
+                AppendLine(textBox4, "existing config: " + Path.GetFullPath(config));
+
+                Read("version", config); //read from current config
+                string existversion = readKey;
+                AppendLine(textBox4, "Existing version: " + existversion);
+
+                //make copy of config and rename
+                File.Copy(config, oldconfig, true);
+
+                //Make sure update always contains one config file ***config file critical
+                List<string> linelist = File.ReadAllLines(file.FullName).ToList(); //REVERSE ADD
+                File.WriteAllLines(config, linelist);
+
+                Read("version", config); //read from new config
+                string tempversion = readKey;
+                AppendLine(textBox4, "Update version: " + tempversion);
+
+                //get update config parameters and set
+                AppendLine(textBox4, "Read New Config parameters: " + config);
+                GetConfig();
+            }            
 
             //Update files
-            DirectoryInfo workingdir = new DirectoryInfo(Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath));
-            if (fullupdate == false)
-            {
-                DirectoryCopy(tempDir, approotDir, true, true, null, "temp");
-            }
+            AppendLine(textBox4, "***Start of Files Update***");
+
             if (fullupdate == true)
-            {               
-                FileInfo[] afiles = adinfo.GetFiles("*", SearchOption.TopDirectoryOnly);
-                foreach (FileInfo file in afiles.OrderByDescending(f => f.LastWriteTime))
+            {
+                DirectoryInfo fuinfo = new DirectoryInfo(approotDir);
+                FileInfo[] fufiles = fuinfo.GetFiles("*", SearchOption.TopDirectoryOnly);
+                foreach (FileInfo file in fufiles.OrderByDescending(f => f.LastWriteTime))
                 {
                     File.Delete(file.FullName);
+                    AppendLine(textBox4, "Remove: file.FullName: " + file.FullName + " deleted");
                 }
-                DirectoryInfo[] dirs = adinfo.GetDirectories();
+                DirectoryInfo[] dirs = fuinfo.GetDirectories();
                 foreach (DirectoryInfo subdir in dirs)
                 {
-                    if (subdir.Name != "backup" && subdir.Name != workingdir.Name)
-                        Directory.Delete(subdir.Name);
+                    if (subdir.Name != appexcDirName && subdir.Name != workingDirName)
+                    {
+                        Directory.Delete(subdir.FullName,true);
+                        AppendLine(textBox4, "Remove: subdir.FullName: " + subdir.FullName + " deleted");
+                    }
                 }
-                DirectoryCopy(tempDir, approotDir, true, true, null, "temp");
             }
+            if (fullupdate == false)
+            {
+                //Removes appexcdirname from temp if exists in approot
+                string appexcDirPath = Path.Combine(approotDir, appexcDirName);
+                string tempexcDirPath = Path.Combine(tempDir, appexcDirName);
+                if (Directory.Exists(appexcDirPath))// && Directory.Exists(tempexcDirPath))
+                {
+                    Directory.Delete(tempexcDirPath, true);
+                    AppendLine(textBox4, "Remove: appexcDirName: " + appexcDirName + " found and deleted at: " + tempexcDirPath);
+                }
+                else
+                {
+                    AppendLine(textBox4, "appexcDirName: " + appexcDirName + " not found in " + tempDir + ", no directory excluded");
+                }
+            }
+
+            DirectoryInfo temp1dinfo = new DirectoryInfo(apptempDir);
+            string temp1 = temp1dinfo.Name;
+            DirectoryInfo temp2dinfo = new DirectoryInfo(tempDir);
+            string temp2 = temp2dinfo.Name;
+            AppendLine(textBox4, "***Start of Directory Copy - tempDir to approotDir***");
+            AppendLine(textBox4, "Copy: " + tempDir + " to " + approotDir + " exclude // " + temp1 + " // " + temp2);
+            DirectoryCopy(tempDir, approotDir, true, true, temp1, temp2);
+            AppendLine(textBox4, "***End of Directory Copy - tempDir to approotDir***\r\n");
+            
+            AppendLine(textBox4, "***End of Files Update***\r\n");
 
             //Final Check after update if approot contains app
             if (!Directory.Exists(approotDir)) //approotDir = Path.GetFullPath(@"..\");
             {
+                AppendLine(textBox4, "Error: approotDir: " + approotDir + " doesn't exist!");
+                return;
+            }
+            DirectoryInfo finaldinfo = new DirectoryInfo(approotDir);
+            FileInfo[] finalfilesCheck = finaldinfo.GetFiles(app, SearchOption.TopDirectoryOnly);
+            if (finalfilesCheck.Length == 0)
+            {
+                AppendLine(textBox4, "Error: finalfilesCheck.Length = 0 app: " + app + " doesn't exist in approotDir: " + approotDir);                
+            }
+
+            //Delete temp directory when finished
+            if (Directory.Exists(tempDir))
+            {
+                Directory.Delete(tempDir, true);
+                AppendLine(textBox4, "Remove: tempDir: " + tempDir + " deleted");
+            }
+            else
+            {
+                AppendLine(textBox4, "tempDir: " + tempDir + " not deleted, not found.");
+            }            
+
+            AppendLine(textBox4, "***End of Update***\r\n");
+        }        
+        private void ReverseUpdateApp()
+        {
+            //Main revert update method
+            AppendLine(textBox4, "***Start of Revert Update***");
+
+            //Check if app_temp backup of files exists
+            if (!Directory.Exists(apptempDir)) //apptempDir = Path.GetFullPath(@".\app_temp");
+            {
+                AppendLine(textBox4, "Error: apptempDir: " + apptempDir + " doesn't exist!");
+                return;
+            }
+            //Check if app is in app_temp
+            DirectoryInfo apptempdinfo = new DirectoryInfo(apptempDir);
+            FileInfo[] apptempfilesCheck = apptempdinfo.GetFiles(app, SearchOption.TopDirectoryOnly);
+            if (apptempfilesCheck.Length == 0)
+            {
+                AppendLine(textBox4, "Error: apptempfilesCheck.Length = 0");
+                return;
+            }
+
+            //Check for oldconfig exists
+            if (!File.Exists(oldconfig))
+            {
+                AppendLine(textBox4, "Error: No oldconfig file found // " + oldconfig);
+                return;
+            }
+            AppendLine(textBox4, "old config name: " + oldconfig);
+
+            //Check for config exists
+            if (!File.Exists(config))
+            {
+                AppendLine(textBox4, "Error: No config file found // " + config);
+                return;
+            }
+            AppendLine(textBox4, "config name: " + config);
+
+            AppendLine(textBox4, "old config: " + Path.GetFullPath(oldconfig));
+            AppendLine(textBox4, "existing cfg: " + Path.GetFullPath(config));
+
+            Read("version", config); //read from current config
+            string existversion = readKey;
+            AppendLine(textBox4, "Existing version: " + existversion);
+
+            //copy old config to config overwrite
+            //File.Copy(oldconfig, config, true);
+
+            //Make sure update always contains one config file ***config file critical
+            List<string> linelist = File.ReadAllLines(oldconfig).ToList();
+            File.WriteAllLines(config, linelist);
+
+            Read("version", config); //read from new config
+            string tempversion = readKey;
+            AppendLine(textBox4, "Update version: " + tempversion);
+
+            //get update config parameters and set
+            AppendLine(textBox4, "Read New Config parameters: " + config);
+            GetConfig();            
+
+            //Copy all files in apptempDir to approotDir except workingDirName
+            AppendLine(textBox4, "***Start of Directory Copy - apptempDir to approotDir***");
+            AppendLine(textBox4, "Copy: " + apptempDir + " to " + approotDir + " exclude // " + workingDirName);
+            DirectoryCopy(apptempDir, approotDir, true, true, workingDirName);
+            AppendLine(textBox4, "***End of Directory Copy - apptempDir to approotDir***\r\n");
+            
+            //Final files check for app
+            if (!Directory.Exists(approotDir)) //approotDir = Path.GetFullPath(@"..\");
+            {
+                AppendLine(textBox4, "Error: approotDir: " + approotDir + " doesn't exist!");
                 return;
             }
             DirectoryInfo finaldinfo = new DirectoryInfo(approotDir);
             FileInfo[] finalfilesCheck = finaldinfo.GetFiles(app, SearchOption.TopDirectoryOnly);
             if (finalfilesCheck.Length != 0)
             {
-                Directory.Delete(tempDir, true);
-            }
-        }
-        private void UpdateAppB()
-        {
-            //Check if backup of files exists
-            if (!Directory.Exists(apptempDir)) //apptempDir = Path.GetFullPath(@".\app_temp");
-            {
-                return;
-            }
-            DirectoryInfo apptempdinfo = new DirectoryInfo(apptempDir);
-            FileInfo[] apptempfilesCheck = apptempdinfo.GetFiles(app, SearchOption.TopDirectoryOnly);
-            if (apptempfilesCheck.Length == 0)
-            {
-                return;
-            }
-
-            //Add downloaded temp files to list
-            if (!Directory.Exists(tempDir))
-            {
-                return;
-            }
-            DirectoryInfo tempdinfo = new DirectoryInfo(tempDir); //tempDir = Path.GetFullPath(@".\temp");
-            FileInfo[] tempfilesCheck = tempdinfo.GetFiles(app, SearchOption.TopDirectoryOnly);
-            if (tempfilesCheck.Length == 0)
-            {
-                return;
-            }
-            FileInfo[] tempfilesCheck2 = tempdinfo.GetFiles(config, SearchOption.AllDirectories);
-            if (tempfilesCheck2.Length != 0)
-            {
-                foreach (FileInfo file in tempfilesCheck2)
-                {
-                    Read("version", file.FullName);
-                    version = readKey;
-                    Write("version", version, config);
-                }                
-            }
-            FileInfo[] tempfiles = tempdinfo.GetFiles("*", SearchOption.TopDirectoryOnly);
-            foreach (FileInfo file in tempfiles.OrderByDescending(f => f.LastWriteTime))
-            {
-                tempappfiles.Add(file.Name); //tempappfiles is .\temp files
-            }
-
-            //Add app files to a list
-            if (!Directory.Exists(approotDir)) //approotDir = Path.GetFullPath(@"..\");
-            {
-                return;
-            }
-            DirectoryInfo adinfo = new DirectoryInfo(approotDir);
-            FileInfo[] afilesCheck = adinfo.GetFiles(app, SearchOption.TopDirectoryOnly);
-            if (afilesCheck.Length == 0)
-            {
-                return;
-            }
-            FileInfo[] afiles = adinfo.GetFiles("*", SearchOption.TopDirectoryOnly);
-            foreach (FileInfo file in afiles.OrderByDescending(f => f.LastWriteTime))
-            {
-                appfiles.Add(file.Name); //appfiles is ..\ files
-            }
-
-            if (fullupdate == false)
-            {
-                foreach (string file in tempappfiles) //tempappfiles is .\temp files
-                {
-                    if (appfiles.Contains(file))
-                        File.Copy(Path.Combine(tempDir, file), Path.Combine(approotDir, file), true);
-                }
-            }
-
-            if (fullupdate == true)
-            {
-                foreach (string file in appfiles) //appfiles is ..\ files
-                {
-                    if (Path.GetExtension(file) != ".zip")
-                        File.Delete(Path.Combine(approotDir, file));
-                }
-                foreach (string file in tempappfiles) //tempappfiles is .\temp files
-                {
-                    File.Copy(Path.Combine(tempDir, file), Path.Combine(approotDir, file), true);
-                }
-            }
-        }
-        private void ReverseUpdateApp()
-        {
-            //Check if backup of files exists
-            if (!Directory.Exists(apptempDir)) //apptempDir = Path.GetFullPath(@".\app_temp");
-            {
-                return;
-            }
-            DirectoryInfo apptempdinfo = new DirectoryInfo(apptempDir);
-            FileInfo[] apptempfilesCheck = apptempdinfo.GetFiles(app, SearchOption.TopDirectoryOnly);
-            if (apptempfilesCheck.Length == 0)
-            {
-                return;
-            }
-            DirectoryInfo curconfigdir = new DirectoryInfo(Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath));
-            DirectoryInfo prevconfigdir = new DirectoryInfo(Path.Combine(apptempDir, curconfigdir.Name));
-            FileInfo[] apptempfilesCheck2 = prevconfigdir.GetFiles(config);
-            if (apptempfilesCheck2.Length != 0)
-            {
-                foreach (FileInfo file in apptempfilesCheck2)
-                {
-                    Read("version", file.FullName); //read from new config
-                    string prevversion = readKey;
-                    Write("version", prevversion, config); //write to existing config
-                    Read("version", config); //read to check config
-
-                    if (prevversion == readKey) // set if successful
-                        version = readKey;
-                }
-            }
-
-            DirectoryInfo workingdir = new DirectoryInfo(Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath));
-            DirectoryCopy(apptempDir, approotDir, true, true, null, workingdir.Name);
-
-            if (!Directory.Exists(approotDir)) //approotDir = Path.GetFullPath(@"..\");
-            {
-                return;
-            }
-            DirectoryInfo adinfo = new DirectoryInfo(approotDir);
-            FileInfo[] afilesCheck = adinfo.GetFiles(app, SearchOption.TopDirectoryOnly);
-            if (afilesCheck.Length != 0)
-            {
-                MessageBox.Show("Reverse Successful", "Reverse", MessageBoxButtons.OK);
+                MessageBox.Show("Reverse Successful!", "Reverse Update", MessageBoxButtons.OK);
+                AppendLine(textBox4, "Confirmation: Reverse Successful!");
             }
             else
             {
-                MessageBox.Show("Failed!", "Reverse", MessageBoxButtons.OK);
+                MessageBox.Show("Failed!", "Reverse Update", MessageBoxButtons.OK);
+                AppendLine(textBox4, "Error: Reverse Update Failed!");
             }
+            AppendLine(textBox4, "***End of Revert Update***\r\n");
         }
         private void Install_Update()
         {
             Install();
             UpdateApp();
             StartUp();
+
+            //Debug
+            //Log();
         }
         private void Button2_Click(object sender, EventArgs e)
         {
+            //Update or Repair Button
             Install();
             UpdateApp();
             StartUp();
+
+            //Debug
+            //Log();
         }
         private void Button3_Click(object sender, EventArgs e)
         {
+            //Reverse update button
             ReverseUpdateApp();
             StartUp();
+
+            //Debug
+            //Log();
+        }
+        private void Log()
+        {
+            try
+            {
+                if (textBox4.TextLength != 0)
+                {
+                    List<string> list = textBox4.Lines.ToList();
+                    list.Insert(0, "*****" + DateTime.Now.ToString("MM-dd-yyyy HH:mm" + "*****"));
+                    string notepad = "notepad++.exe";
+                    string logfile = "log.txt";
+
+                    if (File.Exists(logfile))
+                    {
+                        File.WriteAllLines(logfile, list);
+                        Process.Start(notepad, logfile);
+                    }
+                }         
+            }
+            catch
+            {
+                MessageBox.Show("Problem opening log file!\r\n\nTry opening log.txt manually.", "Alert", MessageBoxButtons.OK);
+                AppendLine(textBox4, "Problem opening log file!");
+            }    
+        }
+
+        private void OpenLogtxtToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Log();
         }
     }
 }

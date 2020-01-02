@@ -80,9 +80,9 @@ namespace NMSCoordinates
             RunBackupAll(hgFileDir);
 
             //Check Github releases for a newer version
-            CheckForUpdates();
+            CheckForUpdates(true);
         }
-        private async void CheckForUpdates()
+        private async void CheckForUpdates(bool first)
         {
             //Check Github releases for a newer version method
             try
@@ -93,7 +93,9 @@ namespace NMSCoordinates
 
                 if (Version != latest.Name)
                 {
-                    linkLabel4.Text = "Version " + latest.Name + " Available";
+                    IsUpdated(false, first, latest.Name);
+
+                    /*linkLabel4.Text = "Version " + latest.Name + " Available";
                     linkLabel4.Visible = true;
                     AppendLine(textBox17, "Current Version: " + Version + " Latest Version: " + latest.Name);
                     //MessageBox.Show("A newer version of NMSCoordinates is available\r\n\nLatest Version: " + latest.Name + "  Now available for download.\r\n\n", "Update Available", MessageBoxButtons.OK);
@@ -105,19 +107,64 @@ namespace NMSCoordinates
                     else if (dialogResult == DialogResult.No)
                     {
                         return;
-                    }
+                    }*/
                 }
 
                 if (Version == latest.Name)
                 {
-                    AppendLine(textBox17, "Current Version: " + latest.Name + " is the latest version");
+                    IsUpdated(true, first, latest.Name);
+
+                    //AppendLine(textBox17, "Current Version: " + latest.Name + " is the latest version");
                 }
             }
             catch
             {
                 AppendLine(textBox17, "Github Server not available. Could not check version");
             }
-        }        
+        }
+        private void IsUpdated(bool uptodate, bool first, string latest)
+        {
+            if (uptodate && first)
+            {
+                AppendLine(textBox17, "Current Version: " + latest + " is the latest version");
+            }
+
+            if (uptodate && !first)
+            {
+                MessageBox.Show("You have the latest version of NMSCoordinates\r\n\n" +
+                    "Latest Version: " + latest + 
+                    "  No Update Available\r\n\n", 
+                    "Update", 
+                    MessageBoxButtons.OK);
+            }                      
+
+            if (!uptodate)
+            {
+                linkLabel4.Text = "Version " + latest + " Available";
+                linkLabel4.Visible = true;
+                AppendLine(textBox17, 
+                    "Current Version: " + Version + 
+                    " Latest Version: " + latest +
+                    " ***Newer Version Available***"
+                    );
+
+                DialogResult dialogResult = MessageBox.Show(
+                    "A newer version of NMSCoordinates is available\r\n\n" +
+                    "Latest Version: " + latest + "\r\n\n" +
+                    "Update Now?\r\n\n", 
+                    "Update Available", 
+                    MessageBoxButtons.YesNo);
+
+                if (dialogResult == DialogResult.Yes)
+                {
+                    UpdateApp();
+                }
+                else if (dialogResult == DialogResult.No)
+                {
+                    return;
+                }
+            }
+        }
 
         public Form8 f8;
 
@@ -3848,6 +3895,7 @@ namespace NMSCoordinates
             if (!Directory.Exists(apath))
             {
                 MessageBox.Show("Updater Not Found!", "Alert", MessageBoxButtons.OK);
+                Process.Start("http://nmscoordinates.com");
                 return;
             }
 
@@ -3856,6 +3904,7 @@ namespace NMSCoordinates
             if (!Directory.Exists(bpath))
             {
                 MessageBox.Show("Updater Not Found!", "Alert", MessageBoxButtons.OK);
+                Process.Start("http://nmscoordinates.com");
                 return;
             }
 
@@ -3877,6 +3926,8 @@ namespace NMSCoordinates
             else
             {
                 MessageBox.Show("Updater Not Found!", "Alert", MessageBoxButtons.OK);
+                Process.Start("http://nmscoordinates.com");
+                return;
             }
         }
 
@@ -3885,7 +3936,7 @@ namespace NMSCoordinates
             //Form9 f9 = new Form9(Version);
             //f9.ShowDialog();
 
-            CheckForUpdates();
+            CheckForUpdates(false);
 
             //UpdateApp();
         }
