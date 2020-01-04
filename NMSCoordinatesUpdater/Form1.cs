@@ -43,7 +43,7 @@ namespace NMSCoordinatesUpdater
         Stopwatch sw = new Stopwatch();
 
         private List<string> loglist = new List<string>();
-        private List<string> filelist = new List<string>();
+        private List<string> excludefilelist = new List<string>();
 
         private bool fullupdate;
         private bool success { get; set; }
@@ -58,6 +58,7 @@ namespace NMSCoordinatesUpdater
 
             //log box
             textBox4.Visible = false;
+            //textBox4.Visible = true;
         }
         private void Form1_Shown(object sender, EventArgs e)
         {
@@ -131,7 +132,8 @@ namespace NMSCoordinatesUpdater
                 tw.WriteLine("approotdir=" + @"..\");
                 tw.WriteLine("apptempdir=" + @".\app_temp");
                 tw.WriteLine("tempdir=" + @".\temp");
-                tw.WriteLine("appexcludedirname=backup");
+                tw.WriteLine("appexcludedirname=backup"); //excludefiles
+                tw.WriteLine("excludefiles{test.txt}");
                 tw.WriteLine("updatezip=latest.zip");
                 tw.WriteLine("fullupdate=false");
                 tw.Close();
@@ -197,7 +199,7 @@ namespace NMSCoordinatesUpdater
             tempDir = Path.GetFullPath(readKey);
 
             Read("appexcludedirname", config);
-            appexcludeDirName = readKey; //just a string of dname
+            appexcludeDirName = readKey; //just a string of dname            
 
             Read("updatezip", config);
             updateZip = readKey;
@@ -211,6 +213,8 @@ namespace NMSCoordinatesUpdater
             {
                 fullupdate = false;
             }
+
+            ExcludeFiles(); //no error catch
 
             AppendLine(textBox4, "approotDir Full Path: " + approotDir);
             AppendLine(textBox4, "apptempDir Full Path: " + apptempDir);
@@ -271,24 +275,48 @@ namespace NMSCoordinatesUpdater
                 return;
             }
         }
-        private void ReadFiles()
+        private void ExcludeFiles()
         {
+            if (!success)
+            {
+                return;
+            }
+
+            AppendLine(textBox4, "***Start List Excluded files***");
+
+            if (!Validate(workingDir, config))
+            {
+                AppendLine(textBox4, "Error: No config file found // " + config + " at " + Path.Combine(workingDir, config));
+                AppendLine(textBox4, "Error: Failed at ExcludeFiles()");
+                ErrorLog();
+                return;
+            }
+
             List<string> read = File.ReadAllLines(config).ToList();
             foreach (string lst in read)
             {
-                Regex myRegexLS = new Regex("includefiles{.*?}", RegexOptions.Multiline);
+                Regex myRegexLS = new Regex("excludefiles{.*?}", RegexOptions.Multiline);
                 Match m1 = myRegexLS.Match(lst);
                 string files = m1.ToString();
-                files = files.Replace("includefiles{", "");
+                files = files.Replace("excludefiles{", "");
                 files = files.Replace("}", "");
-                filelist = files.Split(',').ToList();
+                excludefilelist = files.Split(',').ToList();
             }
-            /*
-            foreach(string lst in filelist)
+
+            if (excludefilelist.Count > 0)
+            {                
+                foreach (string lst in excludefilelist)
+                {
+                    AppendLine(textBox4, "file: " + lst);
+                }
+            }
+            else
             {
-                AppendLine(textBox4, lst);
+                AppendLine(textBox4, "Info: No excluded files listed on config.");
             }
-            */  
+
+            AppendLine(textBox4, "***End List Excluded files***");
+
         }
         private void Write(string key, string newKey, string path)
         {
@@ -537,27 +565,42 @@ namespace NMSCoordinatesUpdater
                 AppendLine(textBox4, "sourceDirName: " + sourceDirName + " is workingDir, not created");
             }
 
-            // Get the files in the directory and copy them to the new location.
+            // Get all the files in the SOURCE directory and copy them to DESTINATION the new location.
             FileInfo[] files = dir.GetFiles();
             foreach (FileInfo file in files)
             {
-                if (file.Directory.FullName != workingDir)
+                //if SOURCE file directory path is same as workingDIr path, don't copy
+                if (file.Directory.FullName == workingDir)
+                {
+                    AppendLine(textBox4, "File Copy: " + file.Name + " is in workingDir, not copied");
+                }
+                //if SOURCE file name is in directory path is in the excludedfilelist, don't copy
+                if (excludefilelist.Contains(file.Name))
+                {
+                    AppendLine(textBox4, "File Copy: " + file.Name + " is in the excluded files list, not copied.");
+                }
+                if (file.Directory.FullName != workingDir && !excludefilelist.Contains(file.Name))//// filelist mod
                 {
                     string temppath = Path.Combine(destDirName, file.Name);
                     file.CopyTo(temppath, ovrwrite);
-                    AppendLine(textBox4, "Copy: " + file + " to " + temppath + " // " + file.LastWriteTime);
+                    AppendLine(textBox4, "File Copy: " + file + " to " + temppath + " // " + file.LastWriteTime);
                 }
             }
 
             // If copying subdirectories, copy them and their contents to new location.
             if (copySubDirs)
             {
+                //dirs is all the directories in SOURCE. Get all sudirs in the source directories one at a time then re-run
                 foreach (DirectoryInfo subdir in dirs)
                 {
                     string temppath = Path.Combine(destDirName, subdir.Name);
-                    if (temppath != workingDir)
+                    if (subdir.FullName == workingDir || temppath == workingDir)
                     {
-                        if (subdir.Name != dname1 && subdir.Name != dname2)// && subdir.FullName != workingDir)// && subdir.Name != workingDirName)
+                        AppendLine(textBox4, "Sub Dir Copy: " + subdir.Name + " is in workingDir, not copied.");
+                    }
+                    if (subdir.FullName != workingDir && temppath != workingDir)
+                    {
+                        if (subdir.Name != dname1 && subdir.Name != dname2)
                         {
                             AppendLine(textBox4, "Directory Copy: " + subdir.FullName + " to " + temppath + " exclude // " + dname1 + " // " + dname2);
                             DirectoryCopy(subdir.FullName, temppath, copySubDirs, ovrwrite, dname1, dname2);
@@ -605,11 +648,15 @@ namespace NMSCoordinatesUpdater
             FileInfo[] files = dir.GetFiles();
             foreach (FileInfo file in files)
             {
-                if (file.Directory.FullName != workingDir)
+                if (file.Directory.FullName == workingDir)
+                {
+                    AppendLine(textBox4, "File Copy: " + file.Name + " is in workingDir, not copied");
+                }
+                if (file.Directory.FullName != workingDir)// && !excludefilelist.Contains(file.Name))////
                 {
                     string temppath = Path.Combine(destDirName, file.Name);
                     file.CopyTo(temppath, ovrwrite);
-                    AppendLine(textBox4, "Copy: " + file + " to " + temppath + " // " + file.LastWriteTime);
+                    AppendLine(textBox4, "File Copy: " + file + " to " + temppath + " // " + file.LastWriteTime);
                 }
             }
 
@@ -619,13 +666,268 @@ namespace NMSCoordinatesUpdater
                 foreach (DirectoryInfo subdir in dirs)
                 {
                     string temppath = Path.Combine(destDirName, subdir.Name);
-                    if (temppath != workingDir)
+                    if (subdir.FullName == workingDir || temppath == workingDir)
                     {
-                        if (subdir.Name != dname)// && subdir.FullName != workingDir)// && subdir.Name != workingDirName) //!subdir.Name.Contains(dname))
+                        AppendLine(textBox4, "Sub Dir Copy: " + subdir.Name + " is in workingDir, not copied.");
+                    }
+                    if (subdir.FullName != workingDir && temppath != workingDir)
+                    {
+                        if (subdir.Name == dname)
+                        {
+                            AppendLine(textBox4, "Sub Dir Copy: " + subdir.Name + " is in dname: " + dname + " not copied.");
+                        }
+                        if (subdir.Name != dname)
                         {
                             AppendLine(textBox4, "Directory Copy: " + subdir.FullName + " to " + temppath + " exclude // " + dname);
                             DirectoryCopy(subdir.FullName, temppath, copySubDirs, ovrwrite, dname);
                         }
+                    }
+                }
+            }
+        }
+        private void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs, bool ovrwrite)
+        {
+            //Copy directories method
+            if (!success)
+            {
+                return;
+            }
+            // Get the subdirectories for the specified directory.
+            DirectoryInfo dir = new DirectoryInfo(sourceDirName);
+
+            if (!dir.Exists)
+            {
+                AppendLine(textBox4, "Error: sourceDirName not found! // " + sourceDirName);
+                AppendLine(textBox4, "Error: Failed at DirectoryCopy(" + sourceDirName + ", " + destDirName + ", " + copySubDirs + ", " + ovrwrite + ")");
+                ErrorLog();
+                return;
+            }
+
+            DirectoryInfo[] dirs = dir.GetDirectories();
+
+            // If the destination directory doesn't exist, create it. unless workingDir
+            if (!Directory.Exists(destDirName) && destDirName != workingDir && sourceDirName != workingDir)
+            {
+                Directory.CreateDirectory(destDirName);
+                AppendLine(textBox4, "destDirName: " + destDirName + " not found, created");
+            }
+            if (destDirName == workingDir)
+            {
+                AppendLine(textBox4, "destDirName: " + destDirName + " is workingDir, not created");
+            }
+            if (sourceDirName == workingDir)
+            {
+                AppendLine(textBox4, "sourceDirName: " + sourceDirName + " is workingDir, not created");
+            }
+
+            // Get the files in the directory and copy them to the new location.
+            FileInfo[] files = dir.GetFiles();
+            foreach (FileInfo file in files)
+            {
+                if (file.Directory.FullName == workingDir)
+                {
+                    AppendLine(textBox4, "File Copy: " + file.Name + " is in workingDir, not copied");
+                }
+                if (file.Directory.FullName != workingDir)
+                {
+                    string temppath = Path.Combine(destDirName, file.Name);
+                    file.CopyTo(temppath, ovrwrite);
+                    AppendLine(textBox4, "File Copy: " + file + " to " + temppath + " // " + file.LastWriteTime);
+                }
+            }
+
+            // If copying subdirectories, copy them and their contents to new location.
+            if (copySubDirs)
+            {
+                foreach (DirectoryInfo subdir in dirs)
+                {
+                    string temppath = Path.Combine(destDirName, subdir.Name);
+                    if (subdir.FullName == workingDir || temppath == workingDir)
+                    {
+                        AppendLine(textBox4, "Sub Dir Copy: " + subdir.Name + " is in workingDir, not copied.");
+                    }
+                    if (subdir.FullName != workingDir && temppath != workingDir)
+                    {
+                        AppendLine(textBox4, "Directory Copy: " + subdir.FullName + " to " + temppath);
+                        DirectoryCopy(subdir.FullName, temppath, copySubDirs, ovrwrite);                     
+                    }
+                }
+            }
+        }
+        private void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs, bool ovrwrite, bool exlist)
+        {
+            //Copy directories method
+            if (!success)
+            {
+                return;
+            }
+            // Get the subdirectories for the specified directory.
+            DirectoryInfo dir = new DirectoryInfo(sourceDirName);
+
+            if (!dir.Exists)
+            {
+                AppendLine(textBox4, "Error: sourceDirName not found! // " + sourceDirName);
+                AppendLine(textBox4, "Error: Failed at DirectoryCopy(" + sourceDirName + ", " + destDirName + ", " + copySubDirs + ", " + ovrwrite + ", " + exlist  + ")");
+                ErrorLog();
+                return;
+            }
+
+            DirectoryInfo[] dirs = dir.GetDirectories();
+
+            // If the destination directory doesn't exist, create it. unless workingDir
+            if (!Directory.Exists(destDirName) && destDirName != workingDir && sourceDirName != workingDir)
+            {
+                Directory.CreateDirectory(destDirName);
+                AppendLine(textBox4, "destDirName: " + destDirName + " not found, created");
+            }
+            if (destDirName == workingDir)
+            {
+                AppendLine(textBox4, "destDirName: " + destDirName + " is workingDir, not created");
+            }
+            if (sourceDirName == workingDir)
+            {
+                AppendLine(textBox4, "sourceDirName: " + sourceDirName + " is workingDir, not created");
+            }
+
+            // Get all the files in the SOURCE directory and copy them to DESTINATION the new location.
+            FileInfo[] files = dir.GetFiles();
+            foreach (FileInfo file in files)
+            {
+                //if SOURCE file directory path is same as workingDIr path, don't copy
+                if (file.Directory.FullName == workingDir)
+                {
+                    AppendLine(textBox4, "File Copy: " + file.Name + " is in workingDir, not copied");
+                }
+                if (file.Directory.FullName != workingDir)
+                {
+                    string temppath = Path.Combine(destDirName, file.Name);
+                    if (exlist)
+                    {
+                        //if SOURCE file name is in directory path is in the excludedfilelist, don't copy
+                        if (excludefilelist.Contains(file.Name))
+                        {
+                            AppendLine(textBox4, "File Copy: " + file.Name + " is in the excluded files list, not copied.");
+                        }
+                        if (!excludefilelist.Contains(file.Name))
+                        {
+
+                            file.CopyTo(temppath, ovrwrite);
+                            AppendLine(textBox4, "File Copy: " + file + " to " + temppath + " // " + file.LastWriteTime);
+                        }
+                    }
+                    else
+                    {
+                        file.CopyTo(temppath, ovrwrite);
+                        AppendLine(textBox4, "File Copy: " + file + " to " + temppath + " // " + file.LastWriteTime);
+                    }
+                }                
+            }
+
+            // If copying subdirectories, copy them and their contents to new location.
+            if (copySubDirs)
+            {
+                //dirs is all the directories in SOURCE. Get all sudirs in the source directories one at a time then re-run
+                foreach (DirectoryInfo subdir in dirs)
+                {
+                    string temppath = Path.Combine(destDirName, subdir.Name);
+                    if (subdir.FullName == workingDir || temppath == workingDir)
+                    {
+                        AppendLine(textBox4, "Sub Dir Copy: " + subdir.Name + " is in workingDir, not copied.");
+                    }
+                    if (subdir.FullName != workingDir && temppath != workingDir)
+                    {
+                        AppendLine(textBox4, "Directory Copy: " + subdir.FullName + " to " + temppath);
+                        DirectoryCopy(subdir.FullName, temppath, copySubDirs, ovrwrite, exlist);                     
+                    }
+                }
+            }
+        }
+        private void DirectoryDelete(string sourceDirName, bool copySubDirs, bool ovrwrite, bool exlist)
+        {
+            //Copy directories method
+            if (!success)
+            {
+                return;
+            }
+            // Get the subdirectories for the specified directory.
+            DirectoryInfo dir = new DirectoryInfo(sourceDirName);
+
+            if (!dir.Exists)
+            {
+                AppendLine(textBox4, "Error: sourceDirName not found! // " + sourceDirName);
+                AppendLine(textBox4, "Error: Failed at DirectoryDelete(" + sourceDirName + ", " + copySubDirs + ", " + ovrwrite + ", " + exlist + ")");
+                ErrorLog();
+                return;
+            }
+
+            DirectoryInfo[] dirs = dir.GetDirectories();
+
+            /*
+            // If the destination directory doesn't exist, create it. unless workingDir
+            if (!Directory.Exists(destDirName) && destDirName != workingDir && sourceDirName != workingDir)
+            {
+                Directory.CreateDirectory(destDirName);
+                AppendLine(textBox4, "destDirName: " + destDirName + " not found, created");
+            }
+            if (destDirName == workingDir)
+            {
+                AppendLine(textBox4, "destDirName: " + destDirName + " is workingDir, not created");
+            }
+            if (sourceDirName == workingDir)
+            {
+                AppendLine(textBox4, "sourceDirName: " + sourceDirName + " is workingDir, not created");
+            }
+            */
+
+            // Get all the files in the SOURCE directory and copy them to DESTINATION the new location.
+            FileInfo[] files = dir.GetFiles();
+            foreach (FileInfo file in files)
+            {
+                //if SOURCE file directory path is same as workingDIr path, don't copy
+                if (file.Directory.FullName == workingDir)
+                {
+                    AppendLine(textBox4, "File Delete: " + file.Name + " is in workingDir, not deleted");
+                }
+                if (file.Directory.FullName != workingDir)
+                {
+                    //string temppath = Path.Combine(destDirName, file.Name);
+                    if (exlist)
+                    {
+                        //if SOURCE file name is in directory path is in the excludedfilelist, don't copy
+                        if (excludefilelist.Contains(file.Name))
+                        {
+                            AppendLine(textBox4, "File Delete: " + file.Name + " is in the excluded files list, not deleted.");
+                        }
+                        if (!excludefilelist.Contains(file.Name))//// filelist mod
+                        {
+
+                            File.Delete(file.FullName);
+                            AppendLine(textBox4, "File Delete: " + file.FullName);
+                        }
+                    }
+                    else
+                    {
+                        File.Delete(file.FullName);
+                        AppendLine(textBox4, "File Delete: " + file.FullName);
+                    }
+                }
+            }
+
+            // If copying subdirectories, copy them and their contents to new location.
+            if (copySubDirs)
+            {
+                //dirs is all the directories in SOURCE. Get all sudirs in the source directories one at a time then re-run
+                foreach (DirectoryInfo subdir in dirs)
+                {
+                    //string temppath = Path.Combine(destDirName, subdir.Name);
+                    if (subdir.FullName == workingDir)
+                    {
+                        AppendLine(textBox4, "Sub Dir Delete: " + subdir.Name + " is in workingDir, not deleted.");
+                    }
+                    if (subdir.FullName != workingDir)
+                    {                        
+                        AppendLine(textBox4, "Directory Delete: " + subdir.FullName);
+                        DirectoryDelete(subdir.FullName, copySubDirs, ovrwrite, exlist);                        
                     }
                 }
             }
@@ -649,12 +951,28 @@ namespace NMSCoordinatesUpdater
             AppendLine(textBox4, "Log: app= " + app);
             AppendLine(textBox4, "Log: approotDir= " + approotDir);
             AppendLine(textBox4, "Log: appexcludeDirName= " + appexcludeDirName);
+            //AppendLine(textBox4, "Log: excludefiles= " + excludefilelist);
             AppendLine(textBox4, "Log: apptempDir= " + apptempDir);
             AppendLine(textBox4, "Log: tempDir= " + tempDir);
             AppendLine(textBox4, "Log: tempRootDir= " + tempRootDir);
             AppendLine(textBox4, "Log: assetUrl= " + assetUrl);
             AppendLine(textBox4, "Log: assetName= " + assetName);
             AppendLine(textBox4, "Log: fullupdate= " + fullupdate);
+            AppendLine(textBox4, "***Start List Excluded files***");
+            try
+            {
+                foreach(string file in excludefilelist)
+                {
+                    
+                    AppendLine(textBox4, "file: " + file);
+                    
+                }
+            }
+            catch
+            {
+                AppendLine(textBox4, "File list problem!");
+            }
+            AppendLine(textBox4, "***End List Excluded files***");
             AppendLine(textBox4, "***End of Error Log***\r\n");
 
             MessageBox.Show("An Error has occurred!\r\n\nSee log.txt for more information.\r\n\n", "Error", MessageBoxButtons.OK);
@@ -815,14 +1133,23 @@ namespace NMSCoordinatesUpdater
                 AppendLine(textBox4, "Remove: apptempDir: " + apptempDir + " found and deleted");
             }
 
+            /*
             //Copies entire approotdir to apptempDir for backup exclude apptemp and temp workingdir from DC method
             AppendLine(textBox4, "***Start of Directory Copy - approotDir to apptempDir***");
             DirectoryInfo temp1dinfo = new DirectoryInfo(apptempDir);
             string temp1 = temp1dinfo.Name; //directory name of apptempDir path
             DirectoryInfo temp2dinfo = new DirectoryInfo(tempDir);
             string temp2 = temp2dinfo.Name; //directory name of tempDir path
-            AppendLine(textBox4, "Directory Copy: " + approotDir + " to " + apptempDir + " exclude // " + temp1 + " // " + temp2);
+            AppendLine(textBox4, "Directory Copy: " + approotDir + " to " + apptempDir + " exclude // " + temp1 + " // " + temp2);            
             DirectoryCopy(approotDir, apptempDir, true, true, temp1, temp2);
+            AppendLine(textBox4, "***End of Directory Copy - approotDir to apptempDir***");
+            AppendLine(textBox4, "***End of Backup***\r\n");
+            */
+
+            //Copies entire approotdir to apptempDir for backup exclude apptemp and temp workingdir from DC method
+            AppendLine(textBox4, "***Start of Directory Copy - approotDir to apptempDir***");            
+            AppendLine(textBox4, "Directory Copy: " + approotDir + " to " + apptempDir + " // do not use excludefilelist");
+            DirectoryCopy(approotDir, apptempDir, true, true, false); 
             AppendLine(textBox4, "***End of Directory Copy - approotDir to apptempDir***");
             AppendLine(textBox4, "***End of Backup***\r\n");
         }
@@ -1100,12 +1427,26 @@ namespace NMSCoordinatesUpdater
 
                 //get update config parameters and set
                 AppendLine(textBox4, "Read New Config parameters: " + config);
-                GetConfig();
+                GetConfig(); //error control
             }            
 
             //Update files
-            AppendLine(textBox4, "***Start of Files Update***");            
-            
+            AppendLine(textBox4, "***Start of Files Update***");
+
+            /*
+            //After setting config, remove updater from temp
+            string updaterpath = Path.Combine(tempDir, workingDirName);
+            if (Directory.Exists(updaterpath))
+            {
+                Directory.Delete(updaterpath, true);
+                AppendLine(textBox4, "Delete: workingDirName: " + workingDirName + " found in " + tempDir + " deleted at: " + updaterpath);
+            }
+            else
+            {
+                AppendLine(textBox4, "Ready: No workingDirName: " + workingDirName + " found in " + tempDir);
+            }
+            */
+
             if (appexcludeDirName != "none")
             {
                 //Removes appexcludeDirName from temp if exists in approot
@@ -1156,7 +1497,19 @@ namespace NMSCoordinatesUpdater
             {
                 AppendLine(textBox4, "Ready: No directory excluded. appexcludeDirName is " + appexcludeDirName);
             }
+            if (fullupdate)
+            {
+                AppendLine(textBox4, "***Start of Directory Delete - approotDir***");
+                AppendLine(textBox4, "Directory Delete for fullupdate // " + approotDir + " // use excludefilelist");
+                DirectoryDelete(approotDir, true, true, true);
+                AppendLine(textBox4, "***End of Directory Delete - approotDir***");
+            }
 
+            /*AppendLine(textBox4, "*********STOP*************");
+            ErrorLog();
+            return;*/
+
+            /*
             //Deletes all files and folders in approot for full update
             if (fullupdate == true)
             {                
@@ -1177,6 +1530,57 @@ namespace NMSCoordinatesUpdater
                     }
                 }
             }
+            */
+
+            /* test this but no worky
+            //Deletes all files and folders in approot for full update
+            if (fullupdate == true)
+            {
+                DirectoryInfo fuinfo = new DirectoryInfo(approotDir);
+                FileInfo[] fufiles = fuinfo.GetFiles("*", SearchOption.TopDirectoryOnly);
+                foreach (FileInfo file in fufiles.OrderByDescending(f => f.LastWriteTime))
+                {
+                    //if file directory path is same as workingDir path, don't delete
+                    if (file.Directory.FullName == workingDir)
+                    {
+                        AppendLine(textBox4, "File Delete: " + file.Name + " is in workingDir, not deleted.");
+                    }
+                    if (file.Directory.FullName != workingDir)
+                    {
+                        //if file is in the excludefilelist, don't delete
+                        if (excludefilelist.Contains(file.Name))
+                        {
+                            AppendLine(textBox4, "File Delete: " + file.Name + " is in the excluded files list, not deleted.");
+                        }
+                        if (!excludefilelist.Contains(file.Name))
+                        {
+                            File.Delete(file.FullName);
+                            AppendLine(textBox4, "File Delete: fullupdate file: " + file.FullName + " deleted.");
+                        }
+                    }                    
+                }
+                DirectoryInfo[] dirs = fuinfo.GetDirectories();
+                foreach (DirectoryInfo subdir in dirs)
+                {
+                    if (subdir.FullName == workingDir)
+                    {
+                        AppendLine(textBox4, "Sub Dir Delete: " + subdir.Name + " is in workingDir, not deleted.");
+                    }
+                    if (subdir.FullName != workingDir)
+                    {
+                        if (subdir.Name == appexcludeDirName)
+                        {
+                            AppendLine(textBox4, "Sub Dir Delete: " + subdir.Name + " is an excluded Dir, not deleted.");
+                        }
+                        if (subdir.Name != appexcludeDirName)
+                        {
+                            Directory.Delete(subdir.FullName, true);
+                            AppendLine(textBox4, "Sub Dir Delete: fullupdate directory: " + subdir.FullName + " deleted.");
+                        }                        
+                    }
+                }
+            }
+            */
 
             /*
             if (fullupdate == false)
@@ -1196,6 +1600,7 @@ namespace NMSCoordinatesUpdater
             }
             */
 
+            /*
             //Copies directories and files from tempDir to approotDir
             DirectoryInfo temp1dinfo = new DirectoryInfo(apptempDir);
             string temp1 = temp1dinfo.Name;
@@ -1205,6 +1610,14 @@ namespace NMSCoordinatesUpdater
             AppendLine(textBox4, "Directory Copy: " + tempDir + " to " + approotDir + " exclude // " + temp1 + " // " + temp2);
             DirectoryCopy(tempDir, approotDir, true, true, temp1, temp2);
             AppendLine(textBox4, "***End of Directory Copy - tempDir to approotDir***");            
+            AppendLine(textBox4, "***End of Files Update***\r\n");
+            */
+
+            //Copies directories and files from tempDir to approotDir
+            AppendLine(textBox4, "***Start of Directory Copy - tempDir to approotDir***");
+            AppendLine(textBox4, "Directory Copy: " + tempDir + " to " + approotDir + " // use excludefilelist");
+            DirectoryCopy(tempDir, approotDir, true, true, true);
+            AppendLine(textBox4, "***End of Directory Copy - tempDir to approotDir***");
             AppendLine(textBox4, "***End of Files Update***\r\n");
 
             //Final Check after update if approot contains app
@@ -1249,7 +1662,7 @@ namespace NMSCoordinatesUpdater
         {
             //Main revert update method
             success = true; //reset success
-            AppendLine(textBox4, "***Start of Revert Update***");
+            AppendLine(textBox4, "***Start of Reverse Update***");
 
             if (!Validate(apptempDir, app))
             {
@@ -1264,11 +1677,11 @@ namespace NMSCoordinatesUpdater
             if (Directory.Exists(tempDir))
             {
                 Directory.Delete(tempDir, true);
-                AppendLine(textBox4, "Remove: tempDir: " + tempDir + " found and deleted");
+                AppendLine(textBox4, "Remove Temp: tempDir: " + tempDir + " found and deleted");
             }
             else
             {
-                AppendLine(textBox4, "Info: tempDir: " + tempDir + " not deleted, not found.");
+                AppendLine(textBox4, "Info Temp: tempDir: " + tempDir + " not deleted, not found.");
             }
 
             /*
@@ -1351,14 +1764,15 @@ namespace NMSCoordinatesUpdater
             //get update config parameters and set
             AppendLine(textBox4, "Read New Config parameters: " + config);
             GetConfig();
-            
+
             //Remove all directories and files from approot for reverse update
+            AppendLine(textBox4, "***Start of Reverse Update Delete - approotDir***");
             DirectoryInfo fuinfo = new DirectoryInfo(approotDir);
             FileInfo[] fufiles = fuinfo.GetFiles("*", SearchOption.TopDirectoryOnly);
             foreach (FileInfo file in fufiles.OrderByDescending(f => f.LastWriteTime))
             {
                 File.Delete(file.FullName);
-                AppendLine(textBox4, "Remove: fullupdate file: " + file.FullName + " deleted");
+                AppendLine(textBox4, "File Delete: " + file.FullName);
             }
             DirectoryInfo[] dirs = fuinfo.GetDirectories();
             foreach (DirectoryInfo subdir in dirs)
@@ -1366,15 +1780,25 @@ namespace NMSCoordinatesUpdater
                 if (subdir.Name != workingDirName)
                 {
                     Directory.Delete(subdir.FullName, true);
-                    AppendLine(textBox4, "Remove: fullupdate directory: " + subdir.FullName + " deleted");
+                    AppendLine(textBox4, "Directory Delete: " + subdir.FullName);
                 }
-            }            
+            }
+            AppendLine(textBox4, "***End of Reverse Update Delete - approotDir***");
 
+            /*
             //Copy all files in apptempDir to approotDir except workingDirName
             AppendLine(textBox4, "***Start of Directory Copy - apptempDir to approotDir***");
             AppendLine(textBox4, "Directory Copy: " + apptempDir + " to " + approotDir + " exclude // " + workingDirName);
             DirectoryCopy(apptempDir, approotDir, true, true, workingDirName);
             AppendLine(textBox4, "***End of Directory Copy - apptempDir to approotDir***");
+            */
+
+            //Reverse Copy all files in apptempDir to approotDir except workingDirName
+            AppendLine(textBox4, "***Start of Directory Copy - apptempDir to approotDir***");
+            AppendLine(textBox4, "Directory Copy: " + apptempDir + " to " + approotDir + " // do not use excludefilelist");
+            DirectoryCopy(apptempDir, approotDir, true, true, false);
+            AppendLine(textBox4, "***End of Directory Copy - apptempDir to approotDir***");
+
 
             if (!Validate(approotDir, app))
             {
@@ -1410,7 +1834,7 @@ namespace NMSCoordinatesUpdater
             }
             */
 
-            AppendLine(textBox4, "***End of Revert Update***\r\n");
+            AppendLine(textBox4, "***End of Reverse Update***\r\n");
             StartUp();
         }
         private void Install_Update()
