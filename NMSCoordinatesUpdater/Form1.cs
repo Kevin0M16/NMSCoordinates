@@ -9,12 +9,17 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Reflection;
+using System.Drawing;
+using IWshRuntimeLibrary;
+using File = System.IO.File;
 
 namespace NMSCoordinatesUpdater
 {
     public partial class Form1 : Form
     {
         private string config;
+        private string uconfig;
         private string oldconfig;
         private string workingDir;
         private string workingDirName;
@@ -30,7 +35,6 @@ namespace NMSCoordinatesUpdater
         private string app;
         private string approotDir;
         private string appexcludeDirName;
-        //private string appexcDirName;
 
         private string apptempDir;
         private string tempDir;
@@ -51,18 +55,36 @@ namespace NMSCoordinatesUpdater
         public Form1()
         {
             InitializeComponent();
-                        
-            config = Path.Combine(Directory.GetCurrentDirectory(), "uconfig.nmsc");
-            oldconfig = Path.Combine(Directory.GetCurrentDirectory(), "config_old.nmsc");
+
+            config = "config.cfg"; //Path.Combine(Directory.GetCurrentDirectory(), "config.cfg");
+            uconfig = "uconfig.cfg";
+            oldconfig = "config_old.cfg"; //Path.Combine(Directory.GetCurrentDirectory(), "config_old.cfg");
             success = true;
 
-            //log box
+            //Main Update Button
+            //button1.Visible = false;
+            button1.Visible = true;
+
+            //Debug toggle
+            //Debug log box
             textBox4.Visible = false;
-            //textBox4.Visible = true;
+            //textBox4.Visible = true;    
+
+            //Debug Backup/Install/Update Button
+            button2.Visible = false;
+            //button2.Visible = true;
+
+            //Debug Reverse Update button
+            button3.Visible = false;
+            //button3.Visible = true;
         }
+
         private void Form1_Shown(object sender, EventArgs e)
         {
-            workingDir = Directory.GetCurrentDirectory();
+            AppendLine(textBox4, "*****" + DateTime.Now.ToString("MM-dd-yyyy HH:mm" + "*****"));
+            AppendLine(textBox4, "***Start of Operational Directories and Files***");
+
+            workingDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);//Directory.GetCurrentDirectory();
             AppendLine(textBox4, "workingDir: " + workingDir);
 
             if (!Directory.Exists(workingDir))
@@ -77,6 +99,11 @@ namespace NMSCoordinatesUpdater
             DirectoryInfo dir = new DirectoryInfo(workingDir);
             workingDirName = dir.Name;
             AppendLine(textBox4, "workingDirName: " + workingDirName);
+            AppendLine(textBox4, "Config: " + config);
+            AppendLine(textBox4, "Update Config: " + uconfig);
+            AppendLine(textBox4, "Old Config: " + oldconfig);
+
+            AppendLine(textBox4, "***End of Operational Directories and Files***");
 
             GetConfig();
             CheckForUpdates();
@@ -156,11 +183,13 @@ namespace NMSCoordinatesUpdater
             }
             AppendLine(textBox4, "***Start of Read config file***");
 
+            /*
             if (!File.Exists(config))
             {
                 AppendLine(textBox4, "Info: config file: " + config + " not found, creating new config.");
-                CreateConfig();
+                CreateConfig(); // no error catch
             }
+            */
 
             if (!Validate(workingDir, config))
             {
@@ -170,11 +199,13 @@ namespace NMSCoordinatesUpdater
                 return;
             }
 
+            /*
             Read("config", config);
             config = readKey;
 
             Read("oldconfig", config);
             oldconfig = readKey;
+            */
 
             Read("repo", config);
             repo = readKey;
@@ -191,18 +222,19 @@ namespace NMSCoordinatesUpdater
 
             Read("approotdir", config);
             approotDir = Path.GetFullPath(readKey);
-
+            
             Read("apptempdir", config);
             apptempDir = Path.GetFullPath(readKey);
 
             Read("tempdir", config);
             tempDir = Path.GetFullPath(readKey);
 
-            Read("appexcludedirname", config);
-            appexcludeDirName = readKey; //just a string of dname            
-
             Read("updatezip", config);
             updateZip = readKey;
+
+            /*
+            Read("appexcludedirname", config);
+            appexcludeDirName = readKey; //just a string of dname  
 
             Read("fullupdate", config);
             if (readKey == "true" || readKey == "True")
@@ -215,12 +247,41 @@ namespace NMSCoordinatesUpdater
             }
 
             ExcludeFiles(); //no error catch
+            */
 
             AppendLine(textBox4, "approotDir Full Path: " + approotDir);
             AppendLine(textBox4, "apptempDir Full Path: " + apptempDir);
             AppendLine(textBox4, "tempDir Full Path: " + tempDir);
 
             AppendLine(textBox4, "***End of Read config file***\r\n");
+        }
+        private void GetUpdateConfig(string file)
+        {
+            //Read update config file and set parameters
+            if (!success)
+            {
+                return;
+            }
+            AppendLine(textBox4, "***Start of Read uconfig file***");
+            
+            Read("version", file);
+            version = readKey;
+
+            Read("appexcludedirname", file);
+            appexcludeDirName = readKey; //just a string of dname  
+
+            Read("fullupdate", file);
+            if (readKey == "true" || readKey == "True")
+            {
+                fullupdate = true;
+            }
+            else if (readKey == "false" || readKey == "False")
+            {
+                fullupdate = false;
+            }
+
+            ExcludeFiles(file);
+            AppendLine(textBox4, "***End of Read uconfig file***\r\n");
         }
         private void Read(string key, string path)
         {
@@ -275,7 +336,7 @@ namespace NMSCoordinatesUpdater
                 return;
             }
         }
-        private void ExcludeFiles()
+        private void ExcludeFiles(string file)
         {
             if (!success)
             {
@@ -283,7 +344,7 @@ namespace NMSCoordinatesUpdater
             }
 
             AppendLine(textBox4, "***Start List Excluded files***");
-
+            /*
             if (!Validate(workingDir, config))
             {
                 AppendLine(textBox4, "Error: No config file found // " + config + " at " + Path.Combine(workingDir, config));
@@ -291,8 +352,9 @@ namespace NMSCoordinatesUpdater
                 ErrorLog();
                 return;
             }
+            */
 
-            List<string> read = File.ReadAllLines(config).ToList();
+            List<string> read = File.ReadAllLines(file).ToList();
             foreach (string lst in read)
             {
                 Regex myRegexLS = new Regex("excludefiles{.*?}", RegexOptions.Multiline);
@@ -312,7 +374,7 @@ namespace NMSCoordinatesUpdater
             }
             else
             {
-                AppendLine(textBox4, "Info: No excluded files listed on config.");
+                AppendLine(textBox4, "Info: No excluded files listed on uconfig.");
             }
 
             AppendLine(textBox4, "***End List Excluded files***");
@@ -351,13 +413,16 @@ namespace NMSCoordinatesUpdater
                             Match m2 = myRegexRC.Match(lst);
                             string line2 = m2.ToString();
 
-                            line2 = line2.Replace("=", "");
-                            string value = line2.Replace(" ", "");
+                            //line2 = line2.Replace("=", "");
+                            //string value = line2.Replace(" ", "");
+
+                            string value = line2.Replace("=", "");
 
                             //replaces the record at the selected filelist index
                             int index = filelist.IndexOf(lst);
                             string record = lst.Replace(value, newKey);
                             filelist[index] = record;
+                            AppendLine(textBox4, "Write: " + key + "=" + newKey);
                             File.WriteAllLines(path, filelist);
                             return;
                         }
@@ -396,7 +461,7 @@ namespace NMSCoordinatesUpdater
 
                 if (version == latest.Name)
                 {
-                    button2.Text = "Repair";
+                    button1.Text = "Repair";
                     
                     DialogResult dialogResult = MessageBox.Show("You have the latest version from Github\r\n\n" +
                         "Open" + app + 
@@ -415,7 +480,7 @@ namespace NMSCoordinatesUpdater
                 }
                 else
                 {
-                    button2.Text = "Update";
+                    button1.Text = "Update";
                 }
             }
             catch
@@ -454,13 +519,18 @@ namespace NMSCoordinatesUpdater
         }
         private void Button1_Click(object sender, System.EventArgs e)
         {
+            //Main Center Update button
+            //Check for errors
             if (!success)
             {
                 return;
             }
+            //Download Update
             AppendLine(textBox4, "***Start of Download***");
             DownloadFile(assetUrl, updateZip);
             AppendLine(textBox4, "***End of Download***");
+
+            //Install_Update();           
         }
         public void DownloadFile(string urlAddress, string location)
         {
@@ -484,7 +554,9 @@ namespace NMSCoordinatesUpdater
                 }
                 catch //(Exception ex)
                 {
-                    AppendLine(textBox4, "Error: webClient Error!");
+                    AppendLine(textBox4, "Error: webClient Problem!");
+                    ErrorLog();
+                    return;
                     //MessageBox.Show(ex.Message);
                 }
             }
@@ -652,7 +724,7 @@ namespace NMSCoordinatesUpdater
                 {
                     AppendLine(textBox4, "File Copy: " + file.Name + " is in workingDir, not copied");
                 }
-                if (file.Directory.FullName != workingDir)// && !excludefilelist.Contains(file.Name))////
+                if (file.Directory.FullName != workingDir)
                 {
                     string temppath = Path.Combine(destDirName, file.Name);
                     file.CopyTo(temppath, ovrwrite);
@@ -756,7 +828,7 @@ namespace NMSCoordinatesUpdater
         }
         private void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs, bool ovrwrite, bool exlist)
         {
-            //Copy directories method
+            //MAIN Copy directories method
             if (!success)
             {
                 return;
@@ -940,6 +1012,7 @@ namespace NMSCoordinatesUpdater
             AppendLine(textBox4, "***Start of Error Log***");
             ValidateLog();
             AppendLine(textBox4, "Log: config= " + config);
+            AppendLine(textBox4, "Log: uconfig= " + uconfig);
             AppendLine(textBox4, "Log: oldconfig= " + oldconfig);
             AppendLine(textBox4, "Log: workingDir= " + workingDir);
             AppendLine(textBox4, "Log: workingDirName= " + workingDirName);
@@ -951,13 +1024,13 @@ namespace NMSCoordinatesUpdater
             AppendLine(textBox4, "Log: app= " + app);
             AppendLine(textBox4, "Log: approotDir= " + approotDir);
             AppendLine(textBox4, "Log: appexcludeDirName= " + appexcludeDirName);
-            //AppendLine(textBox4, "Log: excludefiles= " + excludefilelist);
             AppendLine(textBox4, "Log: apptempDir= " + apptempDir);
             AppendLine(textBox4, "Log: tempDir= " + tempDir);
             AppendLine(textBox4, "Log: tempRootDir= " + tempRootDir);
             AppendLine(textBox4, "Log: assetUrl= " + assetUrl);
             AppendLine(textBox4, "Log: assetName= " + assetName);
             AppendLine(textBox4, "Log: fullupdate= " + fullupdate);
+            AppendLine(textBox4, "Log: success= " + success);
             AppendLine(textBox4, "***Start List Excluded files***");
             try
             {
@@ -979,62 +1052,70 @@ namespace NMSCoordinatesUpdater
         }
         private void ValidateLog()
         {
-            AppendLine(textBox4, "***Start of Validate Directories and Files Log***");
+            try
+            {
+                AppendLine(textBox4, "***Start of Validate Directories and Files Log***");
 
-            string tempappPath = Path.Combine(tempDir, app);
-            string apptempappPath = Path.Combine(apptempDir, app);
-            string approotappPath = Path.Combine(approotDir, app);
+                string tempappPath = Path.Combine(tempDir, app);
+                string apptempappPath = Path.Combine(apptempDir, app);
+                string approotappPath = Path.Combine(approotDir, app);
 
-            if (!Directory.Exists(tempDir))
-            {
-                AppendLine(textBox4, "Error: tempDir: " + tempDir + " doesn't exist!");
-            }
-            else
-            {
-                AppendLine(textBox4, "Ready: tempDir: " + tempDir + " found.");
-            }
-            if (!File.Exists(tempappPath))
-            {
-                AppendLine(textBox4, "Error: tempappPath: " + tempappPath + " doesn't exist!");
-            }
-            else
-            {
-                AppendLine(textBox4, "Ready: tempappPath: " + tempappPath + " found.");
-            }
-            if (!Directory.Exists(apptempDir))
-            {
-                AppendLine(textBox4, "Error: apptempDir: " + apptempDir + " doesn't exist!");
-            }
-            else
-            {
-                AppendLine(textBox4, "Ready: apptempDir: " + apptempDir + " found.");
-            }
-            if (!File.Exists(apptempappPath))
-            {
-                AppendLine(textBox4, "Error: apptempappPath: " + apptempappPath + " doesn't exist!");
-            }
-            else
-            {
-                AppendLine(textBox4, "Ready: apptempappPath: " + apptempappPath + " found.");
-            }
-            if (!Directory.Exists(approotDir))
-            {
-                AppendLine(textBox4, "Error: approotDir: " + approotDir + " doesn't exist!");
-            }
-            else
-            {
-                AppendLine(textBox4, "Ready: approotDir: " + approotDir + " found.");
-            }
-            if (!File.Exists(approotappPath))
-            {
-                AppendLine(textBox4, "Error: approotappPath" + approotappPath + " doesn't exist!");
-            }
-            else
-            {
-                AppendLine(textBox4, "Ready: approotappPath" + approotappPath + " found.");
-            }
+                if (!Directory.Exists(tempDir))
+                {
+                    AppendLine(textBox4, "Error: tempDir: " + tempDir + " doesn't exist!");
+                }
+                else
+                {
+                    AppendLine(textBox4, "Ready: tempDir: " + tempDir + " found.");
+                }
+                if (!File.Exists(tempappPath))
+                {
+                    AppendLine(textBox4, "Error: tempappPath: " + tempappPath + " doesn't exist!");
+                }
+                else
+                {
+                    AppendLine(textBox4, "Ready: tempappPath: " + tempappPath + " found.");
+                }
+                if (!Directory.Exists(apptempDir))
+                {
+                    AppendLine(textBox4, "Error: apptempDir: " + apptempDir + " doesn't exist!");
+                }
+                else
+                {
+                    AppendLine(textBox4, "Ready: apptempDir: " + apptempDir + " found.");
+                }
+                if (!File.Exists(apptempappPath))
+                {
+                    AppendLine(textBox4, "Error: apptempappPath: " + apptempappPath + " doesn't exist!");
+                }
+                else
+                {
+                    AppendLine(textBox4, "Ready: apptempappPath: " + apptempappPath + " found.");
+                }
+                if (!Directory.Exists(approotDir))
+                {
+                    AppendLine(textBox4, "Error: approotDir: " + approotDir + " doesn't exist!");
+                }
+                else
+                {
+                    AppendLine(textBox4, "Ready: approotDir: " + approotDir + " found.");
+                }
+                if (!File.Exists(approotappPath))
+                {
+                    AppendLine(textBox4, "Error: approotappPath: " + approotappPath + " doesn't exist!");
+                }
+                else
+                {
+                    AppendLine(textBox4, "Ready: approotappPath: " + approotappPath + " found.");
+                }
 
-            AppendLine(textBox4, "***End of Validate Directories and Files Log***");
+                AppendLine(textBox4, "***End of Validate Directories and Files Log***");
+            }
+            catch
+            {
+                AppendLine(textBox4, "Error: Something went wrong.");
+                return;
+            }            
         }        
         private static bool Validate(string dirpath, string file)
         {
@@ -1173,29 +1254,6 @@ namespace NMSCoordinatesUpdater
             }
 
             /*
-            //Looks in approot directory for the app
-            if (!Directory.Exists(approotDir))
-            {
-                AppendLine(textBox4, "Error: approotDir: " + approotDir + " not found!");
-                return;
-            }
-            DirectoryInfo approotdinfo = new DirectoryInfo(approotDir);
-            FileInfo[] approotfiles = approotdinfo.GetFiles(app, SearchOption.TopDirectoryOnly);
-            if (approotfiles.Length == 0)
-            {
-                AppendLine(textBox4, "Error: approotfiles.Length is 0");
-                return;
-            }
-            */
-
-            /*
-            //Deletes old apptemp if found
-            if (Directory.Exists(apptempDir))
-            {
-                Directory.Delete(apptempDir, true);
-                AppendLine(textBox4, "Remove: apptempDir: " + apptempDir + " found and deleted");
-            }
-
             //Copies entore approotdir to apptempDir for backup exclude apptemp and temp workingdir from DC method
             AppendLine(textBox4, "***Start of Directory Copy - approotDir to apptempDir***");
             DirectoryInfo temp1dinfo = new DirectoryInfo(apptempDir);
@@ -1278,50 +1336,20 @@ namespace NMSCoordinatesUpdater
                         AppendLine(textBox4, "Atypical: tempRootDir: " + tempRootDir + " not deleted, not found.");
                     }
                 }
-
-                /*
-                if (Directory.Exists(appexcDirName))
-                {
-                    Directory.Delete(tempRootDir, true);
-                    AppendLine(textBox4, "Remove: tempRootDir: " + tempRootDir + " deleted");
-                }
-                */
-
-                /*
-                //If tempRootDir exist delete it
-                if (Directory.Exists(tempRootDir))
-                {
-                    Directory.Delete(tempRootDir, true);
-                    AppendLine(textBox4, "Remove: tempRootDir: " + tempRootDir + " deleted");
-                }
-                */
-
-                /*
-                //Checks if tempDir\app and apptempDir\app exists
-                if (!Directory.Exists(tempDir) || !File.Exists(Path.Combine(tempDir, app)))
-                {
-                    AppendLine(textBox4, "Error: tempDir: " + tempDir + " or " + Path.Combine(tempDir, app) + " not found!");
-                    return;
-                }
-                if (!Directory.Exists(apptempDir) || !File.Exists(Path.Combine(apptempDir, app))) 
-                {
-                    AppendLine(textBox4, "Error: apptempDir: " + apptempDir + " or " + Path.Combine(apptempDir, app) + " not found!");
-                    return;
-                }
-                */
             }
             AppendLine(textBox4, "***End of Install***\r\n");
-        }              
+        }
+
         private void UpdateApp()
         {
             //Main Update Method
             if (!success)
-            {
                 return;
-            }
+            
 
             AppendLine(textBox4, "***Start of Update***");
 
+            //Validate all directories for app file
             if (!Validate(tempDir, apptempDir, approotDir, app))
             {
                 AppendLine(textBox4, "Error: Failed to Validate, No app file found // " + Path.Combine(tempDir, app) + " or " + Path.Combine(apptempDir, app) + " or " + Path.Combine(approotDir, app));
@@ -1331,50 +1359,7 @@ namespace NMSCoordinatesUpdater
                 return;
             }
 
-            /*
-            //Check if backup of files exists app_temp
-            if (!Directory.Exists(apptempDir)) //apptempDir = Path.GetFullPath(@".\app_temp");
-            {
-                AppendLine(textBox4, "Error: apptempDir: " + apptempDir + " doesn't exist!");
-                return;
-            }
-            DirectoryInfo apptempdinfo = new DirectoryInfo(apptempDir);
-            FileInfo[] apptempfilesCheck = apptempdinfo.GetFiles(app, SearchOption.TopDirectoryOnly);
-            if (apptempfilesCheck.Length == 0)
-            {
-                AppendLine(textBox4, "Error: apptempfilesCheck.Length = 0");
-                return;
-            }
-
-            //Check if approot contains app
-            if (!Directory.Exists(approotDir)) //approotDir = Path.GetFullPath(@"..\");
-            {
-                AppendLine(textBox4, "Error: approotDir: " + approotDir + " doesn't exist!");
-                return;
-            }
-            DirectoryInfo adinfo = new DirectoryInfo(approotDir);
-            FileInfo[] afilesCheck = adinfo.GetFiles(app, SearchOption.TopDirectoryOnly);
-            if (afilesCheck.Length == 0)
-            {
-                AppendLine(textBox4, "Error: afilesCheck.Length = 0");
-                return;
-            }
-
-            // Check if tempdir exists and contains app and check config
-            if (!Directory.Exists(tempDir))
-            {
-                AppendLine(textBox4, "Error: tempDir: " + tempDir + " doesn't exist!");
-                return;
-            }
-            DirectoryInfo tempdinfo = new DirectoryInfo(tempDir); //tempDir = Path.GetFullPath(@".\temp");
-            FileInfo[] tempfilesCheck = tempdinfo.GetFiles(app, SearchOption.TopDirectoryOnly);
-            if (tempfilesCheck.Length == 0)
-            {
-                AppendLine(textBox4, "Error: tempfilesCheck.Length = 0");
-                return;
-            }
-            */
-
+            //Validate config is in workingDir
             if (!Validate(workingDir, config))
             {
                 AppendLine(textBox4, "Error: Failed to Validate, No config file found // " + config + " at " + Path.Combine(workingDir,config));
@@ -1383,23 +1368,14 @@ namespace NMSCoordinatesUpdater
                 ErrorLog();
                 return;
             }
-            
-            /*
-            //Check if existing config file exist
-            if (!File.Exists(config))
-            {
-                AppendLine(textBox4, "Error: No config file found // "+ config);
-                return;
-            }
-            AppendLine(textBox4, "config name: " + config);
-            */
 
-            //Check config is in tempDir look in entire folder and subs
+            //Check uconfig is in tempDir look in entire folder and subs
+            //Make sure update always contains one uconfig file ***uconfig file critical
             DirectoryInfo tempdinfo = new DirectoryInfo(tempDir); //tempDir = Path.GetFullPath(@".\temp");
-            FileInfo[] tempdfilesCheck = tempdinfo.GetFiles(config, SearchOption.AllDirectories);
+            FileInfo[] tempdfilesCheck = tempdinfo.GetFiles(uconfig, SearchOption.AllDirectories);
             if (tempdfilesCheck.Length == 0)
             {
-                AppendLine(textBox4, "Error: No config file found in tempDir! // " + config + " // tempdfilesCheck.Length = 0");
+                AppendLine(textBox4, "Error: No Update Config file found in tempDir! // " + uconfig + " // tempdfilesCheck.Length = 0");
                 AppendLine(textBox4, "Error: Failed at UpdateApp()");
                 AppendLine(textBox4, "Error: Update Failed!");
                 ErrorLog();
@@ -1407,34 +1383,39 @@ namespace NMSCoordinatesUpdater
             }
             foreach (FileInfo file in tempdfilesCheck)
             {
-                AppendLine(textBox4, "tempDir config: " + file.FullName);
+                AppendLine(textBox4, "tempDir uconfig: " + file.FullName);
                 AppendLine(textBox4, "existing config: " + Path.GetFullPath(config));
 
                 Read("version", config); //read from current config
                 string existversion = readKey;
                 AppendLine(textBox4, "Existing version: " + existversion);
 
-                //make copy of config and rename
-                File.Copy(config, oldconfig, true);
-
-                //Make sure update always contains one config file ***config file critical
-                List<string> linelist = File.ReadAllLines(file.FullName).ToList(); //REVERSE ADD
-                File.WriteAllLines(config, linelist);
-
-                Read("version", config); //read from new config
+                Read("version", file.FullName); //read from new config
                 string tempversion = readKey;
                 AppendLine(textBox4, "Update version: " + tempversion);
 
+                //make copy of config and rename based on current config old name
+                File.Copy(config, oldconfig, true);
+
+                //Make sure update always contains one uconfig file ***uconfig file critical
+                /*
+                List<string> linelist = File.ReadAllLines(file.FullName).ToList();
+                File.WriteAllLines(config, linelist);
+                */
+                AppendLine(textBox4, "Update config to new version: " + tempversion);
+                Write("version", tempversion, config);                
+
                 //get update config parameters and set
                 AppendLine(textBox4, "Read New Config parameters: " + config);
-                GetConfig(); //error control
+                //GetConfig(); //error control
+                GetUpdateConfig(file.FullName);
             }            
 
             //Update files
             AppendLine(textBox4, "***Start of Files Update***");
 
             /*
-            //After setting config, remove updater from temp
+            //ADDED SAFETY After setting config, remove updater from temp
             string updaterpath = Path.Combine(tempDir, workingDirName);
             if (Directory.Exists(updaterpath))
             {
@@ -1469,19 +1450,6 @@ namespace NMSCoordinatesUpdater
                     ErrorLog();
                     return;
                 }
-
-                /*
-                if (Directory.Exists(appexcludedDirPath)) //Directory.Exists(tempexcludedDirPath)
-                {
-                    Directory.Delete(tempexcludedDirPath, true);
-                    AppendLine(textBox4, "Remove: appexcludeDirName: " + appexcludeDirName + " found at " + appexcludedDirPath + " deleted at: " + tempexcludedDirPath);
-                }
-                else
-                {
-                    AppendLine(textBox4, "Ready: appexcludeDirName:" + appexcludeDirName + " not found in " + approotDir + ", no directory excluded.");
-                }
-                */
-
                 if (Directory.Exists(appexcludedDirPath))
                 {
                     Directory.Delete(tempexcludedDirPath, true);
@@ -1499,6 +1467,17 @@ namespace NMSCoordinatesUpdater
             }
             if (fullupdate)
             {
+                //Double check for app in approotDir before deleting for fullupdate
+                if (!Validate(approotDir, app))
+                {
+                    AppendLine(textBox4, "Error: Failed to Validate, No app file found! // " + app + " at " + Path.Combine(approotDir, app));
+                    AppendLine(textBox4, "Error: Failed at Backup()");
+                    AppendLine(textBox4, "Error: Backup Failed!");
+                    ErrorLog();
+                    return;
+                }
+                AppendLine(textBox4, "Confirmation: Validate Successful, app file found. // " + app + " at " + Path.Combine(approotDir, app));
+
                 AppendLine(textBox4, "***Start of Directory Delete - approotDir***");
                 AppendLine(textBox4, "Directory Delete for fullupdate // " + approotDir + " // use excludefilelist");
                 DirectoryDelete(approotDir, true, true, true);
@@ -1508,97 +1487,6 @@ namespace NMSCoordinatesUpdater
             /*AppendLine(textBox4, "*********STOP*************");
             ErrorLog();
             return;*/
-
-            /*
-            //Deletes all files and folders in approot for full update
-            if (fullupdate == true)
-            {                
-                DirectoryInfo fuinfo = new DirectoryInfo(approotDir);
-                FileInfo[] fufiles = fuinfo.GetFiles("*", SearchOption.TopDirectoryOnly);
-                foreach (FileInfo file in fufiles.OrderByDescending(f => f.LastWriteTime))
-                {
-                    File.Delete(file.FullName);
-                    AppendLine(textBox4, "Remove: fullupdate file: " + file.FullName + " deleted");
-                }
-                DirectoryInfo[] dirs = fuinfo.GetDirectories();
-                foreach (DirectoryInfo subdir in dirs)
-                {
-                    if (subdir.Name != appexcludeDirName && subdir.Name != workingDirName)
-                    {
-                        Directory.Delete(subdir.FullName,true);
-                        AppendLine(textBox4, "Remove: fullupdate directory: " + subdir.FullName + " deleted");
-                    }
-                }
-            }
-            */
-
-            /* test this but no worky
-            //Deletes all files and folders in approot for full update
-            if (fullupdate == true)
-            {
-                DirectoryInfo fuinfo = new DirectoryInfo(approotDir);
-                FileInfo[] fufiles = fuinfo.GetFiles("*", SearchOption.TopDirectoryOnly);
-                foreach (FileInfo file in fufiles.OrderByDescending(f => f.LastWriteTime))
-                {
-                    //if file directory path is same as workingDir path, don't delete
-                    if (file.Directory.FullName == workingDir)
-                    {
-                        AppendLine(textBox4, "File Delete: " + file.Name + " is in workingDir, not deleted.");
-                    }
-                    if (file.Directory.FullName != workingDir)
-                    {
-                        //if file is in the excludefilelist, don't delete
-                        if (excludefilelist.Contains(file.Name))
-                        {
-                            AppendLine(textBox4, "File Delete: " + file.Name + " is in the excluded files list, not deleted.");
-                        }
-                        if (!excludefilelist.Contains(file.Name))
-                        {
-                            File.Delete(file.FullName);
-                            AppendLine(textBox4, "File Delete: fullupdate file: " + file.FullName + " deleted.");
-                        }
-                    }                    
-                }
-                DirectoryInfo[] dirs = fuinfo.GetDirectories();
-                foreach (DirectoryInfo subdir in dirs)
-                {
-                    if (subdir.FullName == workingDir)
-                    {
-                        AppendLine(textBox4, "Sub Dir Delete: " + subdir.Name + " is in workingDir, not deleted.");
-                    }
-                    if (subdir.FullName != workingDir)
-                    {
-                        if (subdir.Name == appexcludeDirName)
-                        {
-                            AppendLine(textBox4, "Sub Dir Delete: " + subdir.Name + " is an excluded Dir, not deleted.");
-                        }
-                        if (subdir.Name != appexcludeDirName)
-                        {
-                            Directory.Delete(subdir.FullName, true);
-                            AppendLine(textBox4, "Sub Dir Delete: fullupdate directory: " + subdir.FullName + " deleted.");
-                        }                        
-                    }
-                }
-            }
-            */
-
-            /*
-            if (fullupdate == false)
-            {
-                //Removes appexcdirname from temp if exists in approot
-                string appexcDirPath = Path.Combine(approotDir, appexcDirName);
-                string tempexcDirPath = Path.Combine(tempDir, appexcDirName);
-                if (Directory.Exists(appexcDirPath))// && Directory.Exists(tempexcDirPath))
-                {
-                    Directory.Delete(tempexcDirPath, true);
-                    AppendLine(textBox4, "Remove: Excluded Dir Name: " + appexcDirName + " appexcDirName found and deleted at: " + tempexcDirPath);
-                }
-                else
-                {
-                    AppendLine(textBox4, "Ready: Excluded Dir Name:" + appexcDirName + " appexcDirName not found in " + tempDir + ", no directory excluded");
-                }
-            }
-            */
 
             /*
             //Copies directories and files from tempDir to approotDir
@@ -1629,21 +1517,6 @@ namespace NMSCoordinatesUpdater
                 ErrorLog();
                 return;
             }
-
-            /*
-            //Final Check after update if approot contains app
-            if (!Directory.Exists(approotDir)) //approotDir = Path.GetFullPath(@"..\");
-            {
-                AppendLine(textBox4, "Error: approotDir: " + approotDir + " doesn't exist!");
-                return;
-            }
-            DirectoryInfo finaldinfo = new DirectoryInfo(approotDir);
-            FileInfo[] finalfilesCheck = finaldinfo.GetFiles(app, SearchOption.TopDirectoryOnly);
-            if (finalfilesCheck.Length == 0)
-            {
-                AppendLine(textBox4, "Error: finalfilesCheck.Length = 0 app: " + app + " doesn't exist in approotDir: " + approotDir);                
-            }
-            */
 
             //Delete temp directory if it exists
             if (Directory.Exists(tempDir))
@@ -1684,23 +1557,6 @@ namespace NMSCoordinatesUpdater
                 AppendLine(textBox4, "Info Temp: tempDir: " + tempDir + " not deleted, not found.");
             }
 
-            /*
-            //Check if app_temp backup of files exists
-            if (!Directory.Exists(apptempDir)) //apptempDir = Path.GetFullPath(@".\app_temp");
-            {
-                AppendLine(textBox4, "Error: apptempDir: " + apptempDir + " doesn't exist!");
-                return;
-            }
-            //Check if app is in app_temp
-            DirectoryInfo apptempdinfo = new DirectoryInfo(apptempDir);
-            FileInfo[] apptempfilesCheck = apptempdinfo.GetFiles(app, SearchOption.TopDirectoryOnly);
-            if (apptempfilesCheck.Length == 0)
-            {
-                AppendLine(textBox4, "Error: apptempfilesCheck.Length = 0");
-                return;
-            }
-            */
-
             //Check for oldconfig exists
             if (!Validate(workingDir, oldconfig))
             {
@@ -1712,16 +1568,6 @@ namespace NMSCoordinatesUpdater
             }
             AppendLine(textBox4, "old config name: " + oldconfig);
 
-            /*
-            //Check for oldconfig exists
-            if (!File.Exists(oldconfig))
-            {
-                AppendLine(textBox4, "Error: No oldconfig file found // " + oldconfig);
-                return;
-            }
-            AppendLine(textBox4, "old config name: " + oldconfig);
-            */
-
             //Check for config exists
             if (!Validate(workingDir, config))
             {
@@ -1732,17 +1578,6 @@ namespace NMSCoordinatesUpdater
                 return;
             }
             AppendLine(textBox4, "config name: " + config);
-
-            /*
-            //Check for config exists
-            if (!File.Exists(config))
-            {
-                AppendLine(textBox4, "Error: No config file found // " + config);
-                return;
-            }
-            AppendLine(textBox4, "config name: " + config);
-            */
-
             AppendLine(textBox4, "old config path: " + Path.GetFullPath(oldconfig));
             AppendLine(textBox4, "existing config path: " + Path.GetFullPath(config));
 
@@ -1812,58 +1647,131 @@ namespace NMSCoordinatesUpdater
 
             MessageBox.Show("Reverse Successful!", "Reverse Update", MessageBoxButtons.OK);
             AppendLine(textBox4, "Confirmation: Reverse Successful!");
-
-            /*
-            //Final files check for app
-            if (!Directory.Exists(approotDir)) //approotDir = Path.GetFullPath(@"..\");
-            {
-                AppendLine(textBox4, "Error: approotDir: " + approotDir + " doesn't exist!");
-                return;
-            }
-            DirectoryInfo finaldinfo = new DirectoryInfo(approotDir);
-            FileInfo[] finalfilesCheck = finaldinfo.GetFiles(app, SearchOption.TopDirectoryOnly);
-            if (finalfilesCheck.Length != 0)
-            {
-                MessageBox.Show("Reverse Successful!", "Reverse Update", MessageBoxButtons.OK);
-                AppendLine(textBox4, "Confirmation: Reverse Successful!");
-            }
-            else
-            {
-                MessageBox.Show("Failed!", "Reverse Update", MessageBoxButtons.OK);
-                AppendLine(textBox4, "Error: Reverse Update Failed!");
-            }
-            */
-
             AppendLine(textBox4, "***End of Reverse Update***\r\n");
             StartUp();
         }
         private void Install_Update()
         {
-            //Backup Install and Update Method
-            Backup();
-            Install();
-            UpdateApp();
-            StartUp();
+            //Main Backup Install and Update Method
+
+            //Check if any errors prior
+            if (!success)
+            {
+                return;
+            }
+            AppendLine(textBox4, "***Start of Install_Update***");
+
+            //Check to make sure app is in approot
+            if (!Validate(approotDir, app))
+            {
+                AppendLine(textBox4, "Error: Failed to Validate, No app file found! // " + app + " at " + Path.Combine(approotDir, app));
+                AppendLine(textBox4, "Error: Failed at Install_Update()");
+                AppendLine(textBox4, "Error: Install_Update Failed!");
+                ErrorLog();
+                return;
+            }
+
+            // Run the main methods if success is true
+            if (success)
+            {
+                Backup();
+                Install();
+                UpdateApp();
+                StartUp();                
+            }
+
+            //Create shortcut on desktop when finished
+            if (success)
+            {                
+                CreateShortcut();
+            }
+
+            if (success)
+            {
+                AppendLine(textBox4, "***End of Install_Update***");
+            }
+            else
+            {
+                //Delete temp directory if it exists
+                if (Directory.Exists(tempDir))
+                {
+                    Directory.Delete(tempDir, true);
+                    AppendLine(textBox4, "Remove: tempDir: " + tempDir + " found and deleted");
+                }
+            }
 
             //Debug
             //Log();
         }
+        private void CreateShortcut()
+        {
+            try
+            {
+                string exepath = Path.Combine(approotDir, app);
+                if (File.Exists(exepath))
+                {
+                    AppendLine(textBox4, "Create Shortcut: " + app + "-" + version + " - shortcut.lnk");
+                    object shDesktop = (object)"Desktop";
+                    WshShell shell = new WshShell();
+                    string shortcutAddress = (string)shell.SpecialFolders.Item(ref shDesktop) + @"\" + app + "-" + version + " - shortcut.lnk";
+                    IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
+                    shortcut.WorkingDirectory = approotDir;
+                    shortcut.Description = "New shortcut for a NMSC";
+                    shortcut.TargetPath = exepath; //Environment.GetFolderPath(Environment.SpecialFolder.System) + @"\notepad.exe";
+                    shortcut.Save();
+                }
+                else
+                {
+                    AppendLine(textBox4, "No Shortcut Created, app path not found! // app:" + app + " version: " + version + " - shortcut.lnk");
+                    ErrorLog();
+                    return;
+                }                
+            }
+            catch
+            {
+                AppendLine(textBox4, "Error: Cannot Create Shortcut!");
+                ErrorLog();
+                return;
+            }            
+        }
+        private void CreateZipBackup()
+        {
+            if (success)
+            {
+                if (Directory.Exists(apptempDir))
+                {
+                    string zipname = "update-backup-" + app + "-" + version + ".zip";
+                    ZipFile.CreateFromDirectory(apptempDir, zipname);
+
+                    string zippath = Path.Combine(workingDir, zipname);
+                    if (File.Exists(zippath))
+                    {
+                        Directory.Delete(apptempDir, true);
+                    }
+                }
+            }
+        }
         private void Button2_Click(object sender, EventArgs e)
         {
-            //Update or Repair Button            
+            //Debug Backup/Install/Update Button
+            
             Backup();
             Install();
             UpdateApp();
             StartUp();
+            
+
+            //Install_Update();
+
+            //CreateShortcut();
 
             //Debug
             //Log();
         }
         private void Button3_Click(object sender, EventArgs e)
         {
-            //Reverse update button
+            //Debug Reverse update button
             ReverseUpdateApp();
-            //StartUp();
 
             //Debug
             //Log();
@@ -1875,7 +1783,8 @@ namespace NMSCoordinatesUpdater
                 if (textBox4.TextLength != 0)
                 {
                     List<string> list = textBox4.Lines.ToList();
-                    list.Insert(0, "*****" + DateTime.Now.ToString("MM-dd-yyyy HH:mm" + "*****"));
+                    //list.Insert(0, "*****" + DateTime.Now.ToString("MM-dd-yyyy HH:mm" + "*****"));
+                    list.Add("*****End log. " + DateTime.Now.ToString("MM-dd-yyyy HH:mm" + "*****"));
                     string notepad = "notepad++.exe";
                     string logfile = "log.txt";
 
@@ -1895,6 +1804,18 @@ namespace NMSCoordinatesUpdater
         private void OpenLogtxtToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Log();
+        }
+
+        private void TextBox4_TextChanged(object sender, EventArgs e)
+        {            
+            AutoSizeTextBox(sender as TextBox);
+        }
+        // Make the TextBox fit its contents.
+        private void AutoSizeTextBox(TextBox txt)
+        {
+            const int x_margin = 20;
+            Size size = TextRenderer.MeasureText(txt.Text, txt.Font);
+            txt.ClientSize = new Size(size.Width + x_margin, textBox4.Height);
         }
     }
 }
