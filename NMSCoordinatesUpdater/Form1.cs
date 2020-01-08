@@ -712,8 +712,6 @@ namespace NMSCoordinatesUpdater
                 return;
             }
 
-            DirectoryInfo[] dirs = dir.GetDirectories();
-
             // If the destination directory doesn't exist, create it. unless WorkingDir
             if (!Directory.Exists(destDirName) && destDirName != WorkingDir && sourceDirName != WorkingDir)
             {
@@ -746,6 +744,7 @@ namespace NMSCoordinatesUpdater
             }
 
             // If copying subdirectories, copy them and their contents to new location.
+            DirectoryInfo[] dirs = dir.GetDirectories();
             if (copySubDirs)
             {
                 foreach (DirectoryInfo subdir in dirs)
@@ -786,9 +785,7 @@ namespace NMSCoordinatesUpdater
                 AppendLine(textBox4, "Error: Failed at DirectoryCopy(" + sourceDirName + ", " + destDirName + ", " + copySubDirs + ", " + ovrwrite + ")");
                 ErrorLog();
                 return;
-            }
-
-            DirectoryInfo[] dirs = dir.GetDirectories();
+            }            
 
             // If the destination directory doesn't exist, create it. unless WorkingDir
             if (!Directory.Exists(destDirName) && destDirName != WorkingDir && sourceDirName != WorkingDir)
@@ -822,6 +819,7 @@ namespace NMSCoordinatesUpdater
             }
 
             // If copying subdirectories, copy them and their contents to new location.
+            DirectoryInfo[] dirs = dir.GetDirectories();
             if (copySubDirs)
             {
                 foreach (DirectoryInfo subdir in dirs)
@@ -856,8 +854,6 @@ namespace NMSCoordinatesUpdater
                 ErrorLog();
                 return;
             }
-
-            DirectoryInfo[] dirs = dir.GetDirectories();
 
             // If the destination directory doesn't exist, create it. unless WorkingDir
             if (!Directory.Exists(destDirName) && destDirName != WorkingDir && sourceDirName != WorkingDir)
@@ -895,7 +891,6 @@ namespace NMSCoordinatesUpdater
                         }
                         if (!ExcludeFileList.Contains(file.Name))
                         {
-
                             file.CopyTo(temppath, ovrwrite);
                             AppendLine(textBox4, "File Copy: " + file + " to " + temppath + " // " + file.LastWriteTime);
                         }
@@ -909,6 +904,7 @@ namespace NMSCoordinatesUpdater
             }
 
             // If copying subdirectories, copy them and their contents to new location.
+            DirectoryInfo[] dirs = dir.GetDirectories();
             if (copySubDirs)
             {
                 //dirs is all the directories in SOURCE. Get all sudirs in the source directories one at a time then re-run
@@ -931,7 +927,7 @@ namespace NMSCoordinatesUpdater
                 }
             }
         }
-        private void DirectoryDelete(string sourceDirName, bool copySubDirs, bool ovrwrite, bool exlist)
+        private void DirectoryDelete(string sourceDirName, bool delSubDirs, bool exlist)
         {
             //Copy directories method
             if (!Success)
@@ -944,12 +940,10 @@ namespace NMSCoordinatesUpdater
             if (!dir.Exists)
             {
                 AppendLine(textBox4, "Error: sourceDirName not found! // " + sourceDirName);
-                AppendLine(textBox4, "Error: Failed at DirectoryDelete(" + sourceDirName + ", " + copySubDirs + ", " + ovrwrite + ", " + exlist + ")");
+                AppendLine(textBox4, "Error: Failed at DirectoryDelete(" + sourceDirName + ", " + delSubDirs + ", " + exlist + ")");
                 ErrorLog();
                 return;
             }
-
-            DirectoryInfo[] dirs = dir.GetDirectories();
 
             /*
             // If the destination directory doesn't exist, create it. unless workingDir
@@ -999,10 +993,10 @@ namespace NMSCoordinatesUpdater
                     }
                 }
             }
-            
-            if (copySubDirs)
-            {
-                
+
+            DirectoryInfo[] dirs = dir.GetDirectories();
+            if (delSubDirs)
+            {                
                 foreach (DirectoryInfo subdir in dirs)
                 {
                     //string temppath = Path.Combine(destDirName, subdir.Name);
@@ -1017,7 +1011,7 @@ namespace NMSCoordinatesUpdater
                     if (subdir.FullName != WorkingDir && subdir.Name != AppexcludeDirName)
                     {                        
                         AppendLine(textBox4, "Directory Delete: " + subdir.FullName);
-                        DirectoryDelete(subdir.FullName, copySubDirs, ovrwrite, exlist);                        
+                        DirectoryDelete(subdir.FullName, delSubDirs, exlist);                        
                     }
                 }
             }
@@ -1462,17 +1456,19 @@ namespace NMSCoordinatesUpdater
                 }
                 if (Path.GetFullPath(tempexcludedDirPath) == Path.GetFullPath(TempDir))
                 {
-                    AppendLine(textBox4, "Error: tempexcludedDirPath not set in Config or null! // tempexcludedDirPath: " + tempexcludedDirPath + " // AppexcludeDirName: " + AppexcludeDirName);
+                    AppendLine(textBox4, "Error: AppexcludeDirName not set in Config or null! // tempexcludedDirPath: " + tempexcludedDirPath + " // AppexcludeDirName: " + AppexcludeDirName);
                     AppendLine(textBox4, "Error: Failed at UpdateApp()");
                     AppendLine(textBox4, "Error: Update Failed!");
                     ErrorLog();
                     return;
                 }
+                //Remove excluded dir from temp if exists in Approot
                 if (Directory.Exists(appexcludedDirPath))
                 {
                     Directory.Delete(tempexcludedDirPath, true);
                     AppendLine(textBox4, "Remove: AppexcludeDirName: " + AppexcludeDirName + " found at " + appexcludedDirPath + " deleted at: " + tempexcludedDirPath);
                 }
+                //Remove excluded dir if its in temp
                 if (Directory.Exists(tempexcludedDirPath))
                 {
                     Directory.Delete(tempexcludedDirPath, true);
@@ -1498,7 +1494,7 @@ namespace NMSCoordinatesUpdater
 
                 AppendLine(textBox4, "***Start of Directory Delete - ApprootDir***");
                 AppendLine(textBox4, "Directory Delete for Fullupdate // " + ApprootDir + " // use ExcludeFileList");
-                DirectoryDelete(ApprootDir, true, true, true);
+                DirectoryDelete(ApprootDir, true, true);
                 AppendLine(textBox4, "***End of Directory Delete - ApprootDir***");
             }
 
