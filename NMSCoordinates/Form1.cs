@@ -79,8 +79,50 @@ namespace NMSCoordinates
             await Task.Delay(300);
             RunBackupAll(hgFileDir);
 
-            //Check Github releases for a newer version
-            CheckForUpdates(true);
+            //Check Github releases for a newer version            
+            //CheckForUpdates(true); //Toggle until updater
+            CheckForUpdates();
+        }
+        private async void CheckForUpdates()
+        {
+            //Check Github releases for a newer version method
+            try
+            {
+                var client = new GitHubClient(new ProductHeaderValue("NMSCoordinates"));
+                var releases = await client.Repository.Release.GetAll("Kevin0M16", "NMSCoordinates");
+                var latest = releases[0];
+
+                if (Version != latest.Name)
+                {
+                    //IsUpdated(false, first, latest.Name);
+
+                    linkLabel4.Text = "Version " + latest.Name + " Available";
+                    linkLabel4.Visible = true;
+                    AppendLine(textBox17, "Current Version: " + Version + " Latest Version: " + latest.Name);
+                    MessageBox.Show("A newer version of NMSCoordinates is available\r\n\nLatest Version: " + latest.Name + "  Now available for download.\r\n\n", "Update Available", MessageBoxButtons.OK);
+                    /*
+                    DialogResult dialogResult = MessageBox.Show("A newer version of NMSCoordinates is available\r\n\nLatest Version: " + latest.Name + "  Update Now?\r\n\n", "Update Available", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        UpdateApp();
+                    }
+                    else if (dialogResult == DialogResult.No)
+                    {
+                        return;
+                    }*/
+                }
+
+                if (Version == latest.Name)
+                {
+                    //IsUpdated(true, first, latest.Name);
+
+                    AppendLine(textBox17, "Current Version: " + latest.Name + " is the latest version");
+                }
+            }
+            catch
+            {
+                AppendLine(textBox17, "Github Server not available. Could not check version");
+            }
         }
         private async void CheckForUpdates(bool first)
         {
@@ -3933,12 +3975,11 @@ namespace NMSCoordinates
 
         private void CheckForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //Form9 f9 = new Form9(Version);
-            //f9.ShowDialog();
+            Form9 f9 = new Form9(Version);
+            f9.ShowDialog();
 
-            CheckForUpdates(false);
-
-            //UpdateApp();
+            //Toggle until updater
+            //CheckForUpdates(false);
         }
     }
 }
