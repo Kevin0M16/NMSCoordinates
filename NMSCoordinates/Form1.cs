@@ -1705,6 +1705,11 @@ namespace NMSCoordinates
 
                 string mf_hgFileName = Path.GetFileNameWithoutExtension(mf_hgFilePath);
 
+                if (Directory.Exists(@".\temp"))
+                {
+                    Directory.Delete(@".\temp", true);
+                }
+                
                 Directory.CreateDirectory(@".\temp");
 
                 File.Copy(hgFilePath, @".\temp\" + hgFileName + Path.GetExtension(hgFilePath));
