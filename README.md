@@ -23,12 +23,12 @@ Backup locations to txt file and and access and travel to these saved coordinate
 |<a href="http://www.youtube.com/watch?feature=player_embedded&v=ceSFVl9LFtI" target="_blank"><img src="http://img.youtube.com/vi/ceSFVl9LFtI/0.jpg" alt="Video" width="520" height="300" border="10" /></a>|<a href="http://www.youtube.com/watch?feature=player_embedded&v=Vx1xGk2TMIo" target="_blank"><img src="http://img.youtube.com/vi/Vx1xGk2TMIo/0.jpg" alt="Video" width="520" height="300" border="10" /></a>|
 
 
-## Download - UPDATE v1.1.13 (12-16-2019)
+## Download - UPDATE v1.1.14 (Jan 25 2020)
 
-New Feature: Freighter Battle Trigger button, Fixed Gamemode not found for NMS 2.24, gamemode now uses ranges instead of specific values to prevent this in the future. 
+Users can now add notes to identify each line in the list of locations accessed from the "Coordinate Share" tab. 
 
 <!--* Download will be available later today. -->
-<pre>  <a href="https://github.com/Kevin0M16/NMSCoordinates/releases/latest/download/NMSCoordinates-v1.1.13.zip"><img src="https://img.shields.io/badge/dynamic/json.svg?label=download&url=https://api.github.com/repos/Kevin0M16/NMSCoordinates/releases/latest&query=$.assets[0].name&style=for-the-badge" alt="download"/></a></pre>
+<pre>  <a href="https://github.com/Kevin0M16/NMSCoordinates/releases/latest/download/NMSCoordinates-v1.1.14.zip"><img src="https://img.shields.io/badge/dynamic/json.svg?label=download&url=https://api.github.com/repos/Kevin0M16/NMSCoordinates/releases/latest&query=$.assets[0].name&style=for-the-badge" alt="download"/></a></pre>
 
 ## Share - Upload locations to Google Drive
 
@@ -58,7 +58,7 @@ Here is an overview of what you need to get started with NMSCoordinates
 
 ### Requirements
 
-The current version of NMSCoordinates requires No Man's Sky Beyond or Synthesis 2.2-2.23
+The current version of NMSCoordinates requires No Man's Sky Beyond or Synthesis 2.2-2.26
 
 :exclamation: **Always back up all your game data and saves before any mods**
 

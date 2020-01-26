@@ -1,18 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using JsonTreeView;
-using QuickType;
+﻿using System.Windows.Forms;
 
 namespace NMSCoordinates
 {
@@ -66,11 +52,12 @@ namespace NMSCoordinates
                 MessageBox.Show("Unable to open link that was clicked.");
             }
         }
-
+        /*
         private void Button9_Click(object sender, EventArgs e)
         {
             Form9 f9 = new Form9(Version);
             f9.ShowDialog();
         }
+        */
     }
 }
