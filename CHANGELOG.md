@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## V1.1.14 (Jan 11 2020)
+## V1.1.14 (Jan 25 2020)
 - Users can now add notes to identify each line in the list of locations accessed from the "Coordinate Share" tab. 
 
 ## V1.1.13 (Dec 16 2019)
