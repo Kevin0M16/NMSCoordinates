@@ -36,7 +36,7 @@ namespace NMSCoordinates
             InitializeComponent();
 
             //Set Version here
-            Version = "v1.1.14";
+            Version = "v1.1.15";
             label29.Text = "Version " + Version;
 
             Glyphs();
@@ -1112,7 +1112,7 @@ namespace NMSCoordinates
                     //textBox10.Text = galaxyDict[galaxy];
                     GalaxyLookup(textBox10, galaxy);
                     GetGalacticCoord(iX, iY, iZ, iSSI);
-                    GetPortalCoord(iX, iY, iZ, iSSI, textBox3);
+                    GetPortalCoord(iPI, iX, iY, iZ, iSSI, textBox3);
                     ShowGlyphs();
                     AppendLine(textBox1, GalacticCoord);
                     AppendLine(textBox2, PortalCode);
@@ -1146,7 +1146,7 @@ namespace NMSCoordinates
                                 TextBoxes();
                                 GalaxyLookup(textBox10, galaxy);
                                 GetGalacticCoord(iX, iY, iZ, iSSI);
-                                GetPortalCoord(iX, iY, iZ, iSSI, textBox3);
+                                GetPortalCoord(iPI, iX, iY, iZ, iSSI, textBox3);
                                 ShowGlyphs();
                                 AppendLine(textBox1, GalacticCoord);
                                 AppendLine(textBox2, PortalCode);
@@ -1188,7 +1188,7 @@ namespace NMSCoordinates
                                 TextBoxes();
                                 GalaxyLookup(textBox10, galaxy);
                                 GetGalacticCoord(iX, iY, iZ, iSSI);
-                                GetPortalCoord(iX, iY, iZ, iSSI, textBox3);
+                                GetPortalCoord(iPI, iX, iY, iZ, iSSI, textBox3);
                                 ShowGlyphs();
                                 AppendLine(textBox1, GalacticCoord);
                                 AppendLine(textBox2, PortalCode);
@@ -1210,7 +1210,7 @@ namespace NMSCoordinates
         }
         private void GetGalacticCoord(int X, int Y, int Z, int SSI)
         {
-            //Voxel Coordinates to Galactic Coordinate
+            //Voxel Coordinate to Galactic Coordinate
             textBox3.Clear();
 
             //Note: iX, iY, iZ, iSSI already Convert.ToInt32(X) in JSONMap()
@@ -1236,9 +1236,9 @@ namespace NMSCoordinates
             GalacticCoord = string.Format("{0:X4}:{1:X4}:{2:X4}:{3:X4}", ig1, ig2, ig3, ig4); //Format to 4 digit seperated by colon
             AppendLine(textBox3, "Galactic Coordinates: " + GalacticCoord);
         }
-        private void GetPortalCoord(int X, int Y, int Z, int SSI, TextBox tb)
+        private void GetPortalCoord(int P, int X, int Y, int Z, int SSI, TextBox tb)
         {
-            //Galactic Coordinate to Portal Code
+            //Voxel Coordinate to Portal Code
 
             //Note: iX, iY, iZ, iSSI already Convert.ToInt32(X) in JSONMap()
             int dd1 = X + 2047;
@@ -1277,8 +1277,8 @@ namespace NMSCoordinates
             int ihexZ = (Convert.ToInt32(hexZ, 16) & 0xFFF); // Z[HEX] to Z[DEC] 3 digits
             int ihexSSI = (Convert.ToInt32(g4, 16) & 0xFFF); // SSI[HEX] to SSI[DEC] 3 digits
 
-            PortalCode = string.Format("0{0:X3}{1:X2}{2:X3}{3:X3}", ihexSSI, ihexY, ihexZ, ihexX); // Format digits 0 3 2 3 3
-            AppendLine(tb, "[SSI][Y][Z][X] Portal Code: " + PortalCode);
+            PortalCode = string.Format(P + "{0:X3}{1:X2}{2:X3}{3:X3}", ihexSSI, ihexY, ihexZ, ihexX); // Format digits 1 3 2 3 3
+            AppendLine(tb, "[P][SSI][Y][Z][X] Portal Code: " + PortalCode);
 
             //Index chars in PortalCode
             _gl1 = PortalCode[0];
@@ -1299,7 +1299,7 @@ namespace NMSCoordinates
         }
         private void GetPortalCoord(int X, int Y, int Z, int SSI)
         {
-            //Galactic Coordinate to Portal Code
+            //Voxel Coordinates to Portal Code
 
             //Note: iX, iY, iZ, iSSI already Convert.ToInt32(X) in JSONMap()
             int dd1 = X + 2047;
@@ -1314,7 +1314,7 @@ namespace NMSCoordinates
             int dec1 = Convert.ToInt32(g1, 16); // X[HEX] to X[DEC]
             int dec2 = Convert.ToInt32(g2, 16); // Y[HEX] to X[DEC]
             int dec3 = Convert.ToInt32(g3, 16); // Z[HEX] to X[DEC]
-            int dec4 = Convert.ToInt32(g4, 16); // SSI[HEX] to SSI[DEC]
+            //int dec4 = Convert.ToInt32(g4, 16); // SSI[HEX] to SSI[DEC]
             //AppendLine(textBox3, "Galactic HEX to DEC: " + dec1.ToString() + " " + dec2.ToString() + " " + dec3.ToString() + " " + dec4);
 
             int dec5 = Convert.ToInt32("801", 16); // 801[HEX] to 801[DEC]
@@ -1338,7 +1338,7 @@ namespace NMSCoordinates
             int ihexZ = (Convert.ToInt32(hexZ, 16) & 0xFFF); // Z[HEX] to Z[DEC] 3 digits
             int ihexSSI = (Convert.ToInt32(g4, 16) & 0xFFF); // SSI[HEX] to SSI[DEC] 3 digits
 
-            PortalCode = string.Format("0{0:X3}{1:X2}{2:X3}{3:X3}", ihexSSI, ihexY, ihexZ, ihexX); // Format digits 0 3 2 3 3
+            PortalCode = string.Format("0{0:X3}{1:X2}{2:X3}{3:X3}", ihexSSI, ihexY, ihexZ, ihexX); // Format digits 1 3 2 3 3
             //AppendLine(textBox3, "[SSI][Y][Z][X] Portal Code: " + PortalCode);
         }
         private void ShowPGlyphs()
@@ -2669,7 +2669,7 @@ namespace NMSCoordinates
         }
         private void GalacticToVoxelMan(string oX, string oY, string oZ, string oSSI)
         {
-            //Galactic Coordinate to Voxel Coordinates 
+            //Galactic Coordinate to Voxel Coordinate
             textBox15.Clear();
 
             //HEX in

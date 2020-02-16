@@ -20,6 +20,10 @@ namespace NMSCoordinates
             ShowGlyphKey();
         }
 
+        private long hxe { get; set; }
+        private string hxx { get; set; }
+        private int Planet { get; set; }
+
         private void ShowGlyphKey()
         { 
             pictureBox1.Image = Properties.Resources._0;
@@ -91,7 +95,6 @@ namespace NMSCoordinates
             }
             
         }
-
         public static void AppendLine(TextBox source, string value)
         {
             //My neat little textbox handler
@@ -99,15 +102,40 @@ namespace NMSCoordinates
                 source.Text = value;
             else
                 source.AppendText("\r\n" + value);
-        }        
-        private void CalculateVoxelFromHex(string hx)
+        }
+        private void ClearHx()
+        {
+            hxx = "";
+            hxe = 0;
+            GalacticCoord2 = "";
+            GalacticCoord = "";
+            Planet = 0;
+            PortalCode = "";
+        }
+        private void CalculateLongHex(string hx)
         {
             //PlanetNumber--SolarSystemIndex--GalaxyNumber--VoxelY--VoxelZ--VoxelX
             //4 bit--12 bit--8 bit--8 bit--12 bit--12 bit
-            //"0x2 049 00 01 D37 652" 460 475 89 64 091 954  0 04A FB 9F6 C9D
-            //textBox7.Clear();
+            // 0x1 05C 00 FE 54B C32  4604758964091954  0431:007D:0D4A:005C  105CFE54BC32
 
-            string basehx = hx;
+            ClearHx();
+            hxx = hx;
+            if (!hx.StartsWith("0x"))
+            {
+                hxe = Convert.ToInt64(hx);
+                AppendLine(textBox7, "Long DEC: " + hxe); // Display Long DEC
+
+                hxx = "0x" + hxe.ToString("X"); // Convert Long DEC to Long HEX
+                AppendLine(textBox7, "Long HEX: " + hxx);// Display Long HEX
+            }
+            else
+            {
+                hxe = Convert.ToInt64(hx, 16); // Convert Long HEX to DEC
+                AppendLine(textBox7, "Long DEC: " + hxe); // Display Long DEC
+                AppendLine(textBox7, "Long HEX: " + hxx); // Display Long HEX
+            }
+
+            string basehx = hxx;
             string b6 = basehx.Substring(basehx.Length - 3, 3);
             string b5 = basehx.Substring(basehx.Length - 6, 3);
             string b4 = basehx.Substring(basehx.Length - 8, 2);
@@ -130,19 +158,35 @@ namespace NMSCoordinates
             int decY = Convert.ToInt32(b4, 16);
             int decZ = Convert.ToInt32(b5, 16);
             int decX = Convert.ToInt32(b6, 16);
-            AppendLine(textBox7, "Dec: Planet #:" + pidec + " SSI:" + ssidec + " Gal#:" + galdec + " Y:" + decY + " Z:" + decZ + " X:" + decX);
+            AppendLine(textBox7, "Base Dec: Planet #:" + pidec + " SSI:" + ssidec + " Gal#:" + galdec + " Y:" + decY + " Z:" + decZ + " X:" + decX);
 
             int calc1 = (decX + dec4) % dec1; // (X[DEC] + 801[DEC]) MOD (1000[DEC])
             int calc2 = (decY + dec3) % dec2; // (Y[DEC] + 81[DEC]) MOD (100[DEC])
             int calc3 = (decZ + dec4) % dec1; // (Z[DEC] + 801[DEC]) MOD (1000[DEC])
             //AppendLine(textBox3, "1- X:" + calc1.ToString() + " Y:" + calc2.ToString() + " Z:" + calc3.ToString() + " SSI:" + ssidec);
-            AppendLine(textBox7, "Voxel Dec: Planet #:" + pidec + " SSI:" + ssidec + " Gal#:" + galdec + " Y:" + calc2.ToString() + " Z:" + calc3.ToString() + " X:" + calc1.ToString());
+            AppendLine(textBox7, "Base Voxel Dec: Planet #:" + pidec + " SSI:" + ssidec + " Gal#:" + galdec + " Y:" + calc2.ToString() + " Z:" + calc3.ToString() + " X:" + calc1.ToString());
 
             int shiftX = calc1 - 2047;
             int shiftY = calc2 - 127;
             int shiftZ = calc3 - 2047;
             //AppendLine(textBox3, "Voxel Coordinates: X:" + shiftX + " Y:" + shiftY + " Z:" + shiftZ + " SSI:" + ssidec);
-            AppendLine(textBox7, "Voxel: Planet #:" + pidec + " SSI:" + ssidec + " Gal#:" + galdec + " Y:" + shiftY + " Z:" + shiftZ + " X:" + shiftX);
+            AppendLine(textBox7, "Base Voxel: Planet #:" + pidec + " SSI:" + ssidec + " Gal#:" + galdec + " Y:" + shiftY + " Z:" + shiftZ + " X:" + shiftX);
+
+            string hexX = calc1.ToString("X"); //Calculated portal X[DEC] to X[HEX]
+            string hexY = calc2.ToString("X"); //Calculated portal Y[DEC] to Y[HEX]
+            string hexZ = calc3.ToString("X"); //Calculated portal Z[DEC] to Z[HEX]
+            //AppendLine(textBox7, "X:" + hexX + " Y:" + hexY + " Z:" + hexZ);
+
+            int ihexX = (Convert.ToInt32(hexX, 16) & 0xFFFF); // X[HEX] to X[DEC] 3 digits
+            int ihexY = (Convert.ToInt32(hexY, 16) & 0xFFFF); // Y[HEX] to Y[DEC] 2 digits
+            int ihexZ = (Convert.ToInt32(hexZ, 16) & 0xFFFF); // Z[HEX] to Z[DEC] 3 digits
+            //int ihexSSI = (Convert.ToInt32(ssidec, 16) & 0xFFFF); // SSI[HEX] to SSI[DEC] 3 digits
+
+            //AppendLine(textBox14, "P: " + "X:" + hexX + " Y:" + hexY + " Z:" + hexZ + " SSI:" + ssidec);
+            GalacticCoord2 = string.Format("{0:X4}:{1:X4}:{2:X4}:{3:X4}", ihexX, ihexY, ihexZ, ssidec & 0xFFFF); //Format to 4 digit seperated by colon
+            AppendLine(textBox7, "*** Galactic Coordinates: " + GalacticCoord2 + " ***");
+
+            Planet = pidec;
         }
         private void HexToVoxel(string basehx)
         {
@@ -156,7 +200,6 @@ namespace NMSCoordinates
             string b3 = basehx.Substring(basehx.Length - 10, 2);
             string b2 = basehx.Substring(basehx.Length - 13, 3);
             string b1 = basehx.Substring(basehx.Length - 16, 3);
-
 
             AppendLine(textBox7, "Base Hex Split: " + b1 + " " + b2 + " " + b3 + " " + b4 + " " + b5 + " " + b6);
             AppendLine(textBox7, "Base Hex id's: Planet #:" + b1 + " SSI:" + b2 + " Gal#:" + b3 + " Y:" + b4 + " Z:" + b5 + " X:" + b6);
@@ -185,6 +228,7 @@ namespace NMSCoordinates
             string hexX = calc1.ToString("X"); //Calculated portal X[DEC] to X[HEX]
             string hexY = calc2.ToString("X"); //Calculated portal Y[DEC] to Y[HEX]
             string hexZ = calc3.ToString("X"); //Calculated portal Z[DEC] to Z[HEX]
+            //AppendLine(textBox7, "X:" + hexX + " Y:" + hexY + " Z:" + hexZ);
 
             int ihexX = (Convert.ToInt32(hexX, 16) & 0xFFFF); // X[HEX] to X[DEC] 3 digits
             int ihexY = (Convert.ToInt32(hexY, 16) & 0xFFFF); // Y[HEX] to Y[DEC] 2 digits
@@ -202,18 +246,16 @@ namespace NMSCoordinates
             AppendLine(textBox7, "Base Voxel: Planet #:" + pidec + " SSI:" + ssidec + " Gal#:" + galdec + " Y:" + shiftY + " Z:" + shiftZ + " X:" + shiftX);
             //voxel = "Planet #:" + pidec + " SSI:" + ssidec + " Gal#:" + galdec + " Y:" + shiftY + " Z:" + shiftZ + " X:" + shiftX;
         }
-
-        private void GalacticToPortal(string X, string Y, string Z, string SSI)
+        private void GalacticToPortal(int P, string X, string Y, string Z, string SSI)
         {
             //Galactic Coordinate to Portal Code
+            PortalCode = "";
 
             int dec1 = Convert.ToInt32(X, 16); // X[HEX] to X[DEC]
             int dec2 = Convert.ToInt32(Y, 16); // Y[HEX] to X[DEC]
             int dec3 = Convert.ToInt32(Z, 16); // Z[HEX] to X[DEC]
             int dec4 = Convert.ToInt32(SSI, 16); // SSI[HEX] to SSI[DEC]
             AppendLine(textBox7, "Galactic HEX to DEC: " + dec1.ToString() + " " + dec2.ToString() + " " + dec3.ToString() + " " + dec4);
-
-            //string g4 = SSI.ToString("X");
 
             int dec5 = Convert.ToInt32("801", 16); // 801[HEX] to 801[DEC]
             int dec6 = Convert.ToInt32("81", 16); // 81[HEX] to 81[DEC]
@@ -236,9 +278,11 @@ namespace NMSCoordinates
             int ihexZ = (Convert.ToInt32(hexZ, 16) & 0xFFF); // Z[HEX] to Z[DEC] 3 digits
             int ihexSSI = (Convert.ToInt32(SSI, 16) & 0xFFF); // SSI[HEX] to SSI[DEC] 3 digits
 
-            PortalCode = string.Format("0{0:X3}{1:X2}{2:X3}{3:X3}", ihexSSI, ihexY, ihexZ, ihexX); // Format digits 0 3 2 3 3
-            //[SSI][Y][Z][X] Portal Code
+            PortalCode = string.Format(P + "{0:X3}{1:X2}{2:X3}{3:X3}", ihexSSI, ihexY, ihexZ, ihexX); // Format digits 1 3 2 3 3
+            //[P][SSI][Y][Z][X] Portal Code
             AppendLine(textBox7, "*** Portal Code: " + PortalCode + " ***");
+
+            Planet = 0;
         }
         private void PortalLookup()
         {
@@ -311,8 +355,9 @@ namespace NMSCoordinates
             string b5 = portalcode.Substring(portalcode.Length - 6, 3);
             string b4 = portalcode.Substring(portalcode.Length - 8, 2);
             string b3 = portalcode.Substring(portalcode.Length - 11, 3);
+            string b2 = portalcode.Substring(portalcode.Length - 12, 1);
             AppendLine(textBox7, "Hex Split: " + b3 + " " + b4 + " " + b5 + " " + b6);
-            AppendLine(textBox7, "Hex id's: Planet #:" + 0 + " SSI:" + 0 + " Gal#:" + b3 + " Y:" + b4 + " Z:" + b5 + " X:" + b6);
+            AppendLine(textBox7, "Hex id's: Planet #:" + b2 + " SSI:" + b3 + " Y:" + b4 + " Z:" + b5 + " X:" + b6);
 
             //HEX to DEC
             int dec1 = Convert.ToInt32("1000", 16); // 1000[HEX] to 1000[DEC]
@@ -322,42 +367,42 @@ namespace NMSCoordinates
             AppendLine(textBox7, "SHIFT calc: 1000:" + dec1 + " 100:" + dec2 + " 7F:" + dec3 + " 7FF:" + dec4);
 
             //= BASE(MOD(HEX2DEC(Y) + HEX2DEC(7F), HEX2DEC(100)), 16, 4)            
-            int galdec = Convert.ToInt32(b3, 16);
+            int ssidec = Convert.ToInt32(b3, 16);
             int decY = Convert.ToInt32(b4, 16);
             int decZ = Convert.ToInt32(b5, 16);
             int decX = Convert.ToInt32(b6, 16);
-            AppendLine(textBox7, "Dec: Planet #:" + 0 + " SSI:" + 0 + " Gal#:" + galdec + " Y:" + decY + " Z:" + decZ + " X:" + decX);
+            AppendLine(textBox7, "Dec: Planet #:" + b2 + " SSI:" + ssidec + " Y:" + decY + " Z:" + decZ + " X:" + decX);
 
             int calc1 = (decX + dec4) % dec1; // (X[DEC] + 801[DEC]) MOD (1000[DEC])
             int calc2 = (decY + dec3) % dec2; // (Y[DEC] + 81[DEC]) MOD (100[DEC])
             int calc3 = (decZ + dec4) % dec1; // (Z[DEC] + 801[DEC]) MOD (1000[DEC])
             //AppendLine(textBox3, "1- X:" + calc1.ToString() + " Y:" + calc2.ToString() + " Z:" + calc3.ToString() + " SSI:" + ssidec);
-            AppendLine(textBox7, "Voxel Dec: Planet #:" + 0 + " SSI:" + 0 + " Gal#:" + galdec + " Y:" + calc2.ToString() + " Z:" + calc3.ToString() + " X:" + calc1.ToString());
+            AppendLine(textBox7, "Voxel Dec: Planet #:" + b2 + " SSI:" + ssidec + " Y:" + calc2.ToString() + " Z:" + calc3.ToString() + " X:" + calc1.ToString());
 
             string hexX = calc1.ToString("X"); //Calculated portal X[DEC] to X[HEX]
             string hexY = calc2.ToString("X"); //Calculated portal Y[DEC] to Y[HEX]
             string hexZ = calc3.ToString("X"); //Calculated portal Z[DEC] to Z[HEX]
-            AppendLine(textBox7, "P: " + "X:" + hexX + " Y:" + hexY + " Z:" + hexZ + " SSI:" + galdec.ToString("X"));
+            AppendLine(textBox7, "P: " + b2 + " X:" + hexX + " Y:" + hexY + " Z:" + hexZ + " SSI:" + ssidec.ToString("X"));
 
             int ihexX = (Convert.ToInt32(hexX, 16) & 0xFFFF); // X[HEX] to X[DEC] 3 digits
             int ihexY = (Convert.ToInt32(hexY, 16) & 0xFFFF); // Y[HEX] to Y[DEC] 2 digits
             int ihexZ = (Convert.ToInt32(hexZ, 16) & 0xFFFF); // Z[HEX] to Z[DEC] 3 digits            
-            GalacticCoord2 = string.Format("{0:X4}:{1:X4}:{2:X4}:{3:X4}", ihexX, ihexY, ihexZ, galdec & 0xFFFF); //Format to 4 digit seperated by colon
+            GalacticCoord2 = string.Format("{0:X4}:{1:X4}:{2:X4}:{3:X4}", ihexX, ihexY, ihexZ, ssidec & 0xFFFF); //Format to 4 digit seperated by colon
             AppendLine(textBox7, "*** Galactic Coordinates: " + GalacticCoord2 + " ***");
 
+            Planet = Convert.ToInt32(b2);
             iX = calc1 - 2047;
             iY = calc2 - 127;
             iZ = calc3 - 2047;
-            iSSI = galdec;
+            iSSI = ssidec;
 
             //AppendLine(textBox7, "Voxel Coordinates: X:" + shiftX + " Y:" + shiftY + " Z:" + shiftZ + " SSI:" + ssidec);
-            AppendLine(textBox7, "*** Voxel Coordinates: Portal#:" + "0" + " SSI#:" + iSSI + " Y:" + iY + " Z:" + iZ + " X:" + iX + " ***");
+            AppendLine(textBox7, "*** Voxel Coordinates - Portal#:" + Planet + " SSI#:" + iSSI + " Y:" + iY + " Z:" + iZ + " X:" + iX + " ***");
             //voxel = "Portal#:" + "0" + " SSI:" + "0" + " Gal#:" + iSSI + " Y:" + iY + " Z:" + iZ + " X:" + iX;
         }
         private void VoxelToGalacticCoord(int X, int Y, int Z, int SSI)
         {
-            //Voxel Coordinates to Galactic Coordinate
-            //textBox1.Clear();
+            //Voxel Coordinate to Galactic Coordinate
             textBox7.Clear();
 
             //Note: iX, iY, iZ, iSSI already Convert.ToInt32(X) in JSONMap()
@@ -553,11 +598,10 @@ namespace NMSCoordinates
                 Clear();
                 AppendLine(textBox7, "Incorrect Coordinate Input!");
             }         
-        }              
-
+        }
         private void Button2_Click(object sender, EventArgs e)
         {
-            //Galactic coordinates to Voxel
+            //Galactic Coordinate to Voxel Coordinate
             try
             {
                 if (textBox2.Text != "")
@@ -581,7 +625,7 @@ namespace NMSCoordinates
                         string C = value[2].Trim();
                         string D = value[3].Trim();
 
-                        //Validate Coordinates
+                        //Validate Coordinate
                         if (ValidateCoord(A, B, C, D))
                         {
                             MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
@@ -591,7 +635,7 @@ namespace NMSCoordinates
                         }
 
                         GalacticToVoxel(A, B, C, D);
-                        GalacticToPortal(A, B, C, D);
+                        GalacticToPortal(0, A, B, C, D); //Default 0 for Planet #
 
                         textBox1.Text = PortalCode;
                     }
@@ -613,7 +657,7 @@ namespace NMSCoordinates
                         }
 
                         GalacticToVoxel(A, B, C, D);
-                        GalacticToPortal(A, B, C, D);
+                        GalacticToPortal(0, A, B, C, D); //Default 0 for Planet #
 
                         textBox1.Text = PortalCode;
                     }
@@ -632,10 +676,9 @@ namespace NMSCoordinates
                 AppendLine(textBox7, "Incorrect Coordinate Input!");
             }
         }
-
         private void Button3_Click(object sender, EventArgs e)
         {
-            //Voxel to Galactic Coordinates
+            //Voxel Coordinate to Galactic Coordinate
             try
             {
                 if (textBox3.Text != "")
@@ -653,7 +696,7 @@ namespace NMSCoordinates
                     string C = value[2].Trim();
                     string D = value[3].Trim();
 
-                    //Validate Coordinates
+                    //Validate Coordinate
                     if (ValidateCoord(A, B, C, D))
                     {
                         MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
@@ -665,7 +708,7 @@ namespace NMSCoordinates
                     textBox2.Text = GalacticCoord;
 
                     //string[] value = GalacticCoord.Replace(" ", "").Split(':');
-                    GalacticToPortal(A, B, C, D);
+                    GalacticToPortal(0, A, B, C, D); //Default 0 for Planet #
                     textBox1.Text = PortalCode;
                 }
             }
@@ -674,8 +717,7 @@ namespace NMSCoordinates
                 Clear();
                 AppendLine(textBox7, "Incorrect Coordinate Input!");
             }
-        }
-
+        }        
         private void Button4_Click(object sender, EventArgs e)
         {
             try
@@ -692,7 +734,8 @@ namespace NMSCoordinates
 
                     string t8 = textBox8.Text.Replace(" ", "");
 
-                    HexToVoxel(t8);
+                    //HexToVoxel(t8);
+                    CalculateLongHex(t8);
 
                     string[] value = GalacticCoord2.Replace(" ", "").Split(':');
                     string A = value[0].Trim();
@@ -709,7 +752,10 @@ namespace NMSCoordinates
                         return;
                     }
 
-                    CalculateVoxelFromHex(t8);
+                    //CalculateVoxelFromHex(t8);
+                    textBox2.Text = GalacticCoord2;
+                    GalacticToPortal(Planet, A, B, C, D);
+                    textBox1.Text = PortalCode;
                 }
             }
             catch
@@ -718,7 +764,6 @@ namespace NMSCoordinates
                 AppendLine(textBox7, "Incorrect Coordinate Input!");
             }
         }
-
         private void PictureBox1_Click(object sender, EventArgs e)
         {
             if (textBox1.TextLength < 12)
@@ -726,7 +771,6 @@ namespace NMSCoordinates
             else
                 Clear();
         }
-
         private void PictureBox2_Click(object sender, EventArgs e)
         {
             if (textBox1.TextLength < 12)
@@ -734,7 +778,6 @@ namespace NMSCoordinates
             else
                 Clear();
         }
-
         private void PictureBox3_Click(object sender, EventArgs e)
         {
             if (textBox1.TextLength < 12)
@@ -742,7 +785,6 @@ namespace NMSCoordinates
             else
                 Clear();
         }
-
         private void PictureBox4_Click(object sender, EventArgs e)
         {
             if (textBox1.TextLength < 12)
@@ -750,7 +792,6 @@ namespace NMSCoordinates
             else
                 Clear();
         }
-
         private void PictureBox5_Click(object sender, EventArgs e)
         {
             if (textBox1.TextLength < 12)
@@ -758,7 +799,6 @@ namespace NMSCoordinates
             else
                 Clear();
         }
-
         private void PictureBox6_Click(object sender, EventArgs e)
         {
             if (textBox1.TextLength < 12)
@@ -766,7 +806,6 @@ namespace NMSCoordinates
             else
                 Clear();
         }
-
         private void PictureBox7_Click(object sender, EventArgs e)
         {
             if (textBox1.TextLength < 12)
@@ -774,7 +813,6 @@ namespace NMSCoordinates
             else
                 Clear();
         }
-
         private void PictureBox8_Click(object sender, EventArgs e)
         {
             if (textBox1.TextLength < 12)
@@ -782,7 +820,6 @@ namespace NMSCoordinates
             else
                 Clear();
         }
-
         private void PictureBox9_Click(object sender, EventArgs e)
         {
             if (textBox1.TextLength < 12)
@@ -790,7 +827,6 @@ namespace NMSCoordinates
             else
                 Clear();
         }
-
         private void PictureBox10_Click(object sender, EventArgs e)
         {
             if (textBox1.TextLength < 12)
@@ -798,7 +834,6 @@ namespace NMSCoordinates
             else
                 Clear();
         }
-
         private void PictureBox11_Click(object sender, EventArgs e)
         {
             if (textBox1.TextLength < 12)
@@ -806,7 +841,6 @@ namespace NMSCoordinates
             else
                 Clear();
         }
-
         private void PictureBox12_Click(object sender, EventArgs e)
         {
             if (textBox1.TextLength < 12)
@@ -814,7 +848,6 @@ namespace NMSCoordinates
             else
                 Clear();
         }
-
         private void PictureBox13_Click(object sender, EventArgs e)
         {
             if (textBox1.TextLength < 12)
@@ -822,7 +855,6 @@ namespace NMSCoordinates
             else
                 Clear();
         }
-
         private void PictureBox14_Click(object sender, EventArgs e)
         {
             if (textBox1.TextLength < 12)
@@ -830,7 +862,6 @@ namespace NMSCoordinates
             else
                 Clear();
         }
-
         private void PictureBox15_Click(object sender, EventArgs e)
         {
             if (textBox1.TextLength < 12)
@@ -838,7 +869,6 @@ namespace NMSCoordinates
             else
                 Clear();
         }
-
         private void PictureBox16_Click(object sender, EventArgs e)
         {
             if (textBox1.TextLength < 12)
@@ -877,24 +907,20 @@ namespace NMSCoordinates
                 }
             }
         }
-
         private void ToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             Clipboard.Clear();  //Clear if any old value is there in Clipboard  
             if (textBox2.Text != "")
                 Clipboard.SetText(textBox2.Text); //Copy text to Clipboard
         }
-
         private void ToolStripMenuItem3_Click(object sender, EventArgs e)
         {
             textBox2.Text = Clipboard.GetText();
         }
-
         private void Button5_Click(object sender, EventArgs e)
         {
             Clear();
         }
-
         private void TextBox1_TextChanged(object sender, EventArgs e)
         {
             PortalCode = textBox1.Text;
