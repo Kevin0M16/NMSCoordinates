@@ -43,7 +43,8 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(446, 611);
+            this.button1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.button1.Location = new System.Drawing.Point(441, 581);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(120, 35);
             this.button1.TabIndex = 1;
@@ -53,7 +54,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
+            this.pictureBox1.Location = new System.Drawing.Point(6, 8);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(492, 281);
             this.pictureBox1.TabIndex = 2;
@@ -62,7 +63,7 @@
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Location = new System.Drawing.Point(12, 299);
+            this.pictureBox2.Location = new System.Drawing.Point(6, 295);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(492, 281);
             this.pictureBox2.TabIndex = 3;
@@ -71,7 +72,7 @@
             // 
             // pictureBox3
             // 
-            this.pictureBox3.Location = new System.Drawing.Point(510, 12);
+            this.pictureBox3.Location = new System.Drawing.Point(504, 8);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(492, 281);
             this.pictureBox3.TabIndex = 4;
@@ -80,7 +81,7 @@
             // 
             // pictureBox4
             // 
-            this.pictureBox4.Location = new System.Drawing.Point(510, 299);
+            this.pictureBox4.Location = new System.Drawing.Point(504, 295);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(492, 281);
             this.pictureBox4.TabIndex = 5;
@@ -89,12 +90,13 @@
             // 
             // textBox1
             // 
+            this.textBox1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.textBox1.ForeColor = System.Drawing.Color.Azure;
-            this.textBox1.Location = new System.Drawing.Point(582, 586);
+            this.textBox1.Location = new System.Drawing.Point(576, 581);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(420, 84);
+            this.textBox1.Size = new System.Drawing.Size(420, 42);
             this.textBox1.TabIndex = 6;
             // 
             // Form3
@@ -103,7 +105,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(88)))), ((int)(((byte)(88)))));
-            this.ClientSize = new System.Drawing.Size(1012, 683);
+            this.ClientSize = new System.Drawing.Size(1009, 626);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.pictureBox4);
             this.Controls.Add(this.pictureBox3);
@@ -112,6 +114,7 @@
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "Form3";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "NMSCoordinates Screenshot Preview";

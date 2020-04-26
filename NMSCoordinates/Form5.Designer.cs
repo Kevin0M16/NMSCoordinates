@@ -156,7 +156,7 @@ namespace NMSCoordinates
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(314, 346);
+            this.label1.Location = new System.Drawing.Point(314, 259);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(33, 13);
             this.label1.TabIndex = 51;
@@ -165,7 +165,7 @@ namespace NMSCoordinates
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(202, 153);
+            this.label2.Location = new System.Drawing.Point(202, 127);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(105, 13);
             this.label2.TabIndex = 56;
@@ -186,7 +186,7 @@ namespace NMSCoordinates
             this.textBox2.ContextMenuStrip = this.contextMenuStrip1;
             this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox2.ForeColor = System.Drawing.Color.Azure;
-            this.textBox2.Location = new System.Drawing.Point(51, 149);
+            this.textBox2.Location = new System.Drawing.Point(51, 123);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(147, 20);
             this.textBox2.TabIndex = 3;
@@ -200,26 +200,26 @@ namespace NMSCoordinates
             this.toolStripMenuItem3,
             this.toolStripMenuItem1});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(207, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(206, 70);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(206, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(205, 22);
             this.toolStripMenuItem2.Text = "Copy";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.ToolStripMenuItem2_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(206, 22);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(205, 22);
             this.toolStripMenuItem3.Text = "Paste";
             this.toolStripMenuItem3.Click += new System.EventHandler(this.ToolStripMenuItem3_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(206, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(205, 22);
             this.toolStripMenuItem1.Text = "Add GC to Manual Travel";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.ToolStripMenuItem1_Click);
             // 
@@ -228,7 +228,7 @@ namespace NMSCoordinates
             this.textBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox3.ForeColor = System.Drawing.Color.Azure;
-            this.textBox3.Location = new System.Drawing.Point(58, 342);
+            this.textBox3.Location = new System.Drawing.Point(58, 255);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(57, 20);
             this.textBox3.TabIndex = 5;
@@ -236,6 +236,7 @@ namespace NMSCoordinates
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.groupBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
             this.groupBox1.Controls.Add(this.button5);
             this.groupBox1.Controls.Add(this.pictureBox28);
@@ -271,9 +272,9 @@ namespace NMSCoordinates
             this.groupBox1.Controls.Add(this.textBox2);
             this.groupBox1.Controls.Add(this.textBox3);
             this.groupBox1.ForeColor = System.Drawing.Color.Azure;
-            this.groupBox1.Location = new System.Drawing.Point(34, 40);
+            this.groupBox1.Location = new System.Drawing.Point(37, 33);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(445, 468);
+            this.groupBox1.Size = new System.Drawing.Size(445, 354);
             this.groupBox1.TabIndex = 63;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Coordinates";
@@ -283,9 +284,9 @@ namespace NMSCoordinates
             this.button5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.button5.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button5.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button5.Location = new System.Drawing.Point(315, 96);
+            this.button5.Location = new System.Drawing.Point(315, 91);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(112, 30);
+            this.button5.Size = new System.Drawing.Size(100, 25);
             this.button5.TabIndex = 111;
             this.button5.Text = "Clear All";
             this.button5.UseVisualStyleBackColor = false;
@@ -416,9 +417,9 @@ namespace NMSCoordinates
             this.button4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button4.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button4.Location = new System.Drawing.Point(132, 268);
+            this.button4.Location = new System.Drawing.Point(132, 207);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(112, 30);
+            this.button4.Size = new System.Drawing.Size(100, 25);
             this.button4.TabIndex = 68;
             this.button4.Text = "Calculate";
             this.button4.UseVisualStyleBackColor = false;
@@ -427,7 +428,7 @@ namespace NMSCoordinates
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(202, 241);
+            this.label10.Location = new System.Drawing.Point(202, 184);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(112, 13);
             this.label10.TabIndex = 69;
@@ -438,7 +439,7 @@ namespace NMSCoordinates
             this.textBox8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox8.ForeColor = System.Drawing.Color.Azure;
-            this.textBox8.Location = new System.Drawing.Point(51, 237);
+            this.textBox8.Location = new System.Drawing.Point(51, 180);
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(147, 20);
             this.textBox8.TabIndex = 67;
@@ -449,7 +450,7 @@ namespace NMSCoordinates
             // 
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label5.Location = new System.Drawing.Point(21, 415);
+            this.label5.Location = new System.Drawing.Point(21, 313);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(382, 35);
             this.label5.TabIndex = 65;
@@ -460,7 +461,7 @@ namespace NMSCoordinates
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(262, 323);
+            this.label9.Location = new System.Drawing.Point(262, 236);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(29, 16);
             this.label9.TabIndex = 66;
@@ -471,7 +472,7 @@ namespace NMSCoordinates
             this.textBox5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox5.ForeColor = System.Drawing.Color.Azure;
-            this.textBox5.Location = new System.Drawing.Point(186, 342);
+            this.textBox5.Location = new System.Drawing.Point(186, 255);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(57, 20);
             this.textBox5.TabIndex = 7;
@@ -481,7 +482,7 @@ namespace NMSCoordinates
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(202, 323);
+            this.label8.Location = new System.Drawing.Point(202, 236);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(16, 16);
             this.label8.TabIndex = 65;
@@ -491,7 +492,7 @@ namespace NMSCoordinates
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(146, 323);
+            this.label7.Location = new System.Drawing.Point(146, 236);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(17, 16);
             this.label7.TabIndex = 64;
@@ -501,7 +502,7 @@ namespace NMSCoordinates
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(79, 323);
+            this.label4.Location = new System.Drawing.Point(79, 236);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(16, 16);
             this.label4.TabIndex = 63;
@@ -512,9 +513,9 @@ namespace NMSCoordinates
             this.button3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button3.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button3.Location = new System.Drawing.Point(132, 372);
+            this.button3.Location = new System.Drawing.Point(132, 285);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(112, 30);
+            this.button3.Size = new System.Drawing.Size(100, 25);
             this.button3.TabIndex = 9;
             this.button3.Text = "Calculate";
             this.button3.UseVisualStyleBackColor = false;
@@ -525,7 +526,7 @@ namespace NMSCoordinates
             this.textBox6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox6.ForeColor = System.Drawing.Color.Azure;
-            this.textBox6.Location = new System.Drawing.Point(249, 342);
+            this.textBox6.Location = new System.Drawing.Point(249, 255);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(57, 20);
             this.textBox6.TabIndex = 8;
@@ -537,7 +538,7 @@ namespace NMSCoordinates
             this.textBox4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox4.ForeColor = System.Drawing.Color.Azure;
-            this.textBox4.Location = new System.Drawing.Point(122, 342);
+            this.textBox4.Location = new System.Drawing.Point(122, 255);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(57, 20);
             this.textBox4.TabIndex = 6;
@@ -548,9 +549,9 @@ namespace NMSCoordinates
             this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button2.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button2.Location = new System.Drawing.Point(132, 180);
+            this.button2.Location = new System.Drawing.Point(132, 148);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(112, 30);
+            this.button2.Size = new System.Drawing.Size(100, 25);
             this.button2.TabIndex = 4;
             this.button2.Text = "Calculate";
             this.button2.UseVisualStyleBackColor = false;
@@ -561,9 +562,9 @@ namespace NMSCoordinates
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button1.Location = new System.Drawing.Point(132, 96);
+            this.button1.Location = new System.Drawing.Point(132, 91);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(112, 30);
+            this.button1.Size = new System.Drawing.Size(100, 25);
             this.button1.TabIndex = 2;
             this.button1.Text = "Calculate";
             this.button1.UseVisualStyleBackColor = false;
@@ -571,6 +572,7 @@ namespace NMSCoordinates
             // 
             // textBox7
             // 
+            this.textBox7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.textBox7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.textBox7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox7.ForeColor = System.Drawing.Color.Azure;
@@ -579,27 +581,29 @@ namespace NMSCoordinates
             this.textBox7.Name = "textBox7";
             this.textBox7.ReadOnly = true;
             this.textBox7.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox7.Size = new System.Drawing.Size(496, 145);
+            this.textBox7.Size = new System.Drawing.Size(496, 189);
             this.textBox7.TabIndex = 10;
             // 
             // groupBox3
             // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.groupBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
             this.groupBox3.Controls.Add(this.textBox7);
             this.groupBox3.ForeColor = System.Drawing.Color.Azure;
-            this.groupBox3.Location = new System.Drawing.Point(15, 674);
+            this.groupBox3.Location = new System.Drawing.Point(6, 534);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(508, 174);
+            this.groupBox3.Size = new System.Drawing.Size(508, 214);
             this.groupBox3.TabIndex = 62;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Calculations Log";
             // 
             // label6
             // 
+            this.label6.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label6.Location = new System.Drawing.Point(143, 9);
+            this.label6.Location = new System.Drawing.Point(136, 4);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(231, 25);
             this.label6.TabIndex = 64;
@@ -607,8 +611,9 @@ namespace NMSCoordinates
             // 
             // pictureBox12
             // 
+            this.pictureBox12.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox12.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox12.Location = new System.Drawing.Point(163, 625);
+            this.pictureBox12.Location = new System.Drawing.Point(166, 488);
             this.pictureBox12.Name = "pictureBox12";
             this.pictureBox12.Size = new System.Drawing.Size(40, 40);
             this.pictureBox12.TabIndex = 76;
@@ -617,9 +622,10 @@ namespace NMSCoordinates
             // 
             // pictureBox1
             // 
+            this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(34, 556);
+            this.pictureBox1.Location = new System.Drawing.Point(37, 425);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(40, 40);
             this.pictureBox1.TabIndex = 65;
@@ -628,8 +634,9 @@ namespace NMSCoordinates
             // 
             // pictureBox2
             // 
+            this.pictureBox2.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox2.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox2.Location = new System.Drawing.Point(79, 556);
+            this.pictureBox2.Location = new System.Drawing.Point(82, 425);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(40, 40);
             this.pictureBox2.TabIndex = 66;
@@ -638,8 +645,9 @@ namespace NMSCoordinates
             // 
             // pictureBox3
             // 
+            this.pictureBox3.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox3.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox3.Location = new System.Drawing.Point(124, 556);
+            this.pictureBox3.Location = new System.Drawing.Point(127, 425);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(40, 40);
             this.pictureBox3.TabIndex = 67;
@@ -648,8 +656,9 @@ namespace NMSCoordinates
             // 
             // pictureBox4
             // 
+            this.pictureBox4.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox4.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox4.Location = new System.Drawing.Point(169, 556);
+            this.pictureBox4.Location = new System.Drawing.Point(172, 425);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(40, 40);
             this.pictureBox4.TabIndex = 68;
@@ -658,8 +667,9 @@ namespace NMSCoordinates
             // 
             // pictureBox5
             // 
+            this.pictureBox5.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox5.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox5.Location = new System.Drawing.Point(214, 556);
+            this.pictureBox5.Location = new System.Drawing.Point(217, 425);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(40, 40);
             this.pictureBox5.TabIndex = 69;
@@ -668,8 +678,9 @@ namespace NMSCoordinates
             // 
             // pictureBox6
             // 
+            this.pictureBox6.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox6.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox6.Location = new System.Drawing.Point(259, 556);
+            this.pictureBox6.Location = new System.Drawing.Point(262, 425);
             this.pictureBox6.Name = "pictureBox6";
             this.pictureBox6.Size = new System.Drawing.Size(40, 40);
             this.pictureBox6.TabIndex = 70;
@@ -678,8 +689,9 @@ namespace NMSCoordinates
             // 
             // pictureBox11
             // 
+            this.pictureBox11.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox11.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox11.Location = new System.Drawing.Point(116, 625);
+            this.pictureBox11.Location = new System.Drawing.Point(119, 488);
             this.pictureBox11.Name = "pictureBox11";
             this.pictureBox11.Size = new System.Drawing.Size(40, 40);
             this.pictureBox11.TabIndex = 75;
@@ -688,8 +700,9 @@ namespace NMSCoordinates
             // 
             // pictureBox7
             // 
+            this.pictureBox7.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox7.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox7.Location = new System.Drawing.Point(304, 556);
+            this.pictureBox7.Location = new System.Drawing.Point(307, 425);
             this.pictureBox7.Name = "pictureBox7";
             this.pictureBox7.Size = new System.Drawing.Size(40, 40);
             this.pictureBox7.TabIndex = 71;
@@ -698,8 +711,9 @@ namespace NMSCoordinates
             // 
             // pictureBox10
             // 
+            this.pictureBox10.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox10.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox10.Location = new System.Drawing.Point(439, 556);
+            this.pictureBox10.Location = new System.Drawing.Point(442, 425);
             this.pictureBox10.Name = "pictureBox10";
             this.pictureBox10.Size = new System.Drawing.Size(40, 40);
             this.pictureBox10.TabIndex = 74;
@@ -708,8 +722,9 @@ namespace NMSCoordinates
             // 
             // pictureBox8
             // 
+            this.pictureBox8.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox8.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox8.Location = new System.Drawing.Point(349, 556);
+            this.pictureBox8.Location = new System.Drawing.Point(352, 425);
             this.pictureBox8.Name = "pictureBox8";
             this.pictureBox8.Size = new System.Drawing.Size(40, 40);
             this.pictureBox8.TabIndex = 72;
@@ -718,8 +733,9 @@ namespace NMSCoordinates
             // 
             // pictureBox9
             // 
+            this.pictureBox9.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox9.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox9.Location = new System.Drawing.Point(394, 556);
+            this.pictureBox9.Location = new System.Drawing.Point(397, 425);
             this.pictureBox9.Name = "pictureBox9";
             this.pictureBox9.Size = new System.Drawing.Size(40, 40);
             this.pictureBox9.TabIndex = 73;
@@ -728,8 +744,9 @@ namespace NMSCoordinates
             // 
             // pictureBox13
             // 
+            this.pictureBox13.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox13.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox13.Location = new System.Drawing.Point(210, 625);
+            this.pictureBox13.Location = new System.Drawing.Point(213, 488);
             this.pictureBox13.Name = "pictureBox13";
             this.pictureBox13.Size = new System.Drawing.Size(40, 40);
             this.pictureBox13.TabIndex = 77;
@@ -738,8 +755,9 @@ namespace NMSCoordinates
             // 
             // pictureBox14
             // 
+            this.pictureBox14.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox14.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox14.Location = new System.Drawing.Point(257, 625);
+            this.pictureBox14.Location = new System.Drawing.Point(260, 488);
             this.pictureBox14.Name = "pictureBox14";
             this.pictureBox14.Size = new System.Drawing.Size(40, 40);
             this.pictureBox14.TabIndex = 78;
@@ -748,8 +766,9 @@ namespace NMSCoordinates
             // 
             // pictureBox15
             // 
+            this.pictureBox15.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox15.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox15.Location = new System.Drawing.Point(304, 625);
+            this.pictureBox15.Location = new System.Drawing.Point(307, 488);
             this.pictureBox15.Name = "pictureBox15";
             this.pictureBox15.Size = new System.Drawing.Size(40, 40);
             this.pictureBox15.TabIndex = 79;
@@ -758,8 +777,9 @@ namespace NMSCoordinates
             // 
             // pictureBox16
             // 
+            this.pictureBox16.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox16.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.pictureBox16.Location = new System.Drawing.Point(351, 625);
+            this.pictureBox16.Location = new System.Drawing.Point(354, 488);
             this.pictureBox16.Name = "pictureBox16";
             this.pictureBox16.Size = new System.Drawing.Size(40, 40);
             this.pictureBox16.TabIndex = 80;
@@ -768,10 +788,11 @@ namespace NMSCoordinates
             // 
             // label11
             // 
+            this.label11.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.Color.White;
-            this.label11.Location = new System.Drawing.Point(47, 538);
+            this.label11.Location = new System.Drawing.Point(50, 407);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(15, 15);
             this.label11.TabIndex = 83;
@@ -779,10 +800,11 @@ namespace NMSCoordinates
             // 
             // label12
             // 
+            this.label12.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.Color.White;
-            this.label12.Location = new System.Drawing.Point(92, 538);
+            this.label12.Location = new System.Drawing.Point(95, 407);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(15, 15);
             this.label12.TabIndex = 84;
@@ -790,10 +812,11 @@ namespace NMSCoordinates
             // 
             // label13
             // 
+            this.label13.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.ForeColor = System.Drawing.Color.White;
-            this.label13.Location = new System.Drawing.Point(137, 538);
+            this.label13.Location = new System.Drawing.Point(140, 407);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(15, 15);
             this.label13.TabIndex = 85;
@@ -801,10 +824,11 @@ namespace NMSCoordinates
             // 
             // label14
             // 
+            this.label14.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.Color.White;
-            this.label14.Location = new System.Drawing.Point(182, 538);
+            this.label14.Location = new System.Drawing.Point(185, 407);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(15, 15);
             this.label14.TabIndex = 86;
@@ -812,10 +836,11 @@ namespace NMSCoordinates
             // 
             // label15
             // 
+            this.label15.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.ForeColor = System.Drawing.Color.White;
-            this.label15.Location = new System.Drawing.Point(227, 538);
+            this.label15.Location = new System.Drawing.Point(230, 407);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(15, 15);
             this.label15.TabIndex = 87;
@@ -823,10 +848,11 @@ namespace NMSCoordinates
             // 
             // label16
             // 
+            this.label16.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label16.ForeColor = System.Drawing.Color.White;
-            this.label16.Location = new System.Drawing.Point(272, 538);
+            this.label16.Location = new System.Drawing.Point(275, 407);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(15, 15);
             this.label16.TabIndex = 88;
@@ -834,10 +860,11 @@ namespace NMSCoordinates
             // 
             // label17
             // 
+            this.label17.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label17.ForeColor = System.Drawing.Color.White;
-            this.label17.Location = new System.Drawing.Point(317, 538);
+            this.label17.Location = new System.Drawing.Point(320, 407);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(15, 15);
             this.label17.TabIndex = 89;
@@ -845,10 +872,11 @@ namespace NMSCoordinates
             // 
             // label18
             // 
+            this.label18.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label18.ForeColor = System.Drawing.Color.White;
-            this.label18.Location = new System.Drawing.Point(362, 538);
+            this.label18.Location = new System.Drawing.Point(365, 407);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(15, 15);
             this.label18.TabIndex = 90;
@@ -856,10 +884,11 @@ namespace NMSCoordinates
             // 
             // label19
             // 
+            this.label19.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label19.ForeColor = System.Drawing.Color.White;
-            this.label19.Location = new System.Drawing.Point(407, 538);
+            this.label19.Location = new System.Drawing.Point(410, 407);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(15, 15);
             this.label19.TabIndex = 91;
@@ -867,10 +896,11 @@ namespace NMSCoordinates
             // 
             // label20
             // 
+            this.label20.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label20.AutoSize = true;
             this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label20.ForeColor = System.Drawing.Color.White;
-            this.label20.Location = new System.Drawing.Point(452, 538);
+            this.label20.Location = new System.Drawing.Point(455, 407);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(15, 15);
             this.label20.TabIndex = 92;
@@ -878,10 +908,11 @@ namespace NMSCoordinates
             // 
             // label21
             // 
+            this.label21.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label21.AutoSize = true;
             this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label21.ForeColor = System.Drawing.Color.White;
-            this.label21.Location = new System.Drawing.Point(129, 607);
+            this.label21.Location = new System.Drawing.Point(132, 470);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(15, 15);
             this.label21.TabIndex = 93;
@@ -889,10 +920,11 @@ namespace NMSCoordinates
             // 
             // label22
             // 
+            this.label22.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label22.AutoSize = true;
             this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label22.ForeColor = System.Drawing.Color.White;
-            this.label22.Location = new System.Drawing.Point(175, 607);
+            this.label22.Location = new System.Drawing.Point(178, 470);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(16, 15);
             this.label22.TabIndex = 94;
@@ -900,10 +932,11 @@ namespace NMSCoordinates
             // 
             // label23
             // 
+            this.label23.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label23.ForeColor = System.Drawing.Color.White;
-            this.label23.Location = new System.Drawing.Point(222, 607);
+            this.label23.Location = new System.Drawing.Point(225, 470);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(16, 15);
             this.label23.TabIndex = 95;
@@ -911,10 +944,11 @@ namespace NMSCoordinates
             // 
             // label24
             // 
+            this.label24.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label24.AutoSize = true;
             this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label24.ForeColor = System.Drawing.Color.White;
-            this.label24.Location = new System.Drawing.Point(269, 607);
+            this.label24.Location = new System.Drawing.Point(272, 470);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(17, 15);
             this.label24.TabIndex = 96;
@@ -922,10 +956,11 @@ namespace NMSCoordinates
             // 
             // label25
             // 
+            this.label25.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label25.AutoSize = true;
             this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label25.ForeColor = System.Drawing.Color.White;
-            this.label25.Location = new System.Drawing.Point(317, 607);
+            this.label25.Location = new System.Drawing.Point(320, 470);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(16, 15);
             this.label25.TabIndex = 97;
@@ -933,10 +968,11 @@ namespace NMSCoordinates
             // 
             // label26
             // 
+            this.label26.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label26.AutoSize = true;
             this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label26.ForeColor = System.Drawing.Color.White;
-            this.label26.Location = new System.Drawing.Point(364, 607);
+            this.label26.Location = new System.Drawing.Point(367, 470);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(15, 15);
             this.label26.TabIndex = 98;
@@ -944,9 +980,10 @@ namespace NMSCoordinates
             // 
             // label27
             // 
+            this.label27.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label27.ForeColor = System.Drawing.Color.DarkOrange;
-            this.label27.Location = new System.Drawing.Point(122, 514);
+            this.label27.Location = new System.Drawing.Point(125, 389);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(268, 19);
             this.label27.TabIndex = 70;
@@ -958,7 +995,7 @@ namespace NMSCoordinates
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(65)))), ((int)(((byte)(65)))));
-            this.ClientSize = new System.Drawing.Size(539, 857);
+            this.ClientSize = new System.Drawing.Size(519, 751);
             this.Controls.Add(this.label27);
             this.Controls.Add(this.label26);
             this.Controls.Add(this.label25);
@@ -999,6 +1036,7 @@ namespace NMSCoordinates
             this.Name = "Form5";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NMSCoordinate Calculator";
+            this.Load += new System.EventHandler(this.Form5_Load);
             this.contextMenuStrip1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

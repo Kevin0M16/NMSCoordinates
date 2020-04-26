@@ -1,4 +1,5 @@
-﻿using QuickType;
+﻿using Microsoft.Win32;
+using QuickType;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,6 +17,10 @@ namespace NMSCoordinates
         public Form5()
         {
             InitializeComponent();
+
+            //Check resolution
+            CheckRes();
+
             Glyphs();
             ShowGlyphKey();
         }
@@ -23,7 +28,41 @@ namespace NMSCoordinates
         private long hxe { get; set; }
         private string hxx { get; set; }
         private int Planet { get; set; }
+        public int _ScreenWidth { get; private set; }
+        public int _ScreenHeight { get; private set; }
 
+        private void Form5_Load(object sender, EventArgs e)
+        {
+            //Trigger if Display resolution changes
+            SystemEvents.DisplaySettingsChanged += new EventHandler(SystemEvents_DisplaySettingsChanged);
+        }
+        // This method is called when the display settings change.
+        private async void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
+        {
+            await Task.Delay(300);
+            CheckRes();
+        }
+        private void CheckRes()
+        {
+            _ScreenWidth = Screen.PrimaryScreen.Bounds.Width;
+            _ScreenHeight = Screen.PrimaryScreen.Bounds.Height;
+
+            if (_ScreenHeight > 768)
+            {
+                this.MinimumSize = new Size(535, 750);
+                this.Size = new Size(535, 790);
+            }
+            if (_ScreenHeight <= 768 && _ScreenHeight > 720)
+            {
+                this.MinimumSize = new Size(535, 730);
+                this.Size = new Size(535, 735);
+            }
+            if (_ScreenHeight <= 720)
+            {
+                this.MinimumSize = new Size(535, 650);
+                this.Size = new Size(535, 685);                
+            }
+        }
         private void ShowGlyphKey()
         { 
             pictureBox1.Image = Properties.Resources._0;
