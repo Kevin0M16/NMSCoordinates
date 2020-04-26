@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## V1.1.15 (Apr 25 2020)
+- Added Distance to Center calculation.
+- Now scales to screen height when maximized.
+- Now low resolution friendly to as low as 720 height.
+- Automatically detects changes in resolution and adjusts accordingly.
+
 ## V1.1.14 (Jan 25 2020)
 - Users can now add notes to identify each line in the list of locations accessed from the "Coordinate Share" tab. 
 

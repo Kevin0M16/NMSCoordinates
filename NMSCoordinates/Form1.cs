@@ -60,6 +60,10 @@ namespace NMSCoordinates
             await Task.Delay(300);
             CheckRes();
         }
+        private string DistanceToCenter(double x, double y, double z)
+        {
+            return string.Format("{0:0}", (Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2) + Math.Pow(z, 2)) * 100) * 4) + " ly"; //"{0:0.##}"
+        }        
         private void Form1_Load(object sender, EventArgs e)
         {
             //Trigger if Display resolution changes
@@ -109,9 +113,9 @@ namespace NMSCoordinates
             {
                 groupBox2.Visible = true;
                 groupBox2.Location = new Point(266, 6);
-                groupBox6.Location = new Point(266, 176);
-                groupBox17.Location = new Point(266, 271);
-                groupBox7.Location = new Point(266, 319);
+                groupBox6.Location = new Point(266, 194);
+                groupBox17.Location = new Point(266, 289);
+                groupBox7.Location = new Point(266, 337);
             }
             if (_ScreenHeight > 768)
             {
@@ -716,6 +720,7 @@ namespace NMSCoordinates
             textBox22.Clear();
             textBox21.Clear();
             textBox23.Clear();
+            textBox29.Clear();
 
             var nms = Nms.FromJson(json);
 
@@ -731,6 +736,7 @@ namespace NMSCoordinates
             ShowPGlyphs();
             AppendLine(textBox21, PortalCode);
             GalaxyLookup(textBox23, pgalaxy);
+            AppendLine(textBox29, DistanceToCenter(pX, pY, pZ));
         }
         private void Clearforsearch()
         {
@@ -743,6 +749,7 @@ namespace NMSCoordinates
             textBox8.Clear();
             textBox9.Clear();
             textBox10.Clear();
+            textBox30.Clear();
 
             pictureBox1.Image = null;
             pictureBox2.Image = null;
@@ -779,6 +786,8 @@ namespace NMSCoordinates
             textBox21.Clear();
             textBox23.Clear();
             textBox26.Clear();
+            textBox29.Clear();
+            textBox30.Clear();
 
             pictureBox1.Image = null;
             pictureBox2.Image = null;
@@ -1169,6 +1178,7 @@ namespace NMSCoordinates
                     TextBoxes();
                     //textBox10.Text = galaxyDict[galaxy];
                     GalaxyLookup(textBox10, galaxy);
+                    textBox30.Text = DistanceToCenter(iX, iY, iZ);
                     GetGalacticCoord(iX, iY, iZ, iSSI);
                     GetPortalCoord(iPI, iX, iY, iZ, iSSI, textBox3);
                     ShowGlyphs();
@@ -1203,6 +1213,7 @@ namespace NMSCoordinates
                                 JsonMap(i);
                                 TextBoxes();
                                 GalaxyLookup(textBox10, galaxy);
+                                textBox30.Text = DistanceToCenter(iX, iY, iZ);
                                 GetGalacticCoord(iX, iY, iZ, iSSI);
                                 GetPortalCoord(iPI, iX, iY, iZ, iSSI, textBox3);
                                 ShowGlyphs();
@@ -1245,6 +1256,7 @@ namespace NMSCoordinates
                                 JsonMap(i);
                                 TextBoxes();
                                 GalaxyLookup(textBox10, galaxy);
+                                textBox30.Text = DistanceToCenter(iX, iY, iZ);
                                 GetGalacticCoord(iX, iY, iZ, iSSI);
                                 GetPortalCoord(iPI, iX, iY, iZ, iSSI, textBox3);
                                 ShowGlyphs();
