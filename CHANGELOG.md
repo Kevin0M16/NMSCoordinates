@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## V1.1.15 (Apr 25 2020)
+## V1.1.15 (May 5 2020)
 - Added Distance to Center calculation.
 - Now scales to screen height when maximized.
 - Now low resolution friendly to as low as 720 height.
