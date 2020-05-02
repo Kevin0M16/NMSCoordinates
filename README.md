@@ -61,7 +61,7 @@ Here is an overview of what you need to get started with NMSCoordinates
 
 ### Requirements
 
-The current version of NMSCoordinates requires No Man's Sky Beyond or Synthesis 2.2-2.26
+The current version of NMSCoordinates requires No Man's Sky Beyond/Synthesis/Exo Mech 2.2-2.4
 
 :exclamation: **Always back up all your game data and saves before any mods**
 
