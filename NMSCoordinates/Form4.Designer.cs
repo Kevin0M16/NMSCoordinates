@@ -36,6 +36,7 @@
             // 
             // button1
             // 
+            this.button1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.button1.Location = new System.Drawing.Point(477, 642);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(120, 35);
@@ -46,9 +47,10 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1040, 624);
+            this.pictureBox1.Size = new System.Drawing.Size(1064, 681);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.PictureBox1_Click);

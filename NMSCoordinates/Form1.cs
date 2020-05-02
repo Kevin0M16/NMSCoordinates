@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using QuickType;
 using Octokit;
+using Microsoft.Win32;
 
 /**********************************************************\
 |                                                          |
@@ -22,7 +23,7 @@ using Octokit;
 | Developed by:                                            |
 |   Code Author: Kevin Lozano / Kevin0M16                  |
 |   Email: <kevin@nmscoordinates.com>                      |
-|                                                          |
+|   Website: https://nmscoordinates.com                    |
 |                                                          |
 \**********************************************************/
 
@@ -36,8 +37,8 @@ namespace NMSCoordinates
             InitializeComponent();
 
             //Set Version here
-            Version = "v1.1.14";
-            label29.Text = "Version " + Version;
+            NMSCVersion = "1.1.15"; //"v1.1.15";
+            label29.Text = "Version " + NMSCVersion;
 
             Glyphs();
             GIndex();
@@ -49,8 +50,28 @@ namespace NMSCoordinates
             savePath = System.Windows.Forms.Application.CommonAppDataPath + "\\save.nmsc";
             oldsavePath = System.Windows.Forms.Application.CommonAppDataPath + "\\save.txt";
         }
+
+        public int _ScreenWidth { get; private set; }
+        public int _ScreenHeight { get; private set; }
+
+        // This method is called when the display settings change.
+        private async void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
+        {
+            await Task.Delay(300);
+            CheckRes();
+        }
+        private string DistanceToCenter(double x, double y, double z)
+        {
+            return string.Format("{0:0}", (Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2) + Math.Pow(z, 2)) * 100) * 4) + " ly"; //"{0:0.##}"
+        }        
         private void Form1_Load(object sender, EventArgs e)
         {
+            //Trigger if Display resolution changes
+            SystemEvents.DisplaySettingsChanged += new EventHandler(SystemEvents_DisplaySettingsChanged);
+
+            //Check resolution
+            CheckRes();
+
             //Save preference file
             BuildSaveFile();
             ReloadSave();
@@ -83,6 +104,40 @@ namespace NMSCoordinates
             //CheckForUpdates(true); //Toggle until updater
             CheckForUpdates();
         }
+        private void CheckRes()
+        {
+            _ScreenWidth = Screen.PrimaryScreen.Bounds.Width;
+            _ScreenHeight = Screen.PrimaryScreen.Bounds.Height;
+            
+            if (groupBox2.Visible == false && _ScreenHeight >= 768)
+            {
+                groupBox2.Visible = true;
+                groupBox2.Location = new Point(266, 6);
+                groupBox6.Location = new Point(266, 194);
+                groupBox17.Location = new Point(266, 289);
+                groupBox7.Location = new Point(266, 337);
+            }
+            if (_ScreenHeight > 768)
+            {
+                this.MinimumSize = new Size(750, 730);
+                this.Size = new Size(750, 768);                
+            }
+            if (_ScreenHeight <= 768 && _ScreenHeight > 720)
+            {
+                this.MinimumSize = new Size(750, 730);
+                this.Size = new Size(750, 735);
+            }
+            if (_ScreenHeight <= 720)
+            {
+                this.MinimumSize = new Size(750, 660);
+                this.Size = new Size(750, 685);                
+
+                groupBox2.Visible = false;
+                groupBox6.Location = new Point(266, 6);
+                groupBox17.Location = new Point(266, 105);
+                groupBox7.Location = new Point(266, 157);
+            }
+        }
         private async void CheckForUpdates()
         {
             //Check Github releases for a newer version method
@@ -92,14 +147,17 @@ namespace NMSCoordinates
                 var releases = await client.Repository.Release.GetAll("Kevin0M16", "NMSCoordinates");
                 var latest = releases[0];
 
-                if (Version != latest.Name)
+                string latestversion = latest.Name.Replace("v", "");
+
+                if (Version.Parse(NMSCVersion) < Version.Parse(latestversion)) //(NMSCVersion != latest.Name)
                 {
                     //IsUpdated(false, first, latest.Name);
 
                     linkLabel4.Text = "Version " + latest.Name + " Available";
                     linkLabel4.Visible = true;
-                    AppendLine(textBox17, "Current Version: " + Version + " Latest Version: " + latest.Name);
+                    AppendLine(textBox17, "This Version: " + NMSCVersion + " Latest Version: " + latestversion); // latest.Name);
                     MessageBox.Show("A newer version of NMSCoordinates is available\r\n\nLatest Version: " + latest.Name + "  Now available for download.\r\n\n", "Update Available", MessageBoxButtons.OK);
+                    
                     /*
                     DialogResult dialogResult = MessageBox.Show("A newer version of NMSCoordinates is available\r\n\nLatest Version: " + latest.Name + "  Update Now?\r\n\n", "Update Available", MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.Yes)
@@ -112,11 +170,16 @@ namespace NMSCoordinates
                     }*/
                 }
 
-                if (Version == latest.Name)
+                if (Version.Parse(NMSCVersion) > Version.Parse(latestversion))
+                {
+                    AppendLine(textBox17, "This Version: " + NMSCVersion + " is a pre-release or experimental version, Version " + latestversion + " is the lastest release.");
+                }
+
+                if (NMSCVersion == latestversion) //latest.Name)
                 {
                     //IsUpdated(true, first, latest.Name);
 
-                    AppendLine(textBox17, "Current Version: " + latest.Name + " is the latest version");
+                    AppendLine(textBox17, "This Version: " + latest.Name + " is the latest version");
                 }
             }
             catch
@@ -133,7 +196,7 @@ namespace NMSCoordinates
                 var releases = await client.Repository.Release.GetAll("Kevin0M16", "NMSCoordinates");
                 var latest = releases[0];
 
-                if (Version != latest.Name)
+                if (NMSCVersion != latest.Name)
                 {
                     IsUpdated(false, first, latest.Name);
 
@@ -152,10 +215,9 @@ namespace NMSCoordinates
                     }*/
                 }
 
-                if (Version == latest.Name)
+                if (NMSCVersion == latest.Name)
                 {
                     IsUpdated(true, first, latest.Name);
-
                     //AppendLine(textBox17, "Current Version: " + latest.Name + " is the latest version");
                 }
             }
@@ -185,7 +247,7 @@ namespace NMSCoordinates
                 linkLabel4.Text = "Version " + latest + " Available";
                 linkLabel4.Visible = true;
                 AppendLine(textBox17, 
-                    "Current Version: " + Version + 
+                    "Current Version: " + NMSCVersion + 
                     " Latest Version: " + latest +
                     " ***Newer Version Available***"
                     );
@@ -658,6 +720,7 @@ namespace NMSCoordinates
             textBox22.Clear();
             textBox21.Clear();
             textBox23.Clear();
+            textBox29.Clear();
 
             var nms = Nms.FromJson(json);
 
@@ -673,6 +736,7 @@ namespace NMSCoordinates
             ShowPGlyphs();
             AppendLine(textBox21, PortalCode);
             GalaxyLookup(textBox23, pgalaxy);
+            AppendLine(textBox29, DistanceToCenter(pX, pY, pZ));
         }
         private void Clearforsearch()
         {
@@ -685,6 +749,7 @@ namespace NMSCoordinates
             textBox8.Clear();
             textBox9.Clear();
             textBox10.Clear();
+            textBox30.Clear();
 
             pictureBox1.Image = null;
             pictureBox2.Image = null;
@@ -721,6 +786,8 @@ namespace NMSCoordinates
             textBox21.Clear();
             textBox23.Clear();
             textBox26.Clear();
+            textBox29.Clear();
+            textBox30.Clear();
 
             pictureBox1.Image = null;
             pictureBox2.Image = null;
@@ -1111,8 +1178,9 @@ namespace NMSCoordinates
                     TextBoxes();
                     //textBox10.Text = galaxyDict[galaxy];
                     GalaxyLookup(textBox10, galaxy);
+                    textBox30.Text = DistanceToCenter(iX, iY, iZ);
                     GetGalacticCoord(iX, iY, iZ, iSSI);
-                    GetPortalCoord(iX, iY, iZ, iSSI, textBox3);
+                    GetPortalCoord(iPI, iX, iY, iZ, iSSI, textBox3);
                     ShowGlyphs();
                     AppendLine(textBox1, GalacticCoord);
                     AppendLine(textBox2, PortalCode);
@@ -1145,8 +1213,9 @@ namespace NMSCoordinates
                                 JsonMap(i);
                                 TextBoxes();
                                 GalaxyLookup(textBox10, galaxy);
+                                textBox30.Text = DistanceToCenter(iX, iY, iZ);
                                 GetGalacticCoord(iX, iY, iZ, iSSI);
-                                GetPortalCoord(iX, iY, iZ, iSSI, textBox3);
+                                GetPortalCoord(iPI, iX, iY, iZ, iSSI, textBox3);
                                 ShowGlyphs();
                                 AppendLine(textBox1, GalacticCoord);
                                 AppendLine(textBox2, PortalCode);
@@ -1187,8 +1256,9 @@ namespace NMSCoordinates
                                 JsonMap(i);
                                 TextBoxes();
                                 GalaxyLookup(textBox10, galaxy);
+                                textBox30.Text = DistanceToCenter(iX, iY, iZ);
                                 GetGalacticCoord(iX, iY, iZ, iSSI);
-                                GetPortalCoord(iX, iY, iZ, iSSI, textBox3);
+                                GetPortalCoord(iPI, iX, iY, iZ, iSSI, textBox3);
                                 ShowGlyphs();
                                 AppendLine(textBox1, GalacticCoord);
                                 AppendLine(textBox2, PortalCode);
@@ -1210,7 +1280,7 @@ namespace NMSCoordinates
         }
         private void GetGalacticCoord(int X, int Y, int Z, int SSI)
         {
-            //Voxel Coordinates to Galactic Coordinate
+            //Voxel Coordinate to Galactic Coordinate
             textBox3.Clear();
 
             //Note: iX, iY, iZ, iSSI already Convert.ToInt32(X) in JSONMap()
@@ -1236,9 +1306,9 @@ namespace NMSCoordinates
             GalacticCoord = string.Format("{0:X4}:{1:X4}:{2:X4}:{3:X4}", ig1, ig2, ig3, ig4); //Format to 4 digit seperated by colon
             AppendLine(textBox3, "Galactic Coordinates: " + GalacticCoord);
         }
-        private void GetPortalCoord(int X, int Y, int Z, int SSI, TextBox tb)
+        private void GetPortalCoord(int P, int X, int Y, int Z, int SSI, TextBox tb)
         {
-            //Galactic Coordinate to Portal Code
+            //Voxel Coordinate to Portal Code
 
             //Note: iX, iY, iZ, iSSI already Convert.ToInt32(X) in JSONMap()
             int dd1 = X + 2047;
@@ -1277,8 +1347,8 @@ namespace NMSCoordinates
             int ihexZ = (Convert.ToInt32(hexZ, 16) & 0xFFF); // Z[HEX] to Z[DEC] 3 digits
             int ihexSSI = (Convert.ToInt32(g4, 16) & 0xFFF); // SSI[HEX] to SSI[DEC] 3 digits
 
-            PortalCode = string.Format("0{0:X3}{1:X2}{2:X3}{3:X3}", ihexSSI, ihexY, ihexZ, ihexX); // Format digits 0 3 2 3 3
-            AppendLine(tb, "[SSI][Y][Z][X] Portal Code: " + PortalCode);
+            PortalCode = string.Format(P + "{0:X3}{1:X2}{2:X3}{3:X3}", ihexSSI, ihexY, ihexZ, ihexX); // Format digits 1 3 2 3 3
+            AppendLine(tb, "[P][SSI][Y][Z][X] Portal Code: " + PortalCode);
 
             //Index chars in PortalCode
             _gl1 = PortalCode[0];
@@ -1299,7 +1369,7 @@ namespace NMSCoordinates
         }
         private void GetPortalCoord(int X, int Y, int Z, int SSI)
         {
-            //Galactic Coordinate to Portal Code
+            //Voxel Coordinates to Portal Code
 
             //Note: iX, iY, iZ, iSSI already Convert.ToInt32(X) in JSONMap()
             int dd1 = X + 2047;
@@ -1314,7 +1384,7 @@ namespace NMSCoordinates
             int dec1 = Convert.ToInt32(g1, 16); // X[HEX] to X[DEC]
             int dec2 = Convert.ToInt32(g2, 16); // Y[HEX] to X[DEC]
             int dec3 = Convert.ToInt32(g3, 16); // Z[HEX] to X[DEC]
-            int dec4 = Convert.ToInt32(g4, 16); // SSI[HEX] to SSI[DEC]
+            //int dec4 = Convert.ToInt32(g4, 16); // SSI[HEX] to SSI[DEC]
             //AppendLine(textBox3, "Galactic HEX to DEC: " + dec1.ToString() + " " + dec2.ToString() + " " + dec3.ToString() + " " + dec4);
 
             int dec5 = Convert.ToInt32("801", 16); // 801[HEX] to 801[DEC]
@@ -1338,7 +1408,7 @@ namespace NMSCoordinates
             int ihexZ = (Convert.ToInt32(hexZ, 16) & 0xFFF); // Z[HEX] to Z[DEC] 3 digits
             int ihexSSI = (Convert.ToInt32(g4, 16) & 0xFFF); // SSI[HEX] to SSI[DEC] 3 digits
 
-            PortalCode = string.Format("0{0:X3}{1:X2}{2:X3}{3:X3}", ihexSSI, ihexY, ihexZ, ihexX); // Format digits 0 3 2 3 3
+            PortalCode = string.Format("0{0:X3}{1:X2}{2:X3}{3:X3}", ihexSSI, ihexY, ihexZ, ihexX); // Format digits 1 3 2 3 3
             //AppendLine(textBox3, "[SSI][Y][Z][X] Portal Code: " + PortalCode);
         }
         private void ShowPGlyphs()
@@ -2058,13 +2128,13 @@ namespace NMSCoordinates
                 else
                 {
                     //If not GoG, must be Steam, so set the screenshot dir path
-                    stmPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) + @"\Steam\userdata\";// 307405899\";
+                    stmPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) + @"\Steam\userdata\"; // 307405899\";
                     if (Directory.Exists(stmPath))
                     {
                         List<string> list2 = new List<string>();
                         DirectoryInfo dinfo1 = new DirectoryInfo(stmPath);
                         DirectoryInfo[] dinfoss = dinfo1.GetDirectories("760", SearchOption.AllDirectories);
-
+                        /*
                         foreach (DirectoryInfo di in dinfoss)//.OrderByDescending(f => f.LastWriteTime))
                         {
                             if (di.GetFiles("*.jpg", SearchOption.AllDirectories).Length != 0)
@@ -2072,7 +2142,31 @@ namespace NMSCoordinates
                                 list2.Add(di.FullName);
                             }
                         }
-                        ssdPath = Path.GetFullPath(list2[0].ToString() + @"\remote\275850\screenshots");
+                        */
+                        foreach (DirectoryInfo di in dinfoss)
+                        {
+                            string spath = di.FullName + @"\remote\275850\screenshots";
+                            if (Directory.Exists(spath))
+                            {
+                                DirectoryInfo d3 = new DirectoryInfo(spath);
+                                //AppendLine(textBox17, d3.FullName);
+
+                                if (d3.GetFiles("*.jpg", SearchOption.TopDirectoryOnly).Length != 0 || d3.GetFiles("*.png", SearchOption.TopDirectoryOnly).Length != 0)
+                                {
+                                    list2.Add(d3.FullName);
+                                }
+                            }
+                        }
+                        if (list2.Count > 1)
+                        {
+                            AppendLine(textBox17, "More than on screenshot path detected. First found path set.");
+                            ssdPath = list2[0];
+                        }
+                        else if (list2.Count == 1)
+                        {
+                            ssdPath = list2[0];
+                        }
+                        //ssdPath = Path.GetFullPath(list2[0].ToString() + @"\remote\275850\screenshots");
                     }
                 }
 
@@ -2669,7 +2763,7 @@ namespace NMSCoordinates
         }
         private void GalacticToVoxelMan(string oX, string oY, string oZ, string oSSI)
         {
-            //Galactic Coordinate to Voxel Coordinates 
+            //Galactic Coordinate to Voxel Coordinate
             textBox15.Clear();
 
             //HEX in
@@ -3184,7 +3278,7 @@ namespace NMSCoordinates
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             //MessageBox.Show("Created by: Kevin0M16 \r\n\r\n 8-2019");
-            Form2 f2 = new Form2(Version);
+            Form2 f2 = new Form2(NMSCVersion);
             f2.ShowDialog();
 
         }
@@ -3397,7 +3491,7 @@ namespace NMSCoordinates
         {
             get { return progressBar2; }
             //set { progressBar2; }
-        }
+        }       
 
         private GameSave _gs;
         private GameSaveManager _gsm;
@@ -3980,7 +4074,7 @@ namespace NMSCoordinates
 
         private void CheckForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form9 f9 = new Form9(Version);
+            Form9 f9 = new Form9(NMSCVersion);
             f9.ShowDialog();
 
             //Toggle until updater
