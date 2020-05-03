@@ -1279,11 +1279,11 @@ namespace NMSCoordinates
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label23.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label23.Location = new System.Drawing.Point(36, 382);
+            this.label23.Location = new System.Drawing.Point(3, 382);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(161, 13);
+            this.label23.Size = new System.Drawing.Size(250, 13);
             this.label23.TabIndex = 70;
-            this.label23.Text = "(B) = Base  (SS) = Space Station";
+            this.label23.Text = "(B) = Base   (EB) = Ext. Base   (SS) = Space Station";
             // 
             // textBox19
             // 
@@ -1310,6 +1310,7 @@ namespace NMSCoordinates
             this.listBox1.Size = new System.Drawing.Size(236, 316);
             this.listBox1.TabIndex = 6;
             this.listBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ListBox1_MouseClick);
+            this.listBox1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ListBox1_KeyUp);
             // 
             // groupBox2
             // 
@@ -1577,6 +1578,7 @@ namespace NMSCoordinates
             this.listBox2.Size = new System.Drawing.Size(240, 329);
             this.listBox2.TabIndex = 20;
             this.listBox2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ListBox2_MouseClick);
+            this.listBox2.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ListBox2_KeyUp);
             // 
             // tabPage1
             // 

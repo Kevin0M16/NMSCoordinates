@@ -1073,9 +1073,15 @@ namespace NMSCoordinates
                         DiscList.Add(ss);
                         listBox2.Items.Add(ss);
                     }
-                    else if (nms.The6F.NlG[i].IAf != "Spacestation")
+                    if (nms.The6F.NlG[i].IAf == "Base") // v1.1.16
                     {
                         string bl = discd + " (B)";
+                        DiscList.Add(bl);
+                        listBox1.Items.Add(bl);
+                    }
+                    if (nms.The6F.NlG[i].IAf == "ExternalBase") // v1.1.16
+                    {
+                        string bl = discd + " (EB)";
                         DiscList.Add(bl);
                         listBox1.Items.Add(bl);
                     }
@@ -1099,6 +1105,20 @@ namespace NMSCoordinates
             else
             {
                 textBox12.Text = "False";
+            }
+        }
+        private void ListBox1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                ListBox1_MouseClick(this, new EventArgs());
+            }
+        }
+        private void ListBox2_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                ListBox2_MouseClick(this, new EventArgs());
             }
         }
         private void LoadBaselsbx()
@@ -1203,6 +1223,7 @@ namespace NMSCoordinates
                     object selecteditem = listBox1.SelectedItem;
                     string si = selecteditem.ToString();
                     si = si.Replace(" (B)", "");
+                    si = si.Replace(" (EB)", ""); //v1.1.16
                     var nms = Nms.FromJson(json);
                     try
                     {
