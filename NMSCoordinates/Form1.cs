@@ -37,7 +37,7 @@ namespace NMSCoordinates
             InitializeComponent();
 
             //Set Version here
-            NMSCVersion = "1.1.15"; //"v1.1.15";
+            NMSCVersion = "1.1.16"; //"v1.1.16";
             label29.Text = "Version " + NMSCVersion;
 
             Glyphs();
@@ -1037,6 +1037,7 @@ namespace NMSCoordinates
             galaxyDict.Add(new KeyValuePair<string, string>("118", "Torweierf"));
             galaxyDict.Add(new KeyValuePair<string, string>("129", "Broomerrai"));
             galaxyDict.Add(new KeyValuePair<string, string>("138", "Emiekereks"));
+            galaxyDict.Add(new KeyValuePair<string, string>("140", "Kimycuristh"));
             galaxyDict.Add(new KeyValuePair<string, string>("149", "Zavainlani"));
             galaxyDict.Add(new KeyValuePair<string, string>("158", "Rycempler"));
             galaxyDict.Add(new KeyValuePair<string, string>("169", "Ezdaranit"));
@@ -1048,9 +1049,21 @@ namespace NMSCoordinates
             galaxyDict.Add(new KeyValuePair<string, string>("229", "Raldwicarn"));
             galaxyDict.Add(new KeyValuePair<string, string>("238", "Yuwarugha"));
             galaxyDict.Add(new KeyValuePair<string, string>("249", "Nepitzaspru"));
+            galaxyDict.Add(new KeyValuePair<string, string>("254", "Iousongola"));
+            galaxyDict.Add(new KeyValuePair<string, string>("255", "Odyalutai"));
+            galaxyDict.Add(new KeyValuePair<string, string>("256", "Yilsrussimil"));
+
+            //galaxyDict.Add(new KeyValuePair<string, string>("-1", "Pequibanu"));
+            //galaxyDict.Add(new KeyValuePair<string, string>("-2", "Uewamoisow"));
+            //galaxyDict.Add(new KeyValuePair<string, string>("-3", "Hiteshamij"));
+            //galaxyDict.Add(new KeyValuePair<string, string>("-4", "Usgraikik"));
+            //galaxyDict.Add(new KeyValuePair<string, string>("-5", "Helqvishap"));
+            //galaxyDict.Add(new KeyValuePair<string, string>("-6", "Enyokudohkiw"));
+            //galaxyDict.Add(new KeyValuePair<string, string>("-7", "Loqvishess"));
+
             //galaxyDict.Add(new KeyValuePair<string, string>("", ""));
 
-            galaxyDict.Add(new KeyValuePair<string, string>("140", "Kimycuristh"));
+
         }
         private void Loadlsb1()
         {
@@ -1067,7 +1080,7 @@ namespace NMSCoordinates
                 {
                     string discd = nms.The6F.NlG[i].NKm;
 
-                    if (nms.The6F.NlG[i].IAf == "Spacestation")
+                    if (nms.The6F.NlG[i].IAf == "Spacestation" || nms.The6F.NlG[i].IAf == "SpacestationFixPosition") // 1.1.16
                     {
                         string ss = discd + " (SS)";
                         DiscList.Add(ss);
@@ -1164,12 +1177,21 @@ namespace NMSCoordinates
             //lookup the galaxy and if not in galaxy dict, display the number
             try
             {
-                source.Text = galaxyDict[galaxy];
+                string value;
+                if (galaxyDict.TryGetValue(galaxy, out value))
+                {
+                    source.Text = value;
+                }
+                else
+                {
+                   source.Text = "";
+                }
+                //source.Text = galaxyDict[galaxy];                
             }
             catch
             {
-                source.Text = "";//(Convert.ToInt32(galaxy) + 1).ToString();
-                //AppendLine(textBox17, "Galaxy Not Found, update needed.");
+                //source.Text = "";//(Convert.ToInt32(galaxy) + 1).ToString();
+                AppendLine(textBox15, "Galaxy Not Found, update needed.");
             }
         }
         private void GalaxyLookup(TextBox source, string galaxy)
@@ -1177,12 +1199,22 @@ namespace NMSCoordinates
             //lookup the galaxy and if not in galaxy dict, display the number
             try
             {
-                source.Text = galaxyDict[galaxy];
+                string value;
+                if (galaxyDict.TryGetValue(galaxy, out value))
+                {
+                    source.Text = value;
+                }
+                else
+                {
+                    source.Text = (Convert.ToInt32(galaxy) + 1).ToString();
+                }
+                //source.Text = galaxyDict[galaxy];
             }
             catch
             {
-                source.Text = (Convert.ToInt32(galaxy) + 1).ToString();
-                //AppendLine(textBox17, "Galaxy Not Found, update needed.");
+              
+                //source.Text = (Convert.ToInt32(galaxy) + 1).ToString();
+                AppendLine(textBox17, "Galaxy Not Found, update needed.");
             }
         }
         private void lsb1mclick() //backup of changes made on v1.1.11
@@ -2891,7 +2923,7 @@ namespace NMSCoordinates
                     }
 
                     //Validate and set galaxy
-                    if (comboBox3.SelectedIndex <= 254) //selectedindex 0-254 = galaxy 1-255
+                    if (comboBox3.SelectedIndex <= 256) //selectedindex 0-256 = galaxy 1-257
                     {
                         galaxy = comboBox3.SelectedIndex.ToString();
                     }
@@ -2976,11 +3008,16 @@ namespace NMSCoordinates
                 label36.Text = "";
 
                 //Add Galaxy numbers
-                for (int i = 1; i <= 255; i++)
+                for (int i = 1; i <= 257; i++) // increase to 257 1.1.16
                 {
                     string[] numbers = { i.ToString() };
                     comboBox3.Items.AddRange(numbers);
                 }
+
+                // Negative galaxies
+                string[] neg = { "-6", "-5", "-4", "-3", "-2", "-1", "0" };
+                comboBox3.Items.AddRange(neg);
+
                 comboBox3.SelectedIndex = Convert.ToInt32(pgalaxy);
 
                 //Lookup and display galaxy name in label
