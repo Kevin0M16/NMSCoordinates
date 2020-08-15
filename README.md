@@ -13,7 +13,7 @@ NMSCoordinates is an app for No Man’s Sky which allows you to view all your di
 You can clear portal interference while traveling through a portal, fast travel to known locations, or manually enter Galactic Coordinates and travel to them.
 Backup locations to txt file and and access and travel to these saved coordinates.
 
-# NEWEST NMS GAME VERSION IS NOT SUPPORTED AT THIS TIME!
+<!-- # NEWEST NMS GAME VERSION IS NOT SUPPORTED AT THIS TIME! -->
 
 ## Youtube Videos
 
@@ -25,20 +25,18 @@ Backup locations to txt file and and access and travel to these saved coordinate
 |<a href="http://www.youtube.com/watch?feature=player_embedded&v=ceSFVl9LFtI" target="_blank"><img src="http://img.youtube.com/vi/ceSFVl9LFtI/0.jpg" alt="Video" width="520" height="300" border="10" /></a>|<a href="http://www.youtube.com/watch?feature=player_embedded&v=Vx1xGk2TMIo" target="_blank"><img src="http://img.youtube.com/vi/Vx1xGk2TMIo/0.jpg" alt="Video" width="520" height="300" border="10" /></a>|
 
 
-## Download - UPDATE v1.1.15 (May 2 2020)
+## Download - UPDATE v1.1.16 (AUG 15 2020)
 
-- Added Distance to Center calculation.
-- Now scales to screen height when maximized.
-- Now low resolution friendly to as low as 720 height.
-- Automatically detects changes in resolution and adjusts accordingly.
+- Fixed missing space stations in list
+- Added (EB) for ExternalBase to list of locations
+- Added a few more galaxies
 
 <!--* Download will be available later today. -->
-<pre>  <a href="https://github.com/Kevin0M16/NMSCoordinates/releases/latest/download/NMSCoordinates-v1.1.15.zip"><img src="https://img.shields.io/badge/dynamic/json.svg?label=download&url=https://api.github.com/repos/Kevin0M16/NMSCoordinates/releases/latest&query=$.assets[0].name&style=for-the-badge" alt="download"/></a></pre>
+<pre>  <a href="https://github.com/Kevin0M16/NMSCoordinates/releases/latest/download/NMSCoordinates-v1.1.16.zip"><img src="https://img.shields.io/badge/dynamic/json.svg?label=download&url=https://api.github.com/repos/Kevin0M16/NMSCoordinates/releases/latest&query=$.assets[0].name&style=for-the-badge" alt="download"/></a></pre>
 
-## Share - Upload locations to Google Drive
+<!-- ## Share - Upload locations to Google Drive
 
-* [Google Drive Folder - NMSCoordinates](https://drive.google.com/open?id=0B0Tsv8SX6_GtR2hKNlhVcnBvMmc) Add your locbackup.txt files here to share. Adding your name at the end of the filename is ok.
-
+* [Google Drive Folder - NMSCoordinates](https://drive.google.com/open?id=0B0Tsv8SX6_GtR2hKNlhVcnBvMmc) Add your locbackup.txt files here to share. Adding your name at the end of the filename is ok. -->
 
 ## Features
 
@@ -63,7 +61,7 @@ Here is an overview of what you need to get started with NMSCoordinates
 
 ### Requirements
 
-The current version of NMSCoordinates requires No Man's Sky Beyond/Synthesis/Exo Mech 2.2-2.4
+The current version of NMSCoordinates requires No Man's Sky Beyond/Synthesis/Exo Mech/Crossplay/Desolation 2.2-2.62
 
 :exclamation: **Always back up all your game data and saves before any mods**
 
