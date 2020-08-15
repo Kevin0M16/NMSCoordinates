@@ -2923,7 +2923,7 @@ namespace NMSCoordinates
                     }
 
                     //Validate and set galaxy
-                    if (comboBox3.SelectedIndex <= 256) //selectedindex 0-256 = galaxy 1-257
+                    if (comboBox3.SelectedIndex <= 263) //selectedindex 0-256 + 7 = galaxy 1-257 + 0 to -7
                     {
                         galaxy = comboBox3.SelectedIndex.ToString();
                     }
