@@ -1051,7 +1051,7 @@ namespace NMSCoordinates
             galaxyDict.Add(new KeyValuePair<string, string>("249", "Nepitzaspru"));
             galaxyDict.Add(new KeyValuePair<string, string>("254", "Iousongola"));
             galaxyDict.Add(new KeyValuePair<string, string>("255", "Odyalutai"));
-            galaxyDict.Add(new KeyValuePair<string, string>("256", "Yilsrussimil"));
+            //galaxyDict.Add(new KeyValuePair<string, string>("256", "Yilsrussimil"));
 
             //galaxyDict.Add(new KeyValuePair<string, string>("-1", "Pequibanu"));
             //galaxyDict.Add(new KeyValuePair<string, string>("-2", "Uewamoisow"));
@@ -1206,7 +1206,15 @@ namespace NMSCoordinates
                 }
                 else
                 {
-                    source.Text = (Convert.ToInt32(galaxy) + 1).ToString();
+                    int g = Convert.ToInt32(galaxy);
+                    if (g >= 0)
+                    {
+                        source.Text = (g + 1).ToString();
+                    }
+                    else
+                    {
+                        source.Text = g.ToString();
+                    }
                 }
                 //source.Text = galaxyDict[galaxy];
             }
@@ -2923,9 +2931,10 @@ namespace NMSCoordinates
                     }
 
                     //Validate and set galaxy
-                    if (comboBox3.SelectedIndex <= 263) //selectedindex 0-256 + 7 = galaxy 1-257 + 0 to -7
+
+                    if (comboBox3.SelectedIndex <= 255) //selectedindex 0-255 = galaxy 1-256
                     {
-                        galaxy = comboBox3.SelectedIndex.ToString();
+                        galaxy = comboBox3.SelectedIndex.ToString();                           
                     }
                     else
                     {
@@ -3008,17 +3017,25 @@ namespace NMSCoordinates
                 label36.Text = "";
 
                 //Add Galaxy numbers
-                for (int i = 1; i <= 257; i++) // increase to 257 1.1.16
+                for (int i = 1; i <= 256; i++) // increase to 256 1.1.16
                 {
                     string[] numbers = { i.ToString() };
                     comboBox3.Items.AddRange(numbers);
                 }
 
                 // Negative galaxies
-                string[] neg = { "-6", "-5", "-4", "-3", "-2", "-1", "0" };
-                comboBox3.Items.AddRange(neg);
+                // string[] neg = { "-6", "-5", "-4", "-3", "-2", "-1", "0" };
+                // comboBox3.Items.AddRange(neg);
 
-                comboBox3.SelectedIndex = Convert.ToInt32(pgalaxy);
+                int setgx = Convert.ToInt32(pgalaxy);
+                if (setgx >= 0 && setgx <= 255)
+                {
+                    comboBox3.SelectedIndex = setgx;
+                }
+                else
+                {
+                    // Do nothing
+                }                 
 
                 //Lookup and display galaxy name in label
                 GalaxyLookupLbl(label35, pgalaxy);
