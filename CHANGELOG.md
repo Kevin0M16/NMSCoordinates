@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v1.1.16 (AUG 15 2020)
+- Fixed missing space stations in list
+- Added (EB) for ExternalBase to list of locations
+- Added a few more galaxies
+
 ## V1.1.15 (May 5 2020)
 - Added Distance to Center calculation.
 - Now scales to screen height when maximized.
