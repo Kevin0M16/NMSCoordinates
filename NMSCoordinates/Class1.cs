@@ -18,22 +18,28 @@ namespace QuickType
     public partial class Nms
     {
         [JsonProperty("F2P")]
-        public long F2P { get; set; }
+        public long Version { get; set; }
 
         [JsonProperty("8>q")]
-        public string The8Q { get; set; }
+        public string Platform { get; set; }
 
         [JsonProperty("6f=")]
-        public The6F The6F { get; set; }
-    }
-
-    public partial class The6F
-    {
-        [JsonProperty("yhJ")]
-        public YhJ YhJ { get; set; }
+        public PlayerStateData PlayerStateData { get; set; }
 
         [JsonProperty("rnc")]
-        public Rnc Rnc { get; set; }
+        public SpawnStateData SpawnStateData { get; set; }
+    }
+
+    public partial class PlayerStateData
+    {
+        [JsonProperty("yhJ")]
+        public UniverseAddress UniverseAddress { get; set; }
+
+        [JsonProperty("ux@")]
+        public PreviousUniverseAddress PreviousUniverseAddress { get; set; }
+
+        [JsonProperty("QQp")]
+        public long HomeRealityIteration { get; set; }
 
         [JsonProperty("nlG")]
         public NlG[] NlG { get; set; }
@@ -41,18 +47,67 @@ namespace QuickType
         [JsonProperty("DaC")]
         public bool DaC { get; set; }
 
+        [JsonProperty("NQJ")]
+        public Nqj Nqj { get; set; }
+
         [JsonProperty("F?0")]
         public F0[] F0 { get; set; }
 
         [JsonProperty("05J")]
-        public long O5J { get; set; }
+        public long TimeLastSpaceBattle { get; set; }
 
         [JsonProperty("8br")]
-        public long Ebr { get; set; }
+        public long WarpsLastSpaceBattle { get; set; }
 
         [JsonProperty("8xx")]
-        public long Exx { get; set; }
+        public long ActiveSpaceBattleUA { get; set; }
+
+        [JsonProperty("IRi")]
+        public long TimeLastMiniStation { get; set; }
+
+        [JsonProperty("x=M")]
+        public long WarpsLastMiniStation { get; set; }
     }
+
+    public partial class UniverseAddress
+    {
+        [JsonProperty("Iis")]
+        public long RealityIndex { get; set; }
+
+        [JsonProperty("oZw")]
+        public Dictionary<string, long> GalacticAddress { get; set; }
+    }
+
+    public partial class PreviousUniverseAddress
+    {
+        [JsonProperty("Iis")]
+        public long RealityIndex { get; set; }
+
+        [JsonProperty("oZw")]
+        public Dictionary<string, long> GalacticAddress { get; set; }
+    }
+
+    public partial class Nqj
+    {
+        [JsonProperty("3fO")]
+        public The3FO[] The3FO { get; set; }
+
+        [JsonProperty("K:U")]
+        public string KU { get; set; }
+
+        [JsonProperty("oEc")]
+        public bool OEc { get; set; }
+    }
+
+    public partial struct The3FO
+    {
+        public bool? Bool;
+        public string String;
+
+        public static implicit operator The3FO(bool Bool) => new The3FO { Bool = Bool };
+        public static implicit operator The3FO(string String) => new The3FO { String = String };
+    }
+
     public partial class F0
     {
         [JsonProperty("oZw")]
@@ -64,7 +119,7 @@ namespace QuickType
     public partial class NlG
     {
         [JsonProperty("yhJ")]
-        public YhJ YhJ { get; set; }
+        public UniverseAddress UniverseAddress { get; set; }
 
         [JsonProperty("wMC")]
         public double[] WMc { get; set; }
@@ -82,19 +137,30 @@ namespace QuickType
         public bool A { get; set; }
     }
 
-    public partial class YhJ
+    public partial class SpawnStateData
     {
-        [JsonProperty("Iis")]
-        public long Iis { get; set; }
+        [JsonProperty("mEH")]
+        public double[] MEh { get; set; }
 
-        [JsonProperty("oZw")]
-        public Dictionary<string, long> OZw { get; set; }
-    }
-    public partial class Rnc
-    {
+        [JsonProperty("l2U")]
+        public double[] L2U { get; set; }
+
+        [JsonProperty("tnP")]
+        public double[] TnP { get; set; }
+
+        [JsonProperty("l4H")]
+        public double[] L4H { get; set; }
+
         [JsonProperty("jk4")]
-        public string Jk4 { get; set; }
+        public string LastKnownPlayerState { get; set; }
+
+        [JsonProperty("NGn")]
+        public double[] NGn { get; set; }
+
+        [JsonProperty("uAt")]
+        public double[] UAt { get; set; }
     }
+
     public partial class Nms
     {
         public static Nms FromJson(string json) => JsonConvert.DeserializeObject<Nms>(json, QuickType.Converter.Settings);
