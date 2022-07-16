@@ -4,15 +4,16 @@ using System.IO;
 
 namespace NMSCoordinates
 {
-    class Class3
+    class SaveCompression
     {
         const uint MAGIC_COMPRESSED = 0xFEEDA1E5;
+        const uint MAGIC_DECOMPRESSED = 0x3246227B;
 
         public static void DecompressSave(string hgFilePath , string destFilePath)
         {
             if (hgFilePath.Length == 0)
             {
-                Console.WriteLine("ERROR: hgFilePath.Length == 0.");
+                Console.WriteLine("[ERROR] hgFilePath.Length == 0.");
                 return;
             }
 
@@ -26,6 +27,8 @@ namespace NMSCoordinates
 
                 if (magicmagic == MAGIC_COMPRESSED)
                 {
+                    Console.WriteLine("hgFilePath magicmagic == MAGIC_COMPRESSED 0xFEEDA1E5");
+
                     // decompressing
                     MemoryStream mem = new MemoryStream();
 
@@ -62,14 +65,14 @@ namespace NMSCoordinates
                     file_out.Flush();
                     file_out.Close();
                 }
-                else if (magicmagic == 0x3246227B)
+                else if (magicmagic == MAGIC_DECOMPRESSED) //0x3246227B)
                 {
-                    Console.WriteLine("magicmagic == 0x3246227B");
+                    Console.WriteLine("hgFilePath magicmagic == MAGIC_DECOMPRESSED 0x3246227B");
                     File.Copy(hgFilePath, destFilePath, true);
                 }
                 else
                 {
-                    Console.WriteLine("hgFilePath is not compressed or decompressed properly: " + magicmagic);
+                    Console.WriteLine("[ERROR] hgFilePath is not compressed or decompressed properly: " + magicmagic);
                 }
                 
             }
@@ -85,7 +88,7 @@ namespace NMSCoordinates
         {
             if (hgFilePath.Length == 0)
             {
-                Console.WriteLine("ERROR: hgFilePath.Length == 0.");
+                Console.WriteLine("[ERROR] hgFilePath.Length == 0.");
                 return;
             }
 
@@ -97,7 +100,7 @@ namespace NMSCoordinates
                 uint magicmagic = br.ReadUInt32();
                 br.BaseStream.Position = 0;
 
-                if (magicmagic == 0x3246227B)
+                if (magicmagic == MAGIC_DECOMPRESSED) //0x3246227B)
                 {
                     // compressing
                     FileStream file_out = File.Create("_unhg.temp.bin");

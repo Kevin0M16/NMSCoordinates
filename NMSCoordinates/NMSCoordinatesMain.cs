@@ -24,17 +24,17 @@ using NMSCoordinates.SaveData;
 |                                                          |
 | Developed by:                                            |
 |   Code Author: Kevin Lozano / Kevin0M16                  |
-|   Email: <kevin@nmscoordinates.com>                      |
-|   Website: https://nmscoordinates.com                    |
+|   Email: <kevin@k0m16.net>                               |
+|   Website: https://kevin0m16.github.io/NMSCoordinates/   |
 |                                                          |
 \**********************************************************/
 
 
 namespace NMSCoordinates
 {
-    public partial class Form1 : Form
+    public partial class NMSCoordinatesMain : Form
     {        
-        public Form1()
+        public NMSCoordinatesMain()
         {
             InitializeComponent();
 
@@ -281,7 +281,7 @@ namespace NMSCoordinates
             }
         }
 
-        public Form8 f8;
+        public SaveDirectorySelector f8;
 
         private void CheckGoG()
         {
@@ -301,7 +301,7 @@ namespace NMSCoordinates
                     }
                     if (SaveDirs.Count() > 1)
                     {
-                        f8 = new Form8(SaveDirs);
+                        f8 = new SaveDirectorySelector(SaveDirs);
                         f8.ShowDialog();
 
                         //After the path to nmsPath is selected on form8, set nmsPath
@@ -514,26 +514,42 @@ namespace NMSCoordinates
         private void GetRawSave(string savefile, string destfile)
         {
             fileSystemWatcher1.EnableRaisingEvents = false;
-            Class3.DecompressSave(savefile, destfile);
+            SaveCompression.DecompressSave(savefile, destfile);
             fileSystemWatcher1.EnableRaisingEvents = true;
         }
-        private void GetUnformattedSave(out string ufjson, string inputfilepath, string outputfilepath)
+        private void GetUnformattedSave(out string ufjson, string inputfilepath, string outputfilepath, bool indented)
         {
             //Sets json from the selected save file
             string rawjson = File.ReadAllText(inputfilepath);
-            ufjson = JsonConvert.SerializeObject(JObject.Parse(rawjson), Formatting.Indented).TrimEnd('\0');
+            if (indented)
+            {
+                ufjson = JsonConvert.SerializeObject(JObject.Parse(rawjson), Formatting.Indented).TrimEnd('\0');
+            }
+            else
+            {
+                ufjson = JsonConvert.SerializeObject(JObject.Parse(rawjson), Formatting.None).TrimEnd('\0');
+            }            
             File.WriteAllText(outputfilepath, ufjson);
         }
-        private void CreateNewSave(out string newjson, string inputfilepath, string outputfilepath, bool reverse, bool shortDict)
+        private void CreateNewSave(out string newjson, string inputfilepath, string outputfilepath, ProgressBar pb, bool reverse, bool shortDict)
         {
             string injson = File.ReadAllText(inputfilepath);
             Dictionary<string, string> inDict = new Dictionary<string, string>();
+            pb.Minimum = 1;
+            pb.Value = 1;
+            pb.Step = 1;            
 
             if (shortDict)
+            {
+                pb.Maximum = sjsonDict.Count;
                 inDict = sjsonDict;
+            }                
             else
+            {
+                pb.Maximum = jsonDict.Count;
                 inDict = jsonDict;
-
+            }
+            pb.Visible = true;
 
             if (reverse)
             {
@@ -542,6 +558,8 @@ namespace NMSCoordinates
 
                 foreach (KeyValuePair<string, string> entry in inDict)
                 {
+                    pb.PerformStep();
+
                     if (injson.Contains(entry.Key))
                         injson = injson.Replace(entry.Key, entry.Value);
                 }                
@@ -551,13 +569,16 @@ namespace NMSCoordinates
                 // Sets json after modifying original values to key names
                 foreach (KeyValuePair<string, string> entry in inDict)
                 {
+                    pb.PerformStep();
+
                     if (injson.Contains(entry.Value))
                         injson = injson.Replace(entry.Value, entry.Key);
                 }
 
                 newjson = injson;
-            }
+            }            
             File.WriteAllText(outputfilepath, injson);
+            pb.Visible = false;
         }
         private void GetJsonDict(string keyfilepath, out Dictionary<string,string> outDict)
         {
@@ -630,10 +651,10 @@ namespace NMSCoordinates
                 GetRawSave(hgFilePath, rawSave);
 
                 // Read rawSave and get ujson
-                GetUnformattedSave(out ujson, rawSave, ufSave);
+                GetUnformattedSave(out ujson, rawSave, ufSave, true);
 
                 // Read ufSave and get Save and json
-                CreateNewSave(out json, ufSave, Save, false, false);
+                CreateNewSave(out json, ufSave, Save, progressBar2, false, true);
 
                 // looks up and then displays the game mode
                 var nms = GameSaveData.FromJson(json);
@@ -2000,48 +2021,48 @@ namespace NMSCoordinates
             //Clear Interference Button
             if (saveslot >= 1 && saveslot <= 5 && textBox12.Text != "")
             {
-            //    if (textBox12.Text == "False" || textBox12.Text == "false")
-            //    {
-            //        MessageBox.Show("No Portal Interference Found!", "Alert", MessageBoxButtons.OK);
-            //        return;
-            //    }
-            //    else
-            //    {
-            //        DialogResult dialogResult = MessageBox.Show("Clear Portal Interference ? ", "Portal Interference", MessageBoxButtons.YesNo);
-            //        if (dialogResult == DialogResult.Yes)
-            //        {
-            //            //Read - Edit - Write Json save file for portal
-            //            WriteSavePortal(progressBar1, textBox27, saveslot);
+                if (textBox12.Text == "False" || textBox12.Text == "false")
+                {
+                    MessageBox.Show("No Portal Interference Found!", "Alert", MessageBoxButtons.OK);
+                    return;
+                }
+                else
+                {
+                    DialogResult dialogResult = MessageBox.Show("Clear Portal Interference ? ", "Portal Interference", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        //Read - Edit - Write Json save file for portal
+                        WriteSavePortal(progressBar1, textBox27, saveslot);
 
-            //            //Read and check save file
-            //            json = File.ReadAllText(hgFilePath);
+                        ////Read and check save file
+                        //json = File.ReadAllText(hgFilePath);
 
-            //            //Check save file edits
-            //            var nms = GameSaveData.FromJson(json);
-            //            textBox12.Clear();
-            //            textBox12.Text = nms.PlayerStateData.OnOtherSideOfPortal.ToString();
+                        ////Check save file edits
+                        var nms = GameSaveData.FromJson(json);
+                        textBox12.Clear();
+                        textBox12.Text = nms.PlayerStateData.OnOtherSideOfPortal.ToString();
 
-            //            Regex myRegexPrtl4 = new Regex(rxPatternPrtl, RegexOptions.Multiline);
-            //            Match prtl4 = myRegexPrtl4.Match(json);
-            //            AppendLine(textBox27, prtl4.ToString());
+                        //Regex myRegexPrtl4 = new Regex(rxPatternPrtl, RegexOptions.Multiline);
+                        //Match prtl4 = myRegexPrtl4.Match(json);
+                        //AppendLine(textBox27, prtl4.ToString());
 
-            //            if (textBox12.Text == "False" || textBox12.Text == "false")
-            //            {
-            //                progressBar1.Invoke((System.Action)(() => progressBar1.Value = 100));
-            //                progressBar1.Visible = false;
+                        if (textBox12.Text == "False" || textBox12.Text == "false")
+                        {
+                            progressBar1.Invoke((System.Action)(() => progressBar1.Value = 100));
+                            progressBar1.Visible = false;
 
-            //                MessageBox.Show("Portal Interference removal successful!", "Confirmation", MessageBoxButtons.OK);
-            //            }
-            //            else
-            //            {
-            //                MessageBox.Show("Portal Interference Problem!", "Error");
-            //            }
-            //        }
-            //        else if (dialogResult == DialogResult.No)
-            //        {
-            //            return;
-            //        }
-            //    }
+                            MessageBox.Show("Portal Interference removal successful!", "Confirmation", MessageBoxButtons.OK);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Portal Interference Problem!", "Error");
+                        }
+                    }
+                    else if (dialogResult == DialogResult.No)
+                    {
+                        return;
+                    }
+                }
             }
             else
             {
@@ -2401,7 +2422,7 @@ namespace NMSCoordinates
         private void ScreenshotPageToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             //Open the screenshot page, pass ssdpath to it
-            Form3 f3 = new Form3();
+            ScreenShotPreviewQuad f3 = new ScreenShotPreviewQuad();
             AppendLine(textBox17, ssdPath);
             f3.MyProperty2 = ssdPath;
             f3.Show();
@@ -2586,14 +2607,14 @@ namespace NMSCoordinates
             set { textBox14.Text = value; }
         }
 
-        private Form5 f5;
+        private CoordinateCalculator f5;
 
         private void Button7_Click(object sender, EventArgs e)
         {
             //Coordinate Calculator button if not open, open
             if (f5 == null)
             {
-                f5 = new Form5();
+                f5 = new CoordinateCalculator();
                 f5.FormClosed += (_, arg) =>
                 {
                     f5 = null;
@@ -3169,7 +3190,7 @@ namespace NMSCoordinates
             {
                 //Call the Process.Start method to open the default browser
                 //with a URL:
-                System.Diagnostics.Process.Start("http://nmscoordinates.com");
+                System.Diagnostics.Process.Start("https://kevin0m16.github.io/NMSCoordinates/");
             }
             catch
             {
@@ -3406,7 +3427,7 @@ namespace NMSCoordinates
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             //MessageBox.Show("Created by: Kevin0M16 \r\n\r\n 8-2019");
-            Form2 f2 = new Form2(NMSCVersion);
+            About f2 = new About(NMSCVersion);
             f2.ShowDialog();
 
         }
@@ -3442,7 +3463,7 @@ namespace NMSCoordinates
                 comboBox1.SelectedIndex = -1;
                 ClearAll();
 
-                Form6 f6 = new Form6();
+                SaveFileManager f6 = new SaveFileManager();
                 f6.nmsPath = nmsPath;
                 f6.ShowDialog();
 
@@ -3479,7 +3500,7 @@ namespace NMSCoordinates
                 }
 
                 //if changes detected, show form7 files changed externally
-                Form7 f7 = new Form7();
+                SaveModified f7 = new SaveModified();
                 f7.ShowDialog();
 
                 if (f7.SaveChanged == true)
@@ -3628,9 +3649,9 @@ namespace NMSCoordinates
             BackUpSaveSlot(tb, saveslot, false);
             DecryptSave(saveslot);
             EditSaveFB(pb);
-            CreateNewSave(out json, modSave, ufmodSave, true, false);
+            CreateNewSave(out json, modSave, ufmodSave, pb, true, true);
             EncryptSave(pb, saveslot);
-            Class3.CompressSave(hgFilePath);
+            SaveCompression.CompressSave(hgFilePath);
 
             fileSystemWatcher1.EnableRaisingEvents = true;
         }
@@ -3642,9 +3663,9 @@ namespace NMSCoordinates
             BackUpSaveSlot(tb, saveslot, false);
             DecryptSave(saveslot);
             EditSavePortal(pb);
-            CreateNewSave(out json, modSave, ufmodSave, true, false);
+            CreateNewSave(out json, modSave, ufmodSave, pb, true, true);
             EncryptSave(pb, saveslot);
-            Class3.CompressSave(hgFilePath);
+            SaveCompression.CompressSave(hgFilePath);
 
             fileSystemWatcher1.EnableRaisingEvents = true;
         }
@@ -3656,9 +3677,9 @@ namespace NMSCoordinates
             BackUpSaveSlot(tb, saveslot, false);
             DecryptSave(saveslot);
             EditSaveMove(pb, tb);
-            CreateNewSave(out json, modSave, ufmodSave, true, false);
+            CreateNewSave(out json, modSave, ufmodSave, pb, true, true);
             EncryptSave(pb, saveslot);
-            Class3.CompressSave(hgFilePath);
+            SaveCompression.CompressSave(hgFilePath);
 
             fileSystemWatcher1.EnableRaisingEvents = true;
         }
@@ -3742,111 +3763,51 @@ namespace NMSCoordinates
 
         private void EditSaveFB(ProgressBar pb)
         {
-            //Set JSON search pattern
-            //JsonSet("fb");
-
             pb.Visible = true;
             pb.Invoke((System.Action)(() => pb.Value = 5)); //progressBar1.Value = 5));
 
-            string src = json;
+            string jsonString = json;
 
-            //var src = JsonConvert.SerializeObject(JObject.Parse(jsons), Formatting.None);
-            File.WriteAllText(@".\backup\json\src.json", src);
+            // Convert the JSON string to a JObject:
+            JObject jObject = JsonConvert.DeserializeObject(jsonString) as JObject;
 
-            //Set nms from readfile
-            var nms = GameSaveData.FromJson(src);
+            // Select a nested property using a single string:
+            JToken TimeLastSpaceBattle = jObject.SelectToken("PlayerStateData.TimeLastSpaceBattle");
+            JToken WarpsLastSpaceBattle = jObject.SelectToken("PlayerStateData.WarpsLastSpaceBattle");
+            JToken ActiveSpaceBattleUa = jObject.SelectToken("PlayerStateData.ActiveSpaceBattleUA");
 
-            nms.PlayerStateData.TimeLastSpaceBattle = 0;
-            nms.PlayerStateData.WarpsLastSpaceBattle = 0;
-            nms.PlayerStateData.ActiveSpaceBattleUa = 0;
+            // Update the value of the property: 
+            TimeLastSpaceBattle.Replace(0);
+            WarpsLastSpaceBattle.Replace(0);
+            ActiveSpaceBattleUa.Replace(0);
 
-            //var nThe6F = JsonConvert.SerializeObject(nms.PlayerStateData, Formatting.None);
-            //File.WriteAllText(@".\backup\json\nThe6F.json", nThe6F);
-
-            //src = src.Replace(The6F, nThe6F);
-
-            ////Find the value for Time Last Freighter Battle
-            //Regex myRegexFB1 = new Regex(rxPatternTLFB, RegexOptions.Multiline);
-            //Match FB1 = myRegexFB1.Match(jsons);
-            //string fb1 = FB1.ToString();
-
-            ////Set the value for Time Last Freighter Battle 05J
-            //jsons = Regex.Replace(jsons, rxPatternTLFB, rxValTLFB, RegexOptions.Multiline);
-
-            ////Find the value for Warps Last Freighter Battle
-            //Regex myRegexFB2 = new Regex(rxPatternWLFB, RegexOptions.Multiline);
-            //Match FB2 = myRegexFB2.Match(jsons);
-            //string fb2 = FB2.ToString();
-
-            ////Set the value for Warps Last Freighter Battle 8br
-            //jsons = Regex.Replace(jsons, rxPatternWLFB, rxValWLFB, RegexOptions.Multiline);
-
-            ////Find the value for Active Space Battle UA
-            //Regex myRegexFB3 = new Regex(rxPatternAFBUA, RegexOptions.Multiline);
-            //Match FB3 = myRegexFB3.Match(jsons);
-            //string fb3 = FB3.ToString();
-
-            ////Set the value for Active Space Battle UA 8xx
-            //jsons = Regex.Replace(jsons, rxPatternAFBUA, rxValAFBUA, RegexOptions.Multiline);
-
-            //Write the modified JSON string to saveedit.json
-            //File.WriteAllText(modSave, JsonConvert.SerializeObject(JObject.Parse(src), Formatting.Indented));
-            var outjson = Serialize.ToJson(nms);
-            File.WriteAllText(modSave, outjson);
+            // Convert the JObject back to a string:
+            string updatedJsonString = jObject.ToString();
+            File.WriteAllText(modSave, updatedJsonString);
 
             pb.Invoke((System.Action)(() => pb.Value = 60));
         }
         private void EditSavePortal(ProgressBar pb)
         {
-            //Set the JSON search patterns
-            //JsonSet("all");
-
             pb.Visible = true;
-            pb.Invoke((System.Action)(() => pb.Value = 5));//progressBar1.Value = 5));
+            pb.Invoke((System.Action)(() => pb.Value = 5)); //progressBar1.Value = 5));
 
-            string src = json;
+            string jsonString = json;
 
-            //var src = JsonConvert.SerializeObject(JObject.Parse(jsons), Formatting.None);
-            File.WriteAllText(@".\backup\json\src.json", src);
+            // Convert the JSON string to a JObject:
+            JObject jObject = JsonConvert.DeserializeObject(jsonString) as JObject;
 
-            //Set nms from readfile
-            var nms = GameSaveData.FromJson(src);
+            // Select a nested property using a single string:
+            JToken VisitedPortal = jObject.SelectToken("PlayerStateData.VisitedPortal.PortalSeed[0]");
+            JToken OnOtherSideOfPortal = jObject.SelectToken("PlayerStateData.OnOtherSideOfPortal");
 
-            //var The6F = JsonConvert.SerializeObject(nms.PlayerStateData, Formatting.None);
-            //File.WriteAllText(@".\backup\json\The6F.json", The6F);
+            // Update the value of the property: 
+            VisitedPortal.Replace(false);
+            OnOtherSideOfPortal.Replace(false);
 
-            nms.PlayerStateData.VisitedPortal.PortalSeed[0] = false;
-            nms.PlayerStateData.OnOtherSideOfPortal = false;
-
-            //var nThe6F = JsonConvert.SerializeObject(nms.PlayerStateData, Formatting.None);
-            //File.WriteAllText(@".\backup\json\nThe6F.json", nThe6F);
-
-            //src = src.Replace(The6F, nThe6F);
-
-            ////Set Portal Interference false DaC
-            ////Get the portal interf. state object
-            //Regex myRegexPrtl = new Regex(rxPatternPrtl, RegexOptions.Multiline);
-            //Match prtl = myRegexPrtl.Match(jsons);
-
-            ////Set Portal Interference state rxValPrtl preset to false
-            //jsons = Regex.Replace(jsons, rxPatternPrtl, rxValPrtl, RegexOptions.Multiline);
-
-            ////Beyond - Find "VisitedPortal" or 3fO to false to cancel portal
-            //Regex myRegexPrtl2 = new Regex(rxPatternPrtl2, RegexOptions.Singleline);
-            //Match prtl2 = myRegexPrtl2.Match(jsons);
-            //rxValPrtl2 = prtl2.ToString();
-
-            //Regex myRegexPrtl3 = new Regex(rxPatternPrtl3, RegexOptions.Multiline);
-            //rxValPrtl2 = Regex.Replace(rxValPrtl2, rxPatternPrtl3, rxValPrtl3, RegexOptions.Multiline);            
-
-            ////Set the visited portal state array after changes made
-            //jsons = Regex.Replace(jsons, rxPatternPrtl2, rxValPrtl2, RegexOptions.Singleline);
-
-            //Write the modified JSON string to saveedit.json
-            //File.WriteAllText(modSave, JsonConvert.SerializeObject(JObject.Parse(src), Formatting.Indented));
-
-            var outjson = Serialize.ToJson(nms);
-            File.WriteAllText(modSave, outjson);
+            // Convert the JObject back to a string:
+            string updatedJsonString = jObject.ToString();
+            File.WriteAllText(modSave, updatedJsonString);
 
             pb.Invoke((System.Action)(() => pb.Value = 60));
         }
@@ -3854,45 +3815,38 @@ namespace NMSCoordinates
         private void EditSaveMove(ProgressBar pb, TextBox tb) //string json)
         {
             pb.Visible = true;
-            pb.Invoke((System.Action)(() => pb.Value = 5));
+            pb.Invoke((System.Action)(() => pb.Value = 5)); //progressBar1.Value = 5));
 
-            string src = json;
+            string jsonString = json;
 
-            //var src = JsonConvert.SerializeObject(JObject.Parse(jsons), Formatting.None);
-            File.WriteAllText(@".\backup\json\src.json", src);
+            // Convert the JSON string to a JObject:
+            JObject jObject = JsonConvert.DeserializeObject(jsonString) as JObject;
 
-            //Set nms from readfile
-            var nms = GameSaveData.FromJson(src);
+            // Select a nested property using a single string:
+            JToken RealityIndex = jObject.SelectToken("PlayerStateData.UniverseAddress.RealityIndex");
+            JToken VoxelX = jObject.SelectToken("PlayerStateData.UniverseAddress.GalacticAddress.VoxelX");
+            JToken VoxelY = jObject.SelectToken("PlayerStateData.UniverseAddress.GalacticAddress.VoxelY");
+            JToken VoxelZ = jObject.SelectToken("PlayerStateData.UniverseAddress.GalacticAddress.VoxelZ");
+            JToken SolarSystemIndex = jObject.SelectToken("PlayerStateData.UniverseAddress.GalacticAddress.SolarSystemIndex");
+            JToken PlanetIndex = jObject.SelectToken("PlayerStateData.UniverseAddress.GalacticAddress.PlanetIndex");
+            JToken HomeRealityIteration = jObject.SelectToken("PlayerStateData.HomeRealityIteration");
+            JToken LastKnownPlayerState = jObject.SelectToken("SpawnStateData.LastKnownPlayerState");
 
-            //var The6F = JsonConvert.SerializeObject(nms.PlayerStateData.UniverseAddress, Formatting.None);
-            //File.WriteAllText(@".\backup\json\The6F.json", The6F);
+            // Update the value of the property: 
+            RealityIndex.Replace(igalaxy);
+            VoxelX.Replace(iX);
+            VoxelY.Replace(iY);
+            VoxelZ.Replace(iZ);
+            SolarSystemIndex.Replace(iSSI);
+            PlanetIndex.Replace(0);
+            HomeRealityIteration.Replace(igalaxy) ;
+            LastKnownPlayerState.Replace("InShip");
 
-            //var Rnc = JsonConvert.SerializeObject(nms.SpawnStateData, Formatting.None);
-            //File.WriteAllText(@".\backup\json\Rnc.json", Rnc);
+            // Convert the JObject back to a string:
+            string updatedJsonString = jObject.ToString();
+            File.WriteAllText(modSave, updatedJsonString);
 
-
-            nms.PlayerStateData.UniverseAddress.RealityIndex = igalaxy;
-            nms.PlayerStateData.UniverseAddress.GalacticAddress.VoxelX = iX;
-            nms.PlayerStateData.UniverseAddress.GalacticAddress.VoxelY = iY;
-            nms.PlayerStateData.UniverseAddress.GalacticAddress.VoxelZ = iZ;
-            nms.PlayerStateData.UniverseAddress.GalacticAddress.SolarSystemIndex = iSSI;
-            nms.PlayerStateData.UniverseAddress.GalacticAddress.PlanetIndex = 0;
-            nms.PlayerStateData.HomeRealityIteration = igalaxy;
-            nms.SpawnStateData.LastKnownPlayerState = "InShip";
-
-            //var nThe6F = JsonConvert.SerializeObject(nms.PlayerStateData.UniverseAddress, Formatting.None);
-            //File.WriteAllText(@".\backup\json\nThe6F.json", nThe6F);
-
-            //var nRnc = JsonConvert.SerializeObject(nms.SpawnStateData, Formatting.None);
-            //File.WriteAllText(@".\backup\json\nRnc.json", nRnc);
-
-            //Replace the old TeleportEndpoints with the new TeleportEndpoints
-            //src = src.Replace(The6F, nThe6F);
-            //src = src.Replace(Rnc, nRnc);
-
-            //Write to file for encrypt save
-            var outjson = Serialize.ToJson(nms);
-            File.WriteAllText(modSave, outjson);
+            pb.Invoke((System.Action)(() => pb.Value = 60));
 
             AppendLine(tb, "Player Move Data: ");
             AppendLine(tb, igalaxy.ToString() + " " + iX.ToString() + " " + iY.ToString() + " " + iZ.ToString() + " " + iSSI.ToString() + " " + "0" + " " + "InShip");
@@ -4143,7 +4097,7 @@ namespace NMSCoordinates
             if (!Directory.Exists(apath))
             {
                 MessageBox.Show("Updater Not Found!", "Alert", MessageBoxButtons.OK);
-                Process.Start("http://nmscoordinates.com");
+                Process.Start("https://kevin0m16.github.io/NMSCoordinates/");
                 return;
             }
 
@@ -4152,7 +4106,7 @@ namespace NMSCoordinates
             if (!Directory.Exists(bpath))
             {
                 MessageBox.Show("Updater Not Found!", "Alert", MessageBoxButtons.OK);
-                Process.Start("http://nmscoordinates.com");
+                Process.Start("https://kevin0m16.github.io/NMSCoordinates/");
                 return;
             }
 
@@ -4174,14 +4128,14 @@ namespace NMSCoordinates
             else
             {
                 MessageBox.Show("Updater Not Found!", "Alert", MessageBoxButtons.OK);
-                Process.Start("http://nmscoordinates.com");
+                Process.Start("https://kevin0m16.github.io/NMSCoordinates/");
                 return;
             }
         }
 
         private void CheckForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form9 f9 = new Form9(NMSCVersion);
+            UpdateChecker f9 = new UpdateChecker(NMSCVersion);
             f9.ShowDialog();
 
             //Toggle until updater

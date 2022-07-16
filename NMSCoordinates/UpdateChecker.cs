@@ -8,14 +8,14 @@ using System;
 
 namespace NMSCoordinates
 {
-    public partial class Form9 : Form
+    public partial class UpdateChecker : Form
     {
         WebClient webClient;               // Our WebClient that will be doing the downloading for us
         Stopwatch sw = new Stopwatch();
         private string assetUrl;
         private string assetName;
 
-        public Form9(string version)
+        public UpdateChecker(string version)
         {
             InitializeComponent();
             textBox1.Text = version;
@@ -45,7 +45,7 @@ namespace NMSCoordinates
             {
                 //Call the Process.Start method to open the default browser
                 //with a URL:
-                System.Diagnostics.Process.Start("http://nmscoordinates.com");
+                System.Diagnostics.Process.Start("https://kevin0m16.github.io/NMSCoordinates/");
             }
             catch
             {

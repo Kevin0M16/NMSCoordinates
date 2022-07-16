@@ -1,6 +1,6 @@
 ﻿namespace NMSCoordinates
 {
-    partial class Form2
+    partial class About
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(About));
             this.linkLabel3 = new System.Windows.Forms.LinkLabel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
@@ -44,12 +44,12 @@
             this.linkLabel3.AutoSize = true;
             this.linkLabel3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.linkLabel3.LinkColor = System.Drawing.Color.LawnGreen;
-            this.linkLabel3.Location = new System.Drawing.Point(66, 173);
+            this.linkLabel3.Location = new System.Drawing.Point(21, 175);
             this.linkLabel3.Name = "linkLabel3";
-            this.linkLabel3.Size = new System.Drawing.Size(222, 18);
+            this.linkLabel3.Size = new System.Drawing.Size(305, 18);
             this.linkLabel3.TabIndex = 79;
             this.linkLabel3.TabStop = true;
-            this.linkLabel3.Text = "http://www.nmscoordinates.com";
+            this.linkLabel3.Text = "https://kevin0m16.github.io/NMSCoordinates/";
             this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel3_LinkClicked);
             // 
             // groupBox1
@@ -114,7 +114,7 @@
             this.linkLabel2.Text = "Kevin0M16/NMSCoordinates/releases/latest";
             this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel2_LinkClicked);
             // 
-            // Form2
+            // About
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -124,7 +124,7 @@
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Form2";
+            this.Name = "About";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NMSCoordinates About";
             this.groupBox1.ResumeLayout(false);

@@ -7,9 +7,9 @@ using System.IO.Compression;
 
 namespace NMSCoordinates
 {
-    public partial class Form6 : Form
+    public partial class SaveFileManager : Form
     {
-        public Form6()
+        public SaveFileManager()
         {
             InitializeComponent();
         }

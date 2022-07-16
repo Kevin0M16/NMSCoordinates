@@ -1,6 +1,6 @@
 ﻿namespace NMSCoordinates
 {
-    partial class Form9
+    partial class UpdateChecker
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form9));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UpdateChecker));
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -116,7 +116,7 @@
             this.linkLabel3.Size = new System.Drawing.Size(193, 18);
             this.linkLabel3.TabIndex = 79;
             this.linkLabel3.TabStop = true;
-            this.linkLabel3.Text = "https://nmscoordinates.com";
+            this.linkLabel3.Text = "https://kevin0m16.github.io/NMSCoordinates/";
             this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel3_LinkClicked);
             // 
             // Form9

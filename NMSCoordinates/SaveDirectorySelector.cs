@@ -11,9 +11,9 @@ using System.Windows.Forms;
 
 namespace NMSCoordinates
 {
-    public partial class Form8 : Form
+    public partial class SaveDirectorySelector : Form
     {
-        public Form8(List<DirectoryInfo> SaveDirs)
+        public SaveDirectorySelector(List<DirectoryInfo> SaveDirs)
         {
             InitializeComponent();
             GetSaveDirs(SaveDirs);

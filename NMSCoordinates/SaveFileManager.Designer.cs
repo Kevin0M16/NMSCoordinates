@@ -2,7 +2,7 @@
 
 namespace NMSCoordinates
 {
-    partial class Form6
+    partial class SaveFileManager
     {
         /// <summary>
         /// Required designer variable.
@@ -31,7 +31,7 @@ namespace NMSCoordinates
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form6));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SaveFileManager));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);

@@ -10,10 +10,10 @@ using System.Windows.Forms;
 
 namespace NMSCoordinates
 {
-    public partial class Form7 : Form
+    public partial class SaveModified : Form
     {
         
-        public Form7()
+        public SaveModified()
         {
             InitializeComponent();
             

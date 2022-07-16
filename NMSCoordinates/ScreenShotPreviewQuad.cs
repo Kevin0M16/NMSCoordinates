@@ -12,10 +12,10 @@ using System.Windows.Forms;
 namespace NMSCoordinates
 {
 
-    public partial class Form3 : Form
+    public partial class ScreenShotPreviewQuad : Form
     {
         
-        public Form3()
+        public ScreenShotPreviewQuad()
         {
             InitializeComponent();
         }
@@ -108,14 +108,14 @@ namespace NMSCoordinates
             ssdPath = MyProperty2;
             SetSShot();
         }
-        private Form4 f4;
+        private ScreenShotPreview f4;
         private void PictureBox1_Click(object sender, EventArgs e)
         {          
-            f4 = (Form4)Application.OpenForms["Form4"];
+            f4 = (ScreenShotPreview)Application.OpenForms["Form4"];
 
             if (f4 == null)
             {
-                f4 = new Form4();
+                f4 = new ScreenShotPreview();
                 f4.FormClosed += (_, arg) =>
                 {
                     f4 = null;
@@ -131,11 +131,11 @@ namespace NMSCoordinates
 
         private void PictureBox2_Click(object sender, EventArgs e)
         {         
-            f4 = (Form4)Application.OpenForms["Form4"];
+            f4 = (ScreenShotPreview)Application.OpenForms["Form4"];
 
             if (f4 == null)
             {
-                f4 = new Form4();
+                f4 = new ScreenShotPreview();
                 f4.FormClosed += (_, arg) =>
                 {
                     f4 = null;
@@ -151,11 +151,11 @@ namespace NMSCoordinates
 
         private void PictureBox3_Click(object sender, EventArgs e)
         {          
-            f4 = (Form4)Application.OpenForms["Form4"];
+            f4 = (ScreenShotPreview)Application.OpenForms["Form4"];
 
             if (f4 == null)
             {
-                f4 = new Form4();
+                f4 = new ScreenShotPreview();
                 f4.FormClosed += (_, arg) =>
                 {
                     f4 = null;
@@ -171,11 +171,11 @@ namespace NMSCoordinates
 
         private void PictureBox4_Click(object sender, EventArgs e)
         {      
-            f4 = (Form4)Application.OpenForms["Form4"]; 
+            f4 = (ScreenShotPreview)Application.OpenForms["Form4"]; 
 
             if (f4 == null)
             {
-                f4 = new Form4();
+                f4 = new ScreenShotPreview();
                 f4.FormClosed += (_, arg) =>
                 {
                     f4 = null;

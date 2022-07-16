@@ -5,7 +5,7 @@ using System.IO;
 
 namespace NMSCoordinates
 {
-    partial class Form1
+    partial class NMSCoordinatesMain
     {
         /// <summary>
         /// Required designer variable.
@@ -34,7 +34,7 @@ namespace NMSCoordinates
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NMSCoordinatesMain));
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openLocationFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
@@ -437,7 +437,7 @@ namespace NMSCoordinates
             this.screenshotPageToolStripMenuItem2,
             this.setSSDefaultSteamToolStripMenuItem});
             this.screenshotPageToolStripMenuItem.Name = "screenshotPageToolStripMenuItem";
-            this.screenshotPageToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.screenshotPageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.screenshotPageToolStripMenuItem.Text = "Screenshots...";
             // 
             // screenshotPageToolStripMenuItem1
@@ -467,14 +467,15 @@ namespace NMSCoordinates
             this.onToolStripMenuItem,
             this.offToolStripMenuItem});
             this.travelModeToolStripMenuItem.Name = "travelModeToolStripMenuItem";
-            this.travelModeToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.travelModeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.travelModeToolStripMenuItem.Text = "Travel Mode...";
+            this.travelModeToolStripMenuItem.Visible = false;
             // 
             // onToolStripMenuItem
             // 
             this.onToolStripMenuItem.CheckOnClick = true;
             this.onToolStripMenuItem.Name = "onToolStripMenuItem";
-            this.onToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.onToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.onToolStripMenuItem.Text = "Show";
             this.onToolStripMenuItem.Click += new System.EventHandler(this.OnToolStripMenuItem_Click);
             // 
@@ -484,7 +485,7 @@ namespace NMSCoordinates
             this.offToolStripMenuItem.CheckOnClick = true;
             this.offToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.offToolStripMenuItem.Name = "offToolStripMenuItem";
-            this.offToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.offToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.offToolStripMenuItem.Text = "Hide";
             this.offToolStripMenuItem.Click += new System.EventHandler(this.OffToolStripMenuItem_Click);
             // 
@@ -494,8 +495,9 @@ namespace NMSCoordinates
             this.lockedToolStripMenuItem,
             this.unlockedToolStripMenuItem});
             this.manualTravelToolStripMenuItem.Name = "manualTravelToolStripMenuItem";
-            this.manualTravelToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.manualTravelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.manualTravelToolStripMenuItem.Text = "Manual Travel ";
+            this.manualTravelToolStripMenuItem.Visible = false;
             // 
             // lockedToolStripMenuItem
             // 
@@ -503,7 +505,7 @@ namespace NMSCoordinates
             this.lockedToolStripMenuItem.CheckOnClick = true;
             this.lockedToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.lockedToolStripMenuItem.Name = "lockedToolStripMenuItem";
-            this.lockedToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.lockedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.lockedToolStripMenuItem.Text = "Lock";
             this.lockedToolStripMenuItem.Click += new System.EventHandler(this.LockedToolStripMenuItem_Click);
             // 
@@ -511,7 +513,7 @@ namespace NMSCoordinates
             // 
             this.unlockedToolStripMenuItem.CheckOnClick = true;
             this.unlockedToolStripMenuItem.Name = "unlockedToolStripMenuItem";
-            this.unlockedToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.unlockedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.unlockedToolStripMenuItem.Text = "Unlock";
             this.unlockedToolStripMenuItem.Click += new System.EventHandler(this.UnlockedToolStripMenuItem_Click);
             // 
@@ -2469,7 +2471,7 @@ namespace NMSCoordinates
             this.linkLabel4.Visible = false;
             this.linkLabel4.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel4_LinkClicked);
             // 
-            // Form1
+            // NMSCoordinatesMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -2482,7 +2484,7 @@ namespace NMSCoordinates
             this.Font = new System.Drawing.Font("Corbel", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form1";
+            this.Name = "NMSCoordinatesMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NMSCoordinates";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -2589,6 +2591,7 @@ namespace NMSCoordinates
         Dictionary<string, string> jsonDict = new Dictionary<string, string>();
         Dictionary<string, string> sjsonDict = new Dictionary<string, string>();
 
+        private bool debug = false;
         private string rawSave;
         private string ufSave;
         private string Save;

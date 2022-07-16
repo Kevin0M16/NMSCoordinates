@@ -3,9 +3,9 @@
 namespace NMSCoordinates
 {
 
-    public partial class Form2 : Form
+    public partial class About : Form
     {
-        public Form2(string version)
+        public About(string version)
         {
             InitializeComponent();
             Version = version;
@@ -17,7 +17,7 @@ namespace NMSCoordinates
             {
                 //Call the Process.Start method to open the default browser
                 //with a URL:
-                System.Diagnostics.Process.Start("http://www.nmscoordinates.com/");
+                System.Diagnostics.Process.Start("https://kevin0m16.github.io/NMSCoordinates/");
             }
             catch
             {

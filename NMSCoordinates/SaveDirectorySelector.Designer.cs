@@ -3,7 +3,7 @@ using System.IO;
 
 namespace NMSCoordinates
 {
-    partial class Form8
+    partial class SaveDirectorySelector
     {
         /// <summary>
         /// Required designer variable.
@@ -31,7 +31,7 @@ namespace NMSCoordinates
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form8));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SaveDirectorySelector));
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.listBox1 = new System.Windows.Forms.ListBox();

@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace NMSCoordinates
 {
-    partial class Form5
+    partial class CoordinateCalculator
     {
         /// <summary>
         /// Required designer variable.
@@ -32,7 +32,7 @@ namespace NMSCoordinates
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form5));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CoordinateCalculator));
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();

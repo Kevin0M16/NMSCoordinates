@@ -151,10 +151,10 @@ namespace NMSCoordinates.SaveData
     public partial class PlayerStateData
     {
         [JsonProperty("UniverseAddress")]
-        public FreighterUniverseAddress UniverseAddress { get; set; }
+        public UniverseAddress UniverseAddress { get; set; }
 
         [JsonProperty("PreviousUniverseAddress")]
-        public FreighterUniverseAddress PreviousUniverseAddress { get; set; }
+        public UniverseAddress PreviousUniverseAddress { get; set; }
 
         [JsonProperty("HomeRealityIteration")]
         public long HomeRealityIteration { get; set; }
@@ -205,7 +205,7 @@ namespace NMSCoordinates.SaveData
         public bool SpaceGrave { get; set; }
 
         [JsonProperty("GraveUniverseAddress")]
-        public FreighterUniverseAddress GraveUniverseAddress { get; set; }
+        public UniverseAddress GraveUniverseAddress { get; set; }
 
         [JsonProperty("GravePosition")]
         public List<double> GravePosition { get; set; }
@@ -370,10 +370,10 @@ namespace NMSCoordinates.SaveData
         public List<dynamic> InteractionProgressTable { get; set; }
 
         [JsonProperty("AtlasStationAdressData")]
-        public List<FreighterUniverseAddress> AtlasStationAdressData { get; set; }
+        public List<UniverseAddress> AtlasStationAdressData { get; set; }
 
         [JsonProperty("NewAtlasStationAdressData")]
-        public List<FreighterUniverseAddress> NewAtlasStationAdressData { get; set; }
+        public List<UniverseAddress> NewAtlasStationAdressData { get; set; }
 
         [JsonProperty("VisitedAtlasStationsData")]
         public List<dynamic> VisitedAtlasStationsData { get; set; }
@@ -430,10 +430,10 @@ namespace NMSCoordinates.SaveData
         public List<decimal> AnomalyPositionOverride { get; set; }
 
         [JsonProperty("GameStartAddress1")]
-        public FreighterUniverseAddress GameStartAddress1 { get; set; }
+        public UniverseAddress GameStartAddress1 { get; set; }
 
         [JsonProperty("GameStartAddress2")]
-        public FreighterUniverseAddress GameStartAddress2 { get; set; }
+        public UniverseAddress GameStartAddress2 { get; set; }
 
         [JsonProperty("GalacticMapRequests")]
         public List<bool> GalacticMapRequests { get; set; }
@@ -463,7 +463,7 @@ namespace NMSCoordinates.SaveData
         public Chest10Inventory FreighterInventoryTechOnly { get; set; }
 
         [JsonProperty("FreighterUniverseAddress")]
-        public FreighterUniverseAddress FreighterUniverseAddress { get; set; }
+        public UniverseAddress FreighterUniverseAddress { get; set; }
 
         [JsonProperty("FreighterMatrixAt")]
         public List<double> FreighterMatrixAt { get; set; }
@@ -679,7 +679,7 @@ namespace NMSCoordinates.SaveData
         public long MultiplayerLobbyId { get; set; }
 
         [JsonProperty("MultiplayerUA")]
-        public FreighterUniverseAddress MultiplayerUa { get; set; }
+        public UniverseAddress MultiplayerUa { get; set; }
 
         [JsonProperty("MultiplayerSpawn")]
         public SpawnStateData MultiplayerSpawn { get; set; }
@@ -709,7 +709,7 @@ namespace NMSCoordinates.SaveData
         public bool HasAccessToNexus { get; set; }
 
         [JsonProperty("NexusUniverseAddress")]
-        public FreighterUniverseAddress NexusUniverseAddress { get; set; }
+        public UniverseAddress NexusUniverseAddress { get; set; }
 
         [JsonProperty("NexusMatrixAt")]
         public List<decimal> NexusMatrixAt { get; set; }
@@ -769,7 +769,7 @@ namespace NMSCoordinates.SaveData
         public bool Sd6 { get; set; }
     }
 
-    public partial class FreighterUniverseAddress
+    public partial class UniverseAddress
     {
         [JsonProperty("RealityIndex")]
         public long RealityIndex { get; set; }
@@ -1561,7 +1561,7 @@ namespace NMSCoordinates.SaveData
     public partial class OtherSideOfPortalReturnBase
     {
         [JsonProperty("UniverseAddress")]
-        public FreighterUniverseAddress UniverseAddress { get; set; }
+        public UniverseAddress UniverseAddress { get; set; }
 
         [JsonProperty("Position")]
         public List<double> Position { get; set; }
@@ -2226,23 +2226,23 @@ namespace NMSCoordinates.SaveData
 
     public partial class GameSaveData
     {
-        public static GameSaveData FromJson(string json) => JsonConvert.DeserializeObject<GameSaveData>(json, NMSCoordinates.SaveData.Converter.Settings);
+        public static GameSaveData FromJson(string json) => JsonConvert.DeserializeObject<GameSaveData>(json, global::NMSCoordinates.SaveData.Converter.Settings);
     }
 
     public static class Serialize
     {
-        public static string ToJson(this GameSaveData self) => JsonConvert.SerializeObject(self, NMSCoordinates.SaveData.Converter.Settings);
+        public static string ToJson(this GameSaveData self, PlayerStateData playerStateData) => JsonConvert.SerializeObject(self, global::NMSCoordinates.SaveData.Converter.Settings);
     }
 
     internal static class Converter
     {
         public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
         {
-            NullValueHandling = NullValueHandling.Ignore,
+            NullValueHandling = NullValueHandling.Include,
             MissingMemberHandling = MissingMemberHandling.Ignore,
             MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
             DateParseHandling = DateParseHandling.None,
-            Formatting = Formatting.Indented,
+            Formatting = Formatting.None,
             Converters =
             {
                 GalacticAddressElementConverter.Singleton,

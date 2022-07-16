@@ -11,9 +11,9 @@ using System.Windows.Forms;
 
 namespace NMSCoordinates
 {
-    public partial class Form5 : Form
+    public partial class CoordinateCalculator : Form
     {
-        public Form5()
+        public CoordinateCalculator()
         {
             InitializeComponent();
 
@@ -914,19 +914,19 @@ namespace NMSCoordinates
             else
                 Clear();
         }
-        private Form1 f1;
+        private NMSCoordinatesMain f1;
         private void ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             if (textBox2.Text != "")
             {
-                f1 = (Form1)Application.OpenForms["Form1"];
+                f1 = (NMSCoordinatesMain)Application.OpenForms["Form1"];
                 if (!f1.TextBoxPerm == true)
                 {
                     f1.TextBoxValue = textBox2.Text;
 
                     if (f1 == null)
                     {
-                        f1 = new Form1();
+                        f1 = new NMSCoordinatesMain();
                         f1.FormClosed += (_, arg) =>
                         {
                             f1 = null;
