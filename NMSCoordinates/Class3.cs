@@ -8,7 +8,7 @@ namespace NMSCoordinates
     {
         const uint MAGIC_COMPRESSED = 0xFEEDA1E5;
 
-        public static void DecompressSave(string hgFilePath)
+        public static void DecompressSave(string hgFilePath , string destFilePath)
         {
             if (hgFilePath.Length == 0)
             {
@@ -57,7 +57,7 @@ namespace NMSCoordinates
                     br.Close();
                     fs.Close();
 
-                    FileStream file_out = File.Create(hgFilePath);
+                    FileStream file_out = File.Create(destFilePath);
                     mem.WriteTo(file_out);
                     file_out.Flush();
                     file_out.Close();
@@ -65,7 +65,13 @@ namespace NMSCoordinates
                 else if (magicmagic == 0x3246227B)
                 {
                     Console.WriteLine("magicmagic == 0x3246227B");
+                    File.Copy(hgFilePath, destFilePath, true);
                 }
+                else
+                {
+                    Console.WriteLine("hgFilePath is not compressed or decompressed properly: " + magicmagic);
+                }
+                
             }
             catch (Exception e)
             {

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Win32;
-using QuickType;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

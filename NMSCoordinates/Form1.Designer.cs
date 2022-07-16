@@ -2582,6 +2582,19 @@ namespace NMSCoordinates
         public string ssdPath;
         public string ssPath;
 
+        private GameSave _gs;
+        private GameSaveManager _gsm;
+        private uint _gameSlot;
+
+        Dictionary<string, string> jsonDict = new Dictionary<string, string>();
+        Dictionary<string, string> sjsonDict = new Dictionary<string, string>();
+
+        private string rawSave;
+        private string ufSave;
+        private string Save;
+        private string modSave;
+        private string ufmodSave;
+
         public string gamemode;
         public int gamemodeint;
         public string galaxy;
@@ -2607,50 +2620,51 @@ namespace NMSCoordinates
         public int saveslot;
 
         public string pgalaxy;
-        public int ipX;
-        public int ipY;
-        public int ipZ;
-        public int ipSSI;
-        public int ipGalacticCoord;
-        public int ipPortalCoord;
-        public int ipPI;
+        //public int ipX;
+        //public int ipY;
+        //public int ipZ;
+        //public int ipSSI;
+        //public int ipGalacticCoord;
+        //public int ipPortalCoord;
+        //public int ipPI;
 
         public string json;
-        public dynamic jsonObj;
-        public dynamic jsonArray;
+        public string ujson;
+        //public dynamic jsonObj;
+        //public dynamic jsonArray;
 
-        public string rxPatternP;
-        public string rxValP;
-        public string rxPatternSt;
-        public string rxValSt;
-        public string rxPatternPs;
-        public string rxValPs;
-        public string rxPatternPrtl;
-        public string rxValPrtl;
-        public string rxPatternPrtl2;
-        public string rxValPrtl2;
-        public string rxPatternPrtl3;
-        public string rxValPrtl3;
+        //public string rxPatternP;
+        //public string rxValP;
+        //public string rxPatternSt;
+        //public string rxValSt;
+        //public string rxPatternPs;
+        //public string rxValPs;
+        //public string rxPatternPrtl;
+        //public string rxValPrtl;
+        //public string rxPatternPrtl2;
+        //public string rxValPrtl2;
+        //public string rxPatternPrtl3;
+        //public string rxValPrtl3;
 
-        public string rxPatternG;
-        public string rxValG;
-        public string rxPatternX;
-        public string rxValX;
-        public string rxPatternY;
-        public string rxValY;
-        public string rxPatternZ;
-        public string rxValZ;
-        public string rxPatternSSI;
-        public string rxValSSI;
-        public string rxPatternPI;
-        public string rxValPI;
+        //public string rxPatternG;
+        //public string rxValG;
+        //public string rxPatternX;
+        //public string rxValX;
+        //public string rxPatternY;
+        //public string rxValY;
+        //public string rxPatternZ;
+        //public string rxValZ;
+        //public string rxPatternSSI;
+        //public string rxValSSI;
+        //public string rxPatternPI;
+        //public string rxValPI;
 
-        public string rxPatternTLFB;
-        public string rxValTLFB;
-        public string rxPatternWLFB;
-        public string rxValWLFB;
-        public string rxPatternAFBUA;
-        public string rxValAFBUA;
+        //public string rxPatternTLFB;
+        //public string rxValTLFB;
+        //public string rxPatternWLFB;
+        //public string rxValWLFB;
+        //public string rxPatternAFBUA;
+        //public string rxValAFBUA;
 
         public IDictionary<string, string> galaxyDict;
         public IDictionary<string, string> gameMode;
