@@ -97,7 +97,7 @@ namespace NMSCoordinates
             this.treeView1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.treeView1.ContextMenuStrip = this.contextMenuStrip1;
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView1.ForeColor = System.Drawing.Color.Azure;
+            this.treeView1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.treeView1.HideSelection = false;
             this.treeView1.ImageIndex = 0;
             this.treeView1.ImageList = this.imageList1;
@@ -139,7 +139,7 @@ namespace NMSCoordinates
             this.columnHeader2,
             this.columnHeader3});
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.ForeColor = System.Drawing.Color.Azure;
+            this.listView1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.listView1.FullRowSelect = true;
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(0, 0);
@@ -185,7 +185,7 @@ namespace NMSCoordinates
             // 
             this.treeView2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.treeView2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView2.ForeColor = System.Drawing.Color.Azure;
+            this.treeView2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.treeView2.HideSelection = false;
             this.treeView2.ImageIndex = 0;
             this.treeView2.ImageList = this.imageList1;
@@ -206,7 +206,7 @@ namespace NMSCoordinates
             this.columnHeader6});
             this.listView2.ContextMenuStrip = this.contextMenuStrip2;
             this.listView2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView2.ForeColor = System.Drawing.Color.Azure;
+            this.listView2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.listView2.FullRowSelect = true;
             this.listView2.HideSelection = false;
             this.listView2.Location = new System.Drawing.Point(0, 0);
@@ -275,7 +275,7 @@ namespace NMSCoordinates
             // textBox1
             // 
             this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.textBox1.ForeColor = System.Drawing.Color.Azure;
+            this.textBox1.ForeColor = System.Drawing.Color.LightSteelBlue;
             this.textBox1.Location = new System.Drawing.Point(415, 455);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
@@ -288,7 +288,7 @@ namespace NMSCoordinates
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.ForeColor = System.Drawing.Color.DarkOrange;
+            this.label14.ForeColor = System.Drawing.Color.LightBlue;
             this.label14.Location = new System.Drawing.Point(517, 9);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(168, 24);
@@ -299,7 +299,7 @@ namespace NMSCoordinates
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.label1.Location = new System.Drawing.Point(988, 22);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(82, 20);
@@ -310,7 +310,7 @@ namespace NMSCoordinates
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.label2.Location = new System.Drawing.Point(106, 22);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(68, 20);
@@ -320,7 +320,7 @@ namespace NMSCoordinates
             // label4
             // 
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.White;
+            this.label4.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.label4.Location = new System.Drawing.Point(928, 428);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(189, 29);
@@ -331,7 +331,7 @@ namespace NMSCoordinates
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.label3.Location = new System.Drawing.Point(14, 428);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(104, 13);
@@ -342,7 +342,7 @@ namespace NMSCoordinates
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.label5.Location = new System.Drawing.Point(284, 428);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(156, 13);
@@ -364,7 +364,7 @@ namespace NMSCoordinates
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.Color.White;
+            this.label7.ForeColor = System.Drawing.Color.LightBlue;
             this.label7.Location = new System.Drawing.Point(15, 464);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(364, 39);
@@ -373,7 +373,7 @@ namespace NMSCoordinates
     "me] = Backed Up on Startup / File --> Backups --> Saves\r\nsavemanager[date.time] " +
     "= Created in the Save Manager\r\n";
             // 
-            // Form6
+            // SaveFileManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -393,7 +393,7 @@ namespace NMSCoordinates
             this.Controls.Add(this.splitContainer2);
             this.Controls.Add(this.splitContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Form6";
+            this.Name = "SaveFileManager";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NMSCoordinates Save File Manager";
             this.Shown += new System.EventHandler(this.Form6_Shown);

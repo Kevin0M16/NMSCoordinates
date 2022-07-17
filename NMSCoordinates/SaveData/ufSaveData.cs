@@ -6,7 +6,7 @@
 //
 //    var nms = Nms.FromJson(jsonString);
 
-namespace NMSCoordinates.SaveData
+namespace NMSCoordinates.ufSaveData
 {
     using System;
     using System.Collections.Generic;
@@ -17,94 +17,94 @@ namespace NMSCoordinates.SaveData
 
     public partial class GameSaveData
     {
-        [JsonProperty("Version")]
+        [JsonProperty("F2P")]
         public long Version { get; set; }
 
-        [JsonProperty("Platform")]
+        [JsonProperty("8>q")]
         public string Platform { get; set; }
 
-        [JsonProperty("PlayerStateData")]
+        [JsonProperty("6f=")]
         public PlayerStateData PlayerStateData { get; set; }
 
-        [JsonProperty("SpawnStateData")]
+        [JsonProperty("rnc")]
         public SpawnStateData SpawnStateData { get; set; }
     }
 
     public partial class PlayerStateData
     {
-        [JsonProperty("UniverseAddress")]
+        [JsonProperty("yhJ")]
         public UniverseAddress UniverseAddress { get; set; }
 
-        [JsonProperty("PreviousUniverseAddress")]
+        [JsonProperty("ux@")]
         public UniverseAddress PreviousUniverseAddress { get; set; }
 
-        [JsonProperty("HomeRealityIteration")]
+        [JsonProperty("QQp")]
         public long HomeRealityIteration { get; set; }
 
-        [JsonProperty("TeleportEndpoints")]
+        [JsonProperty("nlG")]
         public TeleportEndpoints[] TeleportEndpoints { get; set; }
 
-        [JsonProperty("OnOtherSideOfPortal")]
+        [JsonProperty("DaC")]
         public bool OnOtherSideOfPortal { get; set; }
 
-        [JsonProperty("VisitedPortal")]
+        [JsonProperty("NQJ")]
         public VisitedPortal VisitedPortal { get; set; }
 
-        [JsonProperty("PersistentPlayerBases")]
+        [JsonProperty("F?0")]
         public PersistentPlayerBases[] PersistentPlayerBases { get; set; }
 
-        [JsonProperty("TimeLastSpaceBattle")]
+        [JsonProperty("05J")]
         public long TimeLastSpaceBattle { get; set; }
 
-        [JsonProperty("WarpsLastSpaceBattle")]
+        [JsonProperty("8br")]
         public long WarpsLastSpaceBattle { get; set; }
 
-        [JsonProperty("ActiveSpaceBattleUA")]
+        [JsonProperty("8xx")]
         public long ActiveSpaceBattleUA { get; set; }
 
-        [JsonProperty("TimeLastMiniStation")]
+        [JsonProperty("IRi")]
         public long TimeLastMiniStation { get; set; }
 
-        [JsonProperty("WarpsLastMiniStation")]
+        [JsonProperty("x=M")]
         public long WarpsLastMiniStation { get; set; }
     }
 
     public partial class UniverseAddress
     {
-        [JsonProperty("RealityIndex")]
+        [JsonProperty("Iis")]
         public long RealityIndex { get; set; }
 
-        [JsonProperty("GalacticAddress")]
+        [JsonProperty("oZw")]
         public GalacticAddress GalacticAddress { get; set; }
     }
 
     public partial class GalacticAddress
     {
-        [JsonProperty("VoxelX")]
+        [JsonProperty("dZj")]
         public long VoxelX { get; set; }
 
-        [JsonProperty("VoxelY")]
+        [JsonProperty("IyE")]
         public long VoxelY { get; set; }
 
-        [JsonProperty("VoxelZ")]
+        [JsonProperty("uXE")]
         public long VoxelZ { get; set; }
 
-        [JsonProperty("SolarSystemIndex")]
+        [JsonProperty("vby")]
         public long SolarSystemIndex { get; set; }
 
-        [JsonProperty("PlanetIndex")]
+        [JsonProperty("jsv")]
         public long PlanetIndex { get; set; }
     }
 
     public partial class VisitedPortal
     {
-        [JsonProperty("PortalSeed")]
+        [JsonProperty("3fO")]
         public PortalSeed[] PortalSeed { get; set; }
 
-        [JsonProperty("LastPortalUA")]
+        [JsonProperty("K:U")]
         public string LastPortalUA { get; set; }
 
-        [JsonProperty("IsStoryPortal")]
+        [JsonProperty("oEc")]
         public bool IsStoryPortal { get; set; }
     }
 
@@ -119,57 +119,57 @@ namespace NMSCoordinates.SaveData
 
     public partial class PersistentPlayerBases
     {
-        [JsonProperty("GalacticAddress")]
+        [JsonProperty("oZw")]
         public string GalacticAddress { get; set; }
 
-        [JsonProperty("Name")]
+        [JsonProperty("NKm")]
         public string Name { get; set; }
     }
     public partial class TeleportEndpoints
     {
-        [JsonProperty("UniverseAddress")]
+        [JsonProperty("yhJ")]
         public UniverseAddress UniverseAddress { get; set; }
 
-        [JsonProperty("Position")]
+        [JsonProperty("wMC")]
         public double[] Position { get; set; }
 
-        [JsonProperty("Facing")]
+        [JsonProperty("gk4")]
         public double[] Facing { get; set; }
 
-        [JsonProperty("TeleporterType")]
+        [JsonProperty("iAF")]
         public string TeleporterType { get; set; }
 
-        [JsonProperty("Name")]
+        [JsonProperty("NKm")]
         public string Name { get; set; }
 
-        [JsonProperty("CalcWarpOffset")]
+        [JsonProperty("a>;")]
         public bool CalcWarpOffset { get; set; }
     }
 
     public partial class SpawnStateData
     {
-        [JsonProperty("PlayerPositionInSystem")]
+        [JsonProperty("mEH")]
         public double[] PlayerPositionInSystem { get; set; }
 
-        [JsonProperty("PlayerTransformAt")]
+        [JsonProperty("l2U")]
         public double[] PlayerTransformAt { get; set; }
 
-        [JsonProperty("ShipPositionInSystem")]
+        [JsonProperty("tnP")]
         public double[] ShipPositionInSystem { get; set; }
 
-        [JsonProperty("ShipTransformAt")]
+        [JsonProperty("l4H")]
         public double[] ShipTransformAt { get; set; }
 
-        [JsonProperty("LastKnownPlayerState")]
+        [JsonProperty("jk4")]
         public string LastKnownPlayerState { get; set; }
 
-        [JsonProperty("FreighterPositionInSystem")]
+        [JsonProperty("NGn")]
         public double[] FreighterPositionInSystem { get; set; }
 
-        [JsonProperty("FreighterTransformAt")]
+        [JsonProperty("uAt")]
         public double[] FreighterTransformAt { get; set; }
 
-        [JsonProperty("FreighterTransformUp")]
+        [JsonProperty("uAt")]
         public double[] FreighterTransformUp { get; set; }
     }
 

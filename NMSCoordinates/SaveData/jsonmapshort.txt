@@ -36,3 +36,15 @@ jk4	LastKnownPlayerState
 NGn	FreighterPositionInSystem
 uAt	FreighterTransformAt
 5Sg	FreighterTransformUp
+wMC	Position
+gk4	Facing
+iAF	TeleporterType
+a>;	CalcWarpOffset
+mEH	PlayerPositionInSystem
+l2U	PlayerTransformAt
+tnP	ShipPositionInSystem
+l4H	ShipTransformAt
+jk4	LastKnownPlayerState
+NGn	FreighterPositionInSystem
+uAt	FreighterTransformAt
+5Sg	FreighterTransformUp

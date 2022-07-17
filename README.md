@@ -24,15 +24,12 @@ Backup locations to txt file and and access and travel to these saved coordinate
 |Manual Travel|Fast Travel|
 |<a href="http://www.youtube.com/watch?feature=player_embedded&v=ceSFVl9LFtI" target="_blank"><img src="http://img.youtube.com/vi/ceSFVl9LFtI/0.jpg" alt="Video" width="520" height="300" border="10" /></a>|<a href="http://www.youtube.com/watch?feature=player_embedded&v=Vx1xGk2TMIo" target="_blank"><img src="http://img.youtube.com/vi/Vx1xGk2TMIo/0.jpg" alt="Video" width="520" height="300" border="10" /></a>|
 
-
-## Download - UPDATE v1.1.16 (AUG 15 2020)
-
-- Fixed missing space stations in list
-- Added (EB) for ExternalBase to list of locations
-- Added a few more galaxies
+## v1.1.17 (JULY 16 2022)
+- Fixed Issue #39 - Save file compression issue
+- Updates, internal fixes, organization
 
 <!--* Download will be available later today. -->
-<pre>  <a href="https://github.com/Kevin0M16/NMSCoordinates/releases/latest/download/NMSCoordinates-v1.1.16.zip"><img src="https://img.shields.io/badge/dynamic/json.svg?label=download&url=https://api.github.com/repos/Kevin0M16/NMSCoordinates/releases/latest&query=$.assets[0].name&style=for-the-badge" alt="download"/></a></pre>
+<pre>  <a href="https://github.com/Kevin0M16/NMSCoordinates/releases/latest/download/NMSCoordinates-v1.1.17.zip"><img src="https://img.shields.io/badge/dynamic/json.svg?label=download&url=https://api.github.com/repos/Kevin0M16/NMSCoordinates/releases/latest&query=$.assets[0].name&style=for-the-badge" alt="download"/></a></pre>
 
 <!-- ## Share - Upload locations to Google Drive
 
@@ -40,11 +37,10 @@ Backup locations to txt file and and access and travel to these saved coordinate
 
 ## Features
 
-* NEW!! Trigger a Freighter Battle.
+* Trigger a Freighter Battle.
 * View all space station and base locations discovered across all save slots and see their Glyphs, Galactic Coordinates, Portal Code, and even Voxel X,Y,Z,SSI
 * Fast travel to any selected location in the list of discoveries.
 * Enable Manual Travel and manually enter Galactic Coordinates and Galaxy that you need to travel to.
-* Enable Travel Mode and save a record of all your locations the game deletes when traveling through a terminus or when hitting the limit.
 * Portal interference can be cleared with a button, so base building and the galaxy map are allowed after traveling through a portal.
 * Save a record of the players current location in a .txt and access it later on the Coordinate Share tab.
 * Can Backup all locations to a .txt file. You can access these on the Coordinate Share tab or share with others. You can fast travel to these also.
@@ -96,9 +92,8 @@ The current version of NMSCoordinates requires No Man's Sky Beyond/Synthesis/Exo
 
 ## Built With
 
-* [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/) - For the Windows 10 UI
-* [Notepad++](https://notepad-plus-plus.org/) - For viewing Json
-* [WinMerge](https://winmerge.org/) - Awesome tool for file comparison
+* [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/)
+* [Visual Studio Code](https://code.visualstudio.com/)
 
 ## Authors
 

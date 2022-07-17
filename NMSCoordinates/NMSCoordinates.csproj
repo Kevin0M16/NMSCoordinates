@@ -135,6 +135,8 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="SaveData\SaveData.cs" />
+    <Compile Include="SaveData\ufSaveData.cs" />
     <Compile Include="ScreenShotPreviewQuad.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -181,7 +183,6 @@
     <Compile Include="GameSaveManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SaveData\SaveData.cs" />
     <Compile Include="Storage.cs" />
     <Compile Include="XXTEA.cs" />
     <EmbeddedResource Include="NMSCoordinatesMain.resx">

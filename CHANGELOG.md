@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v1.1.17 (JULY 16 2022)
+- Fixed Issue #39 - Save file compression issue
+- Updates and internal fixes and organization
+  
 ## v1.1.16 (AUG 15 2020)
 - Fixed missing space stations in list
 - Added (EB) for ExternalBase to list of locations

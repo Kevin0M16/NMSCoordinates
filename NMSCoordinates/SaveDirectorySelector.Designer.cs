@@ -54,7 +54,7 @@ namespace NMSCoordinates
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.label1.Location = new System.Drawing.Point(17, 64);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(377, 60);
@@ -66,7 +66,7 @@ namespace NMSCoordinates
             // listBox1
             // 
             this.listBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.listBox1.ForeColor = System.Drawing.Color.White;
+            this.listBox1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Location = new System.Drawing.Point(53, 129);
             this.listBox1.Name = "listBox1";

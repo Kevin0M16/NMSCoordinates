@@ -535,6 +535,8 @@ namespace NMSCoordinates
         {
             string injson = File.ReadAllText(inputfilepath);
             Dictionary<string, string> inDict = new Dictionary<string, string>();
+            int pbdefault = pb.Maximum;
+            
             pb.Minimum = 1;
             pb.Value = 1;
             pb.Step = 1;            
@@ -579,6 +581,7 @@ namespace NMSCoordinates
             }            
             File.WriteAllText(outputfilepath, injson);
             pb.Visible = false;
+            pb.Maximum = 100;
         }
         private void GetJsonDict(string keyfilepath, out Dictionary<string,string> outDict)
         {
@@ -760,6 +763,7 @@ namespace NMSCoordinates
                     //}
                 }
                 progressBar2.Visible = false;
+                progressBar2.Maximum = 100;
             }
             else
             {
@@ -800,6 +804,7 @@ namespace NMSCoordinates
                     //}
                 }
                 progressBar2.Visible = false;
+                progressBar2.Maximum = 100;
 
                 //Make a unique path name for the locbackup file and create file
                 string path2 = MakeUnique(path).ToString();
@@ -1195,7 +1200,7 @@ namespace NMSCoordinates
             var nms = GameSaveData.FromJson(json);
             try
             {
-                for (int i = 0; i < nms.PlayerStateData.TeleportEndpoints.Count; i++)
+                for (int i = 0; i < nms.PlayerStateData.TeleportEndpoints.Length; i++)
                 {
                     string discd = nms.PlayerStateData.TeleportEndpoints[i].Name;
 
@@ -1259,7 +1264,7 @@ namespace NMSCoordinates
             var nms = GameSaveData.FromJson(json);
             try
             {
-                for (int i = 0; i < nms.PlayerStateData.PersistentPlayerBases.Count; i++)
+                for (int i = 0; i < nms.PlayerStateData.PersistentPlayerBases.Length; i++)
                 {
                     string baseN = nms.PlayerStateData.PersistentPlayerBases[i].Name;
                     if (baseN != "")
@@ -1386,7 +1391,7 @@ namespace NMSCoordinates
                     var nms = GameSaveData.FromJson(json);
                     try
                     {
-                        for (int i = 0; i < nms.PlayerStateData.TeleportEndpoints.Count; i++)
+                        for (int i = 0; i < nms.PlayerStateData.TeleportEndpoints.Length; i++)
                         {
                             if (nms.PlayerStateData.TeleportEndpoints[i].Name.ToString() == si)
                             {
@@ -1429,7 +1434,7 @@ namespace NMSCoordinates
                     var nms = GameSaveData.FromJson(json);
                     try
                     {
-                        for (int i = 0; i < nms.PlayerStateData.TeleportEndpoints.Count; i++)
+                        for (int i = 0; i < nms.PlayerStateData.TeleportEndpoints.Length; i++)
                         {
                             if (nms.PlayerStateData.TeleportEndpoints[i].Name.ToString() == si)
                             {
@@ -2086,7 +2091,7 @@ namespace NMSCoordinates
                     var nms = GameSaveData.FromJson(json);
                     bool O5J = nms.PlayerStateData.TimeLastSpaceBattle == 0;
                     bool Ebr = nms.PlayerStateData.WarpsLastSpaceBattle == 0;
-                    bool Exx = nms.PlayerStateData.ActiveSpaceBattleUa == 0;
+                    bool Exx = nms.PlayerStateData.ActiveSpaceBattleUA == 0;
 
                 //    //Check save file edits         
                 //    Regex myRegexFB1 = new Regex(rxPatternTLFB, RegexOptions.Multiline);
@@ -2106,7 +2111,7 @@ namespace NMSCoordinates
 
                     if (O5J && Ebr && Exx)
                     {
-                        progressBar4.Invoke((System.Action)(() => progressBar1.Value = 100));
+                        progressBar4.Invoke((System.Action)(() => progressBar4.Value = 100));
                         progressBar4.Visible = false;
 
                         AppendLine(textBox15, "Freighter Battle Triggered, Reload save in game and warp.");
@@ -3488,7 +3493,7 @@ namespace NMSCoordinates
                 list.Add(item.Value);
             }
 
-            if (list.Contains(e.Name))
+            if (list.Contains(e.Name) || list.Contains(e.Name.Replace("mf_", "")))
             {
                 lock (_changedFiles)
                 {
