@@ -122,6 +122,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class2.cs" />
+    <Compile Include="CoordCalc\CoordCalculations.cs" />
+    <Compile Include="Globals\Globals.cs" />
     <Compile Include="LocData\LocationData.cs" />
     <Compile Include="SaveCompression.cs" />
     <Compile Include="NMSCoordinatesMain.cs">
