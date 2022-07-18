@@ -2598,6 +2598,9 @@ namespace NMSCoordinates
         }
 
         #endregion
+        private CoordinateCalculator f5;
+        public SaveDirectorySelector f8;
+        private List<string> _changedFiles = new List<string>();
         public string NMSCVersion;
         public string GamePath;
         public string nmsPath;
@@ -2646,7 +2649,7 @@ namespace NMSCoordinates
         public int iPI;
 
         public int saveslot;
-
+        
         public string pgalaxy;
         //public int ipX;
         //public int ipY;
@@ -2658,6 +2661,8 @@ namespace NMSCoordinates
 
         public string json;
         public string ujson;
+        public string locjson;
+        public int locVersion;
         //public dynamic jsonObj;
         //public dynamic jsonArray;
 
@@ -2708,7 +2713,7 @@ namespace NMSCoordinates
 
         public List<string> DiscList { get; private set; }
 
-        public List<string> Backuplist = new List<string>();
+        
 
         public List<string> SSlist = new List<string>();
         public List<string> PrevSSlist = new List<string>();

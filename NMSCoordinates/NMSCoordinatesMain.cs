@@ -15,6 +15,7 @@ using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using NMSCoordinates.SaveData;
+using NMSCoordinates.LocationData;
 
 /**********************************************************\
 |                                                          |
@@ -48,18 +49,21 @@ namespace NMSCoordinates
 
             //Default Paths
             nmsPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HelloGames"), "NMS");
-            savePath = System.Windows.Forms.Application.CommonAppDataPath + "\\save.nmsc";
-            oldsavePath = System.Windows.Forms.Application.CommonAppDataPath + "\\save.txt";
+            //savePath = System.Windows.Forms.Application.CommonAppDataPath + "\\save.nmsc";
+            //oldsavePath = System.Windows.Forms.Application.CommonAppDataPath + "\\save.txt";
+            savePath = @".\nmsc\save.nmsc";
+            oldsavePath = System.Windows.Forms.Application.CommonAppDataPath + "\\save.nmsc";
 
-            rawSave = @".\backup\json\rawsave.json";
-            ufSave = @".\backup\json\ufsave.json";
-            Save = @".\backup\json\save.json";
-            modSave = @".\backup\json\saveedit.json";
-            ufmodSave = @".\backup\json\ufsaveedit.json";
+            rawSave = @".\debug\rawsave.json";
+            ufSave = @".\debug\ufsave.json";
+            Save = @".\json\save.json";
+            modSave = @".\debug\saveedit.json";
+            ufmodSave = @".\debug\ufsaveedit.json";
 
-            GetJsonDict(@".\backup\json\jsonmap.txt", out jsonDict);
-            GetJsonDict(@".\backup\json\jsonmapshort.txt", out sjsonDict);
+            GetJsonDict(@".\nmsc\jsonmap.nmsc", out jsonDict);
+            GetJsonDict(@".\nmsc\jsonmapshort.nmsc", out sjsonDict);
 
+            locVersion = 1;
         }
 
         public int _ScreenWidth { get; private set; }
@@ -280,9 +284,6 @@ namespace NMSCoordinates
                 }
             }
         }
-
-        public SaveDirectorySelector f8;
-
         private void CheckGoG()
         {
             //Main Save.hg file and directory Finder
@@ -773,6 +774,8 @@ namespace NMSCoordinates
         private async Task BackupLoc(string path)
         {
             //Backup all locations to a new locbackup file
+            //List<string> backuplist = new List<string>();
+
             if (DiscList.Count > 0)
             {
                 tabControl1.SelectedTab = tabPage1;
@@ -788,27 +791,42 @@ namespace NMSCoordinates
                 // Display the ProgressBar control.
                 progressBar2.Visible = true;
 
+                SavedLocationData sdata = CreateNewLocationJson(locVersion, DiscList.Count, 0);
+                List<Basis> basis = new List<Basis>();
+
                 for (int i = 0; i < DiscList.Count; i++)
                 {
                     JsonMap(i);
                     GetPortalCoord(iX, iY, iZ, iSSI);
                     GetGalacticCoord(iX, iY, iZ, iSSI);
-                    Backuplist.Add("Slot_" + saveslot + "_Loc: " + DiscList[i] + " - G: " + galaxy + " - PC: " + PortalCode + " -- GC: " + GalacticCoord);
+                                        
+                    basis.Add(new Basis()
+                    {
+                        Name = DiscList[i],
+                        Details = new Details()
+                        {
+                            Saveslot = saveslot,
+                            Galaxy = igalaxy,
+                            Portalcode = PortalCode,
+                            Galacticcoords = GalacticCoord,
+                            Notes = ""
+                        }
+                    });
+                    //backuplist.Add("Slot_" + saveslot + "_Loc: " + DiscList[i] + " - G: " + galaxy + " - PC: " + PortalCode + " -- GC: " + GalacticCoord);
 
                     progressBar2.PerformStep();
-
-                    //if (Backuplist.Count == i + 1)
-                    //{
-                    // Perform the increment on the ProgressBar.
-                    //    progressBar2.PerformStep();
-                    //}
                 }
                 progressBar2.Visible = false;
                 progressBar2.Maximum = 100;
 
+                sdata.Locations.Bases = basis.ToArray();
+
                 //Make a unique path name for the locbackup file and create file
-                string path2 = MakeUnique(path).ToString();
-                File.WriteAllLines(path2, Backuplist);
+                string path2 = MakeUniqueLoc(path).ToString();
+                var backuplist = LocationData.Serialize.ToJson(sdata);
+                File.WriteAllText(path2, backuplist);
+
+                //File.WriteAllLines(path2, backuplist);
                 MessageBox.Show("Locations Backed up to .txt \n\n\r Open in Coordinate Share Tab", "Confirmation", MessageBoxButtons.OK);
                 LoadTxt();
 
@@ -825,12 +843,17 @@ namespace NMSCoordinates
                 MessageBox.Show("No Locations found! ", "Message");
             }
         }
-        public FileInfo MakeUnique(string path)
+        public FileInfo MakeUniqueSave(string path)
         {
-            //Makes path in \backup unique by date.time
-            path = String.Format("{0}{1}{2}{3}{4}", @".\backup\", Path.GetFileNameWithoutExtension(path), "_" + saveslot + "_", DateTime.Now.ToString("yyyy-MM-dd-HHmmss"), Path.GetExtension(path));
+            //Makes path in \backup\saves unique by date.time
+            path = String.Format("{0}{1}{2}{3}{4}", @".\backup\saves\", Path.GetFileNameWithoutExtension(path), "_" + saveslot + "_", DateTime.Now.ToString("yyyy-MM-dd-HHmmss"), Path.GetExtension(path));
             return new FileInfo(path);
-
+        }
+        public FileInfo MakeUniqueLoc(string path)
+        {
+            //Makes path in \backup\saves unique by date.time
+            path = String.Format("{0}{1}{2}{3}{4}", @".\backup\locations\", Path.GetFileNameWithoutExtension(path), "_" + saveslot + "_", DateTime.Now.ToString("yyyy-MM-dd-HHmmss"), Path.GetExtension(path));
+            return new FileInfo(path);
         }
         public static void AppendLine(TextBox source, string value)
         {
@@ -942,7 +965,7 @@ namespace NMSCoordinates
 
             DiscList.Clear();
             BaseList.Clear();
-            Backuplist.Clear();
+            //Backuplist.Clear();
             listBox1.DataSource = null;
             listBox2.DataSource = null;
             listBox1.Items.Clear();
@@ -1751,15 +1774,40 @@ namespace NMSCoordinates
         }
         private void CreateBackupDir()
         {
-            //Checks for the json edit dir \json and creates if don't exist
+            //Checks for the required directories and creates if don't exist
+            if (!Directory.Exists(@".\nmsc"))
+            {
+                MessageBox.Show("Missing nmsc directory! NMSCoordinates will not work");
+                return;
+            }
+
             if (!Directory.Exists(@".\backup"))
+            {
                 Directory.CreateDirectory(@".\backup");
-            Directory.CreateDirectory(@".\backup\json");
+                Directory.CreateDirectory(@".\backup\saves");
+                Directory.CreateDirectory(@".\backup\locations");
+            }
 
-            if (!Directory.Exists(@".\backup\json"))
-                Directory.CreateDirectory(@".\backup\json");
+            if (!Directory.Exists(@".\backup\saves"))
+            {
+                Directory.CreateDirectory(@".\backup\saves");
+            }
+
+            if (!Directory.Exists(@".\backup\locations"))
+            {
+                Directory.CreateDirectory(@".\backup\locations");
+            }
+
+            if (!Directory.Exists(@".\debug"))
+            {
+                Directory.CreateDirectory(@".\debug");
+            }
+
+            if (!Directory.Exists(@".\json"))
+            {
+                Directory.CreateDirectory(@".\json");
+            }
         }
-
         public void BuildSaveFile()
         {
             //if the old save.txt exists delete it
@@ -1971,13 +2019,13 @@ namespace NMSCoordinates
                 File.Copy(mf_hgFilePath, @".\temp\" + mf_hgFileName + Path.GetExtension(mf_hgFilePath));
 
                 string datetime = DateTime.Now.ToString("yyyy-MM-dd-HHmmss");
-                ZipFile.CreateFromDirectory(@".\temp", @".\backup\savebackup_" + slot + "_" + datetime + ".zip");
+                ZipFile.CreateFromDirectory(@".\temp", @".\backup\saves\savebackup_" + slot + "_" + datetime + ".zip");
 
                 Directory.Delete(@".\temp", true);
 
-                if (File.Exists(@".\backup\savebackup_" + slot + "_" + datetime + ".zip")) //@".\backup\" + GetNewestZip(@".\backup")))
+                if (File.Exists(@".\backup\saves\savebackup_" + slot + "_" + datetime + ".zip"))
                 {
-                    AppendLine(tb, "Save file on Slot: ( " + slot + " ) backed up to \\backup folder...");
+                    AppendLine(tb, "Save file on Slot: ( " + slot + " ) backed up to \\backup\\saves folder...");
 
                     if (msg == true)
                     {
@@ -2135,8 +2183,8 @@ namespace NMSCoordinates
         private async void DiscoveriesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //backup all discoveries to txt file
-            Backuplist.Clear();
-            await BackupLoc(@".\backup\locbackup.txt");
+            //Backuplist.Clear();
+            await BackupLoc(@".\backup\locations\locbackup.json");
         }
 
         private bool ValidateCoord(string A, string B, string C, string D)
@@ -2452,12 +2500,12 @@ namespace NMSCoordinates
             textBox13.Clear();
             textBox18.Clear();
 
-            if (Directory.Exists(@".\backup"))
+            if (Directory.Exists(@".\backup") && Directory.Exists(@".\backup\locations"))
             {
                 List<string> list = new List<string>();
-                DirectoryInfo dinfo2 = new DirectoryInfo(@".\backup");
+                DirectoryInfo dinfo2 = new DirectoryInfo(@".\backup\locations");
                 //FileInfo[] Files = dinfo2.GetFiles("locbackup*.txt", SearchOption.AllDirectories);
-                FileInfo[] Files = dinfo2.GetFiles("*.txt", SearchOption.AllDirectories);
+                FileInfo[] Files = dinfo2.GetFiles("*.json", SearchOption.AllDirectories);
 
                 if (Files.Length != 0)
                 {
@@ -2477,6 +2525,34 @@ namespace NMSCoordinates
                 toolStripMenuItem1.Enabled = true;
             }
         }
+        private void LocationsLoad(string path)
+        {
+            //Method to load all location
+            locjson = File.ReadAllText(path);
+            var loc = SavedLocationData.FromJson(locjson);
+            try
+            {
+                for (int i = 0; i < loc.Locations.Bases.Length; i++)
+                {
+                    string name = loc.Locations.Bases[i].Name;
+                    string galaxy = loc.Locations.Bases[i].Details.Galaxy.ToString();
+                    string datetime = loc.Locations.Bases[i].Details.Datetime;
+                    string saveslot = loc.Locations.Bases[i].Details.Saveslot.ToString();
+                    string filename = loc.Locations.Bases[i].Details.Filename;
+                    string portalcode = loc.Locations.Bases[i].Details.Portalcode;
+                    string galacticcoord = loc.Locations.Bases[i].Details.Galacticcoords;
+                    string notes = loc.Locations.Bases[i].Details.Notes;
+
+                    //listBox3.Items.Add("SaveSlot: " + saveslot + " " + filename + " " + name + " G: " + galaxy + " PC: " + portalcode + " GC: " + galacticcoord + " Notes: " + notes);
+                    listBox3.Items.Add(" Galaxy: ( " + galaxy + " ) // PC: " + portalcode + "  // GC:  " + galacticcoord + "  // " + name + " // Notes: " + notes);
+                }
+            }
+            catch
+            {
+                AppendLine(textBox17, "** Code 1900 **");
+                return;
+            }
+        }
         private void Button6_Click(object sender, EventArgs e)
         {
             //Load a txt file to view in listbox3
@@ -2484,8 +2560,9 @@ namespace NMSCoordinates
             {
                 if (listBox4.GetItemText(listBox4.SelectedItem) != "")
                 {
-                    textBox18.Text = listBox3.Items.Count.ToString();
-                    string path = @".\backup\" + listBox4.SelectedItem.ToString();
+                    listBox3.Items.Clear();
+
+                    string path = @".\backup\locations\" + listBox4.SelectedItem.ToString();
 
                     if (!File.Exists(path))
                     {
@@ -2493,20 +2570,22 @@ namespace NMSCoordinates
                         LoadTxt();
                         return;
                     }
+                    LocationsLoad(path);
+                    textBox18.Text = listBox3.Items.Count.ToString();
 
-                    string[] locFile = File.ReadAllLines(path);
-                    if (locFile[0].ToString() != "")
-                    {
-                        listBox3.DataSource = locFile;
-                        listBox3.SelectedIndex = 0;
-                        toolStripMenuItem1.Enabled = true;
-                    }
-                    else
-                    {
-                        toolStripMenuItem1.Enabled = false;
-                        AppendLine(textBox11, "File is Empty! Select another file.");
-                        AppendLine(textBox11, "---------------------");
-                    }
+                    //string[] locFile = File.ReadAllLines(path);
+                    //if (locFile[0].ToString() != "")
+                    //{
+                    //    listBox3.DataSource = locFile;
+                    //    listBox3.SelectedIndex = 0;
+                    //    toolStripMenuItem1.Enabled = true;
+                    //}
+                    //else
+                    //{
+                    //    toolStripMenuItem1.Enabled = false;
+                    //    AppendLine(textBox11, "File is Empty! Select another file.");
+                    //    AppendLine(textBox11, "---------------------");
+                    //}
                 }
                 else
                 {
@@ -2533,13 +2612,13 @@ namespace NMSCoordinates
                 if (textBox11.Text == "")
                 {
                     AppendLine(textBox11, "---------------------");
-                }
+                }                
 
-                Regex myRegex1 = new Regex("GC:.*?$", RegexOptions.Multiline);
-                Match m1 = myRegex1.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
-                string line1 = m1.ToString();
-
-                if (line1.Length < 23) // if text file problem
+                //Regex myRegex1 = new Regex("GC:.*?$", RegexOptions.Multiline);
+                //Match m1 = myRegex1.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
+                //string line1 = m1.ToString();
+                
+                if (locjson == null) // if text file problem
                 {
                     textBox11.Clear();
                     AppendLine(textBox11, "File Error");
@@ -2556,64 +2635,68 @@ namespace NMSCoordinates
                         return;
                     }
                 }
-                    
-                string g1 = line1.Substring(0, 23);
-                //AppendLine(textBox11, g1);
+                var loc = SavedLocationData.FromJson(locjson);
+                var name = loc.Locations.Bases[listBox3.SelectedIndex].Name;
+                var pc = loc.Locations.Bases[listBox3.SelectedIndex].Details.Portalcode;
+                var gc = loc.Locations.Bases[listBox3.SelectedIndex].Details.Galacticcoords;
+                var notes = loc.Locations.Bases[listBox3.SelectedIndex].Details.Notes;
 
-                if (line1.Length > 23)
-                {
-                    string gN = line1.Substring(line1.Length - (line1.Length - 23), line1.Length - 23);
-                    AppendLine(textBox11, gN);
-                    AppendLine(textBox11, g1);
-                }
-                else
-                {
-                    AppendLine(textBox11, " ");
-                    AppendLine(textBox11, g1);
-                }
-
-                Regex myRegex2 = new Regex("PC.*?--", RegexOptions.Multiline);
-                Match m2 = myRegex2.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
-                string line2 = m2.ToString();
-                line2 = line2.Replace(" --", "");
-                AppendLine(textBox11, line2);
-
-                Regex myRegex3 = new Regex("^.*?\\)", RegexOptions.Multiline);
-                Match m3 = myRegex3.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
-                string line3 = m3.ToString();
-
-                Regex myRegex4 = new Regex(" .*?#", RegexOptions.Multiline);
-                Match m4 = myRegex4.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
-                string line3_2 = m4.ToString().Replace("#", "");
-
-                if (m3.Success)
-                {
-                    AppendLine(textBox11, line3);
-                }
-                else if (m4.Success)
-                {
-                    AppendLine(textBox11, line3_2);
-                }
-
+                AppendLine(textBox11, name);
+                AppendLine(textBox11, pc);
+                AppendLine(textBox11, gc);
+                AppendLine(textBox11, notes);
                 AppendLine(textBox11, "---------------------");
-            }  
-        }
+                //string g1 = line1.Substring(0, 23);
 
-        //Check is manual travel is unlocked
+                //if (line1.Length > 23)
+                //{
+                //    string gN = line1.Substring(line1.Length - (line1.Length - 23), line1.Length - 23);
+                //    AppendLine(textBox11, gN);
+                //    AppendLine(textBox11, g1);
+                //}
+                //else
+                //{
+                //    AppendLine(textBox11, " ");
+                //    AppendLine(textBox11, g1);
+                //}
+
+                //Regex myRegex2 = new Regex("PC.*?--", RegexOptions.Multiline);
+                //Match m2 = myRegex2.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
+                //string line2 = m2.ToString();
+                //line2 = line2.Replace(" --", "");
+                //AppendLine(textBox11, line2);
+
+                //Regex myRegex3 = new Regex("^.*?\\)", RegexOptions.Multiline);
+                //Match m3 = myRegex3.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
+                //string line3 = m3.ToString();
+
+                //Regex myRegex4 = new Regex(" .*?#", RegexOptions.Multiline);
+                //Match m4 = myRegex4.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
+                //string line3_2 = m4.ToString().Replace("#", "");
+
+                //if (m3.Success)
+                //{
+                //    AppendLine(textBox11, line3);
+                //}
+                //else if (m4.Success)
+                //{
+                //    AppendLine(textBox11, line3_2);
+                //}
+
+                //AppendLine(textBox11, "---------------------");
+            }  
+        }        
         public bool TextBoxPerm
         {
+            //Check is manual travel is unlocked
             get { return textBox14.ReadOnly; }
-        }
-
-        //bring over copied GC from Calculator
+        }        
         public string TextBoxValue
         {
+            //bring over copied GC from Calculator
             get { return textBox14.Text; }
             set { textBox14.Text = value; }
         }
-
-        private CoordinateCalculator f5;
-
         private void Button7_Click(object sender, EventArgs e)
         {
             //Coordinate Calculator button if not open, open
@@ -2666,13 +2749,12 @@ namespace NMSCoordinates
             iZ = vZ;
             iSSI = icSSI;
         }
-
         private void Button8_Click(object sender, EventArgs e)
         {
             //Move player button share coordinate tab
             try
             {
-                if (listBox3.GetItemText(listBox3.SelectedItem) != "")
+                if (listBox3.GetItemText(listBox3.SelectedItem) != "" || locjson != "")
                 {
                     if (saveslot < 1 || saveslot > 5)
                     {
@@ -2684,16 +2766,20 @@ namespace NMSCoordinates
                     if (dialogResult == DialogResult.Yes)
                     {
                         //grabs the galactic coordinate
-                        Regex myRegexGC = new Regex("GC:.*?$", RegexOptions.Multiline);
-                        Match m1 = myRegexGC.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
-                        string line1 = m1.ToString();
-                        line1 = line1.Replace("GC: ", "");
-                        line1 = line1.Replace(" ", "");
-                        string[] value = line1.Split(':');
+                        var loc = SavedLocationData.FromJson(locjson);
+                        var gal = loc.Locations.Bases[listBox3.SelectedIndex].Details.Galaxy;
+                        var gc = loc.Locations.Bases[listBox3.SelectedIndex].Details.Galacticcoords;                        
+
+                        //Regex myRegexGC = new Regex("GC:.*?$", RegexOptions.Multiline);
+                        //Match m1 = myRegexGC.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
+                        //string line1 = m1.ToString();
+                        //line1 = line1.Replace("GC: ", "");
+                        //line1 = line1.Replace(" ", "");
+                        //string[] value = line1.Split(':');
 
                         //Check for errors on GC
-                        string gc = line1.Replace(":", "");
-                        if (gc.Length < 16)
+                        //string gc = line1.Replace(":", "");
+                        if (gc == "" || gc == null)
                         {
                             DialogResult dialogResult2 = MessageBox.Show("Something went wrong! \r\n\nSelected line has errors. \r\n\nWould you like to Delete the Line?", "Fast Travel", MessageBoxButtons.YesNo);
                             if (dialogResult2 == DialogResult.Yes)
@@ -2706,6 +2792,8 @@ namespace NMSCoordinates
                                 return;
                             }                                                       
                         }
+
+                        string[] value = gc.Split(':');
 
                         //Only take 4 digits from the last array so can add notes GC: 0000:0000:0000:[0000] A:B:C:D
                         string A = value[0].Trim();
@@ -2720,18 +2808,18 @@ namespace NMSCoordinates
                             return;
                         }
 
-                        //sets x,y,z,ssi ix,iy,iz,issi from given ABCD
+                        //Sets x,y,z,ssi ix,iy,iz,issi from given ABCD
                         GalacticToVoxel(A, B, C, D);
 
-                        //grabs the galaxy
-                        Regex myRegexG = new Regex("G:.*?-", RegexOptions.Multiline);
-                        Match m2 = myRegexG.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
-                        string line2 = m2.ToString();
-                        line2 = line2.Replace("G: ", "");
-                        line2 = line2.Replace("-", "");
-                        line2 = line2.Replace(" ", "");
-                        galaxy = line2;
-                        igalaxy = Convert.ToInt32(galaxy);
+                        //Sets the galaxy
+                        //Regex myRegexG = new Regex("G:.*?-", RegexOptions.Multiline);
+                        //Match m2 = myRegexG.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
+                        //string line2 = m2.ToString();
+                        //line2 = line2.Replace("G: ", "");
+                        //line2 = line2.Replace("-", "");
+                        //line2 = line2.Replace(" ", "");
+                        galaxy = gal.ToString();
+                        igalaxy = Convert.ToInt32(gal);
 
                         AppendLine(textBox13, "Galaxy: " + galaxy + " -- X:" + X + " -- Y:" + Y + " -- Z:" + Z + " -- SSI:" + SSI);
                         
@@ -2786,17 +2874,42 @@ namespace NMSCoordinates
                 AppendLine(textBox13, "Invalid Coordinates!");
             }
         }
+        private static SavedLocationData CreateNewLocationJson(int version, int bs, int ss) 
+        {
+            // Create new locbackup json file
+            SavedLocationData newSDL = new SavedLocationData();            
+            newSDL.Version = version;
+            newSDL.Locations = new Locations();
+            newSDL.Locations.Bases = new Basis[bs];
+            newSDL.Locations.Spacestations = new Basis[ss];
+            return newSDL;
+        }
         private void ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             //Save a single location record to a new txt file
             if (listBox3.GetItemText(listBox3.SelectedItem) != "")
             {
                 var selectedrecord = listBox3.GetItemText(listBox3.SelectedItem);
+                var selectindex = listBox3.SelectedIndex;
 
-                List<string> list = new List<string>();
-                list.Add(listBox3.GetItemText(listBox3.SelectedItem));
-                string path2 = MakeUnique(@".\backup\locbackup.txt").ToString();
-                File.WriteAllLines(path2, list);
+                //List<string> list = new List<string>();
+                //list.Add(listBox3.GetItemText(listBox3.SelectedItem));
+                string path2 = MakeUniqueLoc(@".\backup\locations\locbackup.json").ToString();
+                var loc = SavedLocationData.FromJson(locjson);
+                var record = loc.Locations.Bases[selectindex];
+
+                // Create new locbackup json file
+                var loc2 = CreateNewLocationJson(locVersion, 1, 0);
+                //SavedLocationData loc2 = new SavedLocationData();
+                //loc2.Version = 1;
+                //loc2.Locations = new Locations();
+                //loc2.Locations.Bases = new Basis[1];
+                //loc2.Locations.Spacestations = new Basis[0];
+                loc2.Locations.Bases[0] = record;
+                string newrec = LocationData.Serialize.ToJson(loc2);
+                File.WriteAllText(path2, newrec);
+
+                //File.WriteAllLines(path2, list);
                 //Process.Start(path2); //v1.1.14
                 AppendLine(textBox13, "Single Record saved!");
                 LoadTxt();
@@ -2822,9 +2935,9 @@ namespace NMSCoordinates
                 return;
             }
 
-            if (File.Exists(@".\backup\" + listBox4.GetItemText(listBox4.SelectedItem)))
+            if (File.Exists(@".\backup\locations\" + listBox4.GetItemText(listBox4.SelectedItem)))
             {
-                Process.Start(@".\backup\" + listBox4.GetItemText(listBox4.SelectedItem));
+                Process.Start(@".\backup\locations\" + listBox4.GetItemText(listBox4.SelectedItem));
                 LoadTxt();
             }
             else
@@ -2841,11 +2954,11 @@ namespace NMSCoordinates
                 DialogResult dialogResult = MessageBox.Show("Delete " + listBox4.GetItemText(listBox4.SelectedItem) + " ? ", "Locbackup Manager", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
-                    if (File.Exists(@".\backup\" + listBox4.GetItemText(listBox4.SelectedItem)))
+                    if (File.Exists(@".\backup\locations\" + listBox4.GetItemText(listBox4.SelectedItem)))
                     {
                         if (listBox4.GetItemText(listBox4.SelectedItem) != "")
                         {
-                            File.Delete(@".\backup\" + listBox4.GetItemText(listBox4.SelectedItem));
+                            File.Delete(@".\backup\locations\" + listBox4.GetItemText(listBox4.SelectedItem));
                             LoadTxt();
                             MessageBox.Show("File deleted Successfully.", "Confirmation");
 
@@ -2867,14 +2980,12 @@ namespace NMSCoordinates
                     MessageBox.Show("Cancelled! No file deleted.", "Alert");
                 }
             }                
-        }
-
-        //Future use, doesn't save changed currently
+        }        
         private void SetShortcutToGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //Future use, doesn't save changed currently
             openFileDialog1.ShowDialog();
         }
-
         private void OpenFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
         {
             GamePath = openFileDialog1.FileName;
@@ -3174,7 +3285,6 @@ namespace NMSCoordinates
                 //label36.Visible = false;
             }
         }
-
         private void ComboBox3_SelectionChangeCommitted(object sender, EventArgs e)
         {
             //sets the player galaxy when combobox change committed to fast travel
@@ -3285,12 +3395,12 @@ namespace NMSCoordinates
                         DeletedSSlist.Add(item);
                 }
 
-                if (!File.Exists(@".\backup\locbackup_deleted.txt"))
+                if (!File.Exists(@".\backup\locations\locbackup_deleted.txt"))
                 {
-                    File.Create(@".\backup\locbackup_deleted.txt").Dispose();
+                    File.Create(@".\backup\locations\locbackup_deleted.txt").Dispose();
                 }
 
-                List<string> logFile = File.ReadAllLines(@".\backup\locbackup_deleted.txt").ToList();
+                List<string> logFile = File.ReadAllLines(@".\backup\locations\locbackup_deleted.txt").ToList();
 
                 List<string> noduplicates = new List<string>();
                 foreach (string item in DeletedSSlist)
@@ -3314,7 +3424,7 @@ namespace NMSCoordinates
                 //noduplicates after all the checks are done, if >= 1 that was deleted
                 if (noduplicates.Count >= 1)
                 {
-                    File.WriteAllLines(@".\backup\locbackup_deleted.txt", logFile);
+                    File.WriteAllLines(@".\backup\locations\locbackup_deleted.txt", logFile);
                     AppendLine(textBox17, noduplicates.Count.ToString() + " Deleted locations Found.");
                     LoadTxt();
                 }
@@ -3436,23 +3546,6 @@ namespace NMSCoordinates
             f2.ShowDialog();
 
         }
-
-        //private void RunPowerToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    Process.Start(@"Powershell.exe", @"-NoExit function prompt {\""NMSC >\""} cd nmssavetool;
-        //                    write-host 
-        //                    \""************ NMSCoordinates ***** Save File Editing ***************************
-        //
-        //                        First Decrypt Save: .\nmssavetool.exe decrypt -g[saveslot] -f [filename].json
-        //
-        //                       ----- Now you can Modify [filename].json file externally - Ex. Notepad++ ------
-        //
-        //                        Last Encrypt Save: .\nmssavetool.exe encrypt -g[saveslot] -f [filename].json
-        //
-        //                      -------------------------------------------------------------------------------
-        //                    \""");
-        //}
-
         private void OpenBackupFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Open the \backup dir in file explorer
@@ -3480,9 +3573,6 @@ namespace NMSCoordinates
                 MessageBox.Show("Turn off Travel Mode!", "Alert");
             }
         }
-
-        private List<String> _changedFiles = new List<string>();
-
         private void FileSystemWatcher1_Changed(object sender, FileSystemEventArgs e)
         {
             //Watch for changes in hg files
@@ -3538,37 +3628,102 @@ namespace NMSCoordinates
         }
         private void Button13_Click(object sender, EventArgs e)
         {
-            //Save current player location to txt
+            //Save current player location to json
             string selected = this.comboBox1.GetItemText(this.comboBox1.SelectedItem);
             if (selected != "" && pgalaxy != "")
             {
-                if (!File.Exists(@".\backup\player_locs.txt"))
-                    File.Create(@".\backup\player_locs.txt").Dispose();
+                string plocpath = @".\backup\locations\player_locs.json";
+                string currentpc = textBox21.Text;
+                string currentgc = textBox22.Text;
+                int selectedindex = 0;
 
-                string currentloc = "Date\\Time: " + DateTime.Now.ToString("MM-dd-yyyy HH:mm") + " ## File: " + selected + " ## G: " + pgalaxy + " - PC: " + textBox21.Text + " -- GC: " + textBox22.Text;
-
-                List<string> playerloc = File.ReadAllLines(@".\backup\player_locs.txt").ToList();
-
-                if (!playerloc.Contains(currentloc))
+                if (!File.Exists(plocpath))
                 {
-                    playerloc.Add(currentloc);
+                    selectedindex = 1;
+                    SavedLocationData sdata = CreateNewLocationJson(locVersion, 1, 0);
+                    List<Basis> basis = new List<Basis>();
+
+                    basis.Add(new Basis()
+                    {
+                        Name = DateTime.Now.ToString("MM-dd-yyyy HH:mm"),
+                        Details = new Details()
+                        {
+                            Saveslot = saveslot,
+                            Galaxy = Convert.ToInt32(pgalaxy),
+                            Portalcode = currentpc,
+                            Galacticcoords = currentgc,
+                            Notes = ""
+                        }
+                    });
+                    sdata.Locations.Bases = basis.ToArray();
+                    var backuplist = LocationData.Serialize.ToJson(sdata);
+                    File.WriteAllText(plocpath, backuplist);
                 }
                 else
-                {
-                    MessageBox.Show("Location already saved in player_loc.txt!", "Alert", MessageBoxButtons.OK);
-                    return;
+                {                    
+                    string plocdata = File.ReadAllText(plocpath);
+                    var loc = SavedLocationData.FromJson(plocdata);
+
+                    if (loc == null)
+                    {
+                        MessageBox.Show("Problem with player_loc.json!", "Alert", MessageBoxButtons.OK);
+                        return;
+                    }
+
+                    SavedLocationData sdata = CreateNewLocationJson(locVersion, loc.Locations.Bases.Length, 0);
+                    List<Basis> basis = new List<Basis>();
+
+                    for (int i = 0; i < loc.Locations.Bases.Length; i++)
+                    {
+                        if (loc.Locations.Bases[i].Details.Galacticcoords == currentgc)
+                        {
+                            MessageBox.Show("Location already saved in player_loc.txt!", "Alert", MessageBoxButtons.OK);
+                            return;
+                        }
+                        basis.Add(loc.Locations.Bases[i]);
+                    }
+
+                    basis.Add(new Basis()
+                    {
+                        Name = DateTime.Now.ToString("MM-dd-yyyy HH:mm"),
+                        Details = new Details()
+                        {
+                            Saveslot = saveslot,
+                            Galaxy = Convert.ToInt32(pgalaxy),
+                            Portalcode = currentpc,
+                            Galacticcoords = currentgc,
+                            Notes = ""
+                        }
+                    });
+                    selectedindex = basis.Count;
+                    sdata.Locations.Bases = basis.ToArray();
+                    var backuplist = LocationData.Serialize.ToJson(sdata);
+                    File.WriteAllText(plocpath, backuplist);
                 }
 
-                File.WriteAllLines(@".\backup\player_locs.txt", playerloc);
-                MessageBox.Show("Location added to player_loc.txt \n\n\r Open in Coordinate Share Tab", "Confirmation", MessageBoxButtons.OK);
+                //string currentloc = "Date\\Time: " + DateTime.Now.ToString("MM-dd-yyyy HH:mm") + " ## File: " + selected + " ## G: " + pgalaxy + " - PC: " + textBox21.Text + " -- GC: " + textBox22.Text;
+                //List<string> playerloc = File.ReadAllLines(@".\backup\locations\player_locs.txt").ToList();
+
+                //if (!playerloc.Contains(currentloc))
+                //{
+                //    playerloc.Add(currentloc);
+                //}
+                //else
+                //{
+                //    MessageBox.Show("Location already saved in player_loc.txt!", "Alert", MessageBoxButtons.OK);
+                //    return;
+                //}
+
+                //File.WriteAllLines(@".\backup\locations\player_locs.txt", playerloc);
+                MessageBox.Show("Location added to player_loc.json \n\n\r Open in Coordinate Share Tab", "Confirmation", MessageBoxButtons.OK);
                 LoadTxt();
 
                 tabControl1.SelectedTab = tabPage3;
-                if (File.Exists(@".\backup\player_locs.txt"))
+                if (File.Exists(@".\backup\locations\player_locs.json"))
                 {
-                    listBox4.SelectedItem = "player_locs.txt";
+                    listBox4.SelectedItem = "player_locs.json";
                     Button6_Click(this, new EventArgs());
-                    listBox3.SelectedItem = currentloc;
+                    listBox3.SelectedIndex = selectedindex - 1;
                 }                
             }
             else
@@ -3581,12 +3736,12 @@ namespace NMSCoordinates
             //delete a single location record
             string record = listBox3.GetItemText(listBox3.SelectedItem);
             string filename = listBox4.GetItemText(listBox4.SelectedItem);
-            int selectedrecord = listBox3.SelectedIndex;
+            int selectedindex = listBox3.SelectedIndex;
             var selectedfile = listBox4.SelectedItem;
 
             if (record != "" && filename != "")
             {
-                string path = @".\backup\" + filename;
+                string path = @".\backup\locations\" + filename;
 
                 if (!File.Exists(path))
                 {
@@ -3594,10 +3749,19 @@ namespace NMSCoordinates
                     LoadTxt();
                     return;
                 }
+                if (locjson == "")
+                    return;
 
-                List<string> filelist = File.ReadAllLines(path).ToList();
+                string plocdata = File.ReadAllText(path);
+                var loc = SavedLocationData.FromJson(plocdata);
 
-                if (filelist.Contains(record) && filelist.Count <= 1)
+                if (loc == null)
+                {
+                    MessageBox.Show("Problem with " + path + " json!", "Alert", MessageBoxButtons.OK);
+                    return;
+                }
+
+                if (loc.Locations.Bases.Length <= 1)
                 {
                     DialogResult dialogResult = MessageBox.Show("Delete " + filename + " ?", "Confirmation", MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.Yes)
@@ -3611,24 +3775,34 @@ namespace NMSCoordinates
                         return;
                     }
                 }
-                else if (filelist.Contains(record) && filelist.Count > 1)
+                else
                 {
-                    filelist.Remove(record);
+                    SavedLocationData sdata = CreateNewLocationJson(locVersion, loc.Locations.Bases.Length, 0);
+                    List<Basis> basis = new List<Basis>();
 
-                    File.WriteAllLines(path, filelist);
-                    AppendLine(textBox13, "Single Record deleted!");
-                    LoadTxt();
-
-                    if (File.Exists(path))
+                    for (int i = 0; i < loc.Locations.Bases.Length; i++)
                     {
-                        listBox4.SelectedItem = selectedfile;
-                        Button6_Click(this, new EventArgs());
-                        
-                        if (selectedrecord == 0)
-                            listBox3.SelectedIndex = selectedrecord;
-                        else
-                            listBox3.SelectedIndex = selectedrecord - 1;
+                        if (i != selectedindex)
+                            basis.Add(loc.Locations.Bases[i]);
                     }
+                    selectedindex = basis.Count;
+                    sdata.Locations.Bases = basis.ToArray();
+                    var backuplist = LocationData.Serialize.ToJson(sdata);
+                    File.WriteAllText(path, backuplist);
+
+                    AppendLine(textBox13, "Single Record deleted!");
+                }
+                LoadTxt();
+
+                if (File.Exists(path))
+                {
+                    listBox4.SelectedItem = selectedfile;
+                    Button6_Click(this, new EventArgs());
+                        
+                    if (selectedindex == 0)
+                        listBox3.SelectedIndex = selectedindex;
+                    else
+                        listBox3.SelectedIndex = selectedindex - 1;
                 }
             }
             else
@@ -3708,10 +3882,10 @@ namespace NMSCoordinates
                 if (Directory.Exists(Path))
                 {
                     //var baseName = string.Format("nmssavetool-backupall-{0}", _gsm.FindMostRecentSaveDateTime().ToString("yyyyMMdd-HHmmss"));
-                    var basePath = @".\backup\nms-backup-" + DateTime.Now.ToString("yyyy-MM-dd-HHmmss");
+                    var basePath = @".\backup\saves\nms-backup-" + DateTime.Now.ToString("yyyy-MM-dd-HHmmss");
                     archivePath = basePath + ".zip";
                     _gsm.ArchiveSaveDirTo(archivePath);
-                    AppendLine(textBox17, "All saves backed up to zip file created in \\backup folder...");
+                    AppendLine(textBox17, "All saves backed up to zip file created in \\backup\\saves folder...");
                 }              
             }
             catch
@@ -3816,7 +3990,6 @@ namespace NMSCoordinates
 
             pb.Invoke((System.Action)(() => pb.Value = 60));
         }
-
         private void EditSaveMove(ProgressBar pb, TextBox tb) //string json)
         {
             pb.Visible = true;
@@ -3857,7 +4030,6 @@ namespace NMSCoordinates
             AppendLine(tb, igalaxy.ToString() + " " + iX.ToString() + " " + iY.ToString() + " " + iZ.ToString() + " " + iSSI.ToString() + " " + "0" + " " + "InShip");
             pb.Invoke((System.Action)(() => pb.Value = 70));
         }
-
         private void RunEncrypt(ProgressBar pb, int saveslot)
         {
             DoGameSlotCommon(saveslot);
@@ -3882,7 +4054,6 @@ namespace NMSCoordinates
                 return;
             }
         }
-
         private void Button15_Click(object sender, EventArgs e)
         {
             //Add Note Button
@@ -3901,14 +4072,16 @@ namespace NMSCoordinates
             }
 
             //add a note to a single location record
+            
+
             string record = listBox3.GetItemText(listBox3.SelectedItem);
             string filename = listBox4.GetItemText(listBox4.SelectedItem);
             int selectedrecord = listBox3.SelectedIndex;
             var selectedfile = listBox4.SelectedItem;
 
-            if (record != "" && filename != "")
+            if (record != "" && filename != "" && locjson != "")
             {
-                string path = @".\backup\" + filename;
+                string path = @".\backup\locations\" + filename;
 
                 if(!File.Exists(path))
                 {
@@ -3917,48 +4090,53 @@ namespace NMSCoordinates
                     return;
                 }
 
-                List<string> filelist = File.ReadAllLines(path).ToList();
-                int index = filelist.FindIndex(a => a.Contains(record));
+                //List<string> filelist = File.ReadAllLines(path).ToList();
+                //int index = filelist.FindIndex(a => a.Contains(record));
 
-                if (filelist.Contains(record) && filelist.Count > 0)
+                if (locjson != "")
                 {
-                    //grabs the end of the line after GC:
-                    Regex myRegexGC = new Regex("GC:.*?$", RegexOptions.Multiline);
-                    Match m1 = myRegexGC.Match(listBox3.GetItemText(listBox3.SelectedItem));
-                    string line1 = m1.ToString();
-                    line1 = line1.Replace("GC: ", "");
-                    //line1 = line1.Replace(" ", "");
-                    string[] value = line1.Split(':');
+                    var loc = SavedLocationData.FromJson(locjson);
+                    var newnote = textBox28.Text;                    
 
-                    //Check for errors on GC
-                    string gc = line1.Replace(":", "");
-                    if (gc.Length < 16)
-                    {
-                        DialogResult dialogResult2 = MessageBox.Show("Something went wrong! \r\n\nSelected line has errors. \r\n\nWould you like to Delete the Line?", "Add Note", MessageBoxButtons.YesNo);
-                        if (dialogResult2 == DialogResult.Yes)
-                        {
-                            DeleteSingleRecordToolStripMenuItem_Click(this, new EventArgs());
-                            return;
-                        }
-                        else if (dialogResult2 == DialogResult.No)
-                        {
-                            return;
-                        }
-                    }
+                    ////grabs the end of the line after GC:
+                    //Regex myRegexGC = new Regex("GC:.*?$", RegexOptions.Multiline);
+                    //Match m1 = myRegexGC.Match(listBox3.GetItemText(listBox3.SelectedItem));
+                    //string line1 = m1.ToString();
+                    //line1 = line1.Replace("GC: ", "");
+                    ////line1 = line1.Replace(" ", "");
+                    //string[] value = line1.Split(':');
+
+                    ////Check for errors on GC
+                    //string gc = line1.Replace(":", "");
+                    //if (gc.Length < 16)
+                    //{
+                    //    DialogResult dialogResult2 = MessageBox.Show("Something went wrong! \r\n\nSelected line has errors. \r\n\nWould you like to Delete the Line?", "Add Note", MessageBoxButtons.YesNo);
+                    //    if (dialogResult2 == DialogResult.Yes)
+                    //    {
+                    //        DeleteSingleRecordToolStripMenuItem_Click(this, new EventArgs());
+                    //        return;
+                    //    }
+                    //    else if (dialogResult2 == DialogResult.No)
+                    //    {
+                    //        return;
+                    //    }
+                    //}
 
                     //grab the end of the line and the last 4 of GC
-                    string D = value[3].Trim().Substring(0, 4);
+                    //string D = value[3].Trim().Substring(0, 4);
 
-                    if (value[3].Length > 4)
+                    if (newnote != "")
                     {
                         DialogResult dialogResult = MessageBox.Show("Are you sure want to replace the note? ", "Replace/Change Note", MessageBoxButtons.YesNo);
                         if (dialogResult == DialogResult.Yes)
                         {
+                            loc.Locations.Bases[selectedrecord].Details.Notes = newnote;
+
                             //removes the last 4 of GC
-                            string E = value[3].Replace(D, "");
+                            //string E = value[3].Replace(D, "");
 
                             //removes the note from the record
-                            record = record.Replace(E, "");
+                            //record = record.Replace(E, "");
                         }
                         else if (dialogResult == DialogResult.No)
                         {
@@ -3967,10 +4145,14 @@ namespace NMSCoordinates
                     }
 
                     //replaces the record at the selected filelist index
-                    filelist[index] = record.Replace(record, record + " -- " + textBox28.Text);
+                    //filelist[index] = record.Replace(record, record + " -- " + textBox28.Text);
 
                     //writes the new file from the modified filelist
-                    File.WriteAllLines(path, filelist);
+                    //File.WriteAllLines(path, filelist);
+
+                    var locj = LocationData.Serialize.ToJson(loc);
+                    File.WriteAllText(path, locj);
+
                     AppendLine(textBox13, "Note Added.");
 
                     LoadTxt();
@@ -3987,7 +4169,6 @@ namespace NMSCoordinates
                 }
             }
         }
-
         private void Button16_Click(object sender, EventArgs e)
         {
             //Clear Note Button
@@ -3998,15 +4179,15 @@ namespace NMSCoordinates
                 return;
             }
 
-            //delete a note to a single location record
+            // remove a note to a single location record
             string record = listBox3.GetItemText(listBox3.SelectedItem);
             string filename = listBox4.GetItemText(listBox4.SelectedItem);
             int selectedrecord = listBox3.SelectedIndex;
             var selectedfile = listBox4.SelectedItem;
 
-            if (record != "" && filename != "")
+            if (record != "" && filename != "" && locjson != "")
             {
-                string path = @".\backup\" + filename;
+                string path = @".\backup\locations\" + filename;
 
                 if (!File.Exists(path))
                 {
@@ -4015,65 +4196,24 @@ namespace NMSCoordinates
                     return;
                 }
 
-                List<string> filelist = File.ReadAllLines(path).ToList();
-                int index = filelist.FindIndex(a => a.Contains(record));
-
-                if (filelist.Contains(record) && filelist.Count > 0)
+                if (locjson != "")
                 {
-                    //grabs the end of the line after GC:
-                    Regex myRegexGC = new Regex("GC:.*?$", RegexOptions.Multiline);
-                    Match m1 = myRegexGC.Match(listBox3.GetItemText(listBox3.SelectedItem));
-                    string line1 = m1.ToString();
-                    line1 = line1.Replace("GC: ", "");
-                    //line1 = line1.Replace(" ", "");
-                    string[] value = line1.Split(':');
+                    var loc = SavedLocationData.FromJson(locjson);
+                    var newnote = "";
 
-                    //Check for errors on GC
-                    string gc = line1.Replace(":", "");
-                    if (gc.Length < 16)
+                    DialogResult dialogResult = MessageBox.Show("Are you sure want to remove the note? ", "Remove Note", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
                     {
-                        DialogResult dialogResult2 = MessageBox.Show("Something went wrong! \r\n\nSelected line has errors. \r\n\nWould you like to Delete the Line?", "Remove Note", MessageBoxButtons.YesNo);
-                        if (dialogResult2 == DialogResult.Yes)
-                        {
-                            DeleteSingleRecordToolStripMenuItem_Click(this, new EventArgs());
-                            return;
-                        }
-                        else if (dialogResult2 == DialogResult.No)
-                        {
-                            return;
-                        }
+                        loc.Locations.Bases[selectedrecord].Details.Notes = newnote;
                     }
-
-                    //grab the end of the line and the last 4 of GC
-                    string D = value[3].Trim().Substring(0, 4);
-
-                    if (value[3].Length > 4)
+                    else if (dialogResult == DialogResult.No)
                     {
-                        DialogResult dialogResult = MessageBox.Show("Are you sure want to Remove the note? ", "Remove Note", MessageBoxButtons.YesNo);
-                        if (dialogResult == DialogResult.Yes)
-                        {
-                            //removes the last 4 of GC
-                            string E = value[3].Replace(D, "");
-
-                            //removes the note from the record
-                            record = record.Replace(E, "");
-                        }
-                        else if (dialogResult == DialogResult.No)
-                        {
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("No Note Found!", "Alert", MessageBoxButtons.OK);
-                        //AppendLine(textBox13, "No Note Removed.");
                         return;
                     }
 
-                    //replaces the record at the selected filelist index
-                    filelist[index] = record;
+                    var locj = LocationData.Serialize.ToJson(loc);
+                    File.WriteAllText(path, locj);
 
-                    File.WriteAllLines(path, filelist);
                     AppendLine(textBox13, "Note Removed.");
 
                     LoadTxt();
@@ -4085,17 +4225,113 @@ namespace NMSCoordinates
 
                         listBox3.SelectedIndex = selectedrecord;
                     }
-
                     textBox28.Clear();
                 }
             }
-        }
 
+            //if (listBox3.GetItemText(listBox3.SelectedItem) == "")
+            //{
+            //    MessageBox.Show("No record selected!", "Alert", MessageBoxButtons.OK);
+            //    //AppendLine(textBox13, "No record selected!");
+            //    return;
+            //}
+
+            ////delete a note to a single location record
+            //string record = listBox3.GetItemText(listBox3.SelectedItem);
+            //string filename = listBox4.GetItemText(listBox4.SelectedItem);
+            //int selectedrecord = listBox3.SelectedIndex;
+            //var selectedfile = listBox4.SelectedItem;
+
+            //if (record != "" && filename != "")
+            //{
+            //    string path = @".\backup\locations\" + filename;
+
+            //    if (!File.Exists(path))
+            //    {
+            //        MessageBox.Show("File Not Found!", "Alert", MessageBoxButtons.OK);
+            //        LoadTxt();
+            //        return;
+            //    }
+
+            //    List<string> filelist = File.ReadAllLines(path).ToList();
+            //    int index = filelist.FindIndex(a => a.Contains(record));
+
+            //    if (filelist.Contains(record) && filelist.Count > 0)
+            //    {
+            //        //grabs the end of the line after GC:
+            //        Regex myRegexGC = new Regex("GC:.*?$", RegexOptions.Multiline);
+            //        Match m1 = myRegexGC.Match(listBox3.GetItemText(listBox3.SelectedItem));
+            //        string line1 = m1.ToString();
+            //        line1 = line1.Replace("GC: ", "");
+            //        //line1 = line1.Replace(" ", "");
+            //        string[] value = line1.Split(':');
+
+            //        //Check for errors on GC
+            //        string gc = line1.Replace(":", "");
+            //        if (gc.Length < 16)
+            //        {
+            //            DialogResult dialogResult2 = MessageBox.Show("Something went wrong! \r\n\nSelected line has errors. \r\n\nWould you like to Delete the Line?", "Remove Note", MessageBoxButtons.YesNo);
+            //            if (dialogResult2 == DialogResult.Yes)
+            //            {
+            //                DeleteSingleRecordToolStripMenuItem_Click(this, new EventArgs());
+            //                return;
+            //            }
+            //            else if (dialogResult2 == DialogResult.No)
+            //            {
+            //                return;
+            //            }
+            //        }
+
+            //        //grab the end of the line and the last 4 of GC
+            //        string D = value[3].Trim().Substring(0, 4);
+
+            //        if (value[3].Length > 4)
+            //        {
+            //            DialogResult dialogResult = MessageBox.Show("Are you sure want to Remove the note? ", "Remove Note", MessageBoxButtons.YesNo);
+            //            if (dialogResult == DialogResult.Yes)
+            //            {
+            //                //removes the last 4 of GC
+            //                string E = value[3].Replace(D, "");
+
+            //                //removes the note from the record
+            //                record = record.Replace(E, "");
+            //            }
+            //            else if (dialogResult == DialogResult.No)
+            //            {
+            //                return;
+            //            }
+            //        }
+            //        else
+            //        {
+            //            MessageBox.Show("No Note Found!", "Alert", MessageBoxButtons.OK);
+            //            //AppendLine(textBox13, "No Note Removed.");
+            //            return;
+            //        }
+
+            //        //replaces the record at the selected filelist index
+            //        filelist[index] = record;
+
+            //        File.WriteAllLines(path, filelist);
+            //        AppendLine(textBox13, "Note Removed.");
+
+            //        LoadTxt();
+
+            //        if (File.Exists(path))
+            //        {
+            //            listBox4.SelectedItem = selectedfile;
+            //            Button6_Click(this, new EventArgs());
+
+            //            listBox3.SelectedIndex = selectedrecord;
+            //        }
+
+            //        textBox28.Clear();
+            //    }
+            //}
+        }
         private void Button17_Click(object sender, EventArgs e)
         {
             LoadTxt();
         }
-
         private void UpdateApp()
         {
             string apath = Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath);
@@ -4137,7 +4373,6 @@ namespace NMSCoordinates
                 return;
             }
         }
-
         private void CheckForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UpdateChecker f9 = new UpdateChecker(NMSCVersion);
@@ -4148,6 +4383,3 @@ namespace NMSCoordinates
         }
     }
 }
-    
-    
-

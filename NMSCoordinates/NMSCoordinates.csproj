@@ -122,6 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class2.cs" />
+    <Compile Include="LocData\LocationData.cs" />
     <Compile Include="SaveCompression.cs" />
     <Compile Include="NMSCoordinatesMain.cs">
       <SubType>Form</SubType>
