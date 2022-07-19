@@ -2158,11 +2158,11 @@ namespace NMSCoordinates
             await BackupLoc(@".\backup\locations\locbackup.json");
         }
 
-        private bool ValidateCoord(string A, string B, string C, string D)
-        {
-            bool x = Convert.ToInt32(A, 16) > 4096 || Convert.ToInt32(B, 16) > 255 || Convert.ToInt32(C, 16) > 4096 || Convert.ToInt32(D, 16) > 767;
-            return x;
-        }
+        //private bool ValidateCoord(string A, string B, string C, string D)
+        //{
+        //    bool x = Convert.ToInt32(A, 16) > 4096 || Convert.ToInt32(B, 16) > 255 || Convert.ToInt32(C, 16) > 4096 || Convert.ToInt32(D, 16) > 767;
+        //    return x;
+        //}
         private bool CheckForSameLoc()
         {
             //looks up the players current location
@@ -2773,7 +2773,7 @@ namespace NMSCoordinates
                         string D = value[3].Trim().Substring(0, 4);
 
                         //Validate Coordinates
-                        if (ValidateCoord(A, B, C, D))
+                        if (CoordCalculations.ValidateCoord(A, B, C, D))
                         {
                             MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
                             return;
@@ -2805,7 +2805,7 @@ namespace NMSCoordinates
                             }
                             Globals.AppendLine(textBox13, "Move Player to: Galaxy: " + galaxy + " -- X:" + X + " -- Y:" + Y + " -- Z:" + Z + " -- SSI:" + SSI);
 
-                            //Main save writer
+                            //Read - Edit - Write Json save file for move player
                             WriteSaveMove(progressBar3, textBox13, saveslot);
 
                             //Read the new json and check portal interference state
@@ -3054,7 +3054,7 @@ namespace NMSCoordinates
                         string D = value[3].Trim();
 
                         //Validate Coordinates
-                        if (ValidateCoord(A, B, C, D))
+                        if (CoordCalculations.ValidateCoord(A, B, C, D))
                         {
                             MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
                             return;
@@ -3076,7 +3076,7 @@ namespace NMSCoordinates
                         string D = t2.Substring(t2.Length - 4, 4);
 
                         //Validate Coordinates
-                        if (ValidateCoord(A, B, C, D))
+                        if (CoordCalculations.ValidateCoord(A, B, C, D))
                         {
                             MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
                             return;
@@ -3130,7 +3130,7 @@ namespace NMSCoordinates
 
                         WriteSaveMove(progressBar4, textBox15, saveslot);
 
-                        //Read the new json and check portal interference state
+                        //Read - Edit - Write Json save file for move player
                         var nms = GameSaveData.FromJson(json);
                         textBox12.Clear();
                         textBox12.Text = nms.PlayerStateData.OnOtherSideOfPortal.ToString();
@@ -4046,8 +4046,6 @@ namespace NMSCoordinates
             }
 
             //add a note to a single location record
-            
-
             string record = listBox3.GetItemText(listBox3.SelectedItem);
             string filename = listBox4.GetItemText(listBox4.SelectedItem);
             int selectedrecord = listBox3.SelectedIndex;
