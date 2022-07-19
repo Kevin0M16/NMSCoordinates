@@ -85,7 +85,6 @@ namespace NMSCoordinates
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.button17 = new System.Windows.Forms.Button();
             this.listBox4 = new System.Windows.Forms.ListBox();
-            this.button6 = new System.Windows.Forms.Button();
             this.listBox3 = new System.Windows.Forms.ListBox();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -470,7 +469,6 @@ namespace NMSCoordinates
             this.travelModeToolStripMenuItem.Name = "travelModeToolStripMenuItem";
             this.travelModeToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.travelModeToolStripMenuItem.Text = "Travel Mode...";
-            this.travelModeToolStripMenuItem.Visible = false;
             // 
             // onToolStripMenuItem
             // 
@@ -502,9 +500,7 @@ namespace NMSCoordinates
             // 
             // lockedToolStripMenuItem
             // 
-            this.lockedToolStripMenuItem.Checked = true;
             this.lockedToolStripMenuItem.CheckOnClick = true;
-            this.lockedToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.lockedToolStripMenuItem.Name = "lockedToolStripMenuItem";
             this.lockedToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
             this.lockedToolStripMenuItem.Text = "Lock";
@@ -512,7 +508,9 @@ namespace NMSCoordinates
             // 
             // unlockedToolStripMenuItem
             // 
+            this.unlockedToolStripMenuItem.Checked = true;
             this.unlockedToolStripMenuItem.CheckOnClick = true;
+            this.unlockedToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.unlockedToolStripMenuItem.Name = "unlockedToolStripMenuItem";
             this.unlockedToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
             this.unlockedToolStripMenuItem.Text = "Unlock";
@@ -641,7 +639,7 @@ namespace NMSCoordinates
             this.label32.AutoSize = true;
             this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label32.ForeColor = System.Drawing.Color.LightBlue;
-            this.label32.Location = new System.Drawing.Point(20, 277);
+            this.label32.Location = new System.Drawing.Point(19, 277);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(192, 16);
             this.label32.TabIndex = 40;
@@ -779,7 +777,6 @@ namespace NMSCoordinates
             this.groupBox8.BackColor = System.Drawing.Color.Transparent;
             this.groupBox8.Controls.Add(this.button17);
             this.groupBox8.Controls.Add(this.listBox4);
-            this.groupBox8.Controls.Add(this.button6);
             this.groupBox8.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBox8.Location = new System.Drawing.Point(9, 348);
             this.groupBox8.Name = "groupBox8";
@@ -792,7 +789,7 @@ namespace NMSCoordinates
             // 
             this.button17.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button17.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button17.Location = new System.Drawing.Point(156, 200);
+            this.button17.Location = new System.Drawing.Point(90, 207);
             this.button17.Name = "button17";
             this.button17.Size = new System.Drawing.Size(69, 25);
             this.button17.TabIndex = 40;
@@ -809,21 +806,9 @@ namespace NMSCoordinates
             this.listBox4.FormattingEnabled = true;
             this.listBox4.Location = new System.Drawing.Point(11, 19);
             this.listBox4.Name = "listBox4";
-            this.listBox4.Size = new System.Drawing.Size(234, 173);
+            this.listBox4.Size = new System.Drawing.Size(234, 186);
             this.listBox4.TabIndex = 37;
-            this.listBox4.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListBox4_MouseDoubleClick);
-            // 
-            // button6
-            // 
-            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button6.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button6.Location = new System.Drawing.Point(31, 200);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(120, 25);
-            this.button6.TabIndex = 34;
-            this.button6.Text = "Load locbackup.txt";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.Button6_Click);
+            this.listBox4.SelectedIndexChanged += new System.EventHandler(this.listBox4_SelectedIndexChanged);
             // 
             // listBox3
             // 
@@ -2455,7 +2440,6 @@ namespace NMSCoordinates
             this.textBox14.ForeColor = System.Drawing.Color.LightSteelBlue;
             this.textBox14.Location = new System.Drawing.Point(18, 54);
             this.textBox14.Name = "textBox14";
-            this.textBox14.ReadOnly = true;
             this.textBox14.Size = new System.Drawing.Size(134, 20);
             this.textBox14.TabIndex = 57;
             this.textBox14.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -2776,7 +2760,6 @@ namespace NMSCoordinates
         private System.Windows.Forms.TextBox textBox11;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.ListBox listBox4;
-        private System.Windows.Forms.Button button6;
         private System.Windows.Forms.ListBox listBox3;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.ProgressBar progressBar1;

@@ -7,7 +7,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.IO.Compression;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Octokit;
@@ -117,7 +116,7 @@ namespace NMSCoordinates
 
             //Check Github releases for a newer version            
             //CheckForUpdates(true); //Toggle until updater
-            CheckForUpdates();
+            //CheckForUpdates();
         }
         private void CheckRes()
         {
@@ -172,7 +171,7 @@ namespace NMSCoordinates
                     linkLabel4.Visible = true;
                     Globals.AppendLine(textBox17, "This Version: " + NMSCVersion + " Latest Version: " + latestversion); // latest.Name);
                     MessageBox.Show("A newer version of NMSCoordinates is available\r\n\nLatest Version: " + latest.Name + "  Now available for download.\r\n\n", "Update Available", MessageBoxButtons.OK);
-                    
+
                     /*
                     DialogResult dialogResult = MessageBox.Show("A newer version of NMSCoordinates is available\r\n\nLatest Version: " + latest.Name + "  Update Now?\r\n\n", "Update Available", MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.Yes)
@@ -508,7 +507,7 @@ namespace NMSCoordinates
                 ClearAll();
                 GetSaveFile(selected);
                 LoadTeleportEndpoints();
-                LoadPersistentPlayerBases();
+                //LoadPersistentPlayerBases();
                 GetPlayerCoord();
             }            
         }
@@ -654,33 +653,6 @@ namespace NMSCoordinates
                 }
             }
         }
-        //private void GameModeLookupInt(int mode)
-        //{
-        //    //Looks up game mode in ranges to prevent "not found"
-        //    try
-        //    {
-        //        if (mode > 4600 & mode < 4700)
-        //        {
-        //            label28.Text = "Normal";
-        //        }
-        //        if (mode > 5600 & mode < 5700)
-        //        {
-        //            label28.Text = "Survival";
-        //        }
-        //        if (mode > 6600 & mode < 6700)
-        //        {
-        //            label28.Text = "Permadeath";
-        //        }
-        //        if (mode > 5100 & mode < 5200)
-        //        {
-        //            label28.Text = "Creative";
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        return;
-        //    }
-        //}
         private void SetPrevSS()
         {
             //Travel Mode, Store all discoveries to compare later
@@ -807,14 +779,14 @@ namespace NMSCoordinates
                 File.WriteAllText(path2, backuplist);
 
                 //File.WriteAllLines(path2, backuplist);
-                MessageBox.Show("Locations Backed up to .txt \n\n\r Open in Coordinate Share Tab", "Confirmation", MessageBoxButtons.OK);
+                MessageBox.Show("ALL Locations Backed up \n\n\r Open in Coordinate Share Tab", "Confirmation", MessageBoxButtons.OK);
                 LoadTxt();
 
                 tabControl1.SelectedTab = tabPage3;
                 if (File.Exists(path2))
                 {                    
                     listBox4.SelectedItem = Path.GetFileName(path2);
-                    Button6_Click(this, new EventArgs());
+                    //Button6_Click(this, new EventArgs());
                 }                
             }
             else
@@ -823,26 +795,6 @@ namespace NMSCoordinates
                 MessageBox.Show("No Locations found! ", "Message");
             }
         }
-        //public FileInfo MakeUniqueSave(string path)
-        //{
-        //    //Makes path in \backup\saves unique by date.time
-        //    path = String.Format("{0}{1}{2}{3}{4}", @".\backup\saves\", Path.GetFileNameWithoutExtension(path), "_" + saveslot + "_", DateTime.Now.ToString("yyyy-MM-dd-HHmmss"), Path.GetExtension(path));
-        //    return new FileInfo(path);
-        //}
-        //public FileInfo MakeUniqueLoc(string path)
-        //{
-        //    //Makes path in \backup\saves unique by date.time
-        //    path = String.Format("{0}{1}{2}{3}{4}", @".\backup\locations\", Path.GetFileNameWithoutExtension(path), "_" + saveslot + "_", DateTime.Now.ToString("yyyy-MM-dd-HHmmss"), Path.GetExtension(path));
-        //    return new FileInfo(path);
-        //}
-        //public static void Globals.AppendLine(TextBox source, string value)
-        //{
-        //    //My neat little textbox handler
-        //    if (source.Text.Length == 0)
-        //        source.Text = value;
-        //    else
-        //        source.AppendText("\r\n" + value);
-        //}
         private void GetPlayerCoord()
         {
             //Gets the player position off the save file and prints the info on tab1
@@ -1017,181 +969,36 @@ namespace NMSCoordinates
                 return;
             }
         }
-        //private void Glyphs()
-        //{
-        //    //Set the dictionary to find glyphs
-        //    glyphDict = new Dictionary<char, Bitmap>();
-        //    glyphDict.Add('0', Properties.Resources._0);
-        //    glyphDict.Add('1', Properties.Resources._1);
-        //    glyphDict.Add('2', Properties.Resources._2);
-        //    glyphDict.Add('3', Properties.Resources._3);
-        //    glyphDict.Add('4', Properties.Resources._4);
-        //    glyphDict.Add('5', Properties.Resources._5);
-        //    glyphDict.Add('6', Properties.Resources._6);
-        //    glyphDict.Add('7', Properties.Resources._7);
-        //    glyphDict.Add('8', Properties.Resources._8);
-        //    glyphDict.Add('9', Properties.Resources._9);
-        //    glyphDict.Add('A', Properties.Resources.A);
-        //    glyphDict.Add('B', Properties.Resources.B);
-        //    glyphDict.Add('C', Properties.Resources.C);
-        //    glyphDict.Add('D', Properties.Resources.D);
-        //    glyphDict.Add('E', Properties.Resources.E);
-        //    glyphDict.Add('F', Properties.Resources.F);
-        //}
-        //private void GMode()
-        //{
-        //    //Set the dictionary for game modes
-        //    gameMode = new Dictionary<string, string>();
-        //    gameMode.Add(new KeyValuePair<string, string>("4631", "Normal"));
-        //    gameMode.Add(new KeyValuePair<string, string>("5655", "Survival"));
-        //    gameMode.Add(new KeyValuePair<string, string>("6679", "Permadeath"));
-        //    gameMode.Add(new KeyValuePair<string, string>("5143", "Creative"));
+        private void JsonMapPersistentBases(int i)
+        {
+            //lookup info from the Json hg file
+            try
+            {
+                var nms = GameSaveData.FromJson(json);
+                string ga = nms.PlayerStateData.PersistentPlayerBases[i].GalacticAddress;
+                CoordCalculations.CalculateLongHex(ga, out string galacticCoord2, out iPI, out igalaxy);
 
-        //    gameMode.Add(new KeyValuePair<string, string>("4628", "Normal"));
-        //    gameMode.Add(new KeyValuePair<string, string>("5652", "Survival"));
-        //    gameMode.Add(new KeyValuePair<string, string>("6676", "Permadeath"));
-        //    //gameMode.Add(new KeyValuePair<string, string>("", "Creative"));
+                string[] value = galacticCoord2.Replace(" ", "").Split(':');
+                string A = value[0].Trim();
+                string B = value[1].Trim();
+                string C = value[2].Trim();
+                string D = value[3].Trim();
 
-        //    gameMode.Add(new KeyValuePair<string, string>("4634", "Normal"));
-        //    gameMode.Add(new KeyValuePair<string, string>("5658", "Survival"));
-        //    gameMode.Add(new KeyValuePair<string, string>("6682", "Permadeath"));
-        //    gameMode.Add(new KeyValuePair<string, string>("5146", "Creative"));
-        //}
-        //private void GIndex()
-        //{
-        //    //Main dictionary for galaxies
-        //    galaxyDict = new Dictionary<string, string>();
-        //    galaxyDict.Add(new KeyValuePair<string, string>("0", "Euclid"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("1", "Hilbert"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("2", "Calypso"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("3", "Hesperius"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("4", "Hyades"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("5", "Ickjamatew"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("6", "Bullangr"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("7", "Kikolgallr"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("8", "Eltiensleem"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("9", "Eissentam"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("10", "Elkupalos"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("11", "Aptarkaba"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("12", "Ontiniangp"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("13", "Odiwagiri"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("14", "Ogtialabi"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("15", "Muhacksonto"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("16", "Hitonskyer"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("17", "Rerasmutul"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("18", "Isdoraijung"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("19", "Doctinawyra"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("20", "Loychazinq"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("21", "Zukasizawa"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("22", "Ekwathore"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("23", "Yeberhahne"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("24", "Twerbetek"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("25", "Sivarates"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("26", "Eajerandal"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("27", "Aldukesci"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("28", "Wotyarogii"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("29", "Sudzerbal"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("30", "Maupenzhay"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("31", "Sugueziume"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("32", "Brogoweldian"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("33", "Ehbogdenbu"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("34", "Ijsenufryos"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("35", "Nipikulha"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("36", "Autsurabin"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("37", "Lusontrygiamh"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("38", "Rewmanawa"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("39", "Ethiophodhe"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("40", "Urastrykle"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("41", "Xobeurindj"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("42", "Oniijialdu"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("43", "Wucetosucc"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("44", "Ebyeloof"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("45", "Odyavanta"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("46", "Milekistri"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("47", "Waferganh"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("48", "Agnusopwit"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("49", "Teyaypilny"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("50", "Zalienkosm"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("51", "Ladgudiraf"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("52", "Mushonponte"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("53", "Amsentisz"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("54", "Fladiselm"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("55", "Laanawemb"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("56", "Ilkerloor"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("57", "Davanossi"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("58", "Ploehrliou"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("59", "Corpinyaya"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("60", "Leckandmeram"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("61", "Quulngais"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("62", "Nokokipsechl"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("63", "Rinblodesa"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("64", "Loydporpen"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("65", "Ibtrevskip"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("66", "Elkowaldb"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("67", "Heholhofsko"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("68", "Yebrilowisod"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("69", "Husalvangewi"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("70", "Ovna'uesed"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("71", "Bahibusey"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("72", "Nuybeliaure"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("73", "Doshawchuc"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("74", "Ruckinarkh"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("75", "Thorettac"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("76", "Nuponoparau"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("77", "Moglaschil"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("78", "Uiweupose"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("79", "Nasmilete"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("80", "Ekdaluskin"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("81", "Hakapanasy"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("82", "Dimonimba"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("83", "Cajaccari"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("84", "Olonerovo"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("85", "Umlanswick"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("86", "Henayliszm"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("87", "Utzenmate"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("88", "Umirpaiya"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("89", "Paholiang"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("90", "Iaereznika"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("91", "Yudukagath"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("92", "Boealalosnj"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("93", "Yaevarcko"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("94", "Coellosipp"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("95", "Wayndohalou"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("96", "Smoduraykl"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("97", "Apmaneessu"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("98", "Hicanpaav"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("99", "Akvasanta"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("100", "Tuychelisaor"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("109", "Nudquathsenfe"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("118", "Torweierf"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("129", "Broomerrai"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("138", "Emiekereks"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("140", "Kimycuristh"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("149", "Zavainlani"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("158", "Rycempler"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("169", "Ezdaranit"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("178", "Wepaitvas"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("189", "Cugnatachh"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("198", "Horeroedsh"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("209", "Digarlewena"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("218", "Chmageaki"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("229", "Raldwicarn"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("238", "Yuwarugha"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("249", "Nepitzaspru"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("254", "Iousongola"));
-        //    galaxyDict.Add(new KeyValuePair<string, string>("255", "Odyalutai"));
+                CoordCalculations.GalacticToVoxel(A, B, C, D, out iX, out iY, out iZ, out iSSI);
 
-        //    //galaxyDict.Add(new KeyValuePair<string, string>("256", "Yilsrussimil"));
-        //    //galaxyDict.Add(new KeyValuePair<string, string>("-1", "Pequibanu"));
-        //    //galaxyDict.Add(new KeyValuePair<string, string>("-2", "Uewamoisow"));
-        //    //galaxyDict.Add(new KeyValuePair<string, string>("-3", "Hiteshamij"));
-        //    //galaxyDict.Add(new KeyValuePair<string, string>("-4", "Usgraikik"));
-        //    //galaxyDict.Add(new KeyValuePair<string, string>("-5", "Helqvishap"));
-        //    //galaxyDict.Add(new KeyValuePair<string, string>("-6", "Enyokudohkiw"));
-        //    //galaxyDict.Add(new KeyValuePair<string, string>("-7", "Loqvishess"));
-
-        //    //galaxyDict.Add(new KeyValuePair<string, string>("", ""));
-        //}
+                galaxy = igalaxy.ToString();
+                X = iX.ToString();
+                Y = iY.ToString();
+                Z = iZ.ToString();
+                SSI = iSSI.ToString();
+                PI = iPI.ToString();
+            }
+            catch
+            {
+                Globals.AppendLine(textBox17, "** Code 22 **");
+                return;
+            }
+        }
         private void LoadTeleportEndpoints()
         {
             //Method to load all location discovered in listbox1
@@ -1274,15 +1081,16 @@ namespace NMSCoordinates
                     {
                         string pb = baseN + " (PB)";
                         BaseList.Add(pb);
-                        //listBox2.Items.Add(pb);
+                        listBox2.Items.Add(pb);
                     }
                     else
                     {
                         string pb = "Not Named (PB)";
                         BaseList.Add(pb);
-                        //listBox2.Items.Add(pb);
+                        listBox2.Items.Add(pb);
                     }
                 }
+                textBox20.Text = listBox2.Items.Count.ToString();
             }
             catch
             {
@@ -1290,72 +1098,6 @@ namespace NMSCoordinates
                 return;
             }
         }
-        //private void GameModeLookup(System.Windows.Forms.Label source, string mode)
-        //{
-        //    //lookup game modes, if not in gameMode dict, display the number
-        //    try
-        //    {
-        //        source.Text = gameMode[mode];
-        //    }
-        //    catch
-        //    {
-        //        source.Text = mode;
-        //        Globals.AppendLine(textBox17, "Game mode Not Found, update needed.");
-        //    }
-        //}
-        //private void GalaxyLookupLbl(System.Windows.Forms.Label source, string galaxy)
-        //{
-        //    //lookup the galaxy and if not in galaxy dict, display the number
-        //    try
-        //    {
-        //        string value;
-        //        if (galaxyDict.TryGetValue(galaxy, out value))
-        //        {
-        //            source.Text = value;
-        //        }
-        //        else
-        //        {
-        //           source.Text = "";
-        //        }
-        //        //source.Text = galaxyDict[galaxy];                
-        //    }
-        //    catch
-        //    {
-        //        //source.Text = "";//(Convert.ToInt32(galaxy) + 1).ToString();
-        //        Globals.AppendLine(textBox15, "Galaxy Not Found, update needed.");
-        //    }
-        //}
-        //private void GalaxyLookup(TextBox source, string galaxy)
-        //{
-        //    //lookup the galaxy and if not in galaxy dict, display the number
-        //    try
-        //    {
-        //        string value;
-        //        if (galaxyDict.TryGetValue(galaxy, out value))
-        //        {
-        //            source.Text = value;
-        //        }
-        //        else
-        //        {
-        //            int g = Convert.ToInt32(galaxy);
-        //            if (g >= 0)
-        //            {
-        //                source.Text = (g + 1).ToString();
-        //            }
-        //            else
-        //            {
-        //                source.Text = g.ToString();
-        //            }
-        //        }
-        //        //source.Text = galaxyDict[galaxy];
-        //    }
-        //    catch
-        //    {
-              
-        //        //source.Text = (Convert.ToInt32(galaxy) + 1).ToString();
-        //        Globals.AppendLine(textBox17, "Galaxy Not Found, update needed.");
-        //    }
-        //}
         private void ListBox1_MouseClick(object sender, EventArgs e)
         {
             //When a location is clicked on listbox1, get all the info
@@ -1442,140 +1184,51 @@ namespace NMSCoordinates
                 Globals.AppendLine(textBox17, "** Code 5l2 **");
                 return;
             }
+            /*
+            listBox1.SelectedIndex = -1;
+            try
+            {
+                if (listBox2.GetItemText(listBox2.SelectedItem) != "")
+                {
+                    object selecteditem = listBox2.SelectedItem;
+                    string si = selecteditem.ToString();
+                    //si = si.Replace(" (SS)", "");
+                    si = si.Replace("Not Named (PB)", "");
+                    si = si.Replace(" (PB)", "");
+                    var nms = GameSaveData.FromJson(json);
+                    try
+                    {
+                        for (int i = 0; i < nms.PlayerStateData.PersistentPlayerBases.Length; i++)
+                        {
+                            if (nms.PlayerStateData.PersistentPlayerBases[i].Name.ToString() == si)
+                            {
+                                //JsonMapTeleportEndpoints(i);
+                                JsonMapPersistentBases(i);
+                                TextBoxes();
+                                textBox10.Text = Globals.GalaxyLookup(galaxy);
+                                textBox30.Text = DistanceToCenter(iX, iY, iZ);
+                                GalacticCoord = CoordCalculations.VoxelToGalacticCoord(iX, iY, iZ, iSSI, textBox3);
+                                PortalCode = CoordCalculations.VoxelToPortal(iPI, iX, iY, iZ, iSSI, textBox3);
+                                ShowGlyphs();
+                                Globals.AppendLine(textBox1, GalacticCoord);
+                                Globals.AppendLine(textBox2, PortalCode);
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        Globals.AppendLine(textBox17, "** Code 51l2 **");
+                        return;
+                    }
+                }
+            }
+            catch
+            {
+                Globals.AppendLine(textBox17, "** Code 5l2 **");
+                return;
+            }
+            */
         }
-        //private void GetGalacticCoord(int X, int Y, int Z, int SSI)
-        //{
-        //    //Voxel Coordinate to Galactic Coordinate
-        //    textBox3.Clear();
-
-        //    //Note: iX, iY, iZ, iSSI already Convert.ToInt32(X) in JSONMap()
-        //    Globals.AppendLine(textBox3, "DEC: " + X + " " + Y + " " + Z);
-
-        //    int dd1 = X + 2047;
-        //    int dd2 = Y + 127;
-        //    int dd3 = Z + 2047;
-        //    Globals.AppendLine(textBox3, "SHIFT: " + dd1 + " " + dd2 + " " + dd3);
-
-        //    string g1 = dd1.ToString("X");
-        //    string g2 = dd2.ToString("X");
-        //    string g3 = dd3.ToString("X");
-        //    string g4 = SSI.ToString("X");
-        //    Globals.AppendLine(textBox3, "Galactic HEX numbers: " + g1 + " " + g2 + " " + g3 + " " + g4);
-
-        //    int ig1 = Convert.ToInt32(g1, 16); // X[HEX] to X[DEC]
-        //    int ig2 = Convert.ToInt32(g2, 16); // Y[HEX] to Y[DEC]
-        //    int ig3 = Convert.ToInt32(g3, 16); // Z[HEX] to Z[DEC]
-        //    int ig4 = Convert.ToInt32(g4, 16); // SSI[HEX] to SSI[DEC]
-        //    Globals.AppendLine(textBox3, "Galactic DEC numbers: " + ig1 + " " + ig2 + " " + ig3 + " " + ig4);
-
-        //    GalacticCoord = string.Format("{0:X4}:{1:X4}:{2:X4}:{3:X4}", ig1, ig2, ig3, ig4); //Format to 4 digit seperated by colon
-        //    Globals.AppendLine(textBox3, "Galactic Coordinates: " + GalacticCoord);
-        //}
-        //private void GetPortalCoord(int P, int X, int Y, int Z, int SSI, TextBox tb)
-        //{
-        //    //Voxel Coordinate to Portal Code
-
-        //    //Note: iX, iY, iZ, iSSI already Convert.ToInt32(X) in JSONMap()
-        //    int dd1 = X + 2047;
-        //    int dd2 = Y + 127;
-        //    int dd3 = Z + 2047;
-
-        //    string g1 = dd1.ToString("X");
-        //    string g2 = dd2.ToString("X");
-        //    string g3 = dd3.ToString("X");
-        //    string g4 = SSI.ToString("X");
-
-        //    int dec1 = Convert.ToInt32(g1, 16); // X[HEX] to X[DEC]
-        //    int dec2 = Convert.ToInt32(g2, 16); // Y[HEX] to X[DEC]
-        //    int dec3 = Convert.ToInt32(g3, 16); // Z[HEX] to X[DEC]
-        //    int dec4 = Convert.ToInt32(g4, 16); // SSI[HEX] to SSI[DEC]
-        //    Globals.AppendLine(tb, "Galactic HEX to DEC: " + dec1.ToString() + " " + dec2.ToString() + " " + dec3.ToString() + " " + dec4);
-
-        //    int dec5 = Convert.ToInt32("801", 16); // 801[HEX] to 801[DEC]
-        //    int dec6 = Convert.ToInt32("81", 16); // 81[HEX] to 81[DEC]
-        //    int dec7 = Convert.ToInt32("1000", 16); // 100[HEX] to 1000[DEC]
-        //    int dec8 = Convert.ToInt32("100", 16); // 100[HEX] to 100[DEC]
-        //    Globals.AppendLine(tb, "Shift HEX to DEC: " + "801:" + dec5.ToString() + " 81:" + dec6.ToString() + " 1000:" + dec7.ToString() + " 100:" + dec8.ToString());
-
-        //    int calc1 = (dec1 + dec5) % dec7; // (X[DEC] + 801[DEC]) MOD (1000[DEC])
-        //    int calc2 = (dec2 + dec6) % dec8; // (Y[DEC] + 81[DEC]) MOD (100[DEC])
-        //    int calc3 = (dec3 + dec5) % dec7; // (Z[DEC] + 801[DEC]) MOD (1000[DEC])
-        //    Globals.AppendLine(tb, "Calculate Portal DEC: " + "X:" + calc1.ToString() + " Y:" + calc2.ToString() + " Z:" + calc3.ToString() + " SSI:" + dec4);
-
-        //    string hexX = calc1.ToString("X"); //Calculated portal X[DEC] to X[HEX]
-        //    string hexY = calc2.ToString("X"); //Calculated portal Y[DEC] to Y[HEX]
-        //    string hexZ = calc3.ToString("X"); //Calculated portal Z[DEC] to Z[HEX]
-        //    Globals.AppendLine(tb, "Portal HEX numbers: " + "X:" + hexX + " Y:" + hexY + " Z:" + hexZ + " SSI:" + g4);
-
-        //    int ihexX = (Convert.ToInt32(hexX, 16) & 0xFFF); // X[HEX] to X[DEC] 3 digits
-        //    int ihexY = (Convert.ToInt32(hexY, 16) & 0xFF); // Y[HEX] to Y[DEC] 2 digits
-        //    int ihexZ = (Convert.ToInt32(hexZ, 16) & 0xFFF); // Z[HEX] to Z[DEC] 3 digits
-        //    int ihexSSI = (Convert.ToInt32(g4, 16) & 0xFFF); // SSI[HEX] to SSI[DEC] 3 digits
-
-        //    PortalCode = string.Format(P + "{0:X3}{1:X2}{2:X3}{3:X3}", ihexSSI, ihexY, ihexZ, ihexX); // Format digits 1 3 2 3 3
-        //    Globals.AppendLine(tb, "[P][SSI][Y][Z][X] Portal Code: " + PortalCode);
-
-        //    //Index chars in PortalCode
-        //    _gl1 = PortalCode[0];
-        //    _gl2 = PortalCode[1];
-        //    _gl3 = PortalCode[2];
-        //    _gl4 = PortalCode[3];
-        //    _gl5 = PortalCode[4];
-        //    _gl6 = PortalCode[5];
-        //    _gl7 = PortalCode[6];
-        //    _gl8 = PortalCode[7];
-        //    _gl9 = PortalCode[8];
-        //    _gl10 = PortalCode[9];
-        //    _gl11 = PortalCode[10];
-        //    _gl12 = PortalCode[11];
-
-        //    //Display Glyph images
-        //    //ShowGlyphs();
-        //}
-        //private void GetPortalCoord(int X, int Y, int Z, int SSI)
-        //{
-        //    //Voxel Coordinates to Portal Code
-
-        //    //Note: iX, iY, iZ, iSSI already Convert.ToInt32(X) in JSONMap()
-        //    int dd1 = X + 2047;
-        //    int dd2 = Y + 127;
-        //    int dd3 = Z + 2047;
-
-        //    string g1 = dd1.ToString("X");
-        //    string g2 = dd2.ToString("X");
-        //    string g3 = dd3.ToString("X");
-        //    string g4 = SSI.ToString("X");
-
-        //    int dec1 = Convert.ToInt32(g1, 16); // X[HEX] to X[DEC]
-        //    int dec2 = Convert.ToInt32(g2, 16); // Y[HEX] to X[DEC]
-        //    int dec3 = Convert.ToInt32(g3, 16); // Z[HEX] to X[DEC]
-        //    //int dec4 = Convert.ToInt32(g4, 16); // SSI[HEX] to SSI[DEC]
-        //    //Globals.AppendLine(textBox3, "Galactic HEX to DEC: " + dec1.ToString() + " " + dec2.ToString() + " " + dec3.ToString() + " " + dec4);
-
-        //    int dec5 = Convert.ToInt32("801", 16); // 801[HEX] to 801[DEC]
-        //    int dec6 = Convert.ToInt32("81", 16); // 81[HEX] to 81[DEC]
-        //    int dec7 = Convert.ToInt32("1000", 16); // 100[HEX] to 1000[DEC]
-        //    int dec8 = Convert.ToInt32("100", 16); // 100[HEX] to 100[DEC]
-        //    //Globals.AppendLine(textBox3, "Shift HEX to DEC: " + "801:" + dec5.ToString() + " 81:" + dec6.ToString() + " 1000:" + dec7.ToString() + " 100:" + dec8.ToString());
-
-        //    int calc1 = (dec1 + dec5) % dec7; // (X[DEC] + 801[DEC]) MOD (1000[DEC])
-        //    int calc2 = (dec2 + dec6) % dec8; // (Y[DEC] + 81[DEC]) MOD (100[DEC])
-        //    int calc3 = (dec3 + dec5) % dec7; // (Z[DEC] + 801[DEC]) MOD (1000[DEC])
-        //    //Globals.AppendLine(textBox3, "Calculate Portal DEC: " + "X:" + calc1.ToString() + " Y:" + calc2.ToString() + " Z:" + calc3.ToString() + " SSI:" + dec4);
-
-        //    string hexX = calc1.ToString("X"); //Calculated portal X[DEC] to X[HEX]
-        //    string hexY = calc2.ToString("X"); //Calculated portal Y[DEC] to Y[HEX]
-        //    string hexZ = calc3.ToString("X"); //Calculated portal Z[DEC] to Z[HEX]
-        //    //Globals.AppendLine(textBox3, "Portal HEX numbers: " + "X:" + hexX + " Y:" + hexY + " Z:" + hexZ + " SSI:" + g4);
-
-        //    int ihexX = (Convert.ToInt32(hexX, 16) & 0xFFF); // X[HEX] to X[DEC] 3 digits
-        //    int ihexY = (Convert.ToInt32(hexY, 16) & 0xFF); // Y[HEX] to Y[DEC] 2 digits
-        //    int ihexZ = (Convert.ToInt32(hexZ, 16) & 0xFFF); // Z[HEX] to Z[DEC] 3 digits
-        //    int ihexSSI = (Convert.ToInt32(g4, 16) & 0xFFF); // SSI[HEX] to SSI[DEC] 3 digits
-
-        //    PortalCode = string.Format("0{0:X3}{1:X2}{2:X3}{3:X3}", ihexSSI, ihexY, ihexZ, ihexX); // Format digits 1 3 2 3 3
-        //    //Globals.AppendLine(textBox3, "[SSI][Y][Z][X] Portal Code: " + PortalCode);
-        //}
         private void ShowPGlyphs()
         {
             //Index chars in PortalCode
@@ -1664,27 +1317,6 @@ namespace NMSCoordinates
         {
             System.Windows.Forms.Application.Exit();
         }
-        //int Find(ListBox lb, string searchString, int startIndex)
-        //{
-        //    //Find method for search bars on top of listboxes
-        //    for (int i = startIndex; i < lb.Items.Count; ++i)
-        //    {
-        //        //string lbString = lb.Items[i].ToString();
-        //        if (lb.Items[i].ToString().IndexOf(searchString, StringComparison.OrdinalIgnoreCase) >= 0)
-        //            return i;
-        //    }
-        //    return -1; //Find(lb, searchString, 0);
-        //}
-        //private List<string> Contains(List<string> list1, List<string> list2)
-        //{
-        //    //Compare two lists and send back differences
-        //    List<string> result = new List<string>();
-
-        //    result.AddRange(list1.Except(list2, StringComparer.OrdinalIgnoreCase));
-        //    result.AddRange(list2.Except(list1, StringComparer.OrdinalIgnoreCase));
-
-        //    return result;
-        //}
         private void Button4_Click(object sender, EventArgs e)
         {
             //Reload save button
@@ -1695,7 +1327,7 @@ namespace NMSCoordinates
                 Globals.AppendLine(textBox17, "Loading Save File...");
                 GetSaveFile(selected);
                 LoadTeleportEndpoints();
-                LoadPersistentPlayerBases();
+                //LoadPersistentPlayerBases();
                 GetPlayerCoord();
                 LoadTxt();
                 Globals.AppendLine(textBox17, "Save File Reloaded.");
@@ -1996,7 +1628,7 @@ namespace NMSCoordinates
 
                 if (File.Exists(@".\backup\saves\savebackup_" + slot + "_" + datetime + ".zip"))
                 {
-                    Globals.AppendLine(tb, "Save file on Slot: ( " + slot + " ) backed up to \\backup\\saves folder...");
+                    Globals.AppendLine(tb, "Save file Slot (" + slot + ") backed up to \\backup\\saves folder...");
 
                     if (msg == true)
                     {
@@ -2058,17 +1690,10 @@ namespace NMSCoordinates
                         //Read - Edit - Write Json save file for portal
                         WriteSavePortal(progressBar1, textBox27, saveslot);
 
-                        ////Read and check save file
-                        //json = File.ReadAllText(hgFilePath);
-
                         ////Check save file edits
                         var nms = GameSaveData.FromJson(json);
                         textBox12.Clear();
                         textBox12.Text = nms.PlayerStateData.OnOtherSideOfPortal.ToString();
-
-                        //Regex myRegexPrtl4 = new Regex(rxPatternPrtl, RegexOptions.Multiline);
-                        //Match prtl4 = myRegexPrtl4.Match(json);
-                        //Globals.AppendLine(textBox27, prtl4.ToString());
 
                         if (textBox12.Text == "False" || textBox12.Text == "false")
                         {
@@ -2104,29 +1729,10 @@ namespace NMSCoordinates
                     //Read - Edit - Write Json save file for portal
                     WriteSaveFB(progressBar4, textBox15, saveslot);
 
-                //    //Read and check save file
-                //    json = File.ReadAllText(hgFilePath);
-
                     var nms = GameSaveData.FromJson(json);
                     bool O5J = nms.PlayerStateData.TimeLastSpaceBattle == 0;
                     bool Ebr = nms.PlayerStateData.WarpsLastSpaceBattle == 0;
                     bool Exx = nms.PlayerStateData.ActiveSpaceBattleUA == 0;
-
-                //    //Check save file edits         
-                //    Regex myRegexFB1 = new Regex(rxPatternTLFB, RegexOptions.Multiline);
-                //    Match FB1 = myRegexFB1.Match(json);
-                //    string fb1 = FB1.ToString();
-                //    //Globals.AppendLine(textBox15, fb1);
-
-                //    Regex myRegexFB2 = new Regex(rxPatternWLFB, RegexOptions.Multiline);
-                //    Match FB2 = myRegexFB2.Match(json);
-                //    string fb2 = FB2.ToString();
-                //    //Globals.AppendLine(textBox15, fb2);
-
-                //    Regex myRegexFB3 = new Regex(rxPatternAFBUA, RegexOptions.Multiline);
-                //    Match FB3 = myRegexFB3.Match(json);
-                //    string fb3 = FB3.ToString();
-                //    Globals.AppendLine(textBox15, fb1 + " " + fb2 + " " + fb3);
 
                     if (O5J && Ebr && Exx)
                     {
@@ -2157,12 +1763,6 @@ namespace NMSCoordinates
             //Backuplist.Clear();
             await BackupLoc(@".\backup\locations\locbackup.json");
         }
-
-        //private bool ValidateCoord(string A, string B, string C, string D)
-        //{
-        //    bool x = Convert.ToInt32(A, 16) > 4096 || Convert.ToInt32(B, 16) > 255 || Convert.ToInt32(C, 16) > 4096 || Convert.ToInt32(D, 16) > 767;
-        //    return x;
-        //}
         private bool CheckForSameLoc()
         {
             //looks up the players current location
@@ -2201,7 +1801,7 @@ namespace NMSCoordinates
                                 MessageBox.Show("Same as Current location!", "Alert");
                                 return;
                             }
-                            Globals.AppendLine(textBox27, "Move Player to: Galaxy: " + galaxy + " -- X:" + X + " -- Y:" + Y + " -- Z:" + Z + " -- SSI:" + SSI);
+                            Globals.AppendLine(textBox27, "Move Player to: Galaxy (" + galaxy + ") X:" + X + " Y:" + Y + " Z:" + Z + " SSI:" + SSI);
                         
                             //Read - Edit - Write Json save file for move player
                             WriteSaveMove(progressBar1, textBox27, saveslot);
@@ -2291,15 +1891,7 @@ namespace NMSCoordinates
                         List<string> list2 = new List<string>();
                         DirectoryInfo dinfo1 = new DirectoryInfo(stmPath);
                         DirectoryInfo[] dinfoss = dinfo1.GetDirectories("760", SearchOption.AllDirectories);
-                        /*
-                        foreach (DirectoryInfo di in dinfoss)//.OrderByDescending(f => f.LastWriteTime))
-                        {
-                            if (di.GetFiles("*.jpg", SearchOption.AllDirectories).Length != 0)
-                            {
-                                list2.Add(di.FullName);
-                            }
-                        }
-                        */
+
                         foreach (DirectoryInfo di in dinfoss)
                         {
                             string spath = di.FullName + @"\remote\275850\screenshots";
@@ -2524,55 +2116,11 @@ namespace NMSCoordinates
                 return;
             }
         }
-        private void Button6_Click(object sender, EventArgs e)
-        {
-            //Load a txt file to view in listbox3
-            try
-            {
-                if (listBox4.GetItemText(listBox4.SelectedItem) != "")
-                {
-                    listBox3.Items.Clear();
+        //private void Button6_Click(object sender, EventArgs e)
+        //{
 
-                    string path = @".\backup\locations\" + listBox4.SelectedItem.ToString();
 
-                    if (!File.Exists(path))
-                    {
-                        MessageBox.Show("File Not Found!", "Alert", MessageBoxButtons.OK);
-                        LoadTxt();
-                        return;
-                    }
-                    LocationsLoad(path);
-                    textBox18.Text = listBox3.Items.Count.ToString();
-
-                    //string[] locFile = File.ReadAllLines(path);
-                    //if (locFile[0].ToString() != "")
-                    //{
-                    //    listBox3.DataSource = locFile;
-                    //    listBox3.SelectedIndex = 0;
-                    //    toolStripMenuItem1.Enabled = true;
-                    //}
-                    //else
-                    //{
-                    //    toolStripMenuItem1.Enabled = false;
-                    //    Globals.AppendLine(textBox11, "File is Empty! Select another file.");
-                    //    Globals.AppendLine(textBox11, "---------------------");
-                    //}
-                }
-                else
-                {
-                    toolStripMenuItem1.Enabled = false;
-                    Globals.AppendLine(textBox11, "No File Selected or File Empty!");
-                    Globals.AppendLine(textBox11, "---------------------");
-                }
-            }
-            catch
-            {
-                toolStripMenuItem1.Enabled = false;
-                Globals.AppendLine(textBox11, "No File Selected or File Empty!");
-                Globals.AppendLine(textBox11, "---------------------");
-            }
-
-        }
+        //}
         private void ListBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
             //Location summary viewer box
@@ -2583,12 +2131,7 @@ namespace NMSCoordinates
                 if (textBox11.Text == "")
                 {
                     Globals.AppendLine(textBox11, "---------------------");
-                }                
-
-                //Regex myRegex1 = new Regex("GC:.*?$", RegexOptions.Multiline);
-                //Match m1 = myRegex1.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
-                //string line1 = m1.ToString();
-                
+                }
                 if (locjson == null) // if text file problem
                 {
                     textBox11.Clear();
@@ -2617,44 +2160,7 @@ namespace NMSCoordinates
                 Globals.AppendLine(textBox11, gc);
                 Globals.AppendLine(textBox11, notes);
                 Globals.AppendLine(textBox11, "---------------------");
-                //string g1 = line1.Substring(0, 23);
 
-                //if (line1.Length > 23)
-                //{
-                //    string gN = line1.Substring(line1.Length - (line1.Length - 23), line1.Length - 23);
-                //    Globals.AppendLine(textBox11, gN);
-                //    Globals.AppendLine(textBox11, g1);
-                //}
-                //else
-                //{
-                //    Globals.AppendLine(textBox11, " ");
-                //    Globals.AppendLine(textBox11, g1);
-                //}
-
-                //Regex myRegex2 = new Regex("PC.*?--", RegexOptions.Multiline);
-                //Match m2 = myRegex2.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
-                //string line2 = m2.ToString();
-                //line2 = line2.Replace(" --", "");
-                //Globals.AppendLine(textBox11, line2);
-
-                //Regex myRegex3 = new Regex("^.*?\\)", RegexOptions.Multiline);
-                //Match m3 = myRegex3.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
-                //string line3 = m3.ToString();
-
-                //Regex myRegex4 = new Regex(" .*?#", RegexOptions.Multiline);
-                //Match m4 = myRegex4.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
-                //string line3_2 = m4.ToString().Replace("#", "");
-
-                //if (m3.Success)
-                //{
-                //    Globals.AppendLine(textBox11, line3);
-                //}
-                //else if (m4.Success)
-                //{
-                //    Globals.AppendLine(textBox11, line3_2);
-                //}
-
-                //Globals.AppendLine(textBox11, "---------------------");
             }  
         }        
         public bool TextBoxPerm
@@ -2685,41 +2191,6 @@ namespace NMSCoordinates
                 f5.BringToFront();
             }
         }
-        //private void GalacticToVoxel(string oX, string oY, string oZ, string oSSI)
-        //{
-        //    //Galactic Coordinate to Voxel Coordinates 
-        //    textBox13.Clear();
-
-        //    //HEX in
-        //    Globals.AppendLine(textBox13, "Galactic Coordinates HEX: SSI:" + oSSI + " Y:" + oY + " Z:" + oZ + " X:" + oX);
-
-        //    //HEX to DEC
-        //    int icX = Convert.ToInt32(oX, 16);
-        //    int icY = Convert.ToInt32(oY, 16);
-        //    int icZ = Convert.ToInt32(oZ, 16);
-        //    int icSSI = Convert.ToInt32(oSSI, 16);
-        //    Globals.AppendLine(textBox13, "Galactic Coordinates DEC: SSI:" + icSSI + " Y:" + icY + " Z:" + icZ + " X:" + icX);
-
-        //    //SHIFT DEC 2047 127 2047 ssi-same
-        //    int vX = icX - 2047;
-        //    int vY = icY - 127;
-        //    int vZ = icZ - 2047;
-
-        //    //voxel dec  x y z ssi-same
-        //    Globals.AppendLine(textBox13, "*** Voxel Coordinates DEC: SSI:" + icSSI + " Y:" + vY + " Z:" + vZ + " X:" + vX + " ***");
-        //    //voxel = "SSI:" + icSSI + " Y:" + icY + " Z:" + icZ + " X:" + icX;
-
-        //    //sets all voxel for future use
-        //    X = vX.ToString();
-        //    Y = vY.ToString();
-        //    Z = vZ.ToString();
-        //    SSI = icSSI.ToString();
-
-        //    iX = vX;
-        //    iY = vY;
-        //    iZ = vZ;
-        //    iSSI = icSSI;
-        //}
         private void Button8_Click(object sender, EventArgs e)
         {
             //Move player button share coordinate tab
@@ -2741,15 +2212,6 @@ namespace NMSCoordinates
                         var gal = loc.Locations.Bases[listBox3.SelectedIndex].Details.Galaxy;
                         var gc = loc.Locations.Bases[listBox3.SelectedIndex].Details.Galacticcoords;                        
 
-                        //Regex myRegexGC = new Regex("GC:.*?$", RegexOptions.Multiline);
-                        //Match m1 = myRegexGC.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
-                        //string line1 = m1.ToString();
-                        //line1 = line1.Replace("GC: ", "");
-                        //line1 = line1.Replace(" ", "");
-                        //string[] value = line1.Split(':');
-
-                        //Check for errors on GC
-                        //string gc = line1.Replace(":", "");
                         if (gc == "" || gc == null)
                         {
                             DialogResult dialogResult2 = MessageBox.Show("Something went wrong! \r\n\nSelected line has errors. \r\n\nWould you like to Delete the Line?", "Fast Travel", MessageBoxButtons.YesNo);
@@ -2784,12 +2246,6 @@ namespace NMSCoordinates
                         X = iX.ToString(); Y = iY.ToString(); Z = iZ.ToString(); SSI = iSSI.ToString();
 
                         //Sets the galaxy
-                        //Regex myRegexG = new Regex("G:.*?-", RegexOptions.Multiline);
-                        //Match m2 = myRegexG.Match(listBox3.GetItemText(listBox3.SelectedItem));   // m is the first match
-                        //string line2 = m2.ToString();
-                        //line2 = line2.Replace("G: ", "");
-                        //line2 = line2.Replace("-", "");
-                        //line2 = line2.Replace(" ", "");
                         galaxy = gal.ToString();
                         igalaxy = Convert.ToInt32(gal);
 
@@ -2803,7 +2259,7 @@ namespace NMSCoordinates
                                 MessageBox.Show("Same as Current location!", "Alert");
                                 return;
                             }
-                            Globals.AppendLine(textBox13, "Move Player to: Galaxy: " + galaxy + " -- X:" + X + " -- Y:" + Y + " -- Z:" + Z + " -- SSI:" + SSI);
+                            Globals.AppendLine(textBox13, "Move Player to: Galaxy (" + galaxy + ") X:" + X + " Y:" + Y + " Z:" + Z + " SSI:" + SSI);
 
                             //Read - Edit - Write Json save file for move player
                             WriteSaveMove(progressBar3, textBox13, saveslot);
@@ -2846,16 +2302,6 @@ namespace NMSCoordinates
                 Globals.AppendLine(textBox13, "Invalid Coordinates!");
             }
         }
-        //private static SavedLocationData CreateNewLocationJson(int version, int bs, int ss) 
-        //{
-        //    // Create new locbackup json file
-        //    SavedLocationData newSDL = new SavedLocationData();            
-        //    newSDL.Version = version;
-        //    newSDL.Locations = new Locations();
-        //    newSDL.Locations.Bases = new Basis[bs];
-        //    newSDL.Locations.Spacestations = new Basis[ss];
-        //    return newSDL;
-        //}
         private void ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             //Save a single location record to a new txt file
@@ -2883,13 +2329,14 @@ namespace NMSCoordinates
 
                 //File.WriteAllLines(path2, list);
                 //Process.Start(path2); //v1.1.14
-                Globals.AppendLine(textBox13, "Single Record saved!");
+                
                 LoadTxt();
+                Globals.AppendLine(textBox13, "Single Record saved.");
 
                 if (File.Exists(path2))
                 {
                     listBox4.SelectedItem = Path.GetFileName(path2);
-                    Button6_Click(this, new EventArgs());
+                    //Button6_Click(this, new EventArgs());
                     listBox3.SelectedItem = selectedrecord;
                 }                    
             }
@@ -2986,41 +2433,6 @@ namespace NMSCoordinates
                 return;
             }            
         }
-        //private void GalacticToVoxelMan(string oX, string oY, string oZ, string oSSI)
-        //{
-        //    //Galactic Coordinate to Voxel Coordinate
-        //    textBox15.Clear();
-
-        //    //HEX in
-        //    //Globals.AppendLine(textBox15, "Galactic Coordinates HEX: SSI:" + oSSI + " Y:" + oY + " Z:" + oZ + " X:" + oX);
-
-        //    //HEX to DEC
-        //    int icX = Convert.ToInt32(oX, 16);
-        //    int icY = Convert.ToInt32(oY, 16);
-        //    int icZ = Convert.ToInt32(oZ, 16);
-        //    int icSSI = Convert.ToInt32(oSSI, 16);
-        //    Globals.AppendLine(textBox15, "Galactic Coordinates DEC: SSI:" + icSSI + " Y:" + icY + " Z:" + icZ + " X:" + icX);
-
-        //    //SHIFT DEC 2047 127 2047 ssi-same
-        //    int vX = icX - 2047;
-        //    int vY = icY - 127;
-        //    int vZ = icZ - 2047;
-
-        //    //voxel dec  x y z ssi-same
-        //    Globals.AppendLine(textBox15, "*** Voxel Coordinates DEC: SSI:" + icSSI + " Y:" + vY + " Z:" + vZ + " X:" + vX + " ***");
-        //    //voxel = "SSI:" + icSSI + " Y:" + icY + " Z:" + icZ + " X:" + icX;
-
-        //    //sets all voxels for use after method
-        //    iX = vX;
-        //    iY = vY;
-        //    iZ = vZ;
-        //    iSSI = icSSI;
-
-        //    X = vX.ToString();
-        //    Y = vY.ToString();
-        //    Z = vZ.ToString();
-        //    SSI = icSSI.ToString();
-        //}
         private void Button11_Click(object sender, EventArgs e)
         {
             //Move player button on Manual Travel Tab
@@ -3126,7 +2538,7 @@ namespace NMSCoordinates
                             MessageBox.Show("Same as Current location!", "Alert");
                             return;
                         }
-                        Globals.AppendLine(textBox15, "Move Player to: Galaxy: " + galaxy + " -- X:" + X + " -- Y:" + Y + " -- Z:" + Z + " -- SSI:" + SSI);
+                        Globals.AppendLine(textBox15, "Move Player to: Galaxy (" + galaxy + ") X:" + X + " Y:" + Y + " Z:" + Z + " SSI:" + SSI);
 
                         WriteSaveMove(progressBar4, textBox15, saveslot);
 
@@ -3206,59 +2618,10 @@ namespace NMSCoordinates
                 label36.Text = Globals.CheckGalaxyType(pgalaxy);
 
                 //only sets the textbox to current location if manual travel is locked
-                if (unlockedToolStripMenuItem.Checked == false)
-                    textBox14.Text = textBox22.Text;
+                //if (unlockedToolStripMenuItem.Checked == false)
+                textBox14.Text = textBox22.Text;
             }
         }
-        //private void CheckLush()
-        //{
-        //    var galaxy = Convert.ToInt32(pgalaxy);
-
-        //    var lushlist = new List<int>
-        //    {
-        //        9, 18, 29, 38, 49, 58, 69, 78, 89, 98, 109, 118,
-        //        129, 138, 149, 158, 169, 178, 189, 198, 209, 218,
-        //        229, 238, 249
-        //    };
-
-        //    var harshlist = new List<int>
-        //    {
-        //        2, 14, 22, 34, 42, 54, 62, 74, 82, 94, 102, 114, 122, 
-        //        134, 142, 154, 162, 174, 182, 194, 202, 214, 222, 234,
-        //        242, 254
-        //    };
-
-        //    var emptylist = new List<int>
-        //    {
-        //        6, 11, 26, 31, 46, 51, 66, 71, 86, 91, 106, 111, 126, 
-        //        131, 146, 151, 166, 171, 186, 191, 206, 211, 226, 231,
-        //        246, 251
-        //    };
-
-        //    if (lushlist.Contains(galaxy) || harshlist.Contains(galaxy) || emptylist.Contains(galaxy))
-        //    {
-        //        if (lushlist.Contains(galaxy))
-        //        {
-        //            //label36.Visible = true;
-        //            label36.Text = "LUSH";
-        //        }
-        //        if (harshlist.Contains(galaxy))
-        //        {
-        //            //label36.Visible = true;
-        //            label36.Text = "HARSH";
-        //        }
-        //        if (emptylist.Contains(galaxy))
-        //        {
-        //            //label36.Visible = true;
-        //            label36.Text = "EMPTY";
-        //        }
-        //    }
-        //    else
-        //    {
-        //        label36.Text = "NORMAL";
-        //        //label36.Visible = false;
-        //    }
-        //}
         private void ComboBox3_SelectionChangeCommitted(object sender, EventArgs e)
         {
             //sets the player galaxy when combobox change committed to fast travel
@@ -3268,10 +2631,39 @@ namespace NMSCoordinates
             label35.Text = Globals.GalaxyLookup(pgalaxy);
             label36.Text = Globals.CheckGalaxyType(pgalaxy);
         }
-        private void ListBox4_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void listBox4_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //Double click a location txt file to load
-            button6.PerformClick();
+            //Load a txt file to view in listbox3
+            try
+            {
+                if (listBox4.GetItemText(listBox4.SelectedItem) != "")
+                {
+                    listBox3.Items.Clear();
+
+                    string path = @".\backup\locations\" + listBox4.SelectedItem.ToString();
+
+                    if (!File.Exists(path))
+                    {
+                        MessageBox.Show("File Not Found!", "Alert", MessageBoxButtons.OK);
+                        LoadTxt();
+                        return;
+                    }
+                    LocationsLoad(path);
+                    textBox18.Text = listBox3.Items.Count.ToString();
+                }
+                else
+                {
+                    toolStripMenuItem1.Enabled = false;
+                    Globals.AppendLine(textBox11, "No File Selected or File Empty!");
+                    Globals.AppendLine(textBox11, "---------------------");
+                }
+            }
+            catch
+            {
+                toolStripMenuItem1.Enabled = false;
+                Globals.AppendLine(textBox11, "No File Selected or File Empty!");
+                Globals.AppendLine(textBox11, "---------------------");
+            }
         }
         private void LinkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -3342,7 +2734,7 @@ namespace NMSCoordinates
                 Globals.AppendLine(textBox17, "Loading Save File...");
                 GetSaveFile(selected);
                 LoadTeleportEndpoints();
-                LoadPersistentPlayerBases();
+                //LoadPersistentPlayerBases();
                 GetPlayerCoord();
 
                 SSlist.Clear();
@@ -3355,10 +2747,10 @@ namespace NMSCoordinates
                 //SSlist.Add("Slot_2_Loc: test Platform (SS) - G: 1 - PC: 000000000000 -- GC: 080B:0088:080F:019E");
                 //SSlist.Add("Slot_2_Loc: test2 Platform (SS) - G: 2 - PC: 200000000000 -- GC: 080B:0088:080F:019E");
 
-                List<string> list3 = new List<string>();
+                //List<string> list3 = new List<string>();
 
                 //Looks for all adds and deletes and returns to list3
-                list3 = Globals.Contains(PrevSSlist, SSlist);
+                List<string> list3 = Globals.Contains(PrevSSlist, SSlist);
 
                 List<string> DeletedSSlist = new List<string>();
 
@@ -3451,6 +2843,7 @@ namespace NMSCoordinates
                 lockedToolStripMenuItem.Checked = false;
                 textBox14.ReadOnly = false;
                 label33.Visible = true;
+                textBox14.Text = textBox22.Text;
                 Globals.AppendLine(textBox17, "Manual Travel UNLOCKED, Enter Coord. on Manual Travel tab.");
                 MessageBox.Show("Manual travel UNLOCKED, Enter Coord. on Manual Travel tab. \r\n\n Make sure Coordinates are correct!", "Warning");
                 if(pgalaxy != null && pgalaxy != "")
@@ -3675,19 +3068,6 @@ namespace NMSCoordinates
                     File.WriteAllText(plocpath, backuplist);
                 }
 
-                //string currentloc = "Date\\Time: " + DateTime.Now.ToString("MM-dd-yyyy HH:mm") + " ## File: " + selected + " ## G: " + pgalaxy + " - PC: " + textBox21.Text + " -- GC: " + textBox22.Text;
-                //List<string> playerloc = File.ReadAllLines(@".\backup\locations\player_locs.txt").ToList();
-
-                //if (!playerloc.Contains(currentloc))
-                //{
-                //    playerloc.Add(currentloc);
-                //}
-                //else
-                //{
-                //    MessageBox.Show("Location already saved in player_loc.txt!", "Alert", MessageBoxButtons.OK);
-                //    return;
-                //}
-
                 //File.WriteAllLines(@".\backup\locations\player_locs.txt", playerloc);
                 MessageBox.Show("Location added to player_loc.json \n\n\r Open in Coordinate Share Tab", "Confirmation", MessageBoxButtons.OK);
                 LoadTxt();
@@ -3696,7 +3076,7 @@ namespace NMSCoordinates
                 if (File.Exists(@".\backup\locations\player_locs.json"))
                 {
                     listBox4.SelectedItem = "player_locs.json";
-                    Button6_Click(this, new EventArgs());
+                    //Button6_Click(this, new EventArgs());
                     listBox3.SelectedIndex = selectedindex - 1;
                 }                
             }
@@ -3763,15 +3143,15 @@ namespace NMSCoordinates
                     sdata.Locations.Bases = basis.ToArray();
                     var backuplist = LocationData.Serialize.ToJson(sdata);
                     File.WriteAllText(path, backuplist);
-
-                    Globals.AppendLine(textBox13, "Single Record deleted!");
+                    LoadTxt();
+                    Globals.AppendLine(textBox13, "Single Record deleted.");
                 }
-                LoadTxt();
+                //LoadTxt();
 
                 if (File.Exists(path))
                 {
                     listBox4.SelectedItem = selectedfile;
-                    Button6_Click(this, new EventArgs());
+                    //Button6_Click(this, new EventArgs());
                         
                     if (selectedindex == 0)
                         listBox3.SelectedIndex = selectedindex;
@@ -4062,40 +3442,10 @@ namespace NMSCoordinates
                     return;
                 }
 
-                //List<string> filelist = File.ReadAllLines(path).ToList();
-                //int index = filelist.FindIndex(a => a.Contains(record));
-
                 if (locjson != "")
                 {
                     var loc = SavedLocationData.FromJson(locjson);
                     var newnote = textBox28.Text;                    
-
-                    ////grabs the end of the line after GC:
-                    //Regex myRegexGC = new Regex("GC:.*?$", RegexOptions.Multiline);
-                    //Match m1 = myRegexGC.Match(listBox3.GetItemText(listBox3.SelectedItem));
-                    //string line1 = m1.ToString();
-                    //line1 = line1.Replace("GC: ", "");
-                    ////line1 = line1.Replace(" ", "");
-                    //string[] value = line1.Split(':');
-
-                    ////Check for errors on GC
-                    //string gc = line1.Replace(":", "");
-                    //if (gc.Length < 16)
-                    //{
-                    //    DialogResult dialogResult2 = MessageBox.Show("Something went wrong! \r\n\nSelected line has errors. \r\n\nWould you like to Delete the Line?", "Add Note", MessageBoxButtons.YesNo);
-                    //    if (dialogResult2 == DialogResult.Yes)
-                    //    {
-                    //        DeleteSingleRecordToolStripMenuItem_Click(this, new EventArgs());
-                    //        return;
-                    //    }
-                    //    else if (dialogResult2 == DialogResult.No)
-                    //    {
-                    //        return;
-                    //    }
-                    //}
-
-                    //grab the end of the line and the last 4 of GC
-                    //string D = value[3].Trim().Substring(0, 4);
 
                     if (newnote != "")
                     {
@@ -4116,23 +3466,16 @@ namespace NMSCoordinates
                         }                        
                     }
 
-                    //replaces the record at the selected filelist index
-                    //filelist[index] = record.Replace(record, record + " -- " + textBox28.Text);
-
-                    //writes the new file from the modified filelist
-                    //File.WriteAllLines(path, filelist);
-
                     var locj = LocationData.Serialize.ToJson(loc);
                     File.WriteAllText(path, locj);
-
-                    Globals.AppendLine(textBox13, "Note Added.");
-
+                    
                     LoadTxt();
+                    Globals.AppendLine(textBox13, "Note Added.");
 
                     if (File.Exists(path))
                     {
                         listBox4.SelectedItem = selectedfile;
-                        Button6_Click(this, new EventArgs());
+                        //Button6_Click(this, new EventArgs());
 
                         listBox3.SelectedIndex = selectedrecord;
                     }                    
@@ -4185,120 +3528,20 @@ namespace NMSCoordinates
 
                     var locj = LocationData.Serialize.ToJson(loc);
                     File.WriteAllText(path, locj);
-
-                    Globals.AppendLine(textBox13, "Note Removed.");
-
+                    
                     LoadTxt();
+                    Globals.AppendLine(textBox13, "Note Removed.");
 
                     if (File.Exists(path))
                     {
                         listBox4.SelectedItem = selectedfile;
-                        Button6_Click(this, new EventArgs());
+                        //Button6_Click(this, new EventArgs());
 
                         listBox3.SelectedIndex = selectedrecord;
                     }
                     textBox28.Clear();
                 }
             }
-
-            //if (listBox3.GetItemText(listBox3.SelectedItem) == "")
-            //{
-            //    MessageBox.Show("No record selected!", "Alert", MessageBoxButtons.OK);
-            //    //Globals.AppendLine(textBox13, "No record selected!");
-            //    return;
-            //}
-
-            ////delete a note to a single location record
-            //string record = listBox3.GetItemText(listBox3.SelectedItem);
-            //string filename = listBox4.GetItemText(listBox4.SelectedItem);
-            //int selectedrecord = listBox3.SelectedIndex;
-            //var selectedfile = listBox4.SelectedItem;
-
-            //if (record != "" && filename != "")
-            //{
-            //    string path = @".\backup\locations\" + filename;
-
-            //    if (!File.Exists(path))
-            //    {
-            //        MessageBox.Show("File Not Found!", "Alert", MessageBoxButtons.OK);
-            //        LoadTxt();
-            //        return;
-            //    }
-
-            //    List<string> filelist = File.ReadAllLines(path).ToList();
-            //    int index = filelist.FindIndex(a => a.Contains(record));
-
-            //    if (filelist.Contains(record) && filelist.Count > 0)
-            //    {
-            //        //grabs the end of the line after GC:
-            //        Regex myRegexGC = new Regex("GC:.*?$", RegexOptions.Multiline);
-            //        Match m1 = myRegexGC.Match(listBox3.GetItemText(listBox3.SelectedItem));
-            //        string line1 = m1.ToString();
-            //        line1 = line1.Replace("GC: ", "");
-            //        //line1 = line1.Replace(" ", "");
-            //        string[] value = line1.Split(':');
-
-            //        //Check for errors on GC
-            //        string gc = line1.Replace(":", "");
-            //        if (gc.Length < 16)
-            //        {
-            //            DialogResult dialogResult2 = MessageBox.Show("Something went wrong! \r\n\nSelected line has errors. \r\n\nWould you like to Delete the Line?", "Remove Note", MessageBoxButtons.YesNo);
-            //            if (dialogResult2 == DialogResult.Yes)
-            //            {
-            //                DeleteSingleRecordToolStripMenuItem_Click(this, new EventArgs());
-            //                return;
-            //            }
-            //            else if (dialogResult2 == DialogResult.No)
-            //            {
-            //                return;
-            //            }
-            //        }
-
-            //        //grab the end of the line and the last 4 of GC
-            //        string D = value[3].Trim().Substring(0, 4);
-
-            //        if (value[3].Length > 4)
-            //        {
-            //            DialogResult dialogResult = MessageBox.Show("Are you sure want to Remove the note? ", "Remove Note", MessageBoxButtons.YesNo);
-            //            if (dialogResult == DialogResult.Yes)
-            //            {
-            //                //removes the last 4 of GC
-            //                string E = value[3].Replace(D, "");
-
-            //                //removes the note from the record
-            //                record = record.Replace(E, "");
-            //            }
-            //            else if (dialogResult == DialogResult.No)
-            //            {
-            //                return;
-            //            }
-            //        }
-            //        else
-            //        {
-            //            MessageBox.Show("No Note Found!", "Alert", MessageBoxButtons.OK);
-            //            //Globals.AppendLine(textBox13, "No Note Removed.");
-            //            return;
-            //        }
-
-            //        //replaces the record at the selected filelist index
-            //        filelist[index] = record;
-
-            //        File.WriteAllLines(path, filelist);
-            //        Globals.AppendLine(textBox13, "Note Removed.");
-
-            //        LoadTxt();
-
-            //        if (File.Exists(path))
-            //        {
-            //            listBox4.SelectedItem = selectedfile;
-            //            Button6_Click(this, new EventArgs());
-
-            //            listBox3.SelectedIndex = selectedrecord;
-            //        }
-
-            //        textBox28.Clear();
-            //    }
-            //}
         }
         private void Button17_Click(object sender, EventArgs e)
         {
@@ -4352,6 +3595,6 @@ namespace NMSCoordinates
 
             //Toggle until updater
             //CheckForUpdates(false);
-        }
+        }        
     }
 }
