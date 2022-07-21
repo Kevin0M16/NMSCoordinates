@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace NMSCoordinates
@@ -13,6 +9,10 @@ namespace NMSCoordinates
         {
             bool x = Convert.ToInt32(A, 16) > 4096 || Convert.ToInt32(B, 16) > 255 || Convert.ToInt32(C, 16) > 4096 || Convert.ToInt32(D, 16) > 767;
             return x;
+        }
+        public static string DistanceToCenter(double x, double y, double z)
+        {
+            return string.Format("{0:0}", (Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2) + Math.Pow(z, 2)) * 100) * 4) + " ly"; //"{0:0.##}"
         }
         public static void CalculateLongHex(string hx, out string GalacticCoord2, out int Planet, out int galdec)
         {
@@ -255,7 +255,7 @@ namespace NMSCoordinates
             //[P][SSI][Y][Z][X] Portal Code
             Globals.AppendLine(tb, "*** Portal Code: " + PortalCode + " ***");            
         }
-        public static string VoxelToPortal(int X, int Y, int Z, int SSI)
+        public static string VoxelToPortal(int P, int X, int Y, int Z, int SSI)
         {
             //Voxel Coordinates to Portal Code
 
@@ -296,8 +296,8 @@ namespace NMSCoordinates
             int ihexZ = (Convert.ToInt32(hexZ, 16) & 0xFFF); // Z[HEX] to Z[DEC] 3 digits
             int ihexSSI = (Convert.ToInt32(g4, 16) & 0xFFF); // SSI[HEX] to SSI[DEC] 3 digits
 
-            string PortalCode = string.Format("0{0:X3}{1:X2}{2:X3}{3:X3}", ihexSSI, ihexY, ihexZ, ihexX); // Format digits 1 3 2 3 3
-            //Globals.AppendLine(textBox3, "[SSI][Y][Z][X] Portal Code: " + PortalCode);
+            string PortalCode = string.Format(P + "{0:X3}{1:X2}{2:X3}{3:X3}", ihexSSI, ihexY, ihexZ, ihexX); // Format digits 1 3 2 3 3
+            //Globals.AppendLine(textBox3, "[P][SSI][Y][Z][X] Portal Code: " + PortalCode);
 
             return PortalCode;
         }
@@ -401,6 +401,36 @@ namespace NMSCoordinates
             //voxel = "Portal#:" + "0" + " SSI:" + "0" + " Gal#:" + iSSI + " Y:" + iY + " Z:" + iZ + " X:" + iX;
 
             return GalacticCoord2;
+        }
+        public static string VoxelToGalacticCoord(int X, int Y, int Z, int SSI)
+        {
+            //Voxel Coordinate to Galactic Coordinate
+            //tb.Clear();
+
+            //Note: iX, iY, iZ, iSSI already Convert.ToInt32(X) in JSONMap()
+            //Globals.AppendLine(tb, "DEC: " + X + " " + Y + " " + Z);
+
+            int dd1 = X + 2047;
+            int dd2 = Y + 127;
+            int dd3 = Z + 2047;
+            //Globals.AppendLine(tb, "SHIFT: " + dd1 + " " + dd2 + " " + dd3);
+
+            string g1 = dd1.ToString("X");
+            string g2 = dd2.ToString("X");
+            string g3 = dd3.ToString("X");
+            string g4 = SSI.ToString("X");
+            //Globals.AppendLine(tb, "Galactic HEX numbers: " + g1 + " " + g2 + " " + g3 + " " + g4);
+
+            int ig1 = Convert.ToInt32(g1, 16); // X[HEX] to X[DEC]
+            int ig2 = Convert.ToInt32(g2, 16); // Y[HEX] to Y[DEC]
+            int ig3 = Convert.ToInt32(g3, 16); // Z[HEX] to Z[DEC]
+            int ig4 = Convert.ToInt32(g4, 16); // SSI[HEX] to SSI[DEC]
+            //Globals.AppendLine(tb, "Galactic DEC numbers: " + ig1 + " " + ig2 + " " + ig3 + " " + ig4);
+
+            string GalacticCoord = string.Format("{0:X4}:{1:X4}:{2:X4}:{3:X4}", ig1, ig2, ig3, ig4); //Format to 4 digit seperated by colon
+            //Globals.AppendLine(tb, "*** Galactic Coordinates: " + GalacticCoord + " ***");
+
+            return GalacticCoord;
         }
         public static string VoxelToGalacticCoord(int X, int Y, int Z, int SSI, TextBox tb)
         {

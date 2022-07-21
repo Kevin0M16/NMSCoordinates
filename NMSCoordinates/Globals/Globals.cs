@@ -4,16 +4,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace NMSCoordinates
 {
     public partial class Globals
     {
-        //public IDictionary<string, string> galaxyDict;
-
         public static void AppendLine(TextBox source, string value)
         {
             //My neat little textbox handler

@@ -52,7 +52,8 @@ namespace NMSCoordinates
                 var nmsPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HelloGames"), "NMS");
                 if (!Directory.Exists(nmsPath))
                 {
-                    MessageBox.Show(string.Format("No Man's Sky save game folder not found at expected location: {0}" + nmsPath));
+                    MessageBox.Show(string.Format("No Man's Sky save game folder not found at expected location: " + nmsPath));
+                    return;
                 }
 
                 //LogVerbose("Using NMS AppData folder: {0}", nmsPath);

@@ -15,7 +15,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <PublishUrl>C:\Users\Kevin\Desktop\NMSCoordinates\</PublishUrl>
+    <PublishUrl>C:\Users\Kevin\source\repos\Publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -121,11 +121,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class2.cs" />
-    <Compile Include="CoordCalc\CoordCalculations.cs" />
+    <Compile Include="Coords\CoordCalculations.cs" />
     <Compile Include="Globals\Globals.cs" />
-    <Compile Include="LocData\LocationData.cs" />
-    <Compile Include="SaveCompression.cs" />
+    <Compile Include="LocationData\LocationData.cs" />
+    <Compile Include="Coords\Coordinates.cs" />
+    <Compile Include="SaveCompression\SaveCompression.cs" />
     <Compile Include="NMSCoordinatesMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -182,12 +182,12 @@
     <Compile Include="UpdateChecker.Designer.cs">
       <DependentUpon>UpdateChecker.cs</DependentUpon>
     </Compile>
-    <Compile Include="GameSave.cs" />
-    <Compile Include="GameSaveManager.cs" />
+    <Compile Include="SaveEncryption\GameSave.cs" />
+    <Compile Include="SaveEncryption\GameSaveManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Storage.cs" />
-    <Compile Include="XXTEA.cs" />
+    <Compile Include="SaveEncryption\Storage.cs" />
+    <Compile Include="SaveEncryption\XXTEA.cs" />
     <EmbeddedResource Include="NMSCoordinatesMain.resx">
       <DependentUpon>NMSCoordinatesMain.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -253,22 +253,22 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="glyphs\0.png" />
-    <Content Include="glyphs\1.png" />
-    <Content Include="glyphs\2.png" />
-    <Content Include="glyphs\3.png" />
-    <Content Include="glyphs\4.png" />
-    <Content Include="glyphs\5.png" />
-    <Content Include="glyphs\6.png" />
-    <Content Include="glyphs\7.png" />
-    <Content Include="glyphs\8.png" />
-    <Content Include="glyphs\9.png" />
-    <Content Include="glyphs\A.png" />
-    <Content Include="glyphs\B.png" />
-    <Content Include="glyphs\C.png" />
-    <Content Include="glyphs\D.png" />
-    <Content Include="glyphs\E.png" />
-    <Content Include="glyphs\F.png" />
+    <Content Include="Glyphs\0.png" />
+    <Content Include="Glyphs\1.png" />
+    <Content Include="Glyphs\2.png" />
+    <Content Include="Glyphs\3.png" />
+    <Content Include="Glyphs\4.png" />
+    <Content Include="Glyphs\5.png" />
+    <Content Include="Glyphs\6.png" />
+    <Content Include="Glyphs\7.png" />
+    <Content Include="Glyphs\8.png" />
+    <Content Include="Glyphs\9.png" />
+    <Content Include="Glyphs\A.png" />
+    <Content Include="Glyphs\B.png" />
+    <Content Include="Glyphs\C.png" />
+    <Content Include="Glyphs\D.png" />
+    <Content Include="Glyphs\E.png" />
+    <Content Include="Glyphs\F.png" />
     <Content Include="nms.ico" />
   </ItemGroup>
   <ItemGroup />

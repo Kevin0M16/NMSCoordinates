@@ -2618,31 +2618,31 @@ namespace NMSCoordinates
         private string modSave;
         private string ufmodSave;
 
-        public string gamemode;
-        public int gamemodeint;
-        public string galaxy;
-        public string X;
-        public string Y;
-        public string Z;
-        public string SSI;
-        public string GalacticCoord;
-        public string GalacticCoord2;
-        public string PortalCode;
-        public string PI;
-        public string voxel;
+        //public string gamemode;
+        //public int gamemodeint;
+        //public string galaxy;
+        //public string X;
+        //public string Y;
+        //public string Z;
+        //public string SSI;
+        //public string GalacticCoord;
+        //public string GalacticCoord2;
+        //public string PortalCode;
+        //public string PI;
+        //public string voxel;
 
-        public int igalaxy;
-        public int iX;
-        public int iY;
-        public int iZ;
-        public int iSSI;
-        public int iGalacticCoord;
-        public int iPortalCoord;
-        public int iPI;
+        //public int igalaxy;
+        //public int iX;
+        //public int iY;
+        //public int iZ;
+        //public int iSSI;
+        //public int iGalacticCoord;
+        //public int iPortalCoord;
+        //public int iPI;
 
-        public int saveslot;
+        public int SelectedSaveSlot;
         
-        public string pgalaxy;
+        //public string pgalaxy;
         //public int ipX;
         //public int ipY;
         //public int ipZ;
@@ -2692,7 +2692,7 @@ namespace NMSCoordinates
         //public string rxValAFBUA;
 
         
-        public IDictionary<string, string> gameMode;
+        //public IDictionary<string, string> gameMode;
         public Dictionary<char, Bitmap> glyphDict = new Dictionary<char, Bitmap>();
 
         public Dictionary<int, string> sn1;
@@ -2709,8 +2709,8 @@ namespace NMSCoordinates
 
         public List<string> SSlist = new List<string>();
         public List<string> PrevSSlist = new List<string>();
-        public List<string> firstNotSecond = new List<string>();
-        public List<string> secondNotFirst = new List<string>();
+        //public List<string> firstNotSecond = new List<string>();
+        //public List<string> secondNotFirst = new List<string>();
 
         //public List<string> DeletedSSlist = new List<string>();
 

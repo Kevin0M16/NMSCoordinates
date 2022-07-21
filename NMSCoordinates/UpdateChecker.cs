@@ -1,10 +1,7 @@
 ﻿using System.Windows.Forms;
 using Octokit;
 using System.Diagnostics;
-using System.IO;
 using System.Net;
-using System.ComponentModel;
-using System;
 
 namespace NMSCoordinates
 {
