@@ -993,7 +993,7 @@ namespace NMSCoordinates
                 {
                     string discd = nms.PlayerStateData.TeleportEndpoints[i].Name;
 
-                    if (nms.PlayerStateData.TeleportEndpoints[i].TeleporterType == "Spacestation" || nms.PlayerStateData.TeleportEndpoints[i].TeleporterType == "SpacestationFixPosition") // 1.1.16
+                    if (nms.PlayerStateData.TeleportEndpoints[i].TeleporterType == "Spacestation")
                     {
                         string ss = discd + " (SS)";
                         DiscList.Add(ss);
@@ -1012,6 +1012,21 @@ namespace NMSCoordinates
                         listBox1.Items.Add(bl);
                     }
                 }
+                for (int i = 0; i < nms.PlayerStateData.TeleportEndpoints.Length; i++)
+                {
+                    string discd = nms.PlayerStateData.TeleportEndpoints[i].Name;
+
+                    if (nms.PlayerStateData.TeleportEndpoints[i].TeleporterType == "SpacestationFixPosition") // 1.1.16
+                    {
+                        string ss = discd + " (SS)";
+                        if (!DiscList.Contains(ss))
+                        {
+                            DiscList.Add(ss);
+                            listBox2.Items.Add(ss);
+                        }                       
+                    }
+                }
+
             }
             catch
             {

@@ -36,3 +36,5 @@ jk4	LastKnownPlayerState
 NGn	FreighterPositionInSystem
 uAt	FreighterTransformAt
 5Sg	FreighterTransformUp
+wMC	Position
+a>;	CalcWarpOffset
