@@ -201,7 +201,6 @@ namespace NMSCoordinates
             this.label37 = new System.Windows.Forms.Label();
             this.button14 = new System.Windows.Forms.Button();
             this.groupBox21 = new System.Windows.Forms.GroupBox();
-            this.linkLabel3 = new System.Windows.Forms.LinkLabel();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.label22 = new System.Windows.Forms.Label();
@@ -2222,7 +2221,6 @@ namespace NMSCoordinates
             // 
             this.groupBox21.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.groupBox21.BackColor = System.Drawing.Color.Transparent;
-            this.groupBox21.Controls.Add(this.linkLabel3);
             this.groupBox21.Controls.Add(this.linkLabel1);
             this.groupBox21.Controls.Add(this.linkLabel2);
             this.groupBox21.ForeColor = System.Drawing.SystemColors.ControlLightLight;
@@ -2233,25 +2231,12 @@ namespace NMSCoordinates
             this.groupBox21.TabStop = false;
             this.groupBox21.Text = "Helpful links";
             // 
-            // linkLabel3
-            // 
-            this.linkLabel3.AutoSize = true;
-            this.linkLabel3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkLabel3.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.linkLabel3.Location = new System.Drawing.Point(125, 69);
-            this.linkLabel3.Name = "linkLabel3";
-            this.linkLabel3.Size = new System.Drawing.Size(318, 16);
-            this.linkLabel3.TabIndex = 78;
-            this.linkLabel3.TabStop = true;
-            this.linkLabel3.Text = "https://www.nexusmods.com/nomanssky/mods/1312";
-            this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel3_LinkClicked);
-            // 
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.linkLabel1.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.linkLabel1.Location = new System.Drawing.Point(143, 16);
+            this.linkLabel1.Location = new System.Drawing.Point(144, 30);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(264, 16);
             this.linkLabel1.TabIndex = 76;
@@ -2264,7 +2249,7 @@ namespace NMSCoordinates
             this.linkLabel2.AutoSize = true;
             this.linkLabel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.linkLabel2.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.linkLabel2.Location = new System.Drawing.Point(125, 42);
+            this.linkLabel2.Location = new System.Drawing.Point(125, 62);
             this.linkLabel2.Name = "linkLabel2";
             this.linkLabel2.Size = new System.Drawing.Size(312, 16);
             this.linkLabel2.TabIndex = 77;
@@ -2618,80 +2603,12 @@ namespace NMSCoordinates
         private string modSave;
         private string ufmodSave;
 
-        //public string gamemode;
-        //public int gamemodeint;
-        //public string galaxy;
-        //public string X;
-        //public string Y;
-        //public string Z;
-        //public string SSI;
-        //public string GalacticCoord;
-        //public string GalacticCoord2;
-        //public string PortalCode;
-        //public string PI;
-        //public string voxel;
-
-        //public int igalaxy;
-        //public int iX;
-        //public int iY;
-        //public int iZ;
-        //public int iSSI;
-        //public int iGalacticCoord;
-        //public int iPortalCoord;
-        //public int iPI;
-
         public int SelectedSaveSlot;
-        
-        //public string pgalaxy;
-        //public int ipX;
-        //public int ipY;
-        //public int ipZ;
-        //public int ipSSI;
-        //public int ipGalacticCoord;
-        //public int ipPortalCoord;
-        //public int ipPI;
-
         public string json;
         public string ujson;
         public string locjson;
         public int locVersion;
-        //public dynamic jsonObj;
-        //public dynamic jsonArray;
 
-        //public string rxPatternP;
-        //public string rxValP;
-        //public string rxPatternSt;
-        //public string rxValSt;
-        //public string rxPatternPs;
-        //public string rxValPs;
-        //public string rxPatternPrtl;
-        //public string rxValPrtl;
-        //public string rxPatternPrtl2;
-        //public string rxValPrtl2;
-        //public string rxPatternPrtl3;
-        //public string rxValPrtl3;
-
-        //public string rxPatternG;
-        //public string rxValG;
-        //public string rxPatternX;
-        //public string rxValX;
-        //public string rxPatternY;
-        //public string rxValY;
-        //public string rxPatternZ;
-        //public string rxValZ;
-        //public string rxPatternSSI;
-        //public string rxValSSI;
-        //public string rxPatternPI;
-        //public string rxValPI;
-
-        //public string rxPatternTLFB;
-        //public string rxValTLFB;
-        //public string rxPatternWLFB;
-        //public string rxValWLFB;
-        //public string rxPatternAFBUA;
-        //public string rxValAFBUA;
-
-        
         //public IDictionary<string, string> gameMode;
         public Dictionary<char, Bitmap> glyphDict = new Dictionary<char, Bitmap>();
 
@@ -2704,18 +2621,10 @@ namespace NMSCoordinates
         public List<DirectoryInfo> SaveDirs = new List<DirectoryInfo>();
 
         public List<string> DiscList { get; private set; }
-
-        
-
         public List<string> SSlist = new List<string>();
         public List<string> PrevSSlist = new List<string>();
-        //public List<string> firstNotSecond = new List<string>();
-        //public List<string> secondNotFirst = new List<string>();
-
-        //public List<string> DeletedSSlist = new List<string>();
 
         public List<string> BaseList { get; private set; }
-        //public List<Bitmap> glyphlist { get; private set; }
 
         private char _gl1;
         private char _gl2;
@@ -2886,7 +2795,6 @@ namespace NMSCoordinates
         private System.Windows.Forms.TextBox textBox18;
         private System.Windows.Forms.LinkLabel linkLabel2;
         private System.Windows.Forms.GroupBox groupBox21;
-        private System.Windows.Forms.LinkLabel linkLabel3;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem1;
         private System.Windows.Forms.Label label28;

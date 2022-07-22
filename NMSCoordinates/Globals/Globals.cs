@@ -163,23 +163,26 @@ namespace NMSCoordinates
         public static Dictionary<char, Bitmap> Glyphs()
         {
             //Set the dictionary to find glyphs
-            Dictionary<char, Bitmap> gldict = new Dictionary<char, Bitmap>();
-            gldict.Add('0', Properties.Resources._0);
-            gldict.Add('1', Properties.Resources._1);
-            gldict.Add('2', Properties.Resources._2);
-            gldict.Add('3', Properties.Resources._3);
-            gldict.Add('4', Properties.Resources._4);
-            gldict.Add('5', Properties.Resources._5);
-            gldict.Add('6', Properties.Resources._6);
-            gldict.Add('7', Properties.Resources._7);
-            gldict.Add('8', Properties.Resources._8);
-            gldict.Add('9', Properties.Resources._9);
-            gldict.Add('A', Properties.Resources.A);
-            gldict.Add('B', Properties.Resources.B);
-            gldict.Add('C', Properties.Resources.C);
-            gldict.Add('D', Properties.Resources.D);
-            gldict.Add('E', Properties.Resources.E);
-            gldict.Add('F', Properties.Resources.F);
+            Dictionary<char, Bitmap> gldict = new Dictionary<char, Bitmap>
+            {
+                { '0', Properties.Resources._0 },
+                { '1', Properties.Resources._1 },
+                { '2', Properties.Resources._2 },
+                { '3', Properties.Resources._3 },
+                { '4', Properties.Resources._4 },
+                { '5', Properties.Resources._5 },
+                { '6', Properties.Resources._6 },
+                { '7', Properties.Resources._7 },
+                { '8', Properties.Resources._8 },
+                { '9', Properties.Resources._9 },
+                { 'A', Properties.Resources.A },
+                { 'B', Properties.Resources.B },
+                { 'C', Properties.Resources.C },
+                { 'D', Properties.Resources.D },
+                { 'E', Properties.Resources.E },
+                { 'F', Properties.Resources.F }
+            };
+
             return gldict;
         }
         public static IDictionary<string, string> GMode()

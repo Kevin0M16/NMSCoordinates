@@ -1,8 +1,11 @@
 # CHANGELOG
 
-## v1.1.17 (JULY 16 2022)
+## v2.0 (JULY 21 2022)
+- Major Rework
 - Fixed Issue #39 - Save file compression issue
 - Updates and internal fixes and organization
+- New Colors
+- Tested on Endurance
   
 ## v1.1.16 (AUG 15 2020)
 - Fixed missing space stations in list

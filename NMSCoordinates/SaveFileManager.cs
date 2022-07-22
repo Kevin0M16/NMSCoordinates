@@ -17,7 +17,7 @@ namespace NMSCoordinates
         {
             treeView1.Nodes.Clear();
             TreeNode rootNode;
-            DirectoryInfo info = new DirectoryInfo(@".\backup");
+            DirectoryInfo info = new DirectoryInfo(@".\backup\saves");
 
             if (info.Exists)
             {
@@ -116,7 +116,7 @@ namespace NMSCoordinates
                 ListViewItem.ListViewSubItem[] subItems;
                 ListViewItem item = null;
 
-                if (File.Exists(@".\backup\" + newSelected.Tag.ToString()))
+                if (File.Exists(@".\backup\saves\" + newSelected.Tag.ToString()))
                 {
                     FileInfo file = (FileInfo)newSelected.Tag;
                     
@@ -295,7 +295,7 @@ namespace NMSCoordinates
             {
                 TreeNode newSelected = treeView1.SelectedNode;
 
-                if (newSelected.Tag.ToString() != @".\backup")
+                if (newSelected.Tag.ToString() != @".\backup\saves")
                 {
                     FileInfo file = (FileInfo)newSelected.Tag;
 

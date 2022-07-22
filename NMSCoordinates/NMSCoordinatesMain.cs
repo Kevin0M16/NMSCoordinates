@@ -40,7 +40,7 @@ namespace NMSCoordinates
             InitializeComponent();
             
             //Set Version here
-            NMSCVersion = "1.1.17"; //"v1.1.17";
+            NMSCVersion = "2.0"; //"v1.1.17";
             label29.Text = "Version " + NMSCVersion;
             
             glyphDict = Globals.Glyphs();
@@ -54,15 +54,14 @@ namespace NMSCoordinates
             nmscConfig = @".\nmsc\config.nmsc";
             oldsavePath = System.Windows.Forms.Application.CommonAppDataPath + "\\save.nmsc";
 
+            //jsonDict = JsonMap.JsonMapDictionaryLong();
+            sjsonDict = JsonMap.JsonMapDictionaryShort();
+
             rawSave = @".\debug\rawsave.json";
             ufSave = @".\debug\ufsave.json";
             Save = @".\json\save.json";
             modSave = @".\debug\saveedit.json";
             ufmodSave = @".\debug\ufsaveedit.json";
-
-            GetJsonDict(@".\nmsc\jsonmap.nmsc", out jsonDict);
-            GetJsonDict(@".\nmsc\jsonmapshort.nmsc", out sjsonDict);
-
             locVersion = 1;
         }
 
@@ -83,12 +82,12 @@ namespace NMSCoordinates
             //Check resolution
             CheckRes();
 
+            //Make sure backup dir exists or create it
+            CreateBackupDir();
+
             //Save preference file
             BuildSaveFile();
             ReloadSave();
-
-            //Make sure backup dir exists or create it
-            CreateBackupDir();
 
             //loads the saved locbackup and playerloc files
             LoadTxt();
@@ -552,30 +551,29 @@ namespace NMSCoordinates
 
             if (reverse)
             {
-                // Sets json from input and reverses all key names back to original
+                // Sets json after modifying original values to key names
                 newjson = injson;
 
-                foreach (KeyValuePair<string, string> entry in inDict)
-                {
-                    pb.PerformStep();
-
-                    if (injson.Contains(entry.Key))
-                        injson = injson.Replace(entry.Key, entry.Value);
-                }                
-            }
-            else
-            {
-                // Sets json after modifying original values to key names
                 foreach (KeyValuePair<string, string> entry in inDict)
                 {
                     pb.PerformStep();
 
                     if (injson.Contains(entry.Value))
                         injson = injson.Replace(entry.Value, entry.Key);
-                }
+                }                
+            }
+            else
+            {
+                // Sets json from input and reverses all key names back to original
+                foreach (KeyValuePair<string, string> entry in inDict)
+                {
+                    pb.PerformStep();
 
+                    if (injson.Contains(entry.Key))
+                        injson = injson.Replace(entry.Key, entry.Value);
+                }
                 newjson = injson;
-            }            
+            } 
             File.WriteAllText(outputfilepath, injson);
             pb.Visible = false;
             pb.Maximum = 100;
@@ -1400,8 +1398,7 @@ namespace NMSCoordinates
             //Checks for the required directories and creates if don't exist
             if (!Directory.Exists(@".\nmsc"))
             {
-                MessageBox.Show("Missing nmsc directory! NMSCoordinates will not work");
-                return;
+                Directory.CreateDirectory(@".\nmsc");
             }
 
             if (!Directory.Exists(@".\backup"))

@@ -138,6 +138,7 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="SaveData\JsonMap.cs" />
     <Compile Include="SaveData\SaveData.cs" />
     <Compile Include="SaveData\ufSaveData.cs" />
     <Compile Include="ScreenShotPreviewQuad.cs">
