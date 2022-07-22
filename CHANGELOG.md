@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v2.1 (JULY 22 2022)
+- Reworked saved location json, new naming, added longhex
+- More calculations, more efficient lookups
+- Few other validations
+- 
 ## v2.0 (JULY 21 2022)
 - Major Rework
 - Fixed Issue #39 - Save file compression issue

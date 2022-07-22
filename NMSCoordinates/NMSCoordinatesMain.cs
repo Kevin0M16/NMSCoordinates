@@ -40,7 +40,7 @@ namespace NMSCoordinates
             InitializeComponent();
             
             //Set Version here
-            NMSCVersion = "2.0"; //"v1.1.17";
+            NMSCVersion = "2.0.1"; //"v1.1.17";
             label29.Text = "Version " + NMSCVersion;
             
             glyphDict = Globals.Glyphs();
@@ -62,7 +62,7 @@ namespace NMSCoordinates
             Save = @".\json\save.json";
             modSave = @".\debug\saveedit.json";
             ufmodSave = @".\debug\ufsaveedit.json";
-            locVersion = 1;
+            locVersion = 2;
         }
 
         public int _ScreenWidth { get; private set; }
@@ -741,7 +741,7 @@ namespace NMSCoordinates
                 progressBar2.Visible = true;
 
                 SavedLocationData sdata = Globals.CreateNewLocationJson(locVersion, DiscList.Count, 0);
-                List<Basis> basis = new List<Basis>();
+                List<LocationArray> basis = new List<LocationArray>();
 
                 for (int i = 0; i < DiscList.Count; i++)
                 {
@@ -751,15 +751,17 @@ namespace NMSCoordinates
                     //PortalCode = CoordCalculations.VoxelToPortal(iX, iY, iZ, iSSI);
                     //GalacticCoord = CoordCalculations.VoxelToGalacticCoord(iX, iY, iZ, iSSI);
 
-                    basis.Add(new Basis()
+                    basis.Add(new LocationArray()
                     {
                         Name = DiscList[i],
                         Details = new Details()
                         {
-                            Saveslot = SelectedSaveSlot,
+                            DateTime = DateTime.Now.ToString("MM-dd-yyyy HH:mm"),
+                            SaveSlot = SelectedSaveSlot,
+                            LongHex = dest.LongHex,
                             Galaxy = dest.iGalaxy,
-                            Portalcode = dest.PortalCode,
-                            Galacticcoords = dest.GalacticCoordinate,
+                            PortalCode = dest.PortalCode,
+                            GalacticCoords = dest.GalacticCoordinate,
                             Notes = ""
                         }
                     });
@@ -770,7 +772,7 @@ namespace NMSCoordinates
                 progressBar2.Visible = false;
                 progressBar2.Maximum = 100;
 
-                sdata.Locations.Bases = basis.ToArray();
+                sdata.Locations.TeleportEndpoints = basis.ToArray();
 
                 //Make a unique path name for the locbackup file and create file
                 string path2 = Globals.MakeUniqueLoc(path, SelectedSaveSlot);
@@ -1098,10 +1100,12 @@ namespace NMSCoordinates
             listBox2.SelectedIndex = -1;
             try
             {
-                if (listBox1.GetItemText(listBox1.SelectedItem) != "")
+                string si = listBox1.GetItemText(listBox1.SelectedItem);
+
+                if (!string.IsNullOrEmpty(si))
                 {
-                    object selecteditem = listBox1.SelectedItem;
-                    string si = selecteditem.ToString();
+                    //object selecteditem = listBox1.SelectedItem;
+                    //string si = selecteditem.ToString();
                     si = si.Replace(" (B)", "");
                     si = si.Replace(" (EB)", ""); //v1.1.16
                     var nms = GameSaveData.FromJson(json);
@@ -1125,11 +1129,8 @@ namespace NMSCoordinates
                                 textBox10.Text = dest.GalaxyName;
                                 textBox30.Text = dest.DistanceToCenter;
 
-                                //textBox10.Text = Globals.GalaxyLookup(dest.Galaxy);
-                                //textBox30.Text = CoordCalculations.DistanceToCenter(dest.iX, dest.iY, dest.iZ);
-                                //GalacticCoord = CoordCalculations.VoxelToGalacticCoord(dest.iX, dest.iY, dest.iZ, dest.iSSI, textBox3);
-                                //PortalCode = CoordCalculations.VoxelToPortal(dest.iPI, dest.iX, dest.iY, dest.iZ, dest.iSSI, textBox3);
                                 ShowGlyphs(dest.PortalCode);
+
                                 Globals.AppendLine(textBox1, dest.GalacticCoordinate);
                                 Globals.AppendLine(textBox2, dest.PortalCode);
                             }
@@ -1154,10 +1155,12 @@ namespace NMSCoordinates
             listBox1.SelectedIndex = -1;
             try
             {
-                if (listBox2.GetItemText(listBox2.SelectedItem) != "")
+                string si = listBox2.GetItemText(listBox2.SelectedItem);
+
+                if (!string.IsNullOrEmpty(si))
                 {
-                    object selecteditem = listBox2.SelectedItem;
-                    string si = selecteditem.ToString();
+                    //object selecteditem = listBox2.SelectedItem;
+                    //string si = selecteditem.ToString();
                     si = si.Replace(" (SS)", "");
                     var nms = GameSaveData.FromJson(json);
                     try
@@ -1180,11 +1183,8 @@ namespace NMSCoordinates
                                 textBox10.Text = dest.GalaxyName;
                                 textBox30.Text = dest.DistanceToCenter;
 
-                                //textBox10.Text = Globals.GalaxyLookup(dest.Galaxy);
-                                //textBox30.Text = CoordCalculations.DistanceToCenter(dest.iX, dest.iY, dest.iZ);
-                                //GalacticCoord = CoordCalculations.VoxelToGalacticCoord(dest.iX, dest.iY, dest.iZ, dest.iSSI, textBox3);
-                                //PortalCode = CoordCalculations.VoxelToPortal(dest.iPI, dest.iX, dest.iY, dest.iZ, dest.iSSI, textBox3);
                                 ShowGlyphs(dest.PortalCode);
+
                                 Globals.AppendLine(textBox1, dest.GalacticCoordinate);
                                 Globals.AppendLine(textBox2, dest.PortalCode);
                             }
@@ -1206,10 +1206,11 @@ namespace NMSCoordinates
             listBox1.SelectedIndex = -1;
             try
             {
-                if (listBox2.GetItemText(listBox2.SelectedItem) != "")
+                string si = listBox2.GetItemText(listBox2.SelectedItem);
+                if (!string.IsNullOrEmpty(si))
                 {
-                    object selecteditem = listBox2.SelectedItem;
-                    string si = selecteditem.ToString();
+                    //object selecteditem = listBox2.SelectedItem;
+                    //string si = selecteditem.ToString();                    
                     //si = si.Replace(" (SS)", "");
                     si = si.Replace("Not Named (PB)", "");
                     si = si.Replace(" (PB)", "");
@@ -1220,16 +1221,22 @@ namespace NMSCoordinates
                         {
                             if (nms.PlayerStateData.PersistentPlayerBases[i].Name.ToString() == si)
                             {
-                                //JsonMapTeleportEndpoints(i);
-                                JsonMapPersistentBases(i);
-                                TextBoxes();
-                                textBox10.Text = Globals.GalaxyLookup(galaxy);
-                                textBox30.Text = DistanceToCenter(iX, iY, iZ);
-                                GalacticCoord = CoordCalculations.VoxelToGalacticCoord(iX, iY, iZ, iSSI, textBox3);
-                                PortalCode = CoordCalculations.VoxelToPortal(iPI, iX, iY, iZ, iSSI, textBox3);
-                                ShowGlyphs();
-                                Globals.AppendLine(textBox1, GalacticCoord);
-                                Globals.AppendLine(textBox2, PortalCode);
+                                Destination dest = PersistentBases(i, json);
+
+                                ClearTextBoxes();
+
+                                textBox4.Text = dest.Galaxy;
+                                textBox5.Text = dest.X;
+                                textBox6.Text = dest.Y;
+                                textBox7.Text = dest.Z;
+                                textBox8.Text = dest.SSI;
+                                textBox9.Text = dest.PI;
+                                textBox10.Text = dest.GalaxyName;
+                                textBox30.Text = dest.DistanceToCenter;
+
+                                ShowGlyphs(dest.PortalCode);
+                                Globals.AppendLine(textBox1, dest.GalacticCoordinate);
+                                Globals.AppendLine(textBox2, dest.PortalCode);
                             }
                         }
                     }
@@ -1833,7 +1840,7 @@ namespace NMSCoordinates
 
                 string si = ListBoxSelected();
 
-                if (si == "")
+                if (string.IsNullOrEmpty(si))
                 {
                     MessageBox.Show("Something went wrong! ERROR [50]", "Error", MessageBoxButtons.OK);
                     return;
@@ -1861,7 +1868,7 @@ namespace NMSCoordinates
                     return;
                 }
 
-                if (listBox1.GetItemText(listBox1.SelectedItem) != "" || listBox2.GetItemText(listBox2.SelectedItem) != "")
+                if (!string.IsNullOrEmpty(listBox1.GetItemText(listBox1.SelectedItem)) || !string.IsNullOrEmpty(listBox2.GetItemText(listBox2.SelectedItem)))
                 {
                     DialogResult dialogResult = MessageBox.Show("Move Player to: " + listBox1.GetItemText(listBox1.SelectedItem) + listBox2.GetItemText(listBox2.SelectedItem) + " ? ", "Fast Travel", MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.Yes)
@@ -2165,19 +2172,27 @@ namespace NMSCoordinates
         {
             //Method to load all location
             locjson = File.ReadAllText(path);
-            var loc = SavedLocationData.FromJson(locjson);
+            var check = SavedLocationData.FromJson(locjson);
+
             try
             {
-                for (int i = 0; i < loc.Locations.Bases.Length; i++)
+                if (check.Version != locVersion)
                 {
-                    string name = loc.Locations.Bases[i].Name;
-                    string galaxy = loc.Locations.Bases[i].Details.Galaxy.ToString();
-                    string datetime = loc.Locations.Bases[i].Details.Datetime;
-                    string saveslot = loc.Locations.Bases[i].Details.Saveslot.ToString();
-                    string filename = loc.Locations.Bases[i].Details.Filename;
-                    string portalcode = loc.Locations.Bases[i].Details.Portalcode;
-                    string galacticcoord = loc.Locations.Bases[i].Details.Galacticcoords;
-                    string notes = loc.Locations.Bases[i].Details.Notes;
+                    locjson = LocationDataConverter.ConvertOldLocationFile(locjson, check.Version, locVersion, path);
+                }
+
+                SavedLocationData loc = SavedLocationData.FromJson(locjson);
+
+                for (int i = 0; i < loc.Locations.TeleportEndpoints.Length; i++)
+                {
+                    string name = loc.Locations.TeleportEndpoints[i].Name;
+                    string galaxy = loc.Locations.TeleportEndpoints[i].Details.Galaxy.ToString();
+                    string datetime = loc.Locations.TeleportEndpoints[i].Details.DateTime;
+                    string saveslot = loc.Locations.TeleportEndpoints[i].Details.SaveSlot.ToString();
+                    //string filename = loc.Locations.Bases[i].Details.Filename;
+                    string portalcode = loc.Locations.TeleportEndpoints[i].Details.PortalCode;
+                    string galacticcoord = loc.Locations.TeleportEndpoints[i].Details.GalacticCoords;
+                    string notes = loc.Locations.TeleportEndpoints[i].Details.Notes;
 
                     //listBox3.Items.Add("SaveSlot: " + SelectedSaveSlot + " " + filename + " " + name + " G: " + galaxy + " PC: " + portalcode + " GC: " + galacticcoord + " Notes: " + notes);
                     listBox3.Items.Add("Galaxy: (" + galaxy + ") / PC: " + portalcode + " / GC:  " + galacticcoord + " / " + name + " / " + notes);
@@ -2189,11 +2204,6 @@ namespace NMSCoordinates
                 return;
             }
         }
-        //private void Button6_Click(object sender, EventArgs e)
-        //{
-
-
-        //}
         private void ListBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
             //Location summary viewer box
@@ -2223,10 +2233,10 @@ namespace NMSCoordinates
                     }
                 }
                 var loc = SavedLocationData.FromJson(locjson);
-                var name = loc.Locations.Bases[listBox3.SelectedIndex].Name;
-                var pc = loc.Locations.Bases[listBox3.SelectedIndex].Details.Portalcode;
-                var gc = loc.Locations.Bases[listBox3.SelectedIndex].Details.Galacticcoords;
-                var notes = loc.Locations.Bases[listBox3.SelectedIndex].Details.Notes;
+                var name = loc.Locations.TeleportEndpoints[listBox3.SelectedIndex].Name;
+                var pc = loc.Locations.TeleportEndpoints[listBox3.SelectedIndex].Details.PortalCode;
+                var gc = loc.Locations.TeleportEndpoints[listBox3.SelectedIndex].Details.GalacticCoords;
+                var notes = loc.Locations.TeleportEndpoints[listBox3.SelectedIndex].Details.Notes;
 
                 Globals.AppendLine(textBox11, name);
                 Globals.AppendLine(textBox11, pc);
@@ -2282,10 +2292,13 @@ namespace NMSCoordinates
                     {
                         //grabs the galactic coordinate
                         var loc = SavedLocationData.FromJson(locjson);
-                        var gal = Convert.ToInt32(loc.Locations.Bases[listBox3.SelectedIndex].Details.Galaxy);
-                        var gc = loc.Locations.Bases[listBox3.SelectedIndex].Details.Galacticcoords;                        
+                        var basehx = loc.Locations.TeleportEndpoints[listBox3.SelectedIndex].Details.LongHex;
+                        Destination dest = HexToAll(basehx);
 
-                        if (gc == "" || gc == null)
+                        //var gal = loc.Locations.TeleportEndpoints[listBox3.SelectedIndex].Details.Galaxy;
+                        //var gc = loc.Locations.TeleportEndpoints[listBox3.SelectedIndex].Details.GalacticCoords;                        
+
+                        if (string.IsNullOrEmpty(basehx))
                         {
                             DialogResult dialogResult2 = MessageBox.Show("Something went wrong! \r\n\nSelected line has errors. \r\n\nWould you like to Delete the Line?", "Fast Travel", MessageBoxButtons.YesNo);
                             if (dialogResult2 == DialogResult.Yes)
@@ -2299,28 +2312,23 @@ namespace NMSCoordinates
                             }                                                       
                         }
 
-                        string[] value = gc.Split(':');
+                        //string[] value = gc.Split(':');
 
                         //Only take 4 digits from the last array so can add notes GC: 0000:0000:0000:[0000] A:B:C:D
-                        string A = value[0].Trim();
-                        string B = value[1].Trim();
-                        string C = value[2].Trim();
-                        string D = value[3].Trim().Substring(0, 4);
+                        //string A = value[0].Trim();
+                        //string B = value[1].Trim();
+                        //string C = value[2].Trim();
+                        //string D = value[3].Trim().Substring(0, 4);
 
                         //Validate Coordinates
-                        if (CoordCalculations.ValidateCoord(A, B, C, D))
+                        if (CoordCalculations.ValidateCoord(dest.GalacticCoordinate))
                         {
                             MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
                             return;
                         }
 
                         //Sets x,y,z,ssi ix,iy,iz,issi from given ABCD
-                        Destination dest = GalacticToVoxel(gal, A, B, C, D, textBox13);
-                        //X = iX.ToString(); Y = iY.ToString(); Z = iZ.ToString(); SSI = iSSI.ToString();
-
-                        //Sets the galaxy
-                        //galaxy = gal.ToString();
-                        //igalaxy = Convert.ToInt32(gal);
+                        //Destination dest = GalacticToVoxel(gal, A, B, C, D, textBox13);
 
                         Globals.AppendLine(textBox13, "Galaxy: " + dest.Galaxy + " -- X:" + dest.X + " -- Y:" + dest.Y + " -- Z:" + dest.Z + " -- SSI:" + dest.SSI);
                         
@@ -2387,7 +2395,7 @@ namespace NMSCoordinates
                 //list.Add(listBox3.GetItemText(listBox3.SelectedItem));
                 string path2 = Globals.MakeUniqueLoc(@".\backup\locations\locbackup.json", SelectedSaveSlot);
                 var loc = SavedLocationData.FromJson(locjson);
-                var record = loc.Locations.Bases[selectindex];
+                var record = loc.Locations.TeleportEndpoints[selectindex];
 
                 // Create new locbackup json file
                 var loc2 = Globals.CreateNewLocationJson(locVersion, 1, 0);
@@ -2396,7 +2404,7 @@ namespace NMSCoordinates
                 //loc2.Locations = new Locations();
                 //loc2.Locations.Bases = new Basis[1];
                 //loc2.Locations.Spacestations = new Basis[0];
-                loc2.Locations.Bases[0] = record;
+                loc2.Locations.TeleportEndpoints[0] = record;
                 string newrec = LocationData.Serialize.ToJson(loc2);
                 File.WriteAllText(path2, newrec);
 
@@ -2509,13 +2517,6 @@ namespace NMSCoordinates
         private void Button11_Click(object sender, EventArgs e)
         {
             //Move player button on Manual Travel Tab
-            //clears all voxels for upcoming steps
-            //X = "";
-            //Y = "";
-            //Z = "";
-            //SSI = "";
-
-            //Galactic coordinates to Voxel
             try
             {
                 if (string.IsNullOrEmpty(textBox14.Text))
@@ -2538,64 +2539,67 @@ namespace NMSCoordinates
                 }
                     
                 //removes all spaces
-                string t2 = textBox14.Text.Replace(" ", "");
+                string inputcoord = textBox14.Text.Replace(" ", "");
 
                 //if invalid format
-                if (t2.Replace(":", "").Length < 16 | t2.Replace(":", "").Length > 16 | t2.Length < 16)
+                if (inputcoord.Replace(":", "").Length < 16 | inputcoord.Replace(":", "").Length > 16 | inputcoord.Length < 16)
                 {
-                    //Globals.AppendLine(textBox7, "Incorrect Coordinate Input!");
                     MessageBox.Show("Invalid Coordinate Input!", "Alert");
                     return;
                 }
 
+                //Validate Coordinates
+                if (CoordCalculations.ValidateCoord(inputcoord))
+                {
+                    MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
+                    return;
+                }
+
                 int selectedindex = comboBox3.SelectedIndex;
-                Destination dest = new Destination();
+                //Destination dest = new Destination();
 
-                //if format 0000:0000:0000:0000 A:B:C:D
-                if (t2.Contains(":") && t2.Length == 19)
-                {
-                    string[] value = t2.Replace(" ", "").Split(':');
-                    string A = value[0].Trim();
-                    string B = value[1].Trim();
-                    string C = value[2].Trim();
-                    string D = value[3].Trim();
+                GalacticCoordinates gac = GetGalacticCoordHex(inputcoord);
+                Destination dest = GalacticToVoxel(selectedindex, gac.HexX, gac.HexY, gac.HexZ, gac.HexSSI, textBox15);
 
-                    //Validate Coordinates
-                    if (CoordCalculations.ValidateCoord(A, B, C, D))
-                    {
-                        MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
-                        return;
-                    }
+                ////if format 0000:0000:0000:0000 A:B:C:D
+                //if (t2.Contains(":") && t2.Length == 19)
+                //{
+                //    string[] value = t2.Replace(" ", "").Split(':');
+                //    string A = value[0].Trim();
+                //    string B = value[1].Trim();
+                //    string C = value[2].Trim();
+                //    string D = value[3].Trim();
 
-                    //sets x,y,z,ssi ix,iy,iz,issi from given ABCD
-                    dest = GalacticToVoxel(selectedindex, A, B, C, D, textBox15);
-                    //CoordCalculations.GalacticToVoxel(A, B, C, D, out iX, out iY, out iZ, out iSSI, textBox15);
-                    //X = iX.ToString(); Y = iY.ToString(); Z = iZ.ToString(); SSI = iSSI.ToString();
-                    //PortalCode = CoordCalculations.VoxelToPortal(0, iX, iY, iZ, iSSI);
-                }
+                //    //Validate Coordinates
+                //    if (CoordCalculations.ValidateCoord(t2))
+                //    {
+                //        MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
+                //        return;
+                //    }
 
-                //if format 0000000000000000
-                if (t2.Length == 16 && !t2.Contains(":"))
-                {
-                    //0000 0000 0000 0000  XXXX:YYYY:ZZZZ:SSIX  A B C D
-                    string A = t2.Substring(t2.Length - 16, 4);
-                    string B = t2.Substring(t2.Length - 12, 4);
-                    string C = t2.Substring(t2.Length - 8, 4);
-                    string D = t2.Substring(t2.Length - 4, 4);
+                //    //sets x,y,z,ssi ix,iy,iz,issi from given ABCD
+                //    dest = GalacticToVoxel(selectedindex, A, B, C, D, textBox15);
+                //}
 
-                    //Validate Coordinates
-                    if (CoordCalculations.ValidateCoord(A, B, C, D))
-                    {
-                        MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
-                        return;
-                    }
+                ////if format 0000000000000000
+                //if (t2.Length == 16 && !t2.Contains(":"))
+                //{
+                //    //0000 0000 0000 0000  XXXX:YYYY:ZZZZ:SSIX  A B C D
+                //    string A = t2.Substring(t2.Length - 16, 4);
+                //    string B = t2.Substring(t2.Length - 12, 4);
+                //    string C = t2.Substring(t2.Length - 8, 4);
+                //    string D = t2.Substring(t2.Length - 4, 4);
 
-                    //sets x,y,z,ssi ix,iy,iz,issi from given ABCD
-                    dest = GalacticToVoxel(selectedindex, A, B, C, D, textBox15);
-                    //CoordCalculations.GalacticToVoxel(A, B, C, D, out iX, out iY, out iZ, out iSSI, textBox15);
-                    //X = iX.ToString(); Y = iY.ToString(); Z = iZ.ToString(); SSI = iSSI.ToString();
-                    //PortalCode = CoordCalculations.VoxelToPortal(0, iX, iY, iZ, iSSI);
-                }
+                //    //Validate Coordinates
+                //    if (CoordCalculations.ValidateCoord(A, B, C, D))
+                //    {
+                //        MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
+                //        return;
+                //    }
+
+                //    //sets x,y,z,ssi ix,iy,iz,issi from given ABCD
+                //    dest = GalacticToVoxel(selectedindex, A, B, C, D, textBox15);
+                //}
 
                 if (dest.Galaxy != "" && dest.X != "" && dest.Y != "" && dest.Z != "" && dest.SSI != "")
                 {
@@ -2647,11 +2651,6 @@ namespace NMSCoordinates
                 comboBox3.SelectedIndex = -1;
                 Globals.AppendLine(textBox15, "Incorrect Coordinate Input!");
             }
-
-            //X = "";
-            //Y = "";
-            //Z = "";
-            //SSI = "";
         }
         private void TabControl1_Selected(object sender, TabControlEventArgs e)
         {
@@ -3085,7 +3084,7 @@ namespace NMSCoordinates
                 return;
             }
             
-            Player player = PlayerGalaxy(json);
+            Player player = PlayerLocation(json);
 
             if (player.Galaxy != "")
             {
@@ -3098,21 +3097,23 @@ namespace NMSCoordinates
                 {
                     selectedindex = 1;
                     SavedLocationData sdata = Globals.CreateNewLocationJson(locVersion, 1, 0);
-                    List<Basis> basis = new List<Basis>();
+                    List<LocationArray> basis = new List<LocationArray>();
 
-                    basis.Add(new Basis()
+                    basis.Add(new LocationArray()
                     {
                         Name = DateTime.Now.ToString("MM-dd-yyyy HH:mm"),
                         Details = new Details()
                         {
-                            Saveslot = SelectedSaveSlot,
-                            Galaxy = Convert.ToInt32(player.iGalaxy),
-                            Portalcode = currentpc,
-                            Galacticcoords = currentgc,
+                            DateTime = DateTime.Now.ToString("MM-dd-yyyy HH:mm"),
+                            SaveSlot = SelectedSaveSlot,
+                            LongHex = player.LongHex,
+                            Galaxy = player.iGalaxy,
+                            PortalCode = currentpc,
+                            GalacticCoords = currentgc,
                             Notes = ""
                         }
                     });
-                    sdata.Locations.Bases = basis.ToArray();
+                    sdata.Locations.TeleportEndpoints = basis.ToArray();
                     var backuplist = LocationData.Serialize.ToJson(sdata);
                     File.WriteAllText(plocpath, backuplist);
                 }
@@ -3127,33 +3128,35 @@ namespace NMSCoordinates
                         return;
                     }
 
-                    SavedLocationData sdata = Globals.CreateNewLocationJson(locVersion, loc.Locations.Bases.Length, 0);
-                    List<Basis> basis = new List<Basis>();
+                    SavedLocationData sdata = Globals.CreateNewLocationJson(locVersion, loc.Locations.TeleportEndpoints.Length, 0);
+                    List<LocationArray> basis = new List<LocationArray>();
 
-                    for (int i = 0; i < loc.Locations.Bases.Length; i++)
+                    for (int i = 0; i < loc.Locations.TeleportEndpoints.Length; i++)
                     {
-                        if (loc.Locations.Bases[i].Details.Galacticcoords == currentgc)
+                        if (loc.Locations.TeleportEndpoints[i].Details.GalacticCoords == currentgc)
                         {
                             MessageBox.Show("Location already saved in player_loc.txt!", "Alert", MessageBoxButtons.OK);
                             return;
                         }
-                        basis.Add(loc.Locations.Bases[i]);
+                        basis.Add(loc.Locations.TeleportEndpoints[i]);
                     }
 
-                    basis.Add(new Basis()
+                    basis.Add(new LocationArray()
                     {
                         Name = DateTime.Now.ToString("MM-dd-yyyy HH:mm"),
                         Details = new Details()
                         {
-                            Saveslot = SelectedSaveSlot,
-                            Galaxy = Convert.ToInt32(player.iGalaxy),
-                            Portalcode = currentpc,
-                            Galacticcoords = currentgc,
+                            DateTime = DateTime.Now.ToString("MM-dd-yyyy HH:mm"),
+                            SaveSlot = SelectedSaveSlot,
+                            LongHex = player.LongHex,
+                            Galaxy = player.iGalaxy,
+                            PortalCode = currentpc,
+                            GalacticCoords = currentgc,
                             Notes = ""
                         }
                     });
                     selectedindex = basis.Count;
-                    sdata.Locations.Bases = basis.ToArray();
+                    sdata.Locations.TeleportEndpoints = basis.ToArray();
                     var backuplist = LocationData.Serialize.ToJson(sdata);
                     File.WriteAllText(plocpath, backuplist);
                 }
@@ -3205,7 +3208,7 @@ namespace NMSCoordinates
                     return;
                 }
 
-                if (loc.Locations.Bases.Length <= 1)
+                if (loc.Locations.TeleportEndpoints.Length <= 1)
                 {
                     DialogResult dialogResult = MessageBox.Show("Delete " + filename + " ?", "Confirmation", MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.Yes)
@@ -3221,16 +3224,16 @@ namespace NMSCoordinates
                 }
                 else
                 {
-                    SavedLocationData sdata = Globals.CreateNewLocationJson(locVersion, loc.Locations.Bases.Length, 0);
-                    List<Basis> basis = new List<Basis>();
+                    SavedLocationData sdata = Globals.CreateNewLocationJson(locVersion, loc.Locations.TeleportEndpoints.Length, 0);
+                    List<LocationArray> basis = new List<LocationArray>();
 
-                    for (int i = 0; i < loc.Locations.Bases.Length; i++)
+                    for (int i = 0; i < loc.Locations.TeleportEndpoints.Length; i++)
                     {
                         if (i != selectedindex)
-                            basis.Add(loc.Locations.Bases[i]);
+                            basis.Add(loc.Locations.TeleportEndpoints[i]);
                     }
                     //selectedindex = basis.Count;
-                    sdata.Locations.Bases = basis.ToArray();
+                    sdata.Locations.TeleportEndpoints = basis.ToArray();
                     var backuplist = LocationData.Serialize.ToJson(sdata);
                     File.WriteAllText(path, backuplist);
                     LoadTxt();
@@ -3542,7 +3545,7 @@ namespace NMSCoordinates
                         DialogResult dialogResult = MessageBox.Show("Are you sure want to replace the note? ", "Replace/Change Note", MessageBoxButtons.YesNo);
                         if (dialogResult == DialogResult.Yes)
                         {
-                            loc.Locations.Bases[selectedrecord].Details.Notes = newnote;
+                            loc.Locations.TeleportEndpoints[selectedrecord].Details.Notes = newnote;
 
                             //removes the last 4 of GC
                             //string E = value[3].Replace(D, "");
@@ -3609,7 +3612,7 @@ namespace NMSCoordinates
                     DialogResult dialogResult = MessageBox.Show("Are you sure want to remove the note? ", "Remove Note", MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.Yes)
                     {
-                        loc.Locations.Bases[selectedrecord].Details.Notes = newnote;
+                        loc.Locations.TeleportEndpoints[selectedrecord].Details.Notes = newnote;
                     }
                     else if (dialogResult == DialogResult.No)
                     {

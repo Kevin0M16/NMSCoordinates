@@ -24,8 +24,8 @@ namespace NMSCoordinates
             SavedLocationData newSDL = new SavedLocationData();
             newSDL.Version = version;
             newSDL.Locations = new Locations();
-            newSDL.Locations.Bases = new Basis[bs];
-            newSDL.Locations.Spacestations = new Basis[ss];
+            newSDL.Locations.TeleportEndpoints = new LocationArray[bs];
+            newSDL.Locations.FutureUse = new LocationArray[ss];
             return newSDL;
         }
         public static string GameModeLookupInt(int mode)
