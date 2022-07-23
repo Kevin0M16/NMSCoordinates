@@ -349,5 +349,107 @@ namespace NMSCoordinates
 
             return dest;
         }
+        public static Destination HexToAll(string basehx, TextBox tb)
+        {
+            //PlanetNumber--SolarSystemIndex--GalaxyNumber--VoxelY--VoxelZ--VoxelX
+            //4 bit--12 bit--8 bit--8 bit--12 bit--12 bit
+            //"0x2 049 00 01 D37 652" 460 475 89 64 091 954   0 04A FB 9F6 C9D
+
+            if (!basehx.StartsWith("0x"))
+            {
+                long hxe = Convert.ToInt64(basehx);
+                Globals.AppendLine(tb, "Long DEC: " + hxe); // Display Long DEC
+
+                basehx = "0x" + hxe.ToString("X"); // Convert Long DEC to Long HEX
+                Globals.AppendLine(tb, "Long HEX: " + basehx);// Display Long HEX
+            }
+            else
+            {
+                long hxe = Convert.ToInt64(basehx, 16); // Convert Long HEX to DEC
+                Globals.AppendLine(tb, "Long DEC: " + hxe); // Display Long DEC
+                Globals.AppendLine(tb, "Long HEX: " + basehx); // Display Long HEX
+            }
+
+            string b6 = basehx.Substring(basehx.Length - 3, 3);
+            string b5 = basehx.Substring(basehx.Length - 6, 3);
+            string b4 = basehx.Substring(basehx.Length - 8, 2);
+            string b3 = basehx.Substring(basehx.Length - 10, 2);
+            string b2 = basehx.Substring(basehx.Length - 13, 3);
+            string b1 = basehx.Substring(basehx.Length - 16, 3);
+
+            Globals.AppendLine(tb, "Base Hex Split: " + b1 + " " + b2 + " " + b3 + " " + b4 + " " + b5 + " " + b6);
+            Globals.AppendLine(tb, "Base Hex id's: Planet #:" + b1 + " SSI:" + b2 + " Gal#:" + b3 + " Y:" + b4 + " Z:" + b5 + " X:" + b6);
+
+            int dec1 = Convert.ToInt32("1000", 16); // 1000[HEX] to 1000[DEC]
+            int dec2 = Convert.ToInt32("100", 16); // 100[HEX] to 100[DEC]
+            int dec3 = Convert.ToInt32("7F", 16); // [HEX] to [DEC]
+            int dec4 = Convert.ToInt32("7FF", 16); // [HEX] to [DEC]
+            Globals.AppendLine(tb, "SHIFT calc: 1000:" + dec1 + " 100:" + dec2 + " 7F:" + dec3 + " 7FF:" + dec4);
+
+            //= BASE(MOD(HEX2DEC(Y) + HEX2DEC(7F), HEX2DEC(100)), 16, 4)
+            int pidec = Convert.ToInt32(b1, 16); //HEX to DEC
+            int ssidec = Convert.ToInt32(b2, 16);
+            int galdec = Convert.ToInt32(b3, 16);
+            int decY = Convert.ToInt32(b4, 16);
+            int decZ = Convert.ToInt32(b5, 16);
+            int decX = Convert.ToInt32(b6, 16);
+            Globals.AppendLine(tb, "Base Dec: Planet #:" + pidec + " SSI:" + ssidec + " Gal#:" + galdec + " Y:" + decY + " Z:" + decZ + " X:" + decX);
+
+            int calc1 = (decX + dec4) % dec1; // (X[DEC] + 801[DEC]) MOD (1000[DEC])
+            int calc2 = (decY + dec3) % dec2; // (Y[DEC] + 81[DEC]) MOD (100[DEC])
+            int calc3 = (decZ + dec4) % dec1; // (Z[DEC] + 801[DEC]) MOD (1000[DEC])
+            //Globals.AppendLine(textBox3, "1- X:" + calc1.ToString() + " Y:" + calc2.ToString() + " Z:" + calc3.ToString() + " SSI:" + ssidec);
+            Globals.AppendLine(tb, "Base Voxel Dec: Planet #:" + pidec + " SSI:" + ssidec + " Gal#:" + galdec + " Y:" + calc2.ToString() + " Z:" + calc3.ToString() + " X:" + calc1.ToString());
+
+            string hexX = calc1.ToString("X"); //Calculated portal X[DEC] to X[HEX]
+            string hexY = calc2.ToString("X"); //Calculated portal Y[DEC] to Y[HEX]
+            string hexZ = calc3.ToString("X"); //Calculated portal Z[DEC] to Z[HEX]
+            //Globals.AppendLine(tb, "X:" + hexX + " Y:" + hexY + " Z:" + hexZ);
+
+            int ihexX = (Convert.ToInt32(hexX, 16) & 0xFFFF); // X[HEX] to X[DEC] 3 digits
+            int ihexY = (Convert.ToInt32(hexY, 16) & 0xFFFF); // Y[HEX] to Y[DEC] 2 digits
+            int ihexZ = (Convert.ToInt32(hexZ, 16) & 0xFFFF); // Z[HEX] to Z[DEC] 3 digits
+            //int ihexSSI = (Convert.ToInt32(ssidec, 16) & 0xFFFF); // SSI[HEX] to SSI[DEC] 3 digits
+
+            //Globals.AppendLine(textBox14, "P: " + "X:" + hexX + " Y:" + hexY + " Z:" + hexZ + " SSI:" + ssidec);
+            string GalacticCoord2 = string.Format("{0:X4}:{1:X4}:{2:X4}:{3:X4}", ihexX, ihexY, ihexZ, ssidec & 0xFFFF); //Format to 4 digit seperated by colon
+            Globals.AppendLine(tb, "Galactic Coordinates: " + GalacticCoord2);
+
+            int shiftX = calc1 - 2047;
+            int shiftY = calc2 - 127;
+            int shiftZ = calc3 - 2047;
+            //Globals.AppendLine(textBox3, "Voxel Coordinates: X:" + shiftX + " Y:" + shiftY + " Z:" + shiftZ + " SSI:" + ssidec);
+            Globals.AppendLine(tb, "Base Voxel: Planet #:" + pidec + " SSI:" + ssidec + " Gal#:" + galdec + " Y:" + shiftY + " Z:" + shiftZ + " X:" + shiftX);
+            //voxel = "Planet #:" + pidec + " SSI:" + ssidec + " Gal#:" + galdec + " Y:" + shiftY + " Z:" + shiftZ + " X:" + shiftX;
+
+            GalacticCoordinates gac = GetGalacticCoordHex(GalacticCoord2);
+            string pc = CoordCalculations.GalacticToPortal(pidec, gac.HexX, gac.HexY, gac.HexZ, gac.HexSSI);
+
+            Destination dest = new Destination
+            {
+                iGalaxy = galdec,
+                iX = shiftX,
+                iY = shiftY,
+                iZ = shiftZ,
+                iSSI = ssidec,
+                iPI = pidec,
+
+                Galaxy = galdec.ToString(),
+                X = shiftX.ToString(),
+                Y = shiftY.ToString(),
+                Z = shiftZ.ToString(),
+                SSI = ssidec.ToString(),
+                PI = pidec.ToString(),
+
+                GalacticCoordinate = GalacticCoord2,
+                PortalCode = pc
+            };
+
+            dest.LongHex = basehx;
+            dest.DistanceToCenter = CoordCalculations.DistanceToCenter(dest.iX, dest.iY, dest.iZ);
+            dest.GalaxyName = Globals.GalaxyLookup(dest.Galaxy);
+
+            return dest;
+        }
     }
 }

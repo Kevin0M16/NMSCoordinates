@@ -40,7 +40,7 @@ namespace NMSCoordinates
             InitializeComponent();
             
             //Set Version here
-            NMSCVersion = "2.0.1"; //"v1.1.17";
+            NMSCVersion = "2.1"; //"v1.1.17";
             label29.Text = "Version " + NMSCVersion;
             
             glyphDict = Globals.Glyphs();

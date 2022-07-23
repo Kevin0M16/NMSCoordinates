@@ -33,6 +33,11 @@ namespace NMSCoordinates
                 return x;
             }
 
+            if (GalacticCoord.Replace(":", "").Length < 16 | GalacticCoord.Replace(":", "").Length > 16 | GalacticCoord.Length < 16)
+            {
+                return false;
+            }
+
             return false;
         }
         public static string DistanceToCenter(double x, double y, double z)
