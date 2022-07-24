@@ -25,10 +25,12 @@ Backup locations to txt file and and access and travel to these saved coordinate
 |Manual Travel|Fast Travel|
 |<a href="http://www.youtube.com/watch?feature=player_embedded&v=ceSFVl9LFtI" target="_blank"><img src="http://img.youtube.com/vi/ceSFVl9LFtI/0.jpg" alt="Video" width="520" height="300" border="10" /></a>|<a href="http://www.youtube.com/watch?feature=player_embedded&v=Vx1xGk2TMIo" target="_blank"><img src="http://img.youtube.com/vi/Vx1xGk2TMIo/0.jpg" alt="Video" width="520" height="300" border="10" /></a>|
 -->
-## v2.1 (JULY 22 2022)
-- Reworked saved location json, new naming, added longhex
+## v2.1 (JULY 23 2022)
+- Reworked location json, new naming, added longhex
 - More calculations, more efficient lookups
 - Few other validations
+- Reworked Coordinate Calculator
+
 ## v2.0 (JULY 21 2022)
 - Major Rework
 - Fixed Issue #39 - Save file compression issue
