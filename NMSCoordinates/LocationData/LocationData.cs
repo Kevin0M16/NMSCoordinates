@@ -18,51 +18,51 @@ namespace NMSCoordinates.LocationData
     public partial class SavedLocationData
     {
         [JsonProperty("version")]
-        public long Version { get; set; }
+        public int Version { get; set; }
 
-        [JsonProperty("locations")]
+        [JsonProperty("Locations")]
         public Locations Locations { get; set; }
     }
 
     public partial class Locations
     {
-        [JsonProperty("bases")]
-        public Basis[] Bases { get; set; }
+        [JsonProperty("TeleportEndpoints")]
+        public LocationArray[] TeleportEndpoints { get; set; }
 
-        [JsonProperty("spacestations")]
-        public Basis[] Spacestations { get; set; }
+        [JsonProperty("FutureUse")]
+        public LocationArray[] FutureUse { get; set; }
     }
 
-    public partial class Basis
+    public partial class LocationArray
     {
-        [JsonProperty("name")]
+        [JsonProperty("Name")]
         public string Name { get; set; }
 
-        [JsonProperty("details")]
+        [JsonProperty("Details")]
         public Details Details { get; set; }
     }
 
     public partial class Details
     {
-        [JsonProperty("datetime")]
-        public string Datetime { get; set; }
+        [JsonProperty("DateTime")]
+        public string DateTime { get; set; }
 
-        [JsonProperty("filename")]
-        public string Filename { get; set; }
+        [JsonProperty("SaveSlot")]
+        public int SaveSlot { get; set; }
 
-        [JsonProperty("saveslot")]
-        public long Saveslot { get; set; }
+        [JsonProperty("LongHex")]
+        public string LongHex { get; set; }
 
-        [JsonProperty("galaxy")]
-        public long Galaxy { get; set; }
+        [JsonProperty("Galaxy")]
+        public int Galaxy { get; set; }
 
-        [JsonProperty("portalcode")]
-        public string Portalcode { get; set; }
+        [JsonProperty("PortalCode")]
+        public string PortalCode { get; set; }
 
-        [JsonProperty("galacticcoords")]
-        public string Galacticcoords { get; set; }
+        [JsonProperty("GalacticCoords")]
+        public string GalacticCoords { get; set; }
 
-        [JsonProperty("notes")]
+        [JsonProperty("Notes")]
         public string Notes { get; set; }
     }
 

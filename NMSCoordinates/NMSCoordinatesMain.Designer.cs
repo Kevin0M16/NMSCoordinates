@@ -612,9 +612,8 @@ namespace NMSCoordinates
             this.textBox28.ForeColor = System.Drawing.Color.LightSteelBlue;
             this.textBox28.Location = new System.Drawing.Point(236, 281);
             this.textBox28.MaxLength = 20;
-            this.textBox28.Multiline = true;
             this.textBox28.Name = "textBox28";
-            this.textBox28.Size = new System.Drawing.Size(141, 21);
+            this.textBox28.Size = new System.Drawing.Size(141, 20);
             this.textBox28.TabIndex = 78;
             this.textBox28.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 

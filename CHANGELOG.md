@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v2.1 (JULY 23 2022)
+- Reworked location json, new naming, added longhex
+- More calculations, more efficient lookups
+- Few other validations
+- Reworked Coordinate Calculator
+ 
 ## v2.0 (JULY 21 2022)
 - Major Rework
 - Fixed Issue #39 - Save file compression issue

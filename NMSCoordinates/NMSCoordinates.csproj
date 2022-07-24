@@ -125,6 +125,7 @@
     <Compile Include="Globals\Globals.cs" />
     <Compile Include="LocationData\LocationData.cs" />
     <Compile Include="Coords\Coordinates.cs" />
+    <Compile Include="LocationData\LocationDataConverter.cs" />
     <Compile Include="SaveCompression\SaveCompression.cs" />
     <Compile Include="NMSCoordinatesMain.cs">
       <SubType>Form</SubType>
