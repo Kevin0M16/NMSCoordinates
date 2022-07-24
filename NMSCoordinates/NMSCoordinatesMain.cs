@@ -16,6 +16,7 @@ using Newtonsoft.Json;
 using NMSCoordinates.SaveData;
 using NMSCoordinates.LocationData;
 using static NMSCoordinates.Coordinates;
+using libNOM.map;
 
 /**********************************************************\
 |                                                          |
@@ -40,7 +41,7 @@ namespace NMSCoordinates
             InitializeComponent();
             
             //Set Version here
-            NMSCVersion = "2.1"; //"v2.1";
+            NMSCVersion = "2.2"; //"v2.2";
             label29.Text = "Version " + NMSCVersion;
             
             glyphDict = Globals.Glyphs();
@@ -55,7 +56,7 @@ namespace NMSCoordinates
             oldsavePath = System.Windows.Forms.Application.CommonAppDataPath + "\\save.nmsc";
 
             //jsonDict = JsonMap.JsonMapDictionaryLong();
-            sjsonDict = JsonMap.JsonMapDictionaryShort();
+            //sjsonDict = JsonMap.JsonMapDictionaryShort();
 
             rawSave = @".\debug\rawsave.json";
             ufSave = @".\debug\ufsave.json";
@@ -110,8 +111,7 @@ namespace NMSCoordinates
             await Task.Delay(300);
             RunBackupAll(hgFileDir);
 
-            //Check Github releases for a newer version            
-            //CheckForUpdates(true); //Toggle until updater
+            //Check Github releases for a newer version
             CheckForUpdates();
         }
         private void CheckRes()
@@ -195,88 +195,6 @@ namespace NMSCoordinates
             catch
             {
                 Globals.AppendLine(textBox17, "Github Server not available. Could not check version");
-            }
-        }
-        private async void CheckForUpdates(bool first)
-        {
-            //Check Github releases for a newer version method
-            try
-            {
-                var client = new GitHubClient(new ProductHeaderValue("NMSCoordinates"));
-                var releases = await client.Repository.Release.GetAll("Kevin0M16", "NMSCoordinates");
-                var latest = releases[0];
-
-                if (NMSCVersion != latest.Name)
-                {
-                    IsUpdated(false, first, latest.Name);
-
-                    /*linkLabel4.Text = "Version " + latest.Name + " Available";
-                    linkLabel4.Visible = true;
-                    Globals.AppendLine(textBox17, "Current Version: " + Version + " Latest Version: " + latest.Name);
-                    //MessageBox.Show("A newer version of NMSCoordinates is available\r\n\nLatest Version: " + latest.Name + "  Now available for download.\r\n\n", "Update Available", MessageBoxButtons.OK);
-                    DialogResult dialogResult = MessageBox.Show("A newer version of NMSCoordinates is available\r\n\nLatest Version: " + latest.Name + "  Update Now?\r\n\n", "Update Available", MessageBoxButtons.YesNo);
-                    if (dialogResult == DialogResult.Yes)
-                    {
-                        UpdateApp();
-                    }
-                    else if (dialogResult == DialogResult.No)
-                    {
-                        return;
-                    }*/
-                }
-
-                if (NMSCVersion == latest.Name)
-                {
-                    IsUpdated(true, first, latest.Name);
-                    //Globals.AppendLine(textBox17, "Current Version: " + latest.Name + " is the latest version");
-                }
-            }
-            catch
-            {
-                Globals.AppendLine(textBox17, "Github Server not available. Could not check version");
-            }
-        }
-        private void IsUpdated(bool uptodate, bool first, string latest)
-        {
-            if (uptodate && first)
-            {
-                Globals.AppendLine(textBox17, "Current Version: " + latest + " is the latest version");
-            }
-
-            if (uptodate && !first)
-            {
-                MessageBox.Show("You have the latest version of NMSCoordinates\r\n\n" +
-                    "Latest Version: " + latest + 
-                    "  No Update Available\r\n\n", 
-                    "Update", 
-                    MessageBoxButtons.OK);
-            }                      
-
-            if (!uptodate)
-            {
-                linkLabel4.Text = "Version " + latest + " Available";
-                linkLabel4.Visible = true;
-                Globals.AppendLine(textBox17, 
-                    "Current Version: " + NMSCVersion + 
-                    " Latest Version: " + latest +
-                    " ***Newer Version Available***"
-                    );
-
-                DialogResult dialogResult = MessageBox.Show(
-                    "A newer version of NMSCoordinates is available\r\n\n" +
-                    "Latest Version: " + latest + "\r\n\n" +
-                    "Update Now?\r\n\n", 
-                    "Update Available", 
-                    MessageBoxButtons.YesNo);
-
-                if (dialogResult == DialogResult.Yes)
-                {
-                    UpdateApp();
-                }
-                else if (dialogResult == DialogResult.No)
-                {
-                    return;
-                }
             }
         }
         private void CheckGoG()
@@ -527,16 +445,16 @@ namespace NMSCoordinates
             }            
             File.WriteAllText(outputfilepath, ufjson);
         }
-        private void CreateNewSave(out string newjson, string inputfilepath, string outputfilepath, ProgressBar pb, bool reverse, bool shortDict)
+        private void CreateNewSave(out string newjson, string inputfilepath, string outputfilepath, bool reverse)
         {
             string injson = File.ReadAllText(inputfilepath);
-            Dictionary<string, string> inDict = new Dictionary<string, string>();
-            int pbdefault = pb.Maximum;
-            
+            //Dictionary<string, string> inDict = new Dictionary<string, string>();
+            //int pbdefault = pb.Maximum;
+            /*             
             pb.Minimum = 1;
             pb.Value = 1;
-            pb.Step = 1;            
-
+            pb.Step = 1;
+            
             if (shortDict)
             {
                 pb.Maximum = sjsonDict.Count;
@@ -546,38 +464,47 @@ namespace NMSCoordinates
             {
                 pb.Maximum = jsonDict.Count;
                 inDict = jsonDict;
-            }
+            }            
             pb.Visible = true;
-
+            */
             if (reverse)
             {
-                // Sets json after modifying original values to key names
+                // Sets json from input and reverses all key names back to original                
                 newjson = injson;
+                JObject jObject = JsonConvert.DeserializeObject(injson) as JObject;
+                Mapping.Obfuscate(jObject);
+                injson = jObject.ToString();
 
-                foreach (KeyValuePair<string, string> entry in inDict)
-                {
-                    pb.PerformStep();
+                //foreach (KeyValuePair<string, string> entry in inDict)
+                //{
+                //    pb.PerformStep();
 
-                    if (injson.Contains(entry.Value))
-                        injson = injson.Replace(entry.Value, entry.Key);
-                }                
+                //    if (injson.Contains(entry.Value))
+                //        injson = injson.Replace(entry.Value, entry.Key);
+                //}                
             }
             else
             {
-                // Sets json from input and reverses all key names back to original
-                foreach (KeyValuePair<string, string> entry in inDict)
-                {
-                    pb.PerformStep();
-
-                    if (injson.Contains(entry.Key))
-                        injson = injson.Replace(entry.Key, entry.Value);
-                }
+                // Sets json after modifying original values to key names                
+                JObject jObject = JsonConvert.DeserializeObject(injson) as JObject;
+                Mapping.Deobfuscate(jObject);
+                injson = jObject.ToString();
                 newjson = injson;
+
+                //foreach (KeyValuePair<string, string> entry in inDict)
+                //{
+                //    pb.PerformStep();
+
+                //    if (injson.Contains(entry.Key))
+                //        injson = injson.Replace(entry.Key, entry.Value);
+                //}
+                //newjson = injson;
             } 
             File.WriteAllText(outputfilepath, injson);
-            pb.Visible = false;
-            pb.Maximum = 100;
+            //pb.Visible = false;
+            //pb.Maximum = 100;
         }
+        /*
         private void GetJsonDict(string keyfilepath, out Dictionary<string,string> outDict)
         {
             //Sets json_map dictionary from the specified file
@@ -593,12 +520,15 @@ namespace NMSCoordinates
             }
 
             outDict = inDict;
-        }   
+        }
+        */
         private void GetSaveFile(string selected)
         {
             //Main save file loader
             if (Directory.Exists(hgFileDir) && selected != "")
             {
+                progressBar2.Visible = true;
+                progressBar2.Value = 10;
                 DirectoryInfo dinfo = new DirectoryInfo(hgFileDir);
                 FileInfo[] Files = dinfo.GetFiles(selected, SearchOption.TopDirectoryOnly); //AllDirectories);
 
@@ -615,6 +545,7 @@ namespace NMSCoordinates
                     Globals.AppendLine(textBox17, "** Code 3 ** " + selected);
                     return;
                 }
+                progressBar2.Value = 20;
 
                 // shows the file path in the path textbox
                 textBox16.Clear();
@@ -624,15 +555,19 @@ namespace NMSCoordinates
                 FileInfo hgfile = new FileInfo(hgFilePath);
                 textBox26.Clear();
                 Globals.AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
+                progressBar2.Value = 30;
 
                 // Read save file and get rawSave
                 GetRawSave(hgFilePath, rawSave);
+                progressBar2.Value = 40;
 
                 // Read rawSave and get ujson
-                GetUnformattedSave(out ujson, rawSave, ufSave, true);
+                GetUnformattedSave(out string ujson, rawSave, ufSave, true);
+                progressBar2.Value = 60;
 
                 // Read ufSave and get Save and json
-                CreateNewSave(out json, ufSave, Save, progressBar2, false, true);
+                CreateNewSave(out json, ufSave, Save, false);
+                progressBar2.Value = 80;
 
                 try
                 {
@@ -646,6 +581,8 @@ namespace NMSCoordinates
                     Globals.AppendLine(textBox17, "Problem loading json! ERROR [6]" + selected);
                     return;
                 }
+                progressBar2.Value = 100;
+                progressBar2.Visible = false;
             }
         }
         private void SetPrevSS()
@@ -1927,21 +1864,7 @@ namespace NMSCoordinates
             //Manually backup all save files in nmspath dir
             RunBackupAll(hgFileDir);
             MessageBox.Show("Save Backup Completed!", "Confirmation", MessageBoxButtons.OK);
-        }
-        //Not used, future?
-        public Bitmap CropImage(Bitmap source, Rectangle section)
-        {
-            // An empty bitmap which will hold the cropped image
-            Bitmap bmp = new Bitmap(section.Width, section.Height);
-
-            Graphics g = Graphics.FromImage(bmp);
-
-            // Draw the given area (section) of the source image
-            // at location 0,0 on the empty bitmap (bmp)
-            g.DrawImage(source, 0, 0, section, GraphicsUnit.Pixel);
-
-            return bmp;
-        }        
+        }     
         private void SetGoGSShot()
         {
             //Set the screenshot paths
@@ -2968,20 +2891,6 @@ namespace NMSCoordinates
                 MessageBox.Show("Unable to open link that was clicked.");
             }
         }
-        private void LinkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            try
-            {
-                //Call the Process.Start method to open the default browser
-                //with a URL:
-                System.Diagnostics.Process.Start("https://www.nexusmods.com/nomanssky/mods/1312");
-            }
-            catch
-            {
-                MessageBox.Show("Unable to open link that was clicked.");
-            }
-
-        }
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             //MessageBox.Show("Created by: Kevin0M16 \r\n\r\n 8-2019");
@@ -3275,7 +3184,7 @@ namespace NMSCoordinates
             BackUpSaveSlot(tb, saveslot, false);
             DecryptSave(saveslot);
             EditSaveFB(pb);
-            CreateNewSave(out json, modSave, ufmodSave, pb, true, true);
+            CreateNewSave(out json, modSave, ufmodSave, true);
             EncryptSave(pb, saveslot);
             SaveCompression.CompressSave(hgFilePath);
 
@@ -3289,7 +3198,7 @@ namespace NMSCoordinates
             BackUpSaveSlot(tb, saveslot, false);
             DecryptSave(saveslot);
             EditSavePortal(pb);
-            CreateNewSave(out json, modSave, ufmodSave, pb, true, true);
+            CreateNewSave(out json, modSave, ufmodSave, true);
             EncryptSave(pb, saveslot);
             SaveCompression.CompressSave(hgFilePath);
 
@@ -3303,7 +3212,7 @@ namespace NMSCoordinates
             BackUpSaveSlot(tb, saveslot, false);
             DecryptSave(saveslot);
             EditSaveMove(dest, pb, tb);
-            CreateNewSave(out json, modSave, ufmodSave, pb, true, true);
+            CreateNewSave(out json, modSave, ufmodSave, true);
             EncryptSave(pb, saveslot);
             SaveCompression.CompressSave(hgFilePath);
 
@@ -3386,7 +3295,6 @@ namespace NMSCoordinates
                 return;
             }
         }
-
         private void EditSaveFB(ProgressBar pb)
         {
             pb.Visible = true;
@@ -3644,54 +3552,10 @@ namespace NMSCoordinates
         {
             LoadTxt();
         }
-        private void UpdateApp()
-        {
-            string apath = Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath);
-            if (!Directory.Exists(apath))
-            {
-                MessageBox.Show("Updater Not Found!", "Alert", MessageBoxButtons.OK);
-                Process.Start("https://kevin0m16.github.io/NMSCoordinates/");
-                return;
-            }
-
-            DirectoryInfo workingdir = new DirectoryInfo(apath);
-            string bpath = Path.Combine(workingdir.FullName, "updater");
-            if (!Directory.Exists(bpath))
-            {
-                MessageBox.Show("Updater Not Found!", "Alert", MessageBoxButtons.OK);
-                Process.Start("https://kevin0m16.github.io/NMSCoordinates/");
-                return;
-            }
-
-            FileInfo[] files = workingdir.GetFiles("NMSCoordinatesUpdater.exe", SearchOption.AllDirectories);
-            if (files.Length != 0)
-            {
-                foreach (FileInfo file in files)//.OrderByDescending(f => f.LastWriteTime))
-                {
-                    if (file.DirectoryName == bpath)
-                    {
-                        var startInfo = new ProcessStartInfo();
-                        startInfo.WorkingDirectory = Path.GetDirectoryName(files[0].FullName); // working directory
-                        startInfo.FileName = "NMSCoordinatesUpdater.exe";
-                        Process.Start(startInfo);
-                        Close();
-                    }
-                }
-            }
-            else
-            {
-                MessageBox.Show("Updater Not Found!", "Alert", MessageBoxButtons.OK);
-                Process.Start("https://kevin0m16.github.io/NMSCoordinates/");
-                return;
-            }
-        }
         private void CheckForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UpdateChecker f9 = new UpdateChecker(NMSCVersion);
             f9.ShowDialog();
-
-            //Toggle until updater
-            //CheckForUpdates(false);
         }
     }
 }

@@ -143,11 +143,10 @@
   </metadata>
   <data name="label22.Text" xml:space="preserve">
     <value>1. Select a Save Slot on the Save Files tab.
-2. Unlock Manual Travel at Tools --&gt; Manual Travel --&gt; Unlock
-3. Select a Galaxy in the dropdown.
-4. Enter Galactic Coordinates (if Manual Travel unlocked)
-5. Click Move player.
-6. Reload Save in game.
+2. Select a Galaxy in the dropdown.
+3. Enter Galactic Coordinates
+4. Click Move player.
+5. Reload Save in game.
 
 This moves the player's CURRENT location to the NEW location.</value>
   </data>

@@ -67,7 +67,8 @@ Here is an overview of what you need to get started with NMSCoordinates
 ### Requirements
 
 The current version of NMSCoordinates requires No Man's Sky Frontiers+ (Works on Endurance)
-
+- Windows 10+ and .NET Framework 4.7.2 (Not tested on other versions)
+  
 :exclamation: **Always back up all your game data and saves before any mods**
 
 ### Installation and setup
