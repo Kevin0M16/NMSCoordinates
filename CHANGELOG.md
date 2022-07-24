@@ -1,7 +1,7 @@
 # CHANGELOG
 
 ## v2.1 (JULY 22 2022)
-- Reworked saved location json, new naming, added longhex
+- Reworked location json, new naming, added longhex
 - More calculations, more efficient lookups
 - Few other validations
 - 

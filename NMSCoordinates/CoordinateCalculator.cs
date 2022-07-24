@@ -186,6 +186,7 @@ namespace NMSCoordinates
             textBox10.Clear();
             textBox11.Clear();
             textBox12.Clear();
+            textBox13.Clear();
 
             pictureBox17.Image = null;
             pictureBox18.Image = null;
@@ -300,7 +301,7 @@ namespace NMSCoordinates
 
             int igal = Convert.ToInt32(gal);
 
-            //Validate Planet index
+            //Validate galaxy
             if (igal < 0 || igal > 256)
             {
                 MessageBox.Show("Invalid Galaxy! Out of Range!", "Alert");
@@ -314,7 +315,7 @@ namespace NMSCoordinates
             //Portal button
             try
             {
-                if (!string.IsNullOrEmpty(textBox1.Text))
+                if (!string.IsNullOrEmpty(textBox12.Text) && !string.IsNullOrEmpty(textBox1.Text))
                 {
                     textBox2.Clear();
                     textBox3.Clear();
@@ -327,58 +328,68 @@ namespace NMSCoordinates
                     textBox9.Clear();
                     textBox10.Clear();
                     textBox11.Clear();
+                    textBox13.Clear();
 
+                    //12 1
+                    int g = Convert.ToInt32(textBox12.Text.Replace(" ", ""));
                     string pc = textBox1.Text.Replace(" ", "");
 
-                    if(pc.Length == 12 && !textBox1.Text.Contains(":"))
-                    {                        
-                        ValidateGalaxy(textBox12.Text);
-                        int gal = Convert.ToInt32(textBox12.Text);
-                        string basehx = CoordCalculations.PortalToHex(gal, pc);
-
-                        Destination dest = HexToAll(basehx, textBox7);
-
-                        textBox10.Text = dest.PI;
-                        textBox11.Text = dest.Galaxy;
-                        textBox2.Text = dest.GalacticCoordinate;
-
-                        textBox9.Text = dest.PI;
-                        textBox3.Text = dest.X;
-                        textBox4.Text = dest.Y;
-                        textBox5.Text = dest.Z;
-                        textBox6.Text = dest.SSI;
-
-                        textBox8.Text = basehx;
-                        
-                        
-
-                        ////Gives both Galactic and Voxel
-                        //GalacticCoord2 = CoordCalculations.PortalToVoxel(t1, textBox7);
-
-                        ////string[] value = GalacticCoord2.Replace(" ", "").Split(':');
-                        ////string A = value[0].Trim();
-                        ////string B = value[1].Trim();
-                        ////string C = value[2].Trim();
-                        ////string D = value[3].Trim();
-
-                        ////Validate Coordinates
-                        //if (CoordCalculations.ValidateCoord(GalacticCoord2))
-                        //{
-                        //    MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
-                        //    Clear();
-                        //    Globals.AppendLine(textBox7, "Invalid Coordinates!");
-                        //    return;
-                        //}
-
-                        //textBox2.Text = GalacticCoord2;
-                        //PortalCode = textBox1.Text;
+                    //Validate Galaxy
+                    if (g < 0 || g > 256)
+                    {
+                        MessageBox.Show("Invalid Galaxy! Out of Range!", "Alert");
+                        Clear();
+                        Globals.AppendLine(textBox7, "Invalid Galaxy!");
+                        return;
                     }
-                    else
+
+                    //Validate portal code
+                    if (pc.Length != 12 || textBox1.Text.Contains(":"))
                     {
                         Clear();
-                        Globals.AppendLine(textBox7, "Incorrect Coordinate Input!");
+                        Globals.AppendLine(textBox7, "Incorrect Portal Code!");
                     }
-                        
+
+                    string basehx = CoordCalculations.PortalToHex(g, pc);
+                    Destination dest = HexToAll(basehx, textBox7);
+
+                    //gac
+                    textBox10.Text = dest.PI;
+                    textBox11.Text = dest.Galaxy;
+                    textBox2.Text = dest.GalacticCoordinate;
+
+                    //voxel
+                    textBox13.Text = dest.Galaxy;
+                    textBox9.Text = dest.PI;
+                    textBox3.Text = dest.X;
+                    textBox4.Text = dest.Y;
+                    textBox5.Text = dest.Z;
+                    textBox6.Text = dest.SSI;
+
+                    //longhex
+                    textBox8.Text = basehx;
+                                               
+
+                    ////Gives both Galactic and Voxel
+                    //GalacticCoord2 = CoordCalculations.PortalToVoxel(t1, textBox7);
+
+                    ////string[] value = GalacticCoord2.Replace(" ", "").Split(':');
+                    ////string A = value[0].Trim();
+                    ////string B = value[1].Trim();
+                    ////string C = value[2].Trim();
+                    ////string D = value[3].Trim();
+
+                    ////Validate Coordinates
+                    //if (CoordCalculations.ValidateCoord(GalacticCoord2))
+                    //{
+                    //    MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
+                    //    Clear();
+                    //    Globals.AppendLine(textBox7, "Invalid Coordinates!");
+                    //    return;
+                    //}
+
+                    //textBox2.Text = GalacticCoord2;
+                    //PortalCode = textBox1.Text;
                 }
             }
             catch
@@ -392,7 +403,7 @@ namespace NMSCoordinates
             //Galactic Coordinates button
             try
             {
-                if (textBox2.Text != "")
+                if (!string.IsNullOrEmpty(textBox11.Text) && !string.IsNullOrEmpty(textBox10.Text) && !string.IsNullOrEmpty(textBox2.Text))
                 {
                     textBox1.Clear();
                     textBox3.Clear();
@@ -404,8 +415,30 @@ namespace NMSCoordinates
 
                     textBox9.Clear();
                     textBox12.Clear();
+                    textBox13.Clear();
 
+                    //11 10 2
+                    int g = Convert.ToInt32(textBox11.Text.Replace(" ", ""));
+                    int pi = Convert.ToInt32(textBox10.Text.Replace(" ", ""));
                     string gc = textBox2.Text.Replace(" ", "");
+
+                    //Validate Galaxy
+                    if (g < 0 || g > 256)
+                    {
+                        MessageBox.Show("Invalid Galaxy! Out of Range!", "Alert");
+                        Clear();
+                        Globals.AppendLine(textBox7, "Invalid Galaxy!");
+                        return;
+                    }
+
+                    //Validate Planet index
+                    if (pi < 0 || pi > 6)
+                    {
+                        MessageBox.Show("Invalid Planet Index! Out of Range!", "Alert");
+                        Clear();
+                        Globals.AppendLine(textBox7, "Invalid Planet Index!");
+                        return;
+                    }
 
                     //Validate Coordinate
                     if (CoordCalculations.ValidateCoord(gc))
@@ -417,28 +450,25 @@ namespace NMSCoordinates
                     }
 
                     //Split gc and convert to hex
-                    GalacticCoordinates gac = GetGalacticCoordHex(gc);
+                    GalacticCoordinates gac = GetGalacticCoordHex(gc);                    
+                    string pc = CoordCalculations.GalacticToPortal(pi, gac.HexX, gac.HexY, gac.HexZ, gac.HexSSI, textBox7);                                        
+                    string basehx = CoordCalculations.PortalToHex(g, pc);
 
-                    
-                    ValidatePI(textBox10.Text);
-                    int pi = Convert.ToInt32(textBox10.Text);
-                    string pc = CoordCalculations.GalacticToPortal(pi, gac.HexX, gac.HexY, gac.HexZ, gac.HexSSI);
-                                        
-                    ValidateGalaxy(textBox11.Text);
-                    int gal = Convert.ToInt32(textBox11.Text);
-                    string basehx = CoordCalculations.PortalToHex(gal, pc);
+                    Destination dest = HexToAll(basehx, textBox7);
 
-                    Destination dest = HexToAll(basehx);
-
+                    //pc
                     textBox12.Text = dest.Galaxy;
                     textBox1.Text = dest.PortalCode;
 
+                    //voxel
+                    textBox13.Text = dest.Galaxy;
                     textBox9.Text = dest.PI;
                     textBox3.Text = dest.X;
                     textBox4.Text = dest.Y;
                     textBox5.Text = dest.Z;
                     textBox6.Text = dest.SSI;
 
+                    //longhex
                     textBox8.Text = basehx;
 
                     //textBox1.Text = CoordCalculations.VoxelToPortal(planet, dest.iX, dest.iY, dest.iZ, dest.iSSI);
@@ -526,19 +556,37 @@ namespace NMSCoordinates
                     textBox11.Clear();
                     textBox12.Clear();
 
-                    string gc = CoordCalculations.VoxelToGalacticCoord(Convert.ToInt32(textBox3.Text), Convert.ToInt32(textBox4.Text), Convert.ToInt32(textBox5.Text), Convert.ToInt32(textBox6.Text), textBox7);
-                    ValidatePI(textBox9.Text);
-                    int pi = Convert.ToInt32(textBox9.Text);
-                    textBox10.Text = textBox9.Text;
+                    // 13 9 3 4 5 6
+                    int g = Convert.ToInt32(textBox13.Text.Replace(" ", ""));
+                    int pi = Convert.ToInt32(textBox9.Text.Replace(" ", ""));
+                    int vx = Convert.ToInt32(textBox3.Text.Replace(" ", ""));
+                    int vy = Convert.ToInt32(textBox4.Text.Replace(" ", ""));
+                    int vz = Convert.ToInt32(textBox5.Text.Replace(" ", ""));
+                    int vssi = Convert.ToInt32(textBox6.Text.Replace(" ", ""));
 
-                    //string[] value = GalacticCoord.Replace(" ", "").Split(':');
-                    //string A = value[0].Trim();
-                    //string B = value[1].Trim();
-                    //string C = value[2].Trim();
-                    //string D = value[3].Trim();
+                    //Validate Galaxy
+                    if (g < 0 || g > 256)
+                    {
+                        MessageBox.Show("Invalid Galaxy! Out of Range!", "Alert");
+                        Clear();
+                        Globals.AppendLine(textBox7, "Invalid Galaxy!");
+                        return;
+                    }
 
-                    //Validate Coordinate
-                    if (CoordCalculations.ValidateCoord(gc))
+                    //Validate Planet index
+                    if (pi < 0 || pi > 6)
+                    {
+                        MessageBox.Show("Invalid Planet Index! Out of Range!", "Alert");
+                        Clear();
+                        Globals.AppendLine(textBox7, "Invalid Planet Index!");
+                        return;
+                    }
+
+                    string basehx = CoordCalculations.VoxelToHex(g, pi, vx, vy, vz, vssi, textBox7);
+                    Destination dest = HexToAll(basehx, textBox7);
+
+                    //Validate Coordinates
+                    if (CoordCalculations.ValidateCoord(dest.GalacticCoordinate))
                     {
                         MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
                         Clear();
@@ -546,11 +594,37 @@ namespace NMSCoordinates
                         return;
                     }
 
-                    textBox2.Text = gc;
+                    //pc
+                    textBox12.Text = dest.Galaxy;
+                    textBox1.Text = dest.PortalCode;
 
-                    GalacticCoordinates gac = GetGalacticCoordHex(gc);
-                    CoordCalculations.GalacticToPortal(pi, gac.HexX, gac.HexY, gac.HexZ, gac.HexSSI, out string pc, textBox7);
-                    textBox1.Text = pc;
+                    //gac
+                    textBox11.Text = dest.Galaxy;
+                    textBox10.Text = dest.PI;
+                    textBox2.Text = dest.GalacticCoordinate;
+
+                    //longhex
+                    textBox8.Text = basehx;
+
+                    //string gc = CoordCalculations.VoxelToGalacticCoord(Convert.ToInt32(textBox3.Text), Convert.ToInt32(textBox4.Text), Convert.ToInt32(textBox5.Text), Convert.ToInt32(textBox6.Text), textBox7);
+                    //ValidatePI(textBox9.Text);
+                    //int pi = Convert.ToInt32(textBox9.Text);
+                    //textBox10.Text = textBox9.Text;
+
+                    ////Validate Coordinate
+                    //if (CoordCalculations.ValidateCoord(gc))
+                    //{
+                    //    MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
+                    //    Clear();
+                    //    Globals.AppendLine(textBox7, "Invalid Coordinates!");
+                    //    return;
+                    //}
+
+                    //textBox2.Text = gc;
+
+                    //GalacticCoordinates gac = GetGalacticCoordHex(gc);
+                    //CoordCalculations.GalacticToPortal(pi, gac.HexX, gac.HexY, gac.HexZ, gac.HexSSI, out string pc, textBox7);
+                    //textBox1.Text = pc;
                 }
             }
             catch
@@ -564,7 +638,7 @@ namespace NMSCoordinates
             //Hex coordinates button
             try
             {
-                if (textBox8.Text != "")
+                if (!string.IsNullOrEmpty(textBox8.Text))
                 {
                     textBox1.Clear();
                     textBox2.Clear();
@@ -578,10 +652,11 @@ namespace NMSCoordinates
                     textBox10.Clear();
                     textBox11.Clear();
                     textBox12.Clear();
+                    textBox13.Clear();
 
-                    string t8 = textBox8.Text.Replace(" ", "");
+                    string basehx = textBox8.Text.Replace(" ", "");
 
-                    Destination dest = HexToAll(t8, textBox7);
+                    Destination dest = HexToAll(basehx, textBox7);
 
                     //Validate Coordinates
                     if (CoordCalculations.ValidateCoord(dest.GalacticCoordinate))
@@ -592,21 +667,22 @@ namespace NMSCoordinates
                         return;
                     }
 
+                    //pc
                     textBox12.Text = dest.Galaxy;
                     textBox1.Text = dest.PortalCode;
 
+                    //gac
                     textBox11.Text = dest.Galaxy;
                     textBox10.Text = dest.PI;
                     textBox2.Text = dest.GalacticCoordinate;
 
+                    //voxel
+                    textBox13.Text = dest.Galaxy;
                     textBox9.Text = dest.PI;
                     textBox3.Text = dest.X;
                     textBox4.Text = dest.Y;
                     textBox5.Text = dest.Z;
                     textBox6.Text = dest.SSI;
-
-                    textBox12.Text = dest.Galaxy;
-                    textBox1.Text = dest.PortalCode;
 
                     //ClearHx();
                     ////HexToVoxel(t8);

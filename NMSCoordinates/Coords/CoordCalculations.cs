@@ -312,6 +312,53 @@ namespace NMSCoordinates
 
             return basehex;
         }
+        public static string VoxelToHex(int gal, int P, int X, int Y, int Z, int SSI, TextBox tb)
+        {
+            //PlanetNumber--SolarSystemIndex--GalaxyNumber--VoxelY--VoxelZ--VoxelX
+            //4 bit--12 bit--8 bit--8 bit--12 bit--12 bit
+            //"0x2 049 00 01 D37 652" 460 475 89 64 091 954   0 04A FB 9F6 C9D
+
+            int dd1 = X + 2047;
+            int dd2 = Y + 127;
+            int dd3 = Z + 2047;
+
+            string g1 = dd1.ToString("X");
+            string g2 = dd2.ToString("X");
+            string g3 = dd3.ToString("X");
+            string g4 = SSI.ToString("X");
+
+            int dec1 = Convert.ToInt32(g1, 16); // X[HEX] to X[DEC]
+            int dec2 = Convert.ToInt32(g2, 16); // Y[HEX] to X[DEC]
+            int dec3 = Convert.ToInt32(g3, 16); // Z[HEX] to X[DEC]
+            //int dec4 = Convert.ToInt32(g4, 16); // SSI[HEX] to SSI[DEC]
+            Globals.AppendLine(tb, "Galactic HEX to DEC: " + dec1.ToString() + " " + dec2.ToString() + " " + dec3.ToString());
+
+            int dec5 = Convert.ToInt32("801", 16); // 801[HEX] to 801[DEC]
+            int dec6 = Convert.ToInt32("81", 16); // 81[HEX] to 81[DEC]
+            int dec7 = Convert.ToInt32("1000", 16); // 100[HEX] to 1000[DEC]
+            int dec8 = Convert.ToInt32("100", 16); // 100[HEX] to 100[DEC]
+            Globals.AppendLine(tb, "Shift HEX to DEC: " + "801:" + dec5.ToString() + " 81:" + dec6.ToString() + " 1000:" + dec7.ToString() + " 100:" + dec8.ToString());
+
+            int calc1 = (dec1 + dec5) % dec7; // (X[DEC] + 801[DEC]) MOD (1000[DEC])
+            int calc2 = (dec2 + dec6) % dec8; // (Y[DEC] + 81[DEC]) MOD (100[DEC])
+            int calc3 = (dec3 + dec5) % dec7; // (Z[DEC] + 801[DEC]) MOD (1000[DEC])
+            Globals.AppendLine(tb, "Calculate Portal DEC: " + "X:" + calc1.ToString() + " Y:" + calc2.ToString() + " Z:" + calc3.ToString());
+
+            string hexX = calc1.ToString("X"); //Calculated portal X[DEC] to X[HEX]
+            string hexY = calc2.ToString("X"); //Calculated portal Y[DEC] to Y[HEX]
+            string hexZ = calc3.ToString("X"); //Calculated portal Z[DEC] to Z[HEX]
+            Globals.AppendLine(tb, "Portal HEX numbers: " + "X:" + hexX + " Y:" + hexY + " Z:" + hexZ + " SSI:" + g4);
+
+            int ihexX = (Convert.ToInt32(hexX, 16) & 0xFFF); // X[HEX] to X[DEC] 3 digits
+            int ihexY = (Convert.ToInt32(hexY, 16) & 0xFF); // Y[HEX] to Y[DEC] 2 digits
+            int ihexZ = (Convert.ToInt32(hexZ, 16) & 0xFFF); // Z[HEX] to Z[DEC] 3 digits
+            int ihexSSI = (Convert.ToInt32(g4, 16) & 0xFFF); // SSI[HEX] to SSI[DEC] 3 digits
+
+            // Create the base long hex
+            string basehex = string.Format("0x" + P + "{0:X3}{1:X2}{2:X2}{3:X3}{4:X3}", ihexSSI, gal, ihexY, ihexZ, ihexX); // Format digits 3 3 2 2 3 3
+
+            return basehex;
+        }
         public static string GalacticToPortal(int Planet, string X, string Y, string Z, string SSI)
         {
             //Galactic Coordinate to Portal Code
@@ -349,7 +396,7 @@ namespace NMSCoordinates
             return PortalCode;
             //Globals.AppendLine(tb, "*** Portal Code: " + PortalCode + " ***");
         }
-        public static void GalacticToPortal(int Planet, string X, string Y, string Z, string SSI, out string PortalCode, TextBox tb)
+        public static string GalacticToPortal(int Planet, string X, string Y, string Z, string SSI, TextBox tb)
         {
             //Galactic Coordinate to Portal Code
 
@@ -380,9 +427,11 @@ namespace NMSCoordinates
             int ihexZ = (Convert.ToInt32(hexZ, 16) & 0xFFF); // Z[HEX] to Z[DEC] 3 digits
             int ihexSSI = (Convert.ToInt32(SSI, 16) & 0xFFF); // SSI[HEX] to SSI[DEC] 3 digits
 
-            PortalCode = string.Format(Planet + "{0:X3}{1:X2}{2:X3}{3:X3}", ihexSSI, ihexY, ihexZ, ihexX); // Format digits 1 3 2 3 3
+            string PortalCode = string.Format(Planet + "{0:X3}{1:X2}{2:X3}{3:X3}", ihexSSI, ihexY, ihexZ, ihexX); // Format digits 1 3 2 3 3
             //[P][SSI][Y][Z][X] Portal Code
-            Globals.AppendLine(tb, "*** Portal Code: " + PortalCode + " ***");            
+            Globals.AppendLine(tb, "*** Portal Code: " + PortalCode + " ***");
+
+            return PortalCode;
         }
         public static string PortalToHex(int gal, string portalcode)
         {

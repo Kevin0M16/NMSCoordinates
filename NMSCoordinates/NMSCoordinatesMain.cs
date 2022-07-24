@@ -40,7 +40,7 @@ namespace NMSCoordinates
             InitializeComponent();
             
             //Set Version here
-            NMSCVersion = "2.1"; //"v1.1.17";
+            NMSCVersion = "2.1"; //"v2.1";
             label29.Text = "Version " + NMSCVersion;
             
             glyphDict = Globals.Glyphs();
@@ -3464,7 +3464,7 @@ namespace NMSCoordinates
             VoxelZ.Replace(dest.iZ);
             SolarSystemIndex.Replace(dest.iSSI);
             PlanetIndex.Replace(dest.iPI);
-            HomeRealityIteration.Replace(dest.iGalaxy) ;
+            HomeRealityIteration.Replace(dest.iGalaxy);
             LastKnownPlayerState.Replace("InShip");
 
             // Convert the JObject back to a string:
@@ -3540,7 +3540,7 @@ namespace NMSCoordinates
                     var loc = SavedLocationData.FromJson(locjson);
                     var newnote = textBox28.Text;                    
 
-                    if (newnote != "")
+                    if (loc.Locations.TeleportEndpoints[selectedrecord].Details.Notes != "")
                     {
                         DialogResult dialogResult = MessageBox.Show("Are you sure want to replace the note? ", "Replace/Change Note", MessageBoxButtons.YesNo);
                         if (dialogResult == DialogResult.Yes)
@@ -3557,6 +3557,10 @@ namespace NMSCoordinates
                         {
                             return;
                         }                        
+                    }
+                    else
+                    {
+                        loc.Locations.TeleportEndpoints[selectedrecord].Details.Notes = newnote;
                     }
 
                     var locj = LocationData.Serialize.ToJson(loc);
@@ -3688,6 +3692,6 @@ namespace NMSCoordinates
 
             //Toggle until updater
             //CheckForUpdates(false);
-        }        
+        }
     }
 }
