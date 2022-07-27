@@ -79,8 +79,8 @@
     <Reference Include="K4os.Compression.LZ4, Version=1.2.16.0, Culture=neutral, PublicKeyToken=2186fa9121ef231d, processorArchitecture=MSIL">
       <HintPath>..\packages\K4os.Compression.LZ4.1.2.16\lib\net46\K4os.Compression.LZ4.dll</HintPath>
     </Reference>
-    <Reference Include="libNOM.map, Version=0.7.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\libNOM.map.0.7.0\lib\net47\libNOM.map.dll</HintPath>
+    <Reference Include="libNOM.map, Version=0.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\libNOM.map.0.8.0\lib\netstandard2.0\libNOM.map.dll</HintPath>
     </Reference>
     <Reference Include="Mnemosyne, Version=1.1.0.2, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Mnemosyne.1.1.0.2\lib\netstandard2.0\Mnemosyne.dll</HintPath>

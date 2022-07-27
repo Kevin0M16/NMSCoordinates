@@ -2590,9 +2590,9 @@ namespace NMSCoordinates
         public string ssdPath;
         public string ssPath;
 
-        private GameSave _gs;
-        private GameSaveManager _gsm;
-        private uint _gameSlot;
+        //private GameSave _gs;
+        //private GameSaveManager _gsm;
+        //private uint _gameSlot;
 
         //Dictionary<string, string> jsonDict = new Dictionary<string, string>();
         //Dictionary<string, string> sjsonDict = new Dictionary<string, string>();

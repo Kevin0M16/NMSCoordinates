@@ -1,18 +1,22 @@
 # CHANGELOG
 
+## v2.2 (JULY 26 2022)
+- Added libNOM.map class library to obfuscate and deobfuscate save file content.
+- minor cleanup
+
 ## v2.1 (JULY 23 2022)
 - Reworked location json, new naming, added longhex
 - More calculations, more efficient lookups
 - Few other validations
 - Reworked Coordinate Calculator
- 
+
 ## v2.0 (JULY 21 2022)
 - Major Rework
 - Fixed Issue #39 - Save file compression issue
 - Updates and internal fixes and organization
 - New Colors
 - Tested on Endurance
-  
+
 ## v1.1.16 (AUG 15 2020)
 - Fixed missing space stations in list
 - Added (EB) for ExternalBase to list of locations

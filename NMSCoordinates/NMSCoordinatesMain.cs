@@ -191,6 +191,11 @@ namespace NMSCoordinates
 
                     Globals.AppendLine(textBox17, "This Version: " + latest.Name + " is the latest version");
                 }
+
+                // Update with \nmsc\mapping.json file
+                Mapping.Settings = new MappingSettings { Download = @"nmsc\" };
+                Mapping.Update();
+                Mapping.UpdateAsync();
             }
             catch
             {
@@ -528,7 +533,8 @@ namespace NMSCoordinates
             if (Directory.Exists(hgFileDir) && selected != "")
             {
                 progressBar2.Visible = true;
-                progressBar2.Value = 10;
+                progressBar2.Invoke((System.Action)(() => progressBar2.Value = 10));
+
                 DirectoryInfo dinfo = new DirectoryInfo(hgFileDir);
                 FileInfo[] Files = dinfo.GetFiles(selected, SearchOption.TopDirectoryOnly); //AllDirectories);
 
@@ -545,7 +551,7 @@ namespace NMSCoordinates
                     Globals.AppendLine(textBox17, "** Code 3 ** " + selected);
                     return;
                 }
-                progressBar2.Value = 20;
+                progressBar2.Invoke((System.Action)(() => progressBar2.Value = 20));
 
                 // shows the file path in the path textbox
                 textBox16.Clear();
@@ -555,19 +561,19 @@ namespace NMSCoordinates
                 FileInfo hgfile = new FileInfo(hgFilePath);
                 textBox26.Clear();
                 Globals.AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
-                progressBar2.Value = 30;
+                
 
                 // Read save file and get rawSave
                 GetRawSave(hgFilePath, rawSave);
-                progressBar2.Value = 40;
+                progressBar2.Invoke((System.Action)(() => progressBar2.Value = 40));
 
                 // Read rawSave and get ujson
                 GetUnformattedSave(out string ujson, rawSave, ufSave, true);
-                progressBar2.Value = 60;
+                progressBar2.Invoke((System.Action)(() => progressBar2.Value = 60));
 
                 // Read ufSave and get Save and json
                 CreateNewSave(out json, ufSave, Save, false);
-                progressBar2.Value = 80;
+                progressBar2.Invoke((System.Action)(() => progressBar2.Value = 80));
 
                 try
                 {
@@ -581,7 +587,7 @@ namespace NMSCoordinates
                     Globals.AppendLine(textBox17, "Problem loading json! ERROR [6]" + selected);
                     return;
                 }
-                progressBar2.Value = 100;
+                progressBar2.Invoke((System.Action)(() => progressBar2.Value = 100));
                 progressBar2.Visible = false;
             }
         }
@@ -660,7 +666,6 @@ namespace NMSCoordinates
         private async Task BackupLoc(string path)
         {
             //Backup all locations to a new locbackup file
-            //List<string> backuplist = new List<string>();
 
             if (DiscList.Count > 0)
             {
@@ -683,10 +688,6 @@ namespace NMSCoordinates
                 for (int i = 0; i < DiscList.Count; i++)
                 {
                     Destination dest = TeleportEndpoints(i, json);
-
-                    //JsonMapTeleportEndpoints(i);
-                    //PortalCode = CoordCalculations.VoxelToPortal(iX, iY, iZ, iSSI);
-                    //GalacticCoord = CoordCalculations.VoxelToGalacticCoord(iX, iY, iZ, iSSI);
 
                     basis.Add(new LocationArray()
                     {
@@ -716,7 +717,6 @@ namespace NMSCoordinates
                 var backuplist = LocationData.Serialize.ToJson(sdata);
                 File.WriteAllText(path2, backuplist);
 
-                //File.WriteAllLines(path2, backuplist);
                 MessageBox.Show("ALL Locations Backed up \n\n\r Open in Coordinate Share Tab", "Confirmation", MessageBoxButtons.OK);
                 LoadTxt();
 
@@ -3220,16 +3220,56 @@ namespace NMSCoordinates
         }
         private void DecryptSave(int saveslot)
         {
-            LoadRun(saveslot);
+            //LoadRun(saveslot);
+            //uint GameSlot = Convert.ToUInt32(saveslot);
+
+            //DoGameSlotCommon(saveslot);
+            //GameSaveManager _gsm = new GameSaveManager(hgFileDir);
+            //uint _gameSlot = Convert.ToUInt32(saveslot);
+
+            try
+            {
+                string mf_hgFilePath = hgFilePath;
+                mf_hgFilePath = String.Format("{0}{1}{2}{3}", Path.GetDirectoryName(mf_hgFilePath) + @"\", "mf_", Path.GetFileNameWithoutExtension(mf_hgFilePath), Path.GetExtension(mf_hgFilePath));
+
+                //Sets the save to be the last modified
+                File.SetLastWriteTime(mf_hgFilePath, DateTime.Now);
+                File.SetLastWriteTime(hgFilePath, DateTime.Now);
+
+                //_gs = _gsm.ReadSaveFile(GameSlot);
+            }
+            catch
+            {
+                return;
+            }
+
             //RunDecrypt();
         }
         private void EncryptSave(ProgressBar pb, int saveslot)
         {
-            RunEncrypt(pb, saveslot);
+            //RunEncrypt(pb, saveslot);
+            GameSaveManager _gsm = new GameSaveManager(hgFileDir);
+            uint _gameSlot = Convert.ToUInt32(saveslot);
+
+            try
+            {
+                //Read edited saveedit.json
+                GameSave _gs = _gsm.ReadUnencryptedGameSave(ufmodSave);
+
+                //Write and Encrypt new save files
+                _gsm.WriteSaveFile(_gs, _gameSlot);
+
+                pb.Invoke((System.Action)(() => pb.Value = 90));
+            }
+            catch
+            {
+                return;
+            }
         }
         private void RunBackupAll(string Path)
         {
-            DoCommon();
+            //DoCommon();
+            GameSaveManager _gsm = new GameSaveManager(hgFileDir);
 
             try
             {
@@ -3249,9 +3289,11 @@ namespace NMSCoordinates
                 MessageBox.Show("No Man's Sky save game folder not found, select it manually!", "Alert", MessageBoxButtons.OK);                
             }
         }
+        /*
         private void DoGameSlotCommon(int saveslot)
         {
-            DoCommon();
+            //DoCommon();
+            _gsm = new GameSaveManager(hgFileDir);
             _gameSlot = Convert.ToUInt32(saveslot);
         }
         private void DoCommon()
@@ -3262,7 +3304,9 @@ namespace NMSCoordinates
         {
             uint GameSlot = Convert.ToUInt32(saveslot);
 
-            DoGameSlotCommon(saveslot);
+            //DoGameSlotCommon(saveslot);
+            _gsm = new GameSaveManager(hgFileDir);
+            _gameSlot = Convert.ToUInt32(saveslot);
 
             try
             {
@@ -3295,6 +3339,33 @@ namespace NMSCoordinates
                 return;
             }
         }
+        private void RunEncrypt(ProgressBar pb, int saveslot)
+        {
+            //DoGameSlotCommon(saveslot);
+            _gsm = new GameSaveManager(hgFileDir);
+            _gameSlot = Convert.ToUInt32(saveslot);
+
+            try
+            {
+                //Read edited saveedit.json
+                _gs = _gsm.ReadUnencryptedGameSave(ufmodSave);
+            }
+            catch
+            {
+                return;
+            }
+            try
+            {
+                //Write and Encrypt new save files
+                _gsm.WriteSaveFile(_gs, _gameSlot);
+                pb.Invoke((System.Action)(() => pb.Value = 90));                
+            }
+            catch
+            {
+                return;
+            }
+        }
+        */
         private void EditSaveFB(ProgressBar pb)
         {
             pb.Visible = true;
@@ -3384,30 +3455,6 @@ namespace NMSCoordinates
             Globals.AppendLine(tb, "Player Move Data: ");
             Globals.AppendLine(tb, dest.Galaxy + " " + dest.X + " " + dest.Y + " " + dest.Z + " " + dest.iSSI + " " + dest.PI + " " + "InShip");
             pb.Invoke((System.Action)(() => pb.Value = 70));
-        }
-        private void RunEncrypt(ProgressBar pb, int saveslot)
-        {
-            DoGameSlotCommon(saveslot);
-
-            try
-            {
-                //Read edited saveedit.json
-                _gs = _gsm.ReadUnencryptedGameSave(ufmodSave);
-            }
-            catch
-            {
-                return;
-            }
-            try
-            {
-                //Write and Encrypt new save files
-                _gsm.WriteSaveFile(_gs, _gameSlot);
-                pb.Invoke((System.Action)(() => pb.Value = 90));                
-            }
-            catch
-            {
-                return;
-            }
         }
         private void Button15_Click(object sender, EventArgs e)
         {
