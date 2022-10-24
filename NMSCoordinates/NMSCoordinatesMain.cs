@@ -16,7 +16,8 @@ using Newtonsoft.Json;
 using NMSCoordinates.SaveData;
 using NMSCoordinates.LocationData;
 using static NMSCoordinates.Coordinates;
-using libNOM.map;
+//using libNOM.map;
+using NMSSaveManager;
 
 /**********************************************************\
 |                                                          |
@@ -45,25 +46,19 @@ namespace NMSCoordinates
             label29.Text = "Version " + NMSCVersion;
             
             glyphDict = Globals.Glyphs();
-            //galaxyDict = Globals.GIndex();
-            //gameMode = Globals.GMode();
 
             //Default Paths
-            nmsPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HelloGames"), "NMS");
-            //nmscConfig = System.Windows.Forms.Application.CommonAppDataPath + "\\save.nmsc";
-            //oldsavePath = System.Windows.Forms.Application.CommonAppDataPath + "\\save.txt";
+            nmsPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "HelloGames"), "NMS");            
             nmscConfig = @".\nmsc\config.nmsc";
             oldsavePath = System.Windows.Forms.Application.CommonAppDataPath + "\\save.nmsc";
 
-            //jsonDict = JsonMap.JsonMapDictionaryLong();
-            //sjsonDict = JsonMap.JsonMapDictionaryShort();
-
-            rawSave = @".\debug\rawsave.json";
-            ufSave = @".\debug\ufsave.json";
             Save = @".\json\save.json";
             modSave = @".\debug\saveedit.json";
-            ufmodSave = @".\debug\ufsaveedit.json";
             locVersion = 2;
+
+            //rawSave = @".\debug\rawsave.json";
+            //ufSave = @".\debug\ufsave.json";
+            //ufmodSave = @".\debug\ufsaveedit.json";
         }
 
         public int _ScreenWidth { get; private set; }
@@ -193,9 +188,9 @@ namespace NMSCoordinates
                 }
 
                 // Update with \nmsc\mapping.json file
-                Mapping.Settings = new MappingSettings { Download = @"nmsc\" };
-                Mapping.Update();
-                Mapping.UpdateAsync();
+                // Mapping.Settings = new MappingSettings { Download = @"nmsc\" };
+                // Mapping.Update();
+                // Mapping.UpdateAsync();
             }
             catch
             {
@@ -296,6 +291,16 @@ namespace NMSCoordinates
                 sn3 = new Dictionary<int, string>();
                 sn4 = new Dictionary<int, string>();
                 sn5 = new Dictionary<int, string>();
+                sn6 = new Dictionary<int, string>();
+                sn7 = new Dictionary<int, string>();
+                sn8 = new Dictionary<int, string>();
+                sn9 = new Dictionary<int, string>();
+                sn10 = new Dictionary<int, string>();
+                sn11 = new Dictionary<int, string>();
+                sn12 = new Dictionary<int, string>();
+                sn13 = new Dictionary<int, string>();
+                sn14 = new Dictionary<int, string>();
+                sn15 = new Dictionary<int, string>();
 
                 foreach (FileInfo file in Files.OrderByDescending(f => f.LastWriteTime))
                 {
@@ -343,6 +348,96 @@ namespace NMSCoordinates
 
                         if (!sl1.ContainsValue("Slot 5"))
                             sl1.Add(5, "Slot 5");
+                    }
+                    if (file.Name == "save11.hg" | file.Name == "save12.hg")
+                    {
+                        if (!sn6.ContainsKey(11))
+                            sn6.Add(11, file.Name);
+                        else sn6.Add(12, file.Name);
+
+                        if (!sl1.ContainsValue("Slot 6"))
+                            sl1.Add(6, "Slot 6");
+                    }
+                    if (file.Name == "save13.hg" | file.Name == "save14.hg")
+                    {
+                        if (!sn7.ContainsKey(13))
+                            sn7.Add(13, file.Name);
+                        else sn7.Add(14, file.Name);
+
+                        if (!sl1.ContainsValue("Slot 7"))
+                            sl1.Add(7, "Slot 7");
+                    }
+                    if (file.Name == "save15.hg" | file.Name == "save16.hg")
+                    {
+                        if (!sn8.ContainsKey(15))
+                            sn8.Add(15, file.Name);
+                        else sn8.Add(16, file.Name);
+
+                        if (!sl1.ContainsValue("Slot 8"))
+                            sl1.Add(8, "Slot 8");
+                    }
+                    if (file.Name == "save17.hg" | file.Name == "save18.hg")
+                    {
+                        if (!sn9.ContainsKey(17))
+                            sn9.Add(17, file.Name);
+                        else sn9.Add(18, file.Name);
+
+                        if (!sl1.ContainsValue("Slot 9"))
+                            sl1.Add(9, "Slot 9");
+                    }
+                    if (file.Name == "save19.hg" | file.Name == "save20.hg")
+                    {
+                        if (!sn10.ContainsKey(19))
+                            sn10.Add(19, file.Name);
+                        else sn10.Add(20, file.Name);
+
+                        if (!sl1.ContainsValue("Slot 10"))
+                            sl1.Add(10, "Slot 10");
+                    }
+                    if (file.Name == "save21.hg" | file.Name == "save22.hg")
+                    {
+                        if (!sn11.ContainsKey(21))
+                            sn11.Add(21, file.Name);
+                        else sn11.Add(22, file.Name);
+
+                        if (!sl1.ContainsValue("Slot 11"))
+                            sl1.Add(11, "Slot 11");
+                    }
+                    if (file.Name == "save23.hg" | file.Name == "save24.hg")
+                    {
+                        if (!sn12.ContainsKey(23))
+                            sn12.Add(23, file.Name);
+                        else sn12.Add(24, file.Name);
+
+                        if (!sl1.ContainsValue("Slot 12"))
+                            sl1.Add(12, "Slot 12");
+                    }
+                    if (file.Name == "save25.hg" | file.Name == "save26.hg")
+                    {
+                        if (!sn13.ContainsKey(25))
+                            sn13.Add(25, file.Name);
+                        else sn13.Add(26, file.Name);
+
+                        if (!sl1.ContainsValue("Slot 13"))
+                            sl1.Add(13, "Slot 13");
+                    }
+                    if (file.Name == "save27.hg" | file.Name == "save28.hg")
+                    {
+                        if (!sn14.ContainsKey(27))
+                            sn14.Add(27, file.Name);
+                        else sn14.Add(28, file.Name);
+
+                        if (!sl1.ContainsValue("Slot 14"))
+                            sl1.Add(14, "Slot 14");
+                    }
+                    if (file.Name == "save29.hg" | file.Name == "save30.hg")
+                    {
+                        if (!sn15.ContainsKey(29))
+                            sn15.Add(29, file.Name);
+                        else sn15.Add(30, file.Name);
+
+                        if (!sl1.ContainsValue("Slot 15"))
+                            sl1.Add(15, "Slot 15");
                     }
                 }
 
@@ -408,6 +503,86 @@ namespace NMSCoordinates
                 comboBox1.DataSource = sn5.ToArray();
                 return;
             }
+            if (selected == "Slot 6")
+            {
+                SelectedSaveSlot = 6;
+                comboBox1.DisplayMember = "VALUE";
+                comboBox1.ValueMember = "KEY";
+                comboBox1.DataSource = sn6.ToArray();
+                return;
+            }
+            if (selected == "Slot 7")
+            {
+                SelectedSaveSlot = 7;
+                comboBox1.DisplayMember = "VALUE";
+                comboBox1.ValueMember = "KEY";
+                comboBox1.DataSource = sn7.ToArray();
+                return;
+            }
+            if (selected == "Slot 8")
+            {
+                SelectedSaveSlot = 8;
+                comboBox1.DisplayMember = "VALUE";
+                comboBox1.ValueMember = "KEY";
+                comboBox1.DataSource = sn8.ToArray();
+                return;
+            }
+            if (selected == "Slot 9")
+            {
+                SelectedSaveSlot = 9;
+                comboBox1.DisplayMember = "VALUE";
+                comboBox1.ValueMember = "KEY";
+                comboBox1.DataSource = sn9.ToArray();
+                return;
+            }
+            if (selected == "Slot 10")
+            {
+                SelectedSaveSlot = 10;
+                comboBox1.DisplayMember = "VALUE";
+                comboBox1.ValueMember = "KEY";
+                comboBox1.DataSource = sn10.ToArray();
+                return;
+            }
+            if (selected == "Slot 11")
+            {
+                SelectedSaveSlot = 11;
+                comboBox1.DisplayMember = "VALUE";
+                comboBox1.ValueMember = "KEY";
+                comboBox1.DataSource = sn11.ToArray();
+                return;
+            }
+            if (selected == "Slot 12")
+            {
+                SelectedSaveSlot = 12;
+                comboBox1.DisplayMember = "VALUE";
+                comboBox1.ValueMember = "KEY";
+                comboBox1.DataSource = sn12.ToArray();
+                return;
+            }
+            if (selected == "Slot 13")
+            {
+                SelectedSaveSlot = 13;
+                comboBox1.DisplayMember = "VALUE";
+                comboBox1.ValueMember = "KEY";
+                comboBox1.DataSource = sn13.ToArray();
+                return;
+            }
+            if (selected == "Slot 14")
+            {
+                SelectedSaveSlot = 14;
+                comboBox1.DisplayMember = "VALUE";
+                comboBox1.ValueMember = "KEY";
+                comboBox1.DataSource = sn14.ToArray();
+                return;
+            }
+            if (selected == "Slot 15")
+            {
+                SelectedSaveSlot = 15;
+                comboBox1.DisplayMember = "VALUE";
+                comboBox1.ValueMember = "KEY";
+                comboBox1.DataSource = sn15.ToArray();
+                return;
+            }
             if (selected == "(Select Save Slot)")
             {
                 SelectedSaveSlot = -1;
@@ -416,7 +591,7 @@ namespace NMSCoordinates
                 LoadCmbx(); //insert here?
                 return;
             }
-        }        
+        }      
         private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             //After selecting a SelectedSaveSlot, this triggers + after selecting a different save   
@@ -430,12 +605,15 @@ namespace NMSCoordinates
                 GetPlayerCoord();
             }            
         }
+        /*
         private void GetRawSave(string savefile, string destfile)
         {
             fileSystemWatcher1.EnableRaisingEvents = false;
             SaveCompression.DecompressSave(savefile, destfile);
             fileSystemWatcher1.EnableRaisingEvents = true;
         }
+        */
+        /*
         private void GetUnformattedSave(out string ufjson, string inputfilepath, string outputfilepath, bool indented)
         {
             //Sets json from the selected save file
@@ -453,25 +631,6 @@ namespace NMSCoordinates
         private void CreateNewSave(out string newjson, string inputfilepath, string outputfilepath, bool reverse)
         {
             string injson = File.ReadAllText(inputfilepath);
-            //Dictionary<string, string> inDict = new Dictionary<string, string>();
-            //int pbdefault = pb.Maximum;
-            /*             
-            pb.Minimum = 1;
-            pb.Value = 1;
-            pb.Step = 1;
-            
-            if (shortDict)
-            {
-                pb.Maximum = sjsonDict.Count;
-                inDict = sjsonDict;
-            }                
-            else
-            {
-                pb.Maximum = jsonDict.Count;
-                inDict = jsonDict;
-            }            
-            pb.Visible = true;
-            */
             if (reverse)
             {
                 // Sets json from input and reverses all key names back to original                
@@ -479,14 +638,6 @@ namespace NMSCoordinates
                 JObject jObject = JsonConvert.DeserializeObject(injson) as JObject;
                 Mapping.Obfuscate(jObject);
                 injson = jObject.ToString();
-
-                //foreach (KeyValuePair<string, string> entry in inDict)
-                //{
-                //    pb.PerformStep();
-
-                //    if (injson.Contains(entry.Value))
-                //        injson = injson.Replace(entry.Value, entry.Key);
-                //}                
             }
             else
             {
@@ -495,20 +646,10 @@ namespace NMSCoordinates
                 Mapping.Deobfuscate(jObject);
                 injson = jObject.ToString();
                 newjson = injson;
-
-                //foreach (KeyValuePair<string, string> entry in inDict)
-                //{
-                //    pb.PerformStep();
-
-                //    if (injson.Contains(entry.Key))
-                //        injson = injson.Replace(entry.Key, entry.Value);
-                //}
-                //newjson = injson;
             } 
             File.WriteAllText(outputfilepath, injson);
-            //pb.Visible = false;
-            //pb.Maximum = 100;
         }
+        */
         /*
         private void GetJsonDict(string keyfilepath, out Dictionary<string,string> outDict)
         {
@@ -533,7 +674,7 @@ namespace NMSCoordinates
             if (Directory.Exists(hgFileDir) && selected != "")
             {
                 progressBar2.Visible = true;
-                progressBar2.Invoke((System.Action)(() => progressBar2.Value = 10));
+                progressBar2.Invoke((System.Action)(() => progressBar2.Value = 20));
 
                 DirectoryInfo dinfo = new DirectoryInfo(hgFileDir);
                 FileInfo[] Files = dinfo.GetFiles(selected, SearchOption.TopDirectoryOnly); //AllDirectories);
@@ -551,7 +692,7 @@ namespace NMSCoordinates
                     Globals.AppendLine(textBox17, "** Code 3 ** " + selected);
                     return;
                 }
-                progressBar2.Invoke((System.Action)(() => progressBar2.Value = 20));
+                progressBar2.Invoke((System.Action)(() => progressBar2.Value = 40));
 
                 // shows the file path in the path textbox
                 textBox16.Clear();
@@ -561,10 +702,14 @@ namespace NMSCoordinates
                 FileInfo hgfile = new FileInfo(hgFilePath);
                 textBox26.Clear();
                 Globals.AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
-                
 
+                json = GameSave.DecryptSave(hgFilePath, Save).ToString();
+
+                progressBar2.Invoke((System.Action)(() => progressBar2.Value = 60));
+                /*
                 // Read save file and get rawSave
-                GetRawSave(hgFilePath, rawSave);
+                //GetRawSave(hgFilePath, rawSave);
+                SaveCompression.DecompressSave(hgFilePath, rawSave);
                 progressBar2.Invoke((System.Action)(() => progressBar2.Value = 40));
 
                 // Read rawSave and get ujson
@@ -574,13 +719,23 @@ namespace NMSCoordinates
                 // Read ufSave and get Save and json
                 CreateNewSave(out json, ufSave, Save, false);
                 progressBar2.Invoke((System.Action)(() => progressBar2.Value = 80));
-
+                */
                 try
                 {
                     // looks up and then displays the game mode
                     var nms = GameSaveData.FromJson(json);
-                    int gamemodeint = Convert.ToInt32(nms.Version);
-                    label28.Text = Globals.GameModeLookupInt(gamemodeint);
+
+                    if (nms.PlayerStateData.DifficultyState != null)
+                    {
+                        label28.Text = nms.PlayerStateData.DifficultyState.Preset.DifficultyPresetType;
+                        label31.Text = nms.PlayerStateData.SaveName;
+                        label41.Text = nms.PlayerStateData.SaveSummary;
+                    }
+                    else
+                    {
+                        int gamemodeint = Convert.ToInt32(nms.Version);
+                        label28.Text = Globals.GameModeLookupInt(gamemodeint);
+                    }
                 }
                 catch
                 {
@@ -3182,11 +3337,14 @@ namespace NMSCoordinates
             fileSystemWatcher1.EnableRaisingEvents = false;
 
             BackUpSaveSlot(tb, saveslot, false);
-            DecryptSave(saveslot);
+            //DecryptSave(saveslot);
             EditSaveFB(pb);
-            CreateNewSave(out json, modSave, ufmodSave, true);
-            EncryptSave(pb, saveslot);
-            SaveCompression.CompressSave(hgFilePath);
+            //CreateNewSave(out json, modSave, ufmodSave, true);
+            //EncryptSave(pb, saveslot);
+            //SaveCompression.CompressSave(hgFilePath);
+
+            GameSave.EncryptSave((uint)saveslot, hgFilePath, modSave);
+            json = GameSave.DecryptSave(hgFilePath, Save).ToString();
 
             fileSystemWatcher1.EnableRaisingEvents = true;
         }
@@ -3196,11 +3354,14 @@ namespace NMSCoordinates
             fileSystemWatcher1.EnableRaisingEvents = false;
 
             BackUpSaveSlot(tb, saveslot, false);
-            DecryptSave(saveslot);
+            //DecryptSave(saveslot);
             EditSavePortal(pb);
-            CreateNewSave(out json, modSave, ufmodSave, true);
-            EncryptSave(pb, saveslot);
-            SaveCompression.CompressSave(hgFilePath);
+            //CreateNewSave(out json, modSave, ufmodSave, true);
+            //EncryptSave(pb, saveslot);
+            //SaveCompression.CompressSave(hgFilePath);
+
+            GameSave.EncryptSave((uint)saveslot, hgFilePath, modSave);
+            json = GameSave.DecryptSave(hgFilePath, Save).ToString();
 
             fileSystemWatcher1.EnableRaisingEvents = true;
         }
@@ -3210,14 +3371,18 @@ namespace NMSCoordinates
             fileSystemWatcher1.EnableRaisingEvents = false;
 
             BackUpSaveSlot(tb, saveslot, false);
-            DecryptSave(saveslot);
+            //DecryptSave(saveslot);
             EditSaveMove(dest, pb, tb);
-            CreateNewSave(out json, modSave, ufmodSave, true);
-            EncryptSave(pb, saveslot);
-            SaveCompression.CompressSave(hgFilePath);
+            //CreateNewSave(out json, modSave, ufmodSave, true);
+            //EncryptSave(pb, saveslot);
+            //SaveCompression.CompressSave(hgFilePath);
+
+            GameSave.EncryptSave((uint)saveslot, hgFilePath, modSave);
+            json = GameSave.DecryptSave(hgFilePath, Save).ToString();
 
             fileSystemWatcher1.EnableRaisingEvents = true;
         }
+        /*
         private void DecryptSave(int saveslot)
         {
             //LoadRun(saveslot);
@@ -3266,6 +3431,7 @@ namespace NMSCoordinates
                 return;
             }
         }
+        */
         private void RunBackupAll(string Path)
         {
             //DoCommon();

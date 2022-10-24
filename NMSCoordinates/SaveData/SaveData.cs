@@ -14,6 +14,7 @@ namespace NMSCoordinates.SaveData
     using System.Globalization;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
+    using NMSCoordinates.Properties;
 
     public partial class GameSaveData
     {
@@ -40,6 +41,15 @@ namespace NMSCoordinates.SaveData
 
         [JsonProperty("HomeRealityIteration")]
         public long HomeRealityIteration { get; set; }
+
+        [JsonProperty("SaveName")]
+        public string SaveName { get; set; }
+
+        [JsonProperty("SaveSummary")]
+        public string SaveSummary { get; set; }
+
+        [JsonProperty("DifficultyState")]
+        public DifficultyState DifficultyState { get; set; }
 
         [JsonProperty("TeleportEndpoints")]
         public TeleportEndpoints[] TeleportEndpoints { get; set; }
@@ -76,6 +86,23 @@ namespace NMSCoordinates.SaveData
 
         [JsonProperty("GalacticAddress")]
         public GalacticAddress GalacticAddress { get; set; }
+    }
+    public partial class DifficultyState
+    {
+        [JsonProperty("Preset")]
+        public UsedPreset Preset { get; set; }
+
+        [JsonProperty("EasiestUsedPreset")]
+        public UsedPreset EasiestUsedPreset { get; set; }
+
+        [JsonProperty("HardestUsedPreset")]
+        public UsedPreset HardestUsedPreset { get; set; }
+
+    }
+    public partial class UsedPreset
+    {
+        [JsonProperty("DifficultyPresetType")]
+        public string DifficultyPresetType { get; set; }
     }
 
     public partial class GalacticAddress
