@@ -25,9 +25,9 @@ You can clear portal interference while traveling through a portal, fast travel 
 |<a href="http://www.youtube.com/watch?feature=player_embedded&v=ceSFVl9LFtI" target="_blank"><img src="http://img.youtube.com/vi/ceSFVl9LFtI/0.jpg" alt="Video" width="520" height="300" border="10" /></a>|<a href="http://www.youtube.com/watch?feature=player_embedded&v=Vx1xGk2TMIo" target="_blank"><img src="http://img.youtube.com/vi/Vx1xGk2TMIo/0.jpg" alt="Video" width="520" height="300" border="10" /></a>|
 -->
 
-## v2.2 (JULY 26 2022)
-- Added libNOM.map class library to obfuscate and deobfuscate save file content.
-- Minor cleanup
+## v2.2 (OCT 24 2022)
+- Update for NMS 4.0 compatibility and save names, difficulty
+- Built NMSSaveManager to handle compression plus obfuscate and deobfuscate save file content using libNOM.map class library, release at later date
 
 ## v2.1 (JULY 23 2022)
 - Reworked location json, new naming, added longhex
@@ -70,7 +70,7 @@ Here is an overview of what you need to get started with NMSCoordinates
 
 ### Requirements
 
-The current version of NMSCoordinates requires No Man's Sky Frontiers+ (Works on Endurance)
+The current version of NMSCoordinates requires No Man's Sky Frontiers+ (Works on Endurance and Waypoint)
 - Windows 10+ and .NET Framework 4.7.2 (Not tested on other versions)
   
 :exclamation: **Always back up all your game data and saves before any mods**
@@ -97,7 +97,7 @@ The current version of NMSCoordinates requires No Man's Sky Frontiers+ (Works on
 * Right-click the lower Listbox on the Coordinate Share tab to delete unwanted location files.
 * Use the Coordinate Calculator by clicking the Coordinate Calculator button and entering (1) coordinate at a time in the textboxes and clicking the button below it. View all converted coordinates at the bottom.
 * On the Coordinate Calculator, clicking the glyphs will populate the Portal Code field. Then click calculate to see the coordinates.
-* *Experimental* Enable Travel Mode to start tracking your Terminus locations before traveling through a terminus or when hitting the limit. See video above.
+<!-- * *Experimental* Enable Travel Mode to start tracking your Terminus locations before traveling through a terminus or when hitting the limit. See video above. -->
 
 
 ## Change Log
@@ -105,7 +105,7 @@ The current version of NMSCoordinates requires No Man's Sky Frontiers+ (Works on
 
 ## Built With
 
-* [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/)
+* [Visual Studio 2022](https://visualstudio.microsoft.com/downloads/)
 * [Visual Studio Code](https://code.visualstudio.com/)
 
 ## Authors
