@@ -294,26 +294,29 @@ namespace NMSCoordinates
             this.toolStripMenuItem2,
             this.mergeLocationFilesToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(178, 70);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(184, 92);
+            this.contextMenuStrip2.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip2_Opening);
             // 
             // openLocationFileToolStripMenuItem
             // 
             this.openLocationFileToolStripMenuItem.Name = "openLocationFileToolStripMenuItem";
-            this.openLocationFileToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.openLocationFileToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.openLocationFileToolStripMenuItem.Text = "Open Location File";
             this.openLocationFileToolStripMenuItem.Click += new System.EventHandler(this.OpenLocationFileToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(183, 22);
             this.toolStripMenuItem2.Text = "Delete Location File";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.ToolStripMenuItem2_Click);
             // 
             // mergeLocationFilesToolStripMenuItem
             // 
             this.mergeLocationFilesToolStripMenuItem.Name = "mergeLocationFilesToolStripMenuItem";
-            this.mergeLocationFilesToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.mergeLocationFilesToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.mergeLocationFilesToolStripMenuItem.Text = "Merge Location Files";
+            this.mergeLocationFilesToolStripMenuItem.Click += new System.EventHandler(this.mergeLocationFilesToolStripMenuItem_Click);
             // 
             // contextMenuStrip1
             // 

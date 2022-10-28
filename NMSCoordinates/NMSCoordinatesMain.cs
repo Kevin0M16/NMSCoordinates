@@ -2594,6 +2594,70 @@ namespace NMSCoordinates
                 }
             }                
         }
+        private static bool ValidateLocFiles(ListBox lb, string selected)
+        {
+            if (string.IsNullOrEmpty(lb.GetItemText(selected)))
+            {
+                return false;
+            }
+
+            if (!File.Exists(@".\backup\locations\" + lb.GetItemText(selected)))
+            {
+                return false;
+            }
+
+            return true;
+        }
+        private void mergeLocationFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Merge location files
+            if (listBox4.SelectedItems.Count > 1)
+            {
+                List<LocationArray> loclist = new List<LocationArray>();                
+
+                foreach (String selected in listBox4.SelectedItems)
+                {
+                    if (!ValidateLocFiles(listBox4, selected))
+                    {
+                        return;
+                    }
+
+                    string path = @".\backup\locations\" + selected;
+                    string filejson = File.ReadAllText(path);
+                    SavedLocationData loc = SavedLocationData.FromJson(filejson);
+
+                    foreach (LocationArray tpendpoint in loc.Locations.TeleportEndpoints)
+                    {
+                        loclist.Add(tpendpoint);
+                    }
+                }
+
+                SavedLocationData loc2 = Globals.CreateNewLocationJson(locVersion, loclist.Count, 0);
+                loc2.Locations.TeleportEndpoints = loclist.ToArray();
+
+                string path2 = Globals.MakeUniqueLoc(@".\backup\locations\locbackup.json", 0);
+                string newjson = LocationData.Serialize.ToJson(loc2);
+                File.WriteAllText(path2, newjson);
+
+                LoadTxt();
+                Globals.AppendLine(textBox13, "Files merged.");
+            }
+            else
+            {
+                MessageBox.Show("Please select 2 or more files!", "Alert");
+            }
+        }
+        private void contextMenuStrip2_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (listBox4.SelectedItems.Count < 2)
+            {
+                mergeLocationFilesToolStripMenuItem.Enabled = false;
+            }
+            else if (!mergeLocationFilesToolStripMenuItem.Enabled)
+            {
+                mergeLocationFilesToolStripMenuItem.Enabled = true;
+            }
+        }
         private void SetShortcutToGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Future use, doesn't save changed currently
@@ -3804,6 +3868,6 @@ namespace NMSCoordinates
         {
             UpdateChecker f9 = new UpdateChecker(NMSCVersion);
             f9.ShowDialog();
-        }
+        }        
     }
 }
