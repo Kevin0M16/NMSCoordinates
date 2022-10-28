@@ -38,6 +38,7 @@ namespace NMSCoordinates
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openLocationFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mergeLocationFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteSingleRecordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -290,9 +291,10 @@ namespace NMSCoordinates
             // 
             this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openLocationFileToolStripMenuItem,
-            this.toolStripMenuItem2});
+            this.toolStripMenuItem2,
+            this.mergeLocationFilesToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(178, 48);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(178, 70);
             // 
             // openLocationFileToolStripMenuItem
             // 
@@ -308,6 +310,11 @@ namespace NMSCoordinates
             this.toolStripMenuItem2.Text = "Delete Location File";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.ToolStripMenuItem2_Click);
             // 
+            // mergeLocationFilesToolStripMenuItem
+            // 
+            this.mergeLocationFilesToolStripMenuItem.Name = "mergeLocationFilesToolStripMenuItem";
+            this.mergeLocationFilesToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.BackColor = System.Drawing.SystemColors.Control;
@@ -315,7 +322,7 @@ namespace NMSCoordinates
             this.toolStripMenuItem1,
             this.deleteSingleRecordToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(191, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(183, 48);
             // 
             // toolStripMenuItem1
             // 
@@ -324,14 +331,14 @@ namespace NMSCoordinates
             this.toolStripMenuItem1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toolStripMenuItem1.ForeColor = System.Drawing.SystemColors.ControlText;
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(190, 22);
-            this.toolStripMenuItem1.Text = "Export Single Record";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(182, 22);
+            this.toolStripMenuItem1.Text = "Export Record(s)";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.ToolStripMenuItem1_Click);
             // 
             // deleteSingleRecordToolStripMenuItem
             // 
             this.deleteSingleRecordToolStripMenuItem.Name = "deleteSingleRecordToolStripMenuItem";
-            this.deleteSingleRecordToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.deleteSingleRecordToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.deleteSingleRecordToolStripMenuItem.Text = "Delete Single Record";
             this.deleteSingleRecordToolStripMenuItem.Click += new System.EventHandler(this.DeleteSingleRecordToolStripMenuItem_Click);
             // 
@@ -807,6 +814,7 @@ namespace NMSCoordinates
             this.listBox4.FormattingEnabled = true;
             this.listBox4.Location = new System.Drawing.Point(11, 19);
             this.listBox4.Name = "listBox4";
+            this.listBox4.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.listBox4.Size = new System.Drawing.Size(234, 186);
             this.listBox4.TabIndex = 37;
             this.listBox4.SelectedIndexChanged += new System.EventHandler(this.listBox4_SelectedIndexChanged);
@@ -822,6 +830,7 @@ namespace NMSCoordinates
             this.listBox3.Location = new System.Drawing.Point(9, 9);
             this.listBox3.MinimumSize = new System.Drawing.Size(693, 21);
             this.listBox3.Name = "listBox3";
+            this.listBox3.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.listBox3.Size = new System.Drawing.Size(693, 264);
             this.listBox3.TabIndex = 35;
             this.listBox3.SelectedIndexChanged += new System.EventHandler(this.ListBox3_SelectedIndexChanged);
@@ -2866,6 +2875,7 @@ namespace NMSCoordinates
         public FileSystemWatcher fileSystemWatcher1;
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Label label41;
+        private System.Windows.Forms.ToolStripMenuItem mergeLocationFilesToolStripMenuItem;
     }
 }
 

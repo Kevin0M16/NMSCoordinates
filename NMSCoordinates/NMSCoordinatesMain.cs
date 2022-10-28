@@ -2463,46 +2463,81 @@ namespace NMSCoordinates
         }
         private void ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            //Save a single location record to a new txt file
-            if (!string.IsNullOrEmpty(listBox3.GetItemText(listBox3.SelectedItem)))
+            if (listBox3.SelectedItems.Count == 1)
             {
-                var selectedrecord = listBox3.GetItemText(listBox3.SelectedItem);
-                var selectindex = listBox3.SelectedIndex;
+                //Save a single location record to a new txt file
+                if (!string.IsNullOrEmpty(listBox3.GetItemText(listBox3.SelectedItem)))
+                {
+                    var selectedrecord = listBox3.GetItemText(listBox3.SelectedItem);
+                    var selectindex = listBox3.SelectedIndex;
 
-                //List<string> list = new List<string>();
-                //list.Add(listBox3.GetItemText(listBox3.SelectedItem));
+                    //List<string> list = new List<string>();
+                    //list.Add(listBox3.GetItemText(listBox3.SelectedItem));
+                    string path2 = Globals.MakeUniqueLoc(@".\backup\locations\locbackup.json", SelectedSaveSlot);
+                    var loc = SavedLocationData.FromJson(locjson);
+                    var record = loc.Locations.TeleportEndpoints[selectindex];
+
+                    // Create new locbackup json file
+                    var loc2 = Globals.CreateNewLocationJson(locVersion, 1, 0);
+                    //SavedLocationData loc2 = new SavedLocationData();
+                    //loc2.Version = 1;
+                    //loc2.Locations = new Locations();
+                    //loc2.Locations.Bases = new Basis[1];
+                    //loc2.Locations.Spacestations = new Basis[0];
+                    loc2.Locations.TeleportEndpoints[0] = record;
+                    string newrec = LocationData.Serialize.ToJson(loc2);
+                    File.WriteAllText(path2, newrec);
+
+                    //File.WriteAllLines(path2, list);
+                    //Process.Start(path2); //v1.1.14
+
+                    LoadTxt();
+                    Globals.AppendLine(textBox13, "Single Record saved.");
+
+                    if (File.Exists(path2))
+                    {
+                        listBox4.SelectedItem = Path.GetFileName(path2);
+                        //Button6_Click(this, new EventArgs());
+                        listBox3.SelectedItem = selectedrecord;
+                    }
+                }
+                else
+                {
+                    Globals.AppendLine(textBox13, "No record saved! Please select a txt!");
+                }
+            }
+            else if (listBox3.SelectedItems.Count > 1)
+            {
                 string path2 = Globals.MakeUniqueLoc(@".\backup\locations\locbackup.json", SelectedSaveSlot);
                 var loc = SavedLocationData.FromJson(locjson);
-                var record = loc.Locations.TeleportEndpoints[selectindex];
+                var loc2 = Globals.CreateNewLocationJson(locVersion, listBox3.SelectedItems.Count, 0);
 
-                // Create new locbackup json file
-                var loc2 = Globals.CreateNewLocationJson(locVersion, 1, 0);
-                //SavedLocationData loc2 = new SavedLocationData();
-                //loc2.Version = 1;
-                //loc2.Locations = new Locations();
-                //loc2.Locations.Bases = new Basis[1];
-                //loc2.Locations.Spacestations = new Basis[0];
-                loc2.Locations.TeleportEndpoints[0] = record;
-                string newrec = LocationData.Serialize.ToJson(loc2);
-                File.WriteAllText(path2, newrec);
+                foreach (String selected in listBox3.SelectedItems)
+                {
+                    //
+                    if (string.IsNullOrEmpty(listBox3.GetItemText(selected)))
+                    {
+                        Globals.AppendLine(textBox13, "No record saved! Please select a txt!");
+                    }
 
-                //File.WriteAllLines(path2, list);
-                //Process.Start(path2); //v1.1.14
-                
+                    var selectindex = listBox3.Items.IndexOf(selected);
+                    LocationArray record = loc.Locations.TeleportEndpoints[selectindex];
+
+                    // Create new locbackup json file                    
+                    loc2.Locations.TeleportEndpoints[listBox3.SelectedItems.IndexOf(selected)] = record;
+                    string newrec = LocationData.Serialize.ToJson(loc2);
+                    File.WriteAllText(path2, newrec);                    
+                }
+
                 LoadTxt();
-                Globals.AppendLine(textBox13, "Single Record saved.");
+                Globals.AppendLine(textBox13, "Records saved.");
 
                 if (File.Exists(path2))
                 {
                     listBox4.SelectedItem = Path.GetFileName(path2);
-                    //Button6_Click(this, new EventArgs());
-                    listBox3.SelectedItem = selectedrecord;
-                }                    
+                }
             }
-            else
-            {
-                Globals.AppendLine(textBox13, "No record saved! Please select a txt!");
-            }
+            
 
         }
         private void OpenLocationFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2558,7 +2593,7 @@ namespace NMSCoordinates
                     MessageBox.Show("Cancelled! No file deleted.", "Alert");
                 }
             }                
-        }        
+        }
         private void SetShortcutToGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Future use, doesn't save changed currently
