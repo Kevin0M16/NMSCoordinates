@@ -294,7 +294,7 @@ namespace NMSCoordinates
             this.toolStripMenuItem2,
             this.mergeLocationFilesToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(184, 92);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(184, 70);
             this.contextMenuStrip2.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip2_Opening);
             // 
             // openLocationFileToolStripMenuItem
@@ -448,7 +448,7 @@ namespace NMSCoordinates
             this.screenshotPageToolStripMenuItem2,
             this.setSSDefaultSteamToolStripMenuItem});
             this.screenshotPageToolStripMenuItem.Name = "screenshotPageToolStripMenuItem";
-            this.screenshotPageToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.screenshotPageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.screenshotPageToolStripMenuItem.Text = "Screenshots...";
             // 
             // screenshotPageToolStripMenuItem1
@@ -478,7 +478,7 @@ namespace NMSCoordinates
             this.onToolStripMenuItem,
             this.offToolStripMenuItem});
             this.travelModeToolStripMenuItem.Name = "travelModeToolStripMenuItem";
-            this.travelModeToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.travelModeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.travelModeToolStripMenuItem.Text = "Travel Mode...";
             this.travelModeToolStripMenuItem.Visible = false;
             // 
@@ -486,7 +486,7 @@ namespace NMSCoordinates
             // 
             this.onToolStripMenuItem.CheckOnClick = true;
             this.onToolStripMenuItem.Name = "onToolStripMenuItem";
-            this.onToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.onToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.onToolStripMenuItem.Text = "Show";
             this.onToolStripMenuItem.Click += new System.EventHandler(this.OnToolStripMenuItem_Click);
             // 
@@ -496,7 +496,7 @@ namespace NMSCoordinates
             this.offToolStripMenuItem.CheckOnClick = true;
             this.offToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.offToolStripMenuItem.Name = "offToolStripMenuItem";
-            this.offToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.offToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.offToolStripMenuItem.Text = "Hide";
             this.offToolStripMenuItem.Click += new System.EventHandler(this.OffToolStripMenuItem_Click);
             // 
@@ -506,7 +506,7 @@ namespace NMSCoordinates
             this.lockedToolStripMenuItem,
             this.unlockedToolStripMenuItem});
             this.manualTravelToolStripMenuItem.Name = "manualTravelToolStripMenuItem";
-            this.manualTravelToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.manualTravelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.manualTravelToolStripMenuItem.Text = "Manual Travel ";
             this.manualTravelToolStripMenuItem.Visible = false;
             // 
@@ -2611,81 +2611,7 @@ namespace NMSCoordinates
         }
 
         #endregion
-        private CoordinateCalculator f5;
-        public SaveDirectorySelector f8;
-        private List<string> _changedFiles = new List<string>();
-        public string NMSCVersion;
-        public string GamePath;
-        public string nmsPath;
-        public string nmscConfig;
-        public string oldsavePath;
-        public string hgFilePath;
-        public string hgFileDir;        
-        public string currentKey;
-        public string stmPath;
-        public string ssdPath;
-        public string ssPath;
-
-        //private GameSave _gs;
-        //private GameSaveManager _gsm;
-        //private uint _gameSlot;
-
-        //Dictionary<string, string> jsonDict = new Dictionary<string, string>();
-        //Dictionary<string, string> sjsonDict = new Dictionary<string, string>();
-
-        private string Save;
-        private string modSave;
-
-        //private string rawSave;
-        //private string ufSave;        
-        //private string ufmodSave;
-
-        public int SelectedSaveSlot;
-        public string json;
-        //public string ujson;
-        public string locjson;
-        public int locVersion;
-
-        //public IDictionary<string, string> gameMode;
-        public Dictionary<char, Bitmap> glyphDict = new Dictionary<char, Bitmap>();
-
-        public Dictionary<int, string> sn1;
-        public Dictionary<int, string> sn2;
-        public Dictionary<int, string> sn3;
-        public Dictionary<int, string> sn4;
-        public Dictionary<int, string> sn5;
-        public Dictionary<int, string> sn6;
-        public Dictionary<int, string> sn7;
-        public Dictionary<int, string> sn8;
-        public Dictionary<int, string> sn9;
-        public Dictionary<int, string> sn10;
-        public Dictionary<int, string> sn11;
-        public Dictionary<int, string> sn12;
-        public Dictionary<int, string> sn13;
-        public Dictionary<int, string> sn14;
-        public Dictionary<int, string> sn15;
-
-        public List<DirectoryInfo> SaveDirs = new List<DirectoryInfo>();
-
-        public List<string> DiscList { get; private set; }
-        public List<string> SSlist = new List<string>();
-        public List<string> PrevSSlist = new List<string>();
-
-        public List<string> BaseList { get; private set; }
-
-        private char _gl1;
-        private char _gl2;
-        private char _gl3;
-        private char _gl4;
-        private char _gl5;
-        private char _gl6;
-        private char _gl7;
-        private char _gl8;
-        private char _gl9;
-        private char _gl10;
-        private char _gl11;
-        private char _gl12;
-
+        #region Windows Forms Controls
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
@@ -2879,6 +2805,7 @@ namespace NMSCoordinates
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Label label41;
         private System.Windows.Forms.ToolStripMenuItem mergeLocationFilesToolStripMenuItem;
+        #endregion
     }
 }
 

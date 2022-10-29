@@ -36,7 +36,90 @@ using NMSSaveManager;
 namespace NMSCoordinates
 {
     public partial class NMSCoordinatesMain : Form
-    {        
+    {
+        #region NMSC Variables
+
+        private CoordinateCalculator f5;
+        public SaveDirectorySelector f8;
+
+        private List<string> _changedFiles = new List<string>();
+
+        public string NMSCVersion;
+        public string GamePath;
+        public string nmsPath;
+        public string nmscConfig;
+        public string oldsavePath;
+        public string hgFilePath;
+        public string hgFileDir;
+        public string currentKey;
+        public string stmPath;
+        public string ssdPath;
+        public string ssPath;
+
+        //private GameSave _gs;
+        //private GameSaveManager _gsm;
+        //private uint _gameSlot;
+
+        //Dictionary<string, string> jsonDict = new Dictionary<string, string>();
+        //Dictionary<string, string> sjsonDict = new Dictionary<string, string>();
+
+        private string Save;
+        private string modSave;
+
+        //private string rawSave;
+        //private string ufSave;        
+        //private string ufmodSave;
+
+        public int SelectedSaveSlot;
+        public string json;
+        //public string ujson;
+        public string locjson;
+        public int locVersion;
+
+        //public IDictionary<string, string> gameMode;
+        public Dictionary<char, Bitmap> glyphDict = new Dictionary<char, Bitmap>();
+
+        public Dictionary<int, string> sn1;
+        public Dictionary<int, string> sn2;
+        public Dictionary<int, string> sn3;
+        public Dictionary<int, string> sn4;
+        public Dictionary<int, string> sn5;
+        public Dictionary<int, string> sn6;
+        public Dictionary<int, string> sn7;
+        public Dictionary<int, string> sn8;
+        public Dictionary<int, string> sn9;
+        public Dictionary<int, string> sn10;
+        public Dictionary<int, string> sn11;
+        public Dictionary<int, string> sn12;
+        public Dictionary<int, string> sn13;
+        public Dictionary<int, string> sn14;
+        public Dictionary<int, string> sn15;
+
+        public List<DirectoryInfo> SaveDirs = new List<DirectoryInfo>();
+
+        //public List<string> DiscList { get; private set; }
+        public List<string> SSlist = new List<string>();
+        public List<string> PrevSSlist = new List<string>();
+
+        public List<string> BaseList { get; private set; }
+
+        private char _gl1;
+        private char _gl2;
+        private char _gl3;
+        private char _gl4;
+        private char _gl5;
+        private char _gl6;
+        private char _gl7;
+        private char _gl8;
+        private char _gl9;
+        private char _gl10;
+        private char _gl11;
+        private char _gl12;
+
+        public int _ScreenWidth { get; private set; }
+        public int _ScreenHeight { get; private set; }
+        #endregion
+
         public NMSCoordinatesMain()
         {
             InitializeComponent();
@@ -60,9 +143,6 @@ namespace NMSCoordinates
             //ufSave = @".\debug\ufsave.json";
             //ufmodSave = @".\debug\ufsaveedit.json";
         }
-
-        public int _ScreenWidth { get; private set; }
-        public int _ScreenHeight { get; private set; }
 
         // This method is called when the display settings change.
         private async void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
@@ -88,7 +168,7 @@ namespace NMSCoordinates
             //loads the saved locbackup and playerloc files
             LoadTxt();
 
-            DiscList = new List<string>();
+            //DiscList = new List<string>();
             BaseList = new List<string>();
         }
         private async void Form1_Shown(object sender, EventArgs e)
@@ -746,90 +826,20 @@ namespace NMSCoordinates
                 progressBar2.Visible = false;
             }
         }
-        private void SetPrevSS()
-        {
-            //Travel Mode, Store all discoveries to compare later
-            if (SSlist.Count > 0)
-            {
-                // Set Minimum to 1 to represent the first file being copied.
-                progressBar2.Minimum = 1;
-                // Set Maximum to the total number of files to copy.
-                progressBar2.Maximum = SSlist.Count;
-                // Set the initial value of the ProgressBar.
-                progressBar2.Value = 1;
-                // Set the Step property to a value of 1 to represent each file being copied.
-                progressBar2.Step = 1;
-                // Display the ProgressBar control.
-                progressBar2.Visible = true;
-
-                //Add all discoveries from SSlist to PrevSSlist
-                foreach (string item in SSlist)
-                {
-                    PrevSSlist.Add(item);
-                    progressBar2.PerformStep();
-                }
-                progressBar2.Visible = false;
-                Globals.AppendLine(textBox17, "Current Stored locations saved.");
-                MessageBox.Show("Current Stored locations saved.", "Confirmation");
-            }
-            else
-            {
-                return;
-            }
-        }
-        private void CheckSS()
-        {
-            //Take the list of current discoveries and add them to SSList for comparison to PrevSSlist
-            if (DiscList.Count > 0)
-            {
-                // Set Minimum to 1 to represent the first file being copied.
-                progressBar2.Minimum = 1;
-                // Set Maximum to the total number of files to copy.
-                progressBar2.Maximum = DiscList.Count;
-                // Set the initial value of the ProgressBar.
-                progressBar2.Value = 1;
-                // Set the Step property to a value of 1 to represent each file being copied.
-                progressBar2.Step = 1;
-                // Display the ProgressBar control.
-                progressBar2.Visible = true;
-
-                for (int i = 0; i < DiscList.Count; i++)
-                {
-                    Destination dest = TeleportEndpoints(i, json);
-
-                    //JsonMapTeleportEndpoints(i);
-                    //PortalCode = CoordCalculations.VoxelToPortal(iX, iY, iZ, iSSI);
-                    //GalacticCoord = CoordCalculations.VoxelToGalacticCoord(iX, iY, iZ, iSSI);
-                    SSlist.Add("Slot_" + SelectedSaveSlot + "_Loc: " + DiscList[i] + " - G: " + dest.Galaxy + " - PC: " + dest.PortalCode + " -- GC: " + dest.GalacticCoordinate);
-
-                    progressBar2.PerformStep();
-
-                    //if (SSlist.Count == i + 1)
-                    //{
-                    // Perform the increment on the ProgressBar.
-                    //   progressBar2.PerformStep();
-                    //}
-                }
-                progressBar2.Visible = false;
-                progressBar2.Maximum = 100;
-            }
-            else
-            {
-                return;
-            }
-        }
         private async Task BackupLoc(string path)
         {
             //Backup all locations to a new locbackup file
+            GameSaveData nms = GameSaveData.FromJson(json);
+            int teleportArrayLength = nms.PlayerStateData.TeleportEndpoints.Length;
 
-            if (DiscList.Count > 0)
+            if (teleportArrayLength > 0)
             {
                 tabControl1.SelectedTab = tabPage1;
                 await Task.Delay(300);
                 // Set Minimum to 1 to represent the first file being copied.
                 progressBar2.Minimum = 1;
                 // Set Maximum to the total number of files to copy.
-                progressBar2.Maximum = DiscList.Count;
+                progressBar2.Maximum = teleportArrayLength;
                 // Set the initial value of the ProgressBar.
                 progressBar2.Value = 1;
                 // Set the Step property to a value of 1 to represent each file being copied.
@@ -837,16 +847,16 @@ namespace NMSCoordinates
                 // Display the ProgressBar control.
                 progressBar2.Visible = true;
 
-                SavedLocationData sdata = Globals.CreateNewLocationJson(locVersion, DiscList.Count, 0);
+                SavedLocationData sdata = Globals.CreateNewLocationJson(locVersion, teleportArrayLength, 0);
                 List<LocationArray> basis = new List<LocationArray>();
 
-                for (int i = 0; i < DiscList.Count; i++)
+                for (int i = 0; i < teleportArrayLength; i++)
                 {
                     Destination dest = TeleportEndpoints(i, json);
 
                     basis.Add(new LocationArray()
                     {
-                        Name = DiscList[i],
+                        Name = GetTeleportEndPointName(i, nms),
                         Details = new Details()
                         {
                             DateTime = DateTime.Now.ToString("MM-dd-yyyy HH:mm"),
@@ -858,10 +868,10 @@ namespace NMSCoordinates
                             Notes = ""
                         }
                     });
-                    //backuplist.Add("Slot_" + SelectedSaveSlot + "_Loc: " + DiscList[i] + " - G: " + galaxy + " - PC: " + PortalCode + " -- GC: " + GalacticCoord);
 
                     progressBar2.PerformStep();
                 }
+
                 progressBar2.Visible = false;
                 progressBar2.Maximum = 100;
 
@@ -877,10 +887,9 @@ namespace NMSCoordinates
 
                 tabControl1.SelectedTab = tabPage3;
                 if (File.Exists(path2))
-                {                    
+                {
                     listBox4.SelectedItem = Path.GetFileName(path2);
-                    //Button6_Click(this, new EventArgs());
-                }                
+                }
             }
             else
             {
@@ -989,7 +998,7 @@ namespace NMSCoordinates
             pictureBox23.Image = null;
             pictureBox24.Image = null;
 
-            DiscList.Clear();
+            //DiscList.Clear();
             BaseList.Clear();
             //Backuplist.Clear();
             listBox1.DataSource = null;
@@ -1070,10 +1079,57 @@ namespace NMSCoordinates
             }
         }
         */
+        private static string GetTeleportEndPointName(int i, GameSaveData nms)
+        {
+            List<string> nameList = new List<string>();
+            string discd = nms.PlayerStateData.TeleportEndpoints[i].Name;
+
+            if (string.IsNullOrEmpty(nms.PlayerStateData.TeleportEndpoints[i].Name))
+            {
+                string bl = discd + "None";
+                nameList.Add(bl);
+            }
+            if (nms.PlayerStateData.TeleportEndpoints[i].TeleporterType == "Spacestation")
+            {
+                string ss = discd + " (SS)";
+
+                if (!nameList.Contains(ss))
+                    nameList.Add(ss);
+            }
+            if (nms.PlayerStateData.TeleportEndpoints[i].TeleporterType == "Base")
+            {
+                string bl = discd + " (B)";
+
+                if (!nameList.Contains(bl))
+                    nameList.Add(bl);
+            }
+            if (nms.PlayerStateData.TeleportEndpoints[i].TeleporterType == "ExternalBase")
+            {
+                string bl = discd + " (EB)";
+
+                if (!nameList.Contains(bl))
+                    nameList.Add(bl);
+            }
+            if (nms.PlayerStateData.TeleportEndpoints[i].TeleporterType == "SpacestationFixPosition" || nms.PlayerStateData.TeleportEndpoints[i].TeleporterType == "SpacestationFixwMC")
+            {
+                string ss = discd + " (SS)";
+
+                if (!nameList.Contains(ss))
+                    nameList.Add(ss);
+            }            
+            if (nameList.Count == 1)
+            {
+                return nameList[0];
+            }
+            else
+            {
+                return "";
+            }            
+        }
         private void LoadTeleportEndpoints()
         {
             //Method to load all location discovered in listbox1
-            DiscList.Clear();
+            //DiscList.Clear();
             listBox1.Items.Clear();
             listBox2.Items.Clear();
             ClearTextBoxes();
@@ -1081,6 +1137,18 @@ namespace NMSCoordinates
             var nms = GameSaveData.FromJson(json);
             try
             {
+                for (int i = 0; i < nms.PlayerStateData.TeleportEndpoints.Length; i++)
+                {
+                    string name = GetTeleportEndPointName(i, nms);
+                    
+                    if (name.Contains("(SS)"))
+                        listBox2.Items.Add(name);
+
+                    if (name.Contains("(B)") || name.Contains("(EB)"))
+                        listBox1.Items.Add(name);
+                }
+
+                /*
                 for (int i = 0; i < nms.PlayerStateData.TeleportEndpoints.Length; i++)
                 {
                     string discd = nms.PlayerStateData.TeleportEndpoints[i].Name;
@@ -1117,7 +1185,7 @@ namespace NMSCoordinates
                             listBox2.Items.Add(ss);
                         }                       
                     }
-                }
+                }*/
 
             }
             catch
@@ -1875,7 +1943,7 @@ namespace NMSCoordinates
         }
         private async void DiscoveriesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //backup all discoveries to txt file
+            //backup all discoveries to json file
             //Backuplist.Clear();
             await BackupLoc(@".\backup\locations\locbackup.json");
         }
@@ -2215,7 +2283,7 @@ namespace NMSCoordinates
         }
         private void LoadTxt()
         {
-            //Loads all the txt files in listbox4 for selection
+            //Loads all the json files in listbox4 for selection
             listBox3.DataSource = null;
             textBox11.Clear();
             textBox13.Clear();
@@ -2465,7 +2533,7 @@ namespace NMSCoordinates
         {
             if (listBox3.SelectedItems.Count == 1)
             {
-                //Save a single location record to a new txt file
+                //Save a single location record to a new json file
                 if (!string.IsNullOrEmpty(listBox3.GetItemText(listBox3.SelectedItem)))
                 {
                     var selectedrecord = listBox3.GetItemText(listBox3.SelectedItem);
@@ -2503,7 +2571,7 @@ namespace NMSCoordinates
                 }
                 else
                 {
-                    Globals.AppendLine(textBox13, "No record saved! Please select a txt!");
+                    Globals.AppendLine(textBox13, "No record saved! Please select a file!");
                 }
             }
             else if (listBox3.SelectedItems.Count > 1)
@@ -2517,7 +2585,7 @@ namespace NMSCoordinates
                     //
                     if (string.IsNullOrEmpty(listBox3.GetItemText(selected)))
                     {
-                        Globals.AppendLine(textBox13, "No record saved! Please select a txt!");
+                        Globals.AppendLine(textBox13, "No record saved! Please select a file!");
                     }
 
                     var selectindex = listBox3.Items.IndexOf(selected);
@@ -2608,12 +2676,62 @@ namespace NMSCoordinates
 
             return true;
         }
+        private static List<LocationArray> FindDuplicateLocations(List<LocationArray> locList)
+        {
+            List<LocationArray> newloclist = new List<LocationArray>();
+
+            foreach (LocationArray tpendpoint in locList)
+            {
+                bool found = false;
+
+                foreach (LocationArray tpendpoint2 in newloclist)
+                {
+                    if (tpendpoint.Name == tpendpoint2.Name)
+                    {
+                        if (tpendpoint.Details.LongHex == tpendpoint2.Details.LongHex)
+                        {
+                            found = true;
+
+                            if (tpendpoint.Details.Notes == "" && tpendpoint2.Details.Notes != "")
+                                tpendpoint.Details.Notes = tpendpoint2.Details.Notes;
+
+                            if (tpendpoint.Details.Notes != "" && tpendpoint2.Details.Notes == "")
+                                tpendpoint2.Details.Notes = tpendpoint.Details.Notes;
+                        }                        
+                    }
+                }
+
+                if (!found)
+                    newloclist.Add(tpendpoint);
+            }
+
+            return newloclist;
+
+            /*
+            List<LocationArray> newloclist = new List<LocationArray>();
+            
+            foreach (LocationArray tpendpoint in locList)
+            {
+                int count = 0;
+
+                foreach (LocationArray tpendpoint2 in locList)
+                {
+                    if (tpendpoint.Name == tpendpoint2.Name)
+                        count++;
+                }
+
+                if (count == 1)
+                    newloclist.Add(tpendpoint);
+            }
+
+            return newloclist;*/
+        }
         private void mergeLocationFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Merge location files
             if (listBox4.SelectedItems.Count > 1)
             {
-                List<LocationArray> loclist = new List<LocationArray>();                
+                List<LocationArray> loclist = new List<LocationArray>();
 
                 foreach (String selected in listBox4.SelectedItems)
                 {
@@ -2631,6 +2749,9 @@ namespace NMSCoordinates
                         loclist.Add(tpendpoint);
                     }
                 }
+                //var duplicateThingCounts = loclist.Where(tc => tc. > 1)
+
+                loclist = FindDuplicateLocations(loclist);
 
                 SavedLocationData loc2 = Globals.CreateNewLocationJson(locVersion, loclist.Count, 0);
                 loc2.Locations.TeleportEndpoints = loclist.ToArray();
@@ -2884,7 +3005,7 @@ namespace NMSCoordinates
         }
         private void listBox4_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //Load a txt file to view in listbox3
+            //Load a json file to view in listbox3
             try
             {
                 if (listBox4.GetItemText(listBox4.SelectedItem) != "")
@@ -2942,6 +3063,72 @@ namespace NMSCoordinates
                 MessageBox.Show("Unable to open link that was clicked.");
             }
         }
+        private void CheckSS()
+        {
+            //Take the list of current discoveries and add them to SSList for comparison to PrevSSlist
+            GameSaveData nms = GameSaveData.FromJson(json);
+            int teleportArrayLength = nms.PlayerStateData.TeleportEndpoints.Length;
+
+            if (teleportArrayLength > 0)
+            {
+                // Set Minimum to 1 to represent the first file being copied.
+                progressBar2.Minimum = 1;
+                // Set Maximum to the total number of files to copy.
+                progressBar2.Maximum = teleportArrayLength;
+                // Set the initial value of the ProgressBar.
+                progressBar2.Value = 1;
+                // Set the Step property to a value of 1 to represent each file being copied.
+                progressBar2.Step = 1;
+                // Display the ProgressBar control.
+                progressBar2.Visible = true;
+
+                for (int i = 0; i < teleportArrayLength; i++)
+                {
+                    Destination dest = TeleportEndpoints(i, json);
+
+                    SSlist.Add("Slot_" + SelectedSaveSlot + "_Loc: " + nms.PlayerStateData.TeleportEndpoints[i].Name + " - G: " + dest.Galaxy + " - PC: " + dest.PortalCode + " -- GC: " + dest.GalacticCoordinate);
+
+                    progressBar2.PerformStep();
+                }
+                progressBar2.Visible = false;
+                progressBar2.Maximum = 100;
+            }
+            else
+            {
+                return;
+            }
+        }
+        private void SetPrevSS()
+        {
+            //Travel Mode, Store all discoveries to compare later
+            if (SSlist.Count > 0)
+            {
+                // Set Minimum to 1 to represent the first file being copied.
+                progressBar2.Minimum = 1;
+                // Set Maximum to the total number of files to copy.
+                progressBar2.Maximum = SSlist.Count;
+                // Set the initial value of the ProgressBar.
+                progressBar2.Value = 1;
+                // Set the Step property to a value of 1 to represent each file being copied.
+                progressBar2.Step = 1;
+                // Display the ProgressBar control.
+                progressBar2.Visible = true;
+
+                //Add all discoveries from SSlist to PrevSSlist
+                foreach (string item in SSlist)
+                {
+                    PrevSSlist.Add(item);
+                    progressBar2.PerformStep();
+                }
+                progressBar2.Visible = false;
+                Globals.AppendLine(textBox17, "Current Stored locations saved.");
+                MessageBox.Show("Current Stored locations saved.", "Confirmation");
+            }
+            else
+            {
+                return;
+            }
+        }
         private void CheckBox1_CheckStateChanged(object sender, EventArgs e)
         {
             //Travel Mode checkbox
@@ -2997,8 +3184,6 @@ namespace NMSCoordinates
                 //SSlist.RemoveRange(0, 4);
                 //SSlist.Add("Slot_2_Loc: test Platform (SS) - G: 1 - PC: 000000000000 -- GC: 080B:0088:080F:019E");
                 //SSlist.Add("Slot_2_Loc: test2 Platform (SS) - G: 2 - PC: 200000000000 -- GC: 080B:0088:080F:019E");
-
-                //List<string> list3 = new List<string>();
 
                 //Looks for all adds and deletes and returns to list3
                 List<string> list3 = Globals.Contains(PrevSSlist, SSlist);
@@ -3298,7 +3483,7 @@ namespace NMSCoordinates
                     {
                         if (loc.Locations.TeleportEndpoints[i].Details.GalacticCoords == currentgc)
                         {
-                            MessageBox.Show("Location already saved in player_loc.txt!", "Alert", MessageBoxButtons.OK);
+                            MessageBox.Show("Location already saved in player_loc.json!", "Alert", MessageBoxButtons.OK);
                             return;
                         }
                         basis.Add(loc.Locations.TeleportEndpoints[i]);
@@ -3417,7 +3602,7 @@ namespace NMSCoordinates
             }
             else
             {
-                Globals.AppendLine(textBox13, "No record deleted! Please select a txt!");
+                Globals.AppendLine(textBox13, "No record deleted! Please select a file!");
             }
         }
         public int ProgressValue
