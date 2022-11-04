@@ -37,11 +37,11 @@ namespace NMSCoordinates
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NMSCoordinatesMain));
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openLocationFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteLocationFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mergeLocationFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteSingleRecordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportLocationRecordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteLocationRecordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectSaveFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -291,10 +291,10 @@ namespace NMSCoordinates
             // 
             this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openLocationFileToolStripMenuItem,
-            this.toolStripMenuItem2,
+            this.deleteLocationFileToolStripMenuItem,
             this.mergeLocationFilesToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(184, 70);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(184, 92);
             this.contextMenuStrip2.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip2_Opening);
             // 
             // openLocationFileToolStripMenuItem
@@ -304,12 +304,12 @@ namespace NMSCoordinates
             this.openLocationFileToolStripMenuItem.Text = "Open Location File";
             this.openLocationFileToolStripMenuItem.Click += new System.EventHandler(this.OpenLocationFileToolStripMenuItem_Click);
             // 
-            // toolStripMenuItem2
+            // deleteLocationFileToolStripMenuItem
             // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(183, 22);
-            this.toolStripMenuItem2.Text = "Delete Location File";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.ToolStripMenuItem2_Click);
+            this.deleteLocationFileToolStripMenuItem.Name = "deleteLocationFileToolStripMenuItem";
+            this.deleteLocationFileToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.deleteLocationFileToolStripMenuItem.Text = "Delete Location File";
+            this.deleteLocationFileToolStripMenuItem.Click += new System.EventHandler(this.DeleteLocationFileToolStripMenuItem_Click);
             // 
             // mergeLocationFilesToolStripMenuItem
             // 
@@ -322,28 +322,28 @@ namespace NMSCoordinates
             // 
             this.contextMenuStrip1.BackColor = System.Drawing.SystemColors.Control;
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
-            this.deleteSingleRecordToolStripMenuItem});
+            this.exportLocationRecordToolStripMenuItem,
+            this.deleteLocationRecordToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(183, 48);
             // 
-            // toolStripMenuItem1
+            // exportLocationRecordToolStripMenuItem
             // 
-            this.toolStripMenuItem1.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.toolStripMenuItem1.Enabled = false;
-            this.toolStripMenuItem1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.toolStripMenuItem1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(182, 22);
-            this.toolStripMenuItem1.Text = "Export Record(s)";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.ToolStripMenuItem1_Click);
+            this.exportLocationRecordToolStripMenuItem.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.exportLocationRecordToolStripMenuItem.Enabled = false;
+            this.exportLocationRecordToolStripMenuItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.exportLocationRecordToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.exportLocationRecordToolStripMenuItem.Name = "exportLocationRecordToolStripMenuItem";
+            this.exportLocationRecordToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.exportLocationRecordToolStripMenuItem.Text = "Export Record(s)";
+            this.exportLocationRecordToolStripMenuItem.Click += new System.EventHandler(this.ExportLocationRecordToolStripMenuItem_Click);
             // 
-            // deleteSingleRecordToolStripMenuItem
+            // deleteLocationRecordToolStripMenuItem
             // 
-            this.deleteSingleRecordToolStripMenuItem.Name = "deleteSingleRecordToolStripMenuItem";
-            this.deleteSingleRecordToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-            this.deleteSingleRecordToolStripMenuItem.Text = "Delete Single Record";
-            this.deleteSingleRecordToolStripMenuItem.Click += new System.EventHandler(this.DeleteSingleRecordToolStripMenuItem_Click);
+            this.deleteLocationRecordToolStripMenuItem.Name = "deleteLocationRecordToolStripMenuItem";
+            this.deleteLocationRecordToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.deleteLocationRecordToolStripMenuItem.Text = "Delete Single Record";
+            this.deleteLocationRecordToolStripMenuItem.Click += new System.EventHandler(this.DeleteLocationRecordToolStripMenuItem_Click);
             // 
             // menuStrip1
             // 
@@ -448,7 +448,7 @@ namespace NMSCoordinates
             this.screenshotPageToolStripMenuItem2,
             this.setSSDefaultSteamToolStripMenuItem});
             this.screenshotPageToolStripMenuItem.Name = "screenshotPageToolStripMenuItem";
-            this.screenshotPageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.screenshotPageToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.screenshotPageToolStripMenuItem.Text = "Screenshots...";
             // 
             // screenshotPageToolStripMenuItem1
@@ -478,7 +478,7 @@ namespace NMSCoordinates
             this.onToolStripMenuItem,
             this.offToolStripMenuItem});
             this.travelModeToolStripMenuItem.Name = "travelModeToolStripMenuItem";
-            this.travelModeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.travelModeToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.travelModeToolStripMenuItem.Text = "Travel Mode...";
             this.travelModeToolStripMenuItem.Visible = false;
             // 
@@ -486,7 +486,7 @@ namespace NMSCoordinates
             // 
             this.onToolStripMenuItem.CheckOnClick = true;
             this.onToolStripMenuItem.Name = "onToolStripMenuItem";
-            this.onToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.onToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.onToolStripMenuItem.Text = "Show";
             this.onToolStripMenuItem.Click += new System.EventHandler(this.OnToolStripMenuItem_Click);
             // 
@@ -496,7 +496,7 @@ namespace NMSCoordinates
             this.offToolStripMenuItem.CheckOnClick = true;
             this.offToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.offToolStripMenuItem.Name = "offToolStripMenuItem";
-            this.offToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.offToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.offToolStripMenuItem.Text = "Hide";
             this.offToolStripMenuItem.Click += new System.EventHandler(this.OffToolStripMenuItem_Click);
             // 
@@ -506,7 +506,7 @@ namespace NMSCoordinates
             this.lockedToolStripMenuItem,
             this.unlockedToolStripMenuItem});
             this.manualTravelToolStripMenuItem.Name = "manualTravelToolStripMenuItem";
-            this.manualTravelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.manualTravelToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.manualTravelToolStripMenuItem.Text = "Manual Travel ";
             this.manualTravelToolStripMenuItem.Visible = false;
             // 
@@ -2625,9 +2625,9 @@ namespace NMSCoordinates
         private System.Windows.Forms.ToolStripMenuItem screenshotPageToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem screenshotPageToolStripMenuItem2;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem exportLocationRecordToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem deleteLocationFileToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.ProgressBar progressBar3;
         private System.Windows.Forms.TextBox textBox13;
@@ -2776,7 +2776,7 @@ namespace NMSCoordinates
         private System.Windows.Forms.ToolStripMenuItem saveFileManagerToolStripMenuItem;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Button button13;
-        private System.Windows.Forms.ToolStripMenuItem deleteSingleRecordToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteLocationRecordToolStripMenuItem;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label label34;

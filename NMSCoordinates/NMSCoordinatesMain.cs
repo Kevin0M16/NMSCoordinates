@@ -893,7 +893,7 @@ namespace NMSCoordinates
             }
             else
             {
-                toolStripMenuItem1.Enabled = false;
+                exportLocationRecordToolStripMenuItem.Enabled = false;
                 MessageBox.Show("No Locations found! ", "Message");
             }
         }
@@ -1786,7 +1786,7 @@ namespace NMSCoordinates
         public void BackUpSaveSlot(TextBox tb, int slot, bool msg)
         {
             //Backup a single save slot Method
-            if (SelectedSaveSlot >= 1 && SelectedSaveSlot <= 5)
+            if (SelectedSaveSlot >= 1 && SelectedSaveSlot <= 15)
             {
                 string hgFileName = Path.GetFileNameWithoutExtension(hgFilePath);
 
@@ -1859,7 +1859,7 @@ namespace NMSCoordinates
         private void Button3_Click(object sender, EventArgs e)
         {
             //Clear Interference Button
-            if (SelectedSaveSlot >= 1 && SelectedSaveSlot <= 5 && textBox12.Text != "")
+            if (SelectedSaveSlot >= 1 && SelectedSaveSlot <= 15 && textBox12.Text != "")
             {
                 if (textBox12.Text == "False" || textBox12.Text == "false")
                 {
@@ -1905,7 +1905,7 @@ namespace NMSCoordinates
         private void Button14_Click(object sender, EventArgs e)
         {
             //Freighter Battle Button
-            if (SelectedSaveSlot >= 1 && SelectedSaveSlot <= 5)
+            if (SelectedSaveSlot >= 1 && SelectedSaveSlot <= 15)
             {
                 DialogResult dialogResult = MessageBox.Show("Trigger a Freighter Battle ? ", "Freighter Battle", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
@@ -1987,7 +1987,7 @@ namespace NMSCoordinates
             //Move Player button on Base and Space Station tab
             try
             {
-                if (SelectedSaveSlot < 1 || SelectedSaveSlot > 5)
+                if (SelectedSaveSlot < 1 || SelectedSaveSlot > 15)
                 {
                     MessageBox.Show("Please select a save slot!", "Confirmation", MessageBoxButtons.OK);
                     return;
@@ -2306,12 +2306,12 @@ namespace NMSCoordinates
                 }
                 else
                 {
-                    toolStripMenuItem1.Enabled = false;
+                    exportLocationRecordToolStripMenuItem.Enabled = false;
                     Globals.AppendLine(textBox11, "No location files found.");
                     return;
                 }
                 listBox4.DataSource = list;
-                toolStripMenuItem1.Enabled = true;
+                exportLocationRecordToolStripMenuItem.Enabled = true;
             }
         }
         private void LocationsLoad(string path)
@@ -2370,7 +2370,7 @@ namespace NMSCoordinates
                     DialogResult dialogResult2 = MessageBox.Show("Something went wrong! \r\n\nSelected line has errors. \r\n\nWould you like to Delete the Line?", "Fast Travel", MessageBoxButtons.YesNo);
                     if (dialogResult2 == DialogResult.Yes)
                     {
-                        DeleteSingleRecordToolStripMenuItem_Click(this, new EventArgs());
+                        DeleteLocationRecordToolStripMenuItem_Click(this, new EventArgs());
                         return;
                     }
                     else if (dialogResult2 == DialogResult.No)
@@ -2427,7 +2427,7 @@ namespace NMSCoordinates
             {
                 if (!string.IsNullOrEmpty(listBox3.GetItemText(listBox3.SelectedItem)) && !string.IsNullOrEmpty(locjson))
                 {
-                    if (SelectedSaveSlot < 1 || SelectedSaveSlot > 5)
+                    if (SelectedSaveSlot < 1 || SelectedSaveSlot > 15)
                     {
                         MessageBox.Show("Please select a save slot!", "Confirmation", MessageBoxButtons.OK);
                         return;
@@ -2449,7 +2449,7 @@ namespace NMSCoordinates
                             DialogResult dialogResult2 = MessageBox.Show("Something went wrong! \r\n\nSelected line has errors. \r\n\nWould you like to Delete the Line?", "Fast Travel", MessageBoxButtons.YesNo);
                             if (dialogResult2 == DialogResult.Yes)
                             {
-                                DeleteSingleRecordToolStripMenuItem_Click(this, new EventArgs());
+                                DeleteLocationRecordToolStripMenuItem_Click(this, new EventArgs());
                                 return;
                             }
                             else if (dialogResult2 == DialogResult.No)
@@ -2529,7 +2529,86 @@ namespace NMSCoordinates
                 Globals.AppendLine(textBox13, "Invalid Coordinates!");
             }
         }
-        private void ToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void DeleteLocationRecordToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //delete a single location record
+            string record = listBox3.GetItemText(listBox3.SelectedItem);
+            string filename = listBox4.GetItemText(listBox4.SelectedItem);
+            int selectedindex = listBox3.SelectedIndex;
+            var selectedfile = listBox4.SelectedItem;
+
+            if (record != "" && filename != "")
+            {
+                string path = @".\backup\locations\" + filename;
+
+                if (!File.Exists(path))
+                {
+                    MessageBox.Show("File Not Found!", "Alert", MessageBoxButtons.OK);
+                    LoadTxt();
+                    return;
+                }
+                if (locjson == "")
+                    return;
+
+                string plocdata = File.ReadAllText(path);
+                var loc = SavedLocationData.FromJson(plocdata);
+
+                if (loc == null)
+                {
+                    MessageBox.Show("Problem with " + path + " json!", "Alert", MessageBoxButtons.OK);
+                    return;
+                }
+
+                if (loc.Locations.TeleportEndpoints.Length <= 1)
+                {
+                    DialogResult dialogResult = MessageBox.Show("Delete " + filename + " ?", "Confirmation", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        File.Delete(path);
+                        LoadTxt();
+                        MessageBox.Show(filename + " deleted.", "Confirmation");
+                    }
+                    else if (dialogResult == DialogResult.No)
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    SavedLocationData sdata = Globals.CreateNewLocationJson(locVersion, loc.Locations.TeleportEndpoints.Length, 0);
+                    List<LocationArray> basis = new List<LocationArray>();
+
+                    for (int i = 0; i < loc.Locations.TeleportEndpoints.Length; i++)
+                    {
+                        if (i != selectedindex)
+                            basis.Add(loc.Locations.TeleportEndpoints[i]);
+                    }
+                    //selectedindex = basis.Count;
+                    sdata.Locations.TeleportEndpoints = basis.ToArray();
+                    var backuplist = LocationData.Serialize.ToJson(sdata);
+                    File.WriteAllText(path, backuplist);
+                    LoadTxt();
+                    Globals.AppendLine(textBox13, "Single Record deleted.");
+                }
+                //LoadTxt();
+
+                if (File.Exists(path))
+                {
+                    listBox4.SelectedItem = selectedfile;
+                    //Button6_Click(this, new EventArgs());
+
+                    if (selectedindex == 0)
+                        listBox3.SelectedIndex = selectedindex;
+                    else
+                        listBox3.SelectedIndex = selectedindex - 1;
+                }
+            }
+            else
+            {
+                Globals.AppendLine(textBox13, "No record deleted! Please select a file!");
+            }
+        }
+        private void ExportLocationRecordToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (listBox3.SelectedItems.Count == 1)
             {
@@ -2605,8 +2684,6 @@ namespace NMSCoordinates
                     listBox4.SelectedItem = Path.GetFileName(path2);
                 }
             }
-            
-
         }
         private void OpenLocationFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2627,7 +2704,7 @@ namespace NMSCoordinates
                 LoadTxt();
             }
         }
-        private void ToolStripMenuItem2_Click(object sender, EventArgs e)
+        private void DeleteLocationFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Delete a locbackup file
             if (!string.IsNullOrEmpty(listBox4.GetItemText(listBox4.SelectedItem)))
@@ -2770,13 +2847,23 @@ namespace NMSCoordinates
         }
         private void contextMenuStrip2_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (listBox4.SelectedItems.Count < 2)
+            if (listBox4.SelectedItems.Count > 1)
+            {
+                openLocationFileToolStripMenuItem.Enabled = false;
+                deleteLocationFileToolStripMenuItem.Enabled = false;
+
+                if (!mergeLocationFilesToolStripMenuItem.Enabled)
+                    mergeLocationFilesToolStripMenuItem.Enabled = true;
+            }
+            else
             {
                 mergeLocationFilesToolStripMenuItem.Enabled = false;
-            }
-            else if (!mergeLocationFilesToolStripMenuItem.Enabled)
-            {
-                mergeLocationFilesToolStripMenuItem.Enabled = true;
+
+                if (!openLocationFileToolStripMenuItem.Enabled)
+                    openLocationFileToolStripMenuItem.Enabled = true;
+
+                if (!deleteLocationFileToolStripMenuItem.Enabled)
+                    deleteLocationFileToolStripMenuItem.Enabled = true;
             }
         }
         private void SetShortcutToGameToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2823,7 +2910,7 @@ namespace NMSCoordinates
                     return;
                 }
 
-                if (SelectedSaveSlot < 1 || SelectedSaveSlot > 5)
+                if (SelectedSaveSlot < 1 || SelectedSaveSlot > 15)
                 {
                     MessageBox.Show("Please select a save slot!", "Confirmation", MessageBoxButtons.OK);
                     return;
@@ -3025,14 +3112,14 @@ namespace NMSCoordinates
                 }
                 else
                 {
-                    toolStripMenuItem1.Enabled = false;
+                    exportLocationRecordToolStripMenuItem.Enabled = false;
                     Globals.AppendLine(textBox11, "No File Selected or File Empty!");
                     Globals.AppendLine(textBox11, "---------------------");
                 }
             }
             catch
             {
-                toolStripMenuItem1.Enabled = false;
+                exportLocationRecordToolStripMenuItem.Enabled = false;
                 Globals.AppendLine(textBox11, "No File Selected or File Empty!");
                 Globals.AppendLine(textBox11, "---------------------");
             }
@@ -3524,85 +3611,6 @@ namespace NMSCoordinates
             else
             {
                 MessageBox.Show("Please select a save slot!", "Confirmation", MessageBoxButtons.OK);
-            }
-        }
-        private void DeleteSingleRecordToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //delete a single location record
-            string record = listBox3.GetItemText(listBox3.SelectedItem);
-            string filename = listBox4.GetItemText(listBox4.SelectedItem);
-            int selectedindex = listBox3.SelectedIndex;
-            var selectedfile = listBox4.SelectedItem;
-
-            if (record != "" && filename != "")
-            {
-                string path = @".\backup\locations\" + filename;
-
-                if (!File.Exists(path))
-                {
-                    MessageBox.Show("File Not Found!", "Alert", MessageBoxButtons.OK);
-                    LoadTxt();
-                    return;
-                }
-                if (locjson == "")
-                    return;
-
-                string plocdata = File.ReadAllText(path);
-                var loc = SavedLocationData.FromJson(plocdata);
-
-                if (loc == null)
-                {
-                    MessageBox.Show("Problem with " + path + " json!", "Alert", MessageBoxButtons.OK);
-                    return;
-                }
-
-                if (loc.Locations.TeleportEndpoints.Length <= 1)
-                {
-                    DialogResult dialogResult = MessageBox.Show("Delete " + filename + " ?", "Confirmation", MessageBoxButtons.YesNo);
-                    if (dialogResult == DialogResult.Yes)
-                    {
-                        File.Delete(path);
-                        LoadTxt();
-                        MessageBox.Show(filename + " deleted.", "Confirmation");
-                    }
-                    else if (dialogResult == DialogResult.No)
-                    {
-                        return;
-                    }
-                }
-                else
-                {
-                    SavedLocationData sdata = Globals.CreateNewLocationJson(locVersion, loc.Locations.TeleportEndpoints.Length, 0);
-                    List<LocationArray> basis = new List<LocationArray>();
-
-                    for (int i = 0; i < loc.Locations.TeleportEndpoints.Length; i++)
-                    {
-                        if (i != selectedindex)
-                            basis.Add(loc.Locations.TeleportEndpoints[i]);
-                    }
-                    //selectedindex = basis.Count;
-                    sdata.Locations.TeleportEndpoints = basis.ToArray();
-                    var backuplist = LocationData.Serialize.ToJson(sdata);
-                    File.WriteAllText(path, backuplist);
-                    LoadTxt();
-                    Globals.AppendLine(textBox13, "Single Record deleted.");
-                }
-                //LoadTxt();
-
-                if (File.Exists(path))
-                {
-                    listBox4.SelectedItem = selectedfile;
-                    //Button6_Click(this, new EventArgs());
-                        
-                    if (selectedindex == 0)
-                        listBox3.SelectedIndex = selectedindex;
-                    else
-                        listBox3.SelectedIndex = selectedindex - 1;
-                }
-            }
-            else
-            {
-                Globals.AppendLine(textBox13, "No record deleted! Please select a file!");
             }
         }
         public int ProgressValue
