@@ -294,7 +294,7 @@ namespace NMSCoordinates
             this.deleteLocationFileToolStripMenuItem,
             this.mergeLocationFilesToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(184, 92);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(184, 70);
             this.contextMenuStrip2.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip2_Opening);
             // 
             // openLocationFileToolStripMenuItem
@@ -638,11 +638,10 @@ namespace NMSCoordinates
             this.label34.ForeColor = System.Drawing.Color.LightBlue;
             this.label34.Location = new System.Drawing.Point(11, 614);
             this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(375, 39);
+            this.label34.Size = new System.Drawing.Size(375, 26);
             this.label34.TabIndex = 77;
-            this.label34.Text = "locbackup_deleted = Captured deleted locations from Travel Mode\r\nplayer_locs = Lo" +
-    "cations from Backup Current button\r\nlocbackup[saveslot][date.time] = Locations f" +
-    "rom File --> Backups --> Locations\r\n";
+            this.label34.Text = "player_locs = Locations from Backup Current button\r\nlocbackup[saveslot][date.time" +
+    "] = Locations from File --> Backups --> Locations";
             // 
             // label32
             // 

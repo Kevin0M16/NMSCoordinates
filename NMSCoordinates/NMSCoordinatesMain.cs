@@ -41,6 +41,7 @@ namespace NMSCoordinates
 
         private CoordinateCalculator f5;
         public SaveDirectorySelector f8;
+        SaveModified f7 = new SaveModified();
 
         private List<string> _changedFiles = new List<string>();
 
@@ -3473,9 +3474,20 @@ namespace NMSCoordinates
                 }
 
                 //if changes detected, show form7 files changed externally
-                SaveModified f7 = new SaveModified();
-                f7.ShowDialog();
+                //SaveModified f7 = new SaveModified();
+                f7.Show();
 
+                var selected = comboBox2.SelectedItem;
+                ClearAll();
+                LoadCmbx();
+                comboBox2.SelectedItem = selected;
+                ComboBox2_SelectionChangeCommitted(this, new EventArgs());
+                if (tabControl1.SelectedTab == tabPage4)
+                {
+                    tabControl1.SelectedTab = tabPage1;
+                }
+
+                /*
                 if (f7.SaveChanged == true)
                 {
                     var selected = comboBox2.SelectedItem;
@@ -3492,6 +3504,7 @@ namespace NMSCoordinates
                 {
                     Globals.AppendLine(textBox17, "Not Viewing the latest save!");
                 }
+                */
 
                 System.Timers.Timer timer = new System.Timers.Timer(1000) { AutoReset = false };
                 timer.Elapsed += (timerElapsedSender, timerElapsedArgs) =>

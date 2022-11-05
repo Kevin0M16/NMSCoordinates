@@ -27,7 +27,8 @@ You can clear portal interference while traveling through a portal, fast travel 
 
 ## v2.2 (OCT 24 2022)
 - Update for NMS 4.0 compatibility and save names, difficulty
-- Built NMSSaveManager to handle compression plus obfuscate and deobfuscate save file content using libNOM.map class library, release at later date
+- Added new features for locations management. Merge, delete, open, etc.
+- Built NMSSaveManager to handle compression plus obfuscate and deobfuscate save file content using libNOM.map class library
 
 ## v2.1 (JULY 23 2022)
 - Reworked location json, new naming, added longhex
