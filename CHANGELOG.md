@@ -1,8 +1,9 @@
 # CHANGELOG
 
-## v2.2 (JULY 26 2022)
-- Added libNOM.map class library to obfuscate and deobfuscate save file content.
-- minor cleanup
+## v2.2 (NOV 4 2022)
+- Update for NMS 4.0 compatibility and save names, difficulty
+- Added new features for locations management. Merge, delete, open, etc.
+- Built NMSSaveManager to handle compression plus obfuscate and deobfuscate save file content using libNOM.map class library
 
 ## v2.1 (JULY 23 2022)
 - Reworked location json, new naming, added longhex

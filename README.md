@@ -25,7 +25,7 @@ You can clear portal interference while traveling through a portal, fast travel 
 |<a href="http://www.youtube.com/watch?feature=player_embedded&v=ceSFVl9LFtI" target="_blank"><img src="http://img.youtube.com/vi/ceSFVl9LFtI/0.jpg" alt="Video" width="520" height="300" border="10" /></a>|<a href="http://www.youtube.com/watch?feature=player_embedded&v=Vx1xGk2TMIo" target="_blank"><img src="http://img.youtube.com/vi/Vx1xGk2TMIo/0.jpg" alt="Video" width="520" height="300" border="10" /></a>|
 -->
 
-## v2.2 (OCT 24 2022)
+## v2.2 (NOV 4 2022)
 - Update for NMS 4.0 compatibility and save names, difficulty
 - Added new features for locations management. Merge, delete, open, etc.
 - Built NMSSaveManager to handle compression plus obfuscate and deobfuscate save file content using libNOM.map class library
