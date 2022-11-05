@@ -44,7 +44,7 @@ namespace NMSCoordinates
         {
             return string.Format("{0:0}", (Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2) + Math.Pow(z, 2)) * 100) * 4) + " ly"; //"{0:0.##}"
         }
-        public static void CalculateLongHex(string hx, out string GalacticCoord2, out int Planet, out int galdec)
+        private static void CalculateLongHex(string hx, out string GalacticCoord2, out int Planet, out int galdec)
         {
             //PlanetNumber--SolarSystemIndex--GalaxyNumber--VoxelY--VoxelZ--VoxelX
             //4 bit--12 bit--8 bit--8 bit--12 bit--12 bit
@@ -118,7 +118,7 @@ namespace NMSCoordinates
 
             Planet = pidec;
         }
-        public static void CalculateLongHex(string hx, out string GalacticCoord2, out int Planet, out int galdec, TextBox tb)
+        private static void CalculateLongHex(string hx, out string GalacticCoord2, out int Planet, out int galdec, TextBox tb)
         {
             //PlanetNumber--SolarSystemIndex--GalaxyNumber--VoxelY--VoxelZ--VoxelX
             //4 bit--12 bit--8 bit--8 bit--12 bit--12 bit
@@ -192,7 +192,7 @@ namespace NMSCoordinates
 
             Planet = pidec;
         }
-        private void HexToVoxel(string basehx, out string GalacticCoord2, TextBox tb)
+        private static void HexToVoxel(string basehx, TextBox tb)
         {
             //PlanetNumber--SolarSystemIndex--GalaxyNumber--VoxelY--VoxelZ--VoxelX
             //4 bit--12 bit--8 bit--8 bit--12 bit--12 bit
@@ -255,7 +255,7 @@ namespace NMSCoordinates
             //int ihexSSI = (Convert.ToInt32(ssidec, 16) & 0xFFFF); // SSI[HEX] to SSI[DEC] 3 digits
 
             //Globals.AppendLine(textBox14, "P: " + "X:" + hexX + " Y:" + hexY + " Z:" + hexZ + " SSI:" + ssidec);
-            GalacticCoord2 = string.Format("{0:X4}:{1:X4}:{2:X4}:{3:X4}", ihexX, ihexY, ihexZ, ssidec & 0xFFFF); //Format to 4 digit seperated by colon
+            string GalacticCoord2 = string.Format("{0:X4}:{1:X4}:{2:X4}:{3:X4}", ihexX, ihexY, ihexZ, ssidec & 0xFFFF); //Format to 4 digit seperated by colon
             Globals.AppendLine(tb, "Galactic Coordinates: " + GalacticCoord2);
 
             int shiftX = calc1 - 2047;
@@ -392,6 +392,7 @@ namespace NMSCoordinates
 
             string PortalCode = string.Format(Planet + "{0:X3}{1:X2}{2:X3}{3:X3}", ihexSSI, ihexY, ihexZ, ihexX); // Format digits 1 3 2 3 3
             //[P][SSI][Y][Z][X] Portal Code
+            //Globals.AppendLine(tb, "*** Portal Code: " + PortalCode + " ***");
 
             return PortalCode;
             //Globals.AppendLine(tb, "*** Portal Code: " + PortalCode + " ***");
@@ -545,7 +546,7 @@ namespace NMSCoordinates
             
             return PortalCode;
         }
-        public static string PortalToVoxel(string portalcode, TextBox tb)
+        private static void PortalToVoxel(string portalcode, TextBox tb)
         {
             //0 04A FB 9F6 C9D
             //Break apart Portal Code
@@ -597,8 +598,6 @@ namespace NMSCoordinates
             //Globals.AppendLine(tb, "Voxel Coordinates: X:" + shiftX + " Y:" + shiftY + " Z:" + shiftZ + " SSI:" + ssidec);            
             Globals.AppendLine(tb, "*** Voxel Coordinates - Portal#:" + iPlanet + " SSI#:" + iSSI + " Y:" + iY + " Z:" + iZ + " X:" + iX + " ***");
             //voxel = "Portal#:" + "0" + " SSI:" + "0" + " Gal#:" + iSSI + " Y:" + iY + " Z:" + iZ + " X:" + iX;
-
-            return GalacticCoord2;
         }
         public static string VoxelToGalacticCoord(int X, int Y, int Z, int SSI)
         {
@@ -660,7 +659,7 @@ namespace NMSCoordinates
 
             return GalacticCoord;
         }
-        public static void GalacticToVoxel(string X, string Y, string Z, string SSI, out int iX, out int iY, out int iZ, out int iSSI)
+        private static void GalacticToVoxel(string X, string Y, string Z, string SSI, out int iX, out int iY, out int iZ, out int iSSI)
         {
             //Galactic Coordinate to Voxel Coordinates
 
@@ -688,7 +687,7 @@ namespace NMSCoordinates
             iZ = vZ;
             iSSI = icSSI;
         }
-        public static void GalacticToVoxel(string X, string Y, string Z, string SSI, out int iX, out int iY, out int iZ, out int iSSI, TextBox tb)
+        private static void GalacticToVoxel(string X, string Y, string Z, string SSI, out int iX, out int iY, out int iZ, out int iSSI, TextBox tb)
         {
             //Galactic Coordinate to Voxel Coordinates 
             tb.Clear();
@@ -717,7 +716,7 @@ namespace NMSCoordinates
             iZ = vZ;
             iSSI = icSSI;
         }
-        public static void GalacticToVoxel(string X, string Y, string Z, string SSI, TextBox tb)
+        private static void GalacticToVoxel(string X, string Y, string Z, string SSI, TextBox tb)
         {
             //Galactic Coordinate to Voxel Coordinates 
             tb.Clear();

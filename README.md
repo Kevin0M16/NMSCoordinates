@@ -10,8 +10,7 @@ This a Coordinate Tool for No Man's Sky!
 # NMSCoordinates
 
 NMSCoordinates is an app for No Man’s Sky which allows you to view all your discovered space station and base locations between all your saves.
-You can clear portal interference while traveling through a portal, fast travel to known locations, or manually enter Galactic Coordinates and travel to them.
-Backup locations to txt file and and access and travel to these saved coordinates.
+You can clear portal interference while traveling through a portal, fast travel to known locations, or manually enter Galactic Coordinates and travel to them. Backup locations to json file and and access and travel to these saved coordinates.
 
 <!-- # NEWEST NMS GAME VERSION IS NOT SUPPORTED AT THIS TIME! -->
 
@@ -25,6 +24,12 @@ Backup locations to txt file and and access and travel to these saved coordinate
 |Manual Travel|Fast Travel|
 |<a href="http://www.youtube.com/watch?feature=player_embedded&v=ceSFVl9LFtI" target="_blank"><img src="http://img.youtube.com/vi/ceSFVl9LFtI/0.jpg" alt="Video" width="520" height="300" border="10" /></a>|<a href="http://www.youtube.com/watch?feature=player_embedded&v=Vx1xGk2TMIo" target="_blank"><img src="http://img.youtube.com/vi/Vx1xGk2TMIo/0.jpg" alt="Video" width="520" height="300" border="10" /></a>|
 -->
+
+## v2.2 (NOV 4 2022)
+- Update for NMS 4.0 compatibility and save names, difficulty
+- Added new features for locations management. Merge, delete, open, etc.
+- Built NMSSaveManager to handle compression plus obfuscate and deobfuscate save file content using libNOM.map class library
+
 ## v2.1 (JULY 23 2022)
 - Reworked location json, new naming, added longhex
 - More calculations, more efficient lookups
@@ -39,7 +44,7 @@ Backup locations to txt file and and access and travel to these saved coordinate
 - Tested on Endurance
 
 <!--* Download will be available later today. -->
-<pre>  <a href="https://github.com/Kevin0M16/NMSCoordinates/releases/latest/download/NMSCoordinates-v2.1.zip"><img src="https://img.shields.io/badge/dynamic/json.svg?label=download&url=https://api.github.com/repos/Kevin0M16/NMSCoordinates/releases/latest&query=$.assets[0].name&style=for-the-badge" alt="download"/></a></pre>
+<pre>  <a href="https://github.com/Kevin0M16/NMSCoordinates/releases/latest/download/NMSCoordinates-v2.2.zip"><img src="https://img.shields.io/badge/dynamic/json.svg?label=download&url=https://api.github.com/repos/Kevin0M16/NMSCoordinates/releases/latest&query=$.assets[0].name&style=for-the-badge" alt="download"/></a></pre>
 
 <!-- ## Share - Upload locations to Google Drive
 
@@ -66,8 +71,9 @@ Here is an overview of what you need to get started with NMSCoordinates
 
 ### Requirements
 
-The current version of NMSCoordinates requires No Man's Sky Frontiers+ (Works on Endurance)
-
+The current version of NMSCoordinates requires No Man's Sky Frontiers+ (Works on Endurance and Waypoint)
+- Windows 10+ and .NET Framework 4.7.2 (Not tested on other versions)
+  
 :exclamation: **Always back up all your game data and saves before any mods**
 
 ### Installation and setup
@@ -92,7 +98,7 @@ The current version of NMSCoordinates requires No Man's Sky Frontiers+ (Works on
 * Right-click the lower Listbox on the Coordinate Share tab to delete unwanted location files.
 * Use the Coordinate Calculator by clicking the Coordinate Calculator button and entering (1) coordinate at a time in the textboxes and clicking the button below it. View all converted coordinates at the bottom.
 * On the Coordinate Calculator, clicking the glyphs will populate the Portal Code field. Then click calculate to see the coordinates.
-* *Experimental* Enable Travel Mode to start tracking your Terminus locations before traveling through a terminus or when hitting the limit. See video above.
+<!-- * *Experimental* Enable Travel Mode to start tracking your Terminus locations before traveling through a terminus or when hitting the limit. See video above. -->
 
 
 ## Change Log
@@ -100,7 +106,7 @@ The current version of NMSCoordinates requires No Man's Sky Frontiers+ (Works on
 
 ## Built With
 
-* [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/)
+* [Visual Studio 2022](https://visualstudio.microsoft.com/downloads/)
 * [Visual Studio Code](https://code.visualstudio.com/)
 
 ## Authors
@@ -113,6 +119,7 @@ This project is licensed under the MIT License - see the [LICENSE](/LICENSE.txt)
 
 ## Acknowledgments
 
+* [libNOM.map](https://github.com/zencq/libNOM.map) - Used to obfuscate and deobfuscate save file content.
 * [nmssavetool](https://github.com/matthew-humphrey/nmssavetool) - Used the save file classes - This tool is still awesome!
 * [octokit](https://github.com/octokit/octokit.net) - Used to check for an updated version.
 * [NMSSaveEditor](https://github.com/goatfungus/NMSSaveEditor) - For viewing raw Json and testing my tool, also shout out to goatfungus for answering a few questions!

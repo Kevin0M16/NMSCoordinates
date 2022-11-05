@@ -1,18 +1,23 @@
 # CHANGELOG
 
+## v2.2 (NOV 4 2022)
+- Update for NMS 4.0 compatibility and save names, difficulty
+- Added new features for locations management. Merge, delete, open, etc.
+- Built NMSSaveManager to handle compression plus obfuscate and deobfuscate save file content using libNOM.map class library
+
 ## v2.1 (JULY 23 2022)
 - Reworked location json, new naming, added longhex
 - More calculations, more efficient lookups
 - Few other validations
 - Reworked Coordinate Calculator
- 
+
 ## v2.0 (JULY 21 2022)
 - Major Rework
 - Fixed Issue #39 - Save file compression issue
 - Updates and internal fixes and organization
 - New Colors
 - Tested on Endurance
-  
+
 ## v1.1.16 (AUG 15 2020)
 - Fixed missing space stations in list
 - Added (EB) for ExternalBase to list of locations

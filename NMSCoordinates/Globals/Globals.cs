@@ -127,12 +127,6 @@ namespace NMSCoordinates
                 return "NORMAL";
             }
         }
-        public static string MakeUniqueSave(string path, int saveslot)
-        {
-            //Makes path in \backup\saves unique by date.time
-            path = String.Format("{0}{1}{2}{3}{4}", @".\backup\saves\", Path.GetFileNameWithoutExtension(path), "_" + saveslot + "_", DateTime.Now.ToString("yyyy-MM-dd-HHmmss"), Path.GetExtension(path));
-            return path;
-        }
         public static string MakeUniqueLoc(string path, int saveslot)
         {
             //Makes path in \backup\saves unique by date.time

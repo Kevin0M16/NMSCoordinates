@@ -37,10 +37,11 @@ namespace NMSCoordinates
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NMSCoordinatesMain));
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openLocationFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteLocationFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mergeLocationFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteSingleRecordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportLocationRecordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteLocationRecordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectSaveFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -160,6 +161,7 @@ namespace NMSCoordinates
             this.textBox17 = new System.Windows.Forms.TextBox();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.label41 = new System.Windows.Forms.Label();
             this.label39 = new System.Windows.Forms.Label();
             this.textBox29 = new System.Windows.Forms.TextBox();
             this.button13 = new System.Windows.Forms.Button();
@@ -186,6 +188,7 @@ namespace NMSCoordinates
             this.groupBox13 = new System.Windows.Forms.GroupBox();
             this.textBox16 = new System.Windows.Forms.TextBox();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.label31 = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
             this.button10 = new System.Windows.Forms.Button();
@@ -288,50 +291,59 @@ namespace NMSCoordinates
             // 
             this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openLocationFileToolStripMenuItem,
-            this.toolStripMenuItem2});
+            this.deleteLocationFileToolStripMenuItem,
+            this.mergeLocationFilesToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(178, 48);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(184, 70);
+            this.contextMenuStrip2.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip2_Opening);
             // 
             // openLocationFileToolStripMenuItem
             // 
             this.openLocationFileToolStripMenuItem.Name = "openLocationFileToolStripMenuItem";
-            this.openLocationFileToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.openLocationFileToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.openLocationFileToolStripMenuItem.Text = "Open Location File";
             this.openLocationFileToolStripMenuItem.Click += new System.EventHandler(this.OpenLocationFileToolStripMenuItem_Click);
             // 
-            // toolStripMenuItem2
+            // deleteLocationFileToolStripMenuItem
             // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 22);
-            this.toolStripMenuItem2.Text = "Delete Location File";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.ToolStripMenuItem2_Click);
+            this.deleteLocationFileToolStripMenuItem.Name = "deleteLocationFileToolStripMenuItem";
+            this.deleteLocationFileToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.deleteLocationFileToolStripMenuItem.Text = "Delete Location File";
+            this.deleteLocationFileToolStripMenuItem.Click += new System.EventHandler(this.DeleteLocationFileToolStripMenuItem_Click);
+            // 
+            // mergeLocationFilesToolStripMenuItem
+            // 
+            this.mergeLocationFilesToolStripMenuItem.Name = "mergeLocationFilesToolStripMenuItem";
+            this.mergeLocationFilesToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.mergeLocationFilesToolStripMenuItem.Text = "Merge Location Files";
+            this.mergeLocationFilesToolStripMenuItem.Click += new System.EventHandler(this.mergeLocationFilesToolStripMenuItem_Click);
             // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.BackColor = System.Drawing.SystemColors.Control;
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
-            this.deleteSingleRecordToolStripMenuItem});
+            this.exportLocationRecordToolStripMenuItem,
+            this.deleteLocationRecordToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(191, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(183, 48);
             // 
-            // toolStripMenuItem1
+            // exportLocationRecordToolStripMenuItem
             // 
-            this.toolStripMenuItem1.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.toolStripMenuItem1.Enabled = false;
-            this.toolStripMenuItem1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.toolStripMenuItem1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(190, 22);
-            this.toolStripMenuItem1.Text = "Export Single Record";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.ToolStripMenuItem1_Click);
+            this.exportLocationRecordToolStripMenuItem.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.exportLocationRecordToolStripMenuItem.Enabled = false;
+            this.exportLocationRecordToolStripMenuItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.exportLocationRecordToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.exportLocationRecordToolStripMenuItem.Name = "exportLocationRecordToolStripMenuItem";
+            this.exportLocationRecordToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.exportLocationRecordToolStripMenuItem.Text = "Export Record(s)";
+            this.exportLocationRecordToolStripMenuItem.Click += new System.EventHandler(this.ExportLocationRecordToolStripMenuItem_Click);
             // 
-            // deleteSingleRecordToolStripMenuItem
+            // deleteLocationRecordToolStripMenuItem
             // 
-            this.deleteSingleRecordToolStripMenuItem.Name = "deleteSingleRecordToolStripMenuItem";
-            this.deleteSingleRecordToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-            this.deleteSingleRecordToolStripMenuItem.Text = "Delete Single Record";
-            this.deleteSingleRecordToolStripMenuItem.Click += new System.EventHandler(this.DeleteSingleRecordToolStripMenuItem_Click);
+            this.deleteLocationRecordToolStripMenuItem.Name = "deleteLocationRecordToolStripMenuItem";
+            this.deleteLocationRecordToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.deleteLocationRecordToolStripMenuItem.Text = "Delete Single Record";
+            this.deleteLocationRecordToolStripMenuItem.Click += new System.EventHandler(this.DeleteLocationRecordToolStripMenuItem_Click);
             // 
             // menuStrip1
             // 
@@ -468,6 +480,7 @@ namespace NMSCoordinates
             this.travelModeToolStripMenuItem.Name = "travelModeToolStripMenuItem";
             this.travelModeToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.travelModeToolStripMenuItem.Text = "Travel Mode...";
+            this.travelModeToolStripMenuItem.Visible = false;
             // 
             // onToolStripMenuItem
             // 
@@ -572,7 +585,7 @@ namespace NMSCoordinates
             this.label38.ForeColor = System.Drawing.Color.LightBlue;
             this.label38.Location = new System.Drawing.Point(279, 305);
             this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(423, 16);
+            this.label38.Size = new System.Drawing.Size(422, 16);
             this.label38.TabIndex = 81;
             this.label38.Text = "^ Add a note to a record by typing in the textbox and clicking Add Note.";
             this.label38.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -625,11 +638,10 @@ namespace NMSCoordinates
             this.label34.ForeColor = System.Drawing.Color.LightBlue;
             this.label34.Location = new System.Drawing.Point(11, 614);
             this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(375, 39);
+            this.label34.Size = new System.Drawing.Size(375, 26);
             this.label34.TabIndex = 77;
-            this.label34.Text = "locbackup_deleted = Captured deleted locations from Travel Mode\r\nplayer_locs = Lo" +
-    "cations from Backup Current button\r\nlocbackup[saveslot][date.time] = Locations f" +
-    "rom File --> Backups --> Locations\r\n";
+            this.label34.Text = "player_locs = Locations from Backup Current button\r\nlocbackup[saveslot][date.time" +
+    "] = Locations from File --> Backups --> Locations";
             // 
             // label32
             // 
@@ -639,7 +651,7 @@ namespace NMSCoordinates
             this.label32.ForeColor = System.Drawing.Color.LightBlue;
             this.label32.Location = new System.Drawing.Point(19, 277);
             this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(192, 16);
+            this.label32.Size = new System.Drawing.Size(191, 16);
             this.label32.TabIndex = 40;
             this.label32.Text = "Right click to Delete or Export ^";
             this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -738,7 +750,7 @@ namespace NMSCoordinates
             this.label11.ForeColor = System.Drawing.Color.LightBlue;
             this.label11.Location = new System.Drawing.Point(74, 587);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(578, 16);
+            this.label11.Size = new System.Drawing.Size(577, 16);
             this.label11.TabIndex = 41;
             this.label11.Text = "^ After backing up your locations at ( File --> Backup ALL Locations) you can acc" +
     "ess them above.";
@@ -804,6 +816,7 @@ namespace NMSCoordinates
             this.listBox4.FormattingEnabled = true;
             this.listBox4.Location = new System.Drawing.Point(11, 19);
             this.listBox4.Name = "listBox4";
+            this.listBox4.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.listBox4.Size = new System.Drawing.Size(234, 186);
             this.listBox4.TabIndex = 37;
             this.listBox4.SelectedIndexChanged += new System.EventHandler(this.listBox4_SelectedIndexChanged);
@@ -819,6 +832,7 @@ namespace NMSCoordinates
             this.listBox3.Location = new System.Drawing.Point(9, 9);
             this.listBox3.MinimumSize = new System.Drawing.Size(693, 21);
             this.listBox3.Name = "listBox3";
+            this.listBox3.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.listBox3.Size = new System.Drawing.Size(693, 264);
             this.listBox3.TabIndex = 35;
             this.listBox3.SelectedIndexChanged += new System.EventHandler(this.ListBox3_SelectedIndexChanged);
@@ -1729,6 +1743,7 @@ namespace NMSCoordinates
             // 
             // groupBox11
             // 
+            this.groupBox11.Controls.Add(this.label41);
             this.groupBox11.Controls.Add(this.label39);
             this.groupBox11.Controls.Add(this.textBox29);
             this.groupBox11.Controls.Add(this.button13);
@@ -1744,12 +1759,21 @@ namespace NMSCoordinates
             this.groupBox11.Size = new System.Drawing.Size(212, 184);
             this.groupBox11.TabIndex = 67;
             this.groupBox11.TabStop = false;
-            this.groupBox11.Text = "Current Location Coordinates";
+            this.groupBox11.Text = "Current Location";
+            // 
+            // label41
+            // 
+            this.label41.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(76)))), ((int)(((byte)(76)))));
+            this.label41.Location = new System.Drawing.Point(24, 20);
+            this.label41.Name = "label41";
+            this.label41.Size = new System.Drawing.Size(165, 13);
+            this.label41.TabIndex = 73;
+            this.label41.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label39
             // 
             this.label39.AutoSize = true;
-            this.label39.Location = new System.Drawing.Point(112, 128);
+            this.label39.Location = new System.Drawing.Point(112, 132);
             this.label39.Name = "label39";
             this.label39.Size = new System.Drawing.Size(95, 13);
             this.label39.TabIndex = 72;
@@ -1760,7 +1784,7 @@ namespace NMSCoordinates
             this.textBox29.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.textBox29.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox29.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.textBox29.Location = new System.Drawing.Point(13, 124);
+            this.textBox29.Location = new System.Drawing.Point(13, 128);
             this.textBox29.Name = "textBox29";
             this.textBox29.ReadOnly = true;
             this.textBox29.Size = new System.Drawing.Size(95, 20);
@@ -1770,7 +1794,7 @@ namespace NMSCoordinates
             // button13
             // 
             this.button13.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button13.Location = new System.Drawing.Point(56, 150);
+            this.button13.Location = new System.Drawing.Point(56, 153);
             this.button13.Name = "button13";
             this.button13.Size = new System.Drawing.Size(91, 23);
             this.button13.TabIndex = 70;
@@ -1781,7 +1805,7 @@ namespace NMSCoordinates
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(112, 102);
+            this.label21.Location = new System.Drawing.Point(112, 108);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(70, 13);
             this.label21.TabIndex = 32;
@@ -1792,7 +1816,7 @@ namespace NMSCoordinates
             this.textBox23.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.textBox23.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox23.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.textBox23.Location = new System.Drawing.Point(13, 98);
+            this.textBox23.Location = new System.Drawing.Point(13, 104);
             this.textBox23.Name = "textBox23";
             this.textBox23.ReadOnly = true;
             this.textBox23.Size = new System.Drawing.Size(95, 20);
@@ -1804,7 +1828,7 @@ namespace NMSCoordinates
             this.textBox21.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.textBox21.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox21.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.textBox21.Location = new System.Drawing.Point(13, 71);
+            this.textBox21.Location = new System.Drawing.Point(13, 80);
             this.textBox21.Name = "textBox21";
             this.textBox21.ReadOnly = true;
             this.textBox21.Size = new System.Drawing.Size(95, 20);
@@ -1814,7 +1838,7 @@ namespace NMSCoordinates
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(112, 75);
+            this.label19.Location = new System.Drawing.Point(112, 84);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(62, 13);
             this.label19.TabIndex = 30;
@@ -1823,7 +1847,7 @@ namespace NMSCoordinates
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(29, 25);
+            this.label20.Location = new System.Drawing.Point(29, 40);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(105, 13);
             this.label20.TabIndex = 22;
@@ -1834,7 +1858,7 @@ namespace NMSCoordinates
             this.textBox22.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.textBox22.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox22.ForeColor = System.Drawing.Color.LightSteelBlue;
-            this.textBox22.Location = new System.Drawing.Point(13, 44);
+            this.textBox22.Location = new System.Drawing.Point(13, 56);
             this.textBox22.Name = "textBox22";
             this.textBox22.ReadOnly = true;
             this.textBox22.Size = new System.Drawing.Size(134, 20);
@@ -2022,6 +2046,7 @@ namespace NMSCoordinates
             // 
             this.groupBox12.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.groupBox12.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox12.Controls.Add(this.label31);
             this.groupBox12.Controls.Add(this.label30);
             this.groupBox12.Controls.Add(this.label28);
             this.groupBox12.Controls.Add(this.button10);
@@ -2038,6 +2063,17 @@ namespace NMSCoordinates
             this.groupBox12.TabIndex = 1;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Load Save File";
+            // 
+            // label31
+            // 
+            this.label31.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(76)))), ((int)(((byte)(76)))));
+            this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label31.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label31.Location = new System.Drawing.Point(86, 76);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(133, 13);
+            this.label31.TabIndex = 74;
+            this.label31.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label30
             // 
@@ -2114,7 +2150,7 @@ namespace NMSCoordinates
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(29, 77);
+            this.label18.Location = new System.Drawing.Point(29, 76);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(51, 13);
             this.label18.TabIndex = 4;
@@ -2237,7 +2273,7 @@ namespace NMSCoordinates
             this.linkLabel1.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.linkLabel1.Location = new System.Drawing.Point(144, 30);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(264, 16);
+            this.linkLabel1.Size = new System.Drawing.Size(263, 16);
             this.linkLabel1.TabIndex = 76;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "https://nomanssky.gamepedia.com/Galaxy";
@@ -2250,7 +2286,7 @@ namespace NMSCoordinates
             this.linkLabel2.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.linkLabel2.Location = new System.Drawing.Point(125, 62);
             this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Size = new System.Drawing.Size(312, 16);
+            this.linkLabel2.Size = new System.Drawing.Size(311, 16);
             this.linkLabel2.TabIndex = 77;
             this.linkLabel2.TabStop = true;
             this.linkLabel2.Text = "https://www.reddit.com/r/NMSCoordinateExchange/";
@@ -2574,70 +2610,7 @@ namespace NMSCoordinates
         }
 
         #endregion
-        private CoordinateCalculator f5;
-        public SaveDirectorySelector f8;
-        private List<string> _changedFiles = new List<string>();
-        public string NMSCVersion;
-        public string GamePath;
-        public string nmsPath;
-        public string nmscConfig;
-        public string oldsavePath;
-        public string hgFilePath;
-        public string hgFileDir;        
-        public string currentKey;
-        public string stmPath;
-        public string ssdPath;
-        public string ssPath;
-
-        private GameSave _gs;
-        private GameSaveManager _gsm;
-        private uint _gameSlot;
-
-        Dictionary<string, string> jsonDict = new Dictionary<string, string>();
-        Dictionary<string, string> sjsonDict = new Dictionary<string, string>();
-
-        private string rawSave;
-        private string ufSave;
-        private string Save;
-        private string modSave;
-        private string ufmodSave;
-
-        public int SelectedSaveSlot;
-        public string json;
-        public string ujson;
-        public string locjson;
-        public int locVersion;
-
-        //public IDictionary<string, string> gameMode;
-        public Dictionary<char, Bitmap> glyphDict = new Dictionary<char, Bitmap>();
-
-        public Dictionary<int, string> sn1;
-        public Dictionary<int, string> sn2;
-        public Dictionary<int, string> sn3;
-        public Dictionary<int, string> sn4;
-        public Dictionary<int, string> sn5;
-
-        public List<DirectoryInfo> SaveDirs = new List<DirectoryInfo>();
-
-        public List<string> DiscList { get; private set; }
-        public List<string> SSlist = new List<string>();
-        public List<string> PrevSSlist = new List<string>();
-
-        public List<string> BaseList { get; private set; }
-
-        private char _gl1;
-        private char _gl2;
-        private char _gl3;
-        private char _gl4;
-        private char _gl5;
-        private char _gl6;
-        private char _gl7;
-        private char _gl8;
-        private char _gl9;
-        private char _gl10;
-        private char _gl11;
-        private char _gl12;
-
+        #region Windows Forms Controls
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
@@ -2651,9 +2624,9 @@ namespace NMSCoordinates
         private System.Windows.Forms.ToolStripMenuItem screenshotPageToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem screenshotPageToolStripMenuItem2;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem exportLocationRecordToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem deleteLocationFileToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.ProgressBar progressBar3;
         private System.Windows.Forms.TextBox textBox13;
@@ -2802,7 +2775,7 @@ namespace NMSCoordinates
         private System.Windows.Forms.ToolStripMenuItem saveFileManagerToolStripMenuItem;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Button button13;
-        private System.Windows.Forms.ToolStripMenuItem deleteSingleRecordToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteLocationRecordToolStripMenuItem;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label label34;
@@ -2828,6 +2801,10 @@ namespace NMSCoordinates
         private System.Windows.Forms.Label label40;
         private System.Windows.Forms.TextBox textBox30;
         public FileSystemWatcher fileSystemWatcher1;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label label41;
+        private System.Windows.Forms.ToolStripMenuItem mergeLocationFilesToolStripMenuItem;
+        #endregion
     }
 }
 

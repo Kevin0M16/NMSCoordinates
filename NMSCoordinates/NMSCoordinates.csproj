@@ -79,14 +79,20 @@
     <Reference Include="K4os.Compression.LZ4, Version=1.2.16.0, Culture=neutral, PublicKeyToken=2186fa9121ef231d, processorArchitecture=MSIL">
       <HintPath>..\packages\K4os.Compression.LZ4.1.2.16\lib\net46\K4os.Compression.LZ4.dll</HintPath>
     </Reference>
+    <Reference Include="libNOM.map, Version=0.8.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\libNOM.map.0.8.3\lib\netstandard2.0\libNOM.map.dll</HintPath>
+    </Reference>
     <Reference Include="Mnemosyne, Version=1.1.0.2, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Mnemosyne.1.1.0.2\lib\netstandard2.0\Mnemosyne.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Octokit, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Octokit.1.0.0\lib\net46\Octokit.dll</HintPath>
+    <Reference Include="NMSSaveManager, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NMSSaveManager.1.0.2\lib\net472\NMSSaveManager.dll</HintPath>
+    </Reference>
+    <Reference Include="Octokit, Version=4.0.1.0, Culture=neutral, PublicKeyToken=0be8860aee462442, processorArchitecture=MSIL">
+      <HintPath>..\packages\Octokit.4.0.1\lib\netstandard2.0\Octokit.dll</HintPath>
     </Reference>
     <Reference Include="SpookilySharp, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SpookilySharp.1.2.0\lib\netstandard2.0\SpookilySharp.dll</HintPath>
@@ -126,7 +132,6 @@
     <Compile Include="LocationData\LocationData.cs" />
     <Compile Include="Coords\Coordinates.cs" />
     <Compile Include="LocationData\LocationDataConverter.cs" />
-    <Compile Include="SaveCompression\SaveCompression.cs" />
     <Compile Include="NMSCoordinatesMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -184,12 +189,8 @@
     <Compile Include="UpdateChecker.Designer.cs">
       <DependentUpon>UpdateChecker.cs</DependentUpon>
     </Compile>
-    <Compile Include="SaveEncryption\GameSave.cs" />
-    <Compile Include="SaveEncryption\GameSaveManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SaveEncryption\Storage.cs" />
-    <Compile Include="SaveEncryption\XXTEA.cs" />
     <EmbeddedResource Include="NMSCoordinatesMain.resx">
       <DependentUpon>NMSCoordinatesMain.cs</DependentUpon>
       <SubType>Designer</SubType>
