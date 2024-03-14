@@ -834,7 +834,7 @@ namespace NMSCoordinates
         {
             if (textBox2.Text != "")
             {
-                f1 = (NMSCoordinatesMain)Application.OpenForms["Form1"];
+                f1 = (NMSCoordinatesMain)Application.OpenForms["NMSCoordinatesMain"];
                 if (!f1.TextBoxPerm == true)
                 {
                     f1.TextBoxValue = textBox2.Text;

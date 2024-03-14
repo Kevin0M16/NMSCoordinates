@@ -10,7 +10,7 @@ This a Coordinate Tool for No Man's Sky!
 # NMSCoordinates
 
 NMSCoordinates is an app for No Man’s Sky which allows you to view all your discovered space station and base locations between all your saves.
-You can clear portal interference while traveling through a portal, fast travel to known locations, or manually enter Galactic Coordinates and travel to them. Backup locations to json file and and access and travel to these saved coordinates.
+You can clear portal interference while traveling through a portal, fast travel to known locations, or manually enter Galactic Coordinates and travel to them. Backup locations to json file and access and travel to these saved coordinates.
 
 <!-- # NEWEST NMS GAME VERSION IS NOT SUPPORTED AT THIS TIME! -->
 

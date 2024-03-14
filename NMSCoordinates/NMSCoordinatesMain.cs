@@ -126,7 +126,7 @@ namespace NMSCoordinates
             InitializeComponent();
             
             //Set Version here
-            NMSCVersion = "2.2"; //"v2.2";
+            NMSCVersion = "2.3"; //"v2.3";
             label29.Text = "Version " + NMSCVersion;
             
             glyphDict = Globals.Glyphs();
@@ -806,11 +806,11 @@ namespace NMSCoordinates
                     // looks up and then displays the game mode
                     var nms = GameSaveData.FromJson(json);
 
-                    if (nms.PlayerStateData.DifficultyState != null)
+                    if (nms.BaseContext.PlayerStateData.DifficultyState != null)
                     {
-                        label28.Text = nms.PlayerStateData.DifficultyState.Preset.DifficultyPresetType;
-                        label31.Text = nms.PlayerStateData.SaveName;
-                        label41.Text = nms.PlayerStateData.SaveSummary;
+                        label28.Text = nms.BaseContext.PlayerStateData.DifficultyState.Preset.DifficultyPresetType;
+                        label31.Text = nms.CommonStateData.SaveName;
+                        label41.Text = nms.BaseContext.PlayerStateData.SaveSummary;
                     }
                     else
                     {
@@ -831,7 +831,7 @@ namespace NMSCoordinates
         {
             //Backup all locations to a new locbackup file
             GameSaveData nms = GameSaveData.FromJson(json);
-            int teleportArrayLength = nms.PlayerStateData.TeleportEndpoints.Length;
+            int teleportArrayLength = nms.BaseContext.PlayerStateData.TeleportEndpoints.Length;
 
             if (teleportArrayLength > 0)
             {
@@ -909,11 +909,11 @@ namespace NMSCoordinates
             Player player = PlayerLocation(json);
 
             //var nms = GameSaveData.FromJson(json);
-            //pgalaxy = nms.PlayerStateData.UniverseAddress.RealityIndex.ToString();//.ToString();
-            //var pX = nms.PlayerStateData.UniverseAddress.GalacticAddress.VoxelX;//.ToString();
-            //var pY = nms.PlayerStateData.UniverseAddress.GalacticAddress.VoxelY;//.ToString();
-            //var pZ = nms.PlayerStateData.UniverseAddress.GalacticAddress.VoxelZ;//.ToString();
-            //var pSSI = nms.PlayerStateData.UniverseAddress.GalacticAddress.SolarSystemIndex;//.ToString();
+            //pgalaxy = nms.BaseContext.PlayerStateData.UniverseAddress.RealityIndex.ToString();//.ToString();
+            //var pX = nms.BaseContext.PlayerStateData.UniverseAddress.GalacticAddress.VoxelX;//.ToString();
+            //var pY = nms.BaseContext.PlayerStateData.UniverseAddress.GalacticAddress.VoxelY;//.ToString();
+            //var pZ = nms.BaseContext.PlayerStateData.UniverseAddress.GalacticAddress.VoxelZ;//.ToString();
+            //var pSSI = nms.BaseContext.PlayerStateData.UniverseAddress.GalacticAddress.SolarSystemIndex;//.ToString();
                         
             //GalacticCoord = CoordCalculations.VoxelToGalacticCoord(Convert.ToInt32(pX), Convert.ToInt32(pY), Convert.ToInt32(pZ), Convert.ToInt32(pSSI), textBox3);
             Globals.AppendLine(textBox22, player.GalacticCoordinate);
@@ -1055,7 +1055,7 @@ namespace NMSCoordinates
             try
             {
                 var nms = GameSaveData.FromJson(json);
-                string ga = nms.PlayerStateData.PersistentPlayerBases[i].GalacticAddress;
+                string ga = nms.BaseContext.PlayerStateData.PersistentPlayerBases[i].GalacticAddress;
                 CoordCalculations.CalculateLongHex(ga, out string galacticCoord2, out iPI, out igalaxy);
 
                 string[] value = galacticCoord2.Replace(" ", "").Split(':');
@@ -1083,35 +1083,35 @@ namespace NMSCoordinates
         private static string GetTeleportEndPointName(int i, GameSaveData nms)
         {
             List<string> nameList = new List<string>();
-            string discd = nms.PlayerStateData.TeleportEndpoints[i].Name;
+            string discd = nms.BaseContext.PlayerStateData.TeleportEndpoints[i].Name;
 
-            if (string.IsNullOrEmpty(nms.PlayerStateData.TeleportEndpoints[i].Name))
+            if (string.IsNullOrEmpty(nms.BaseContext.PlayerStateData.TeleportEndpoints[i].Name))
             {
                 string bl = discd + "None";
                 nameList.Add(bl);
             }
-            if (nms.PlayerStateData.TeleportEndpoints[i].TeleporterType == "Spacestation")
+            if (nms.BaseContext.PlayerStateData.TeleportEndpoints[i].TeleporterType == "Spacestation")
             {
                 string ss = discd + " (SS)";
 
                 if (!nameList.Contains(ss))
                     nameList.Add(ss);
             }
-            if (nms.PlayerStateData.TeleportEndpoints[i].TeleporterType == "Base")
+            if (nms.BaseContext.PlayerStateData.TeleportEndpoints[i].TeleporterType == "Base")
             {
                 string bl = discd + " (B)";
 
                 if (!nameList.Contains(bl))
                     nameList.Add(bl);
             }
-            if (nms.PlayerStateData.TeleportEndpoints[i].TeleporterType == "ExternalBase")
+            if (nms.BaseContext.PlayerStateData.TeleportEndpoints[i].TeleporterType == "ExternalBase")
             {
                 string bl = discd + " (EB)";
 
                 if (!nameList.Contains(bl))
                     nameList.Add(bl);
             }
-            if (nms.PlayerStateData.TeleportEndpoints[i].TeleporterType == "SpacestationFixPosition" || nms.PlayerStateData.TeleportEndpoints[i].TeleporterType == "SpacestationFixwMC")
+            if (nms.BaseContext.PlayerStateData.TeleportEndpoints[i].TeleporterType == "SpacestationFixPosition" || nms.BaseContext.PlayerStateData.TeleportEndpoints[i].TeleporterType == "SpacestationFixwMC")
             {
                 string ss = discd + " (SS)";
 
@@ -1138,7 +1138,7 @@ namespace NMSCoordinates
             var nms = GameSaveData.FromJson(json);
             try
             {
-                for (int i = 0; i < nms.PlayerStateData.TeleportEndpoints.Length; i++)
+                for (int i = 0; i < nms.BaseContext.PlayerStateData.TeleportEndpoints.Length; i++)
                 {
                     string name = GetTeleportEndPointName(i, nms);
                     
@@ -1150,34 +1150,34 @@ namespace NMSCoordinates
                 }
 
                 /*
-                for (int i = 0; i < nms.PlayerStateData.TeleportEndpoints.Length; i++)
+                for (int i = 0; i < nms.BaseContext.PlayerStateData.TeleportEndpoints.Length; i++)
                 {
-                    string discd = nms.PlayerStateData.TeleportEndpoints[i].Name;
+                    string discd = nms.BaseContext.PlayerStateData.TeleportEndpoints[i].Name;
 
-                    if (nms.PlayerStateData.TeleportEndpoints[i].TeleporterType == "Spacestation")
+                    if (nms.BaseContext.PlayerStateData.TeleportEndpoints[i].TeleporterType == "Spacestation")
                     {
                         string ss = discd + " (SS)";
                         DiscList.Add(ss);
                         listBox2.Items.Add(ss);
                     }
-                    if (nms.PlayerStateData.TeleportEndpoints[i].TeleporterType == "Base") // v1.1.16
+                    if (nms.BaseContext.PlayerStateData.TeleportEndpoints[i].TeleporterType == "Base") // v1.1.16
                     {
                         string bl = discd + " (B)";
                         DiscList.Add(bl);
                         listBox1.Items.Add(bl);
                     }
-                    if (nms.PlayerStateData.TeleportEndpoints[i].TeleporterType == "ExternalBase") // v1.1.16
+                    if (nms.BaseContext.PlayerStateData.TeleportEndpoints[i].TeleporterType == "ExternalBase") // v1.1.16
                     {
                         string bl = discd + " (EB)";
                         DiscList.Add(bl);
                         listBox1.Items.Add(bl);
                     }
                 }
-                for (int i = 0; i < nms.PlayerStateData.TeleportEndpoints.Length; i++)
+                for (int i = 0; i < nms.BaseContext.PlayerStateData.TeleportEndpoints.Length; i++)
                 {
-                    string discd = nms.PlayerStateData.TeleportEndpoints[i].Name;
+                    string discd = nms.BaseContext.PlayerStateData.TeleportEndpoints[i].Name;
 
-                    if (nms.PlayerStateData.TeleportEndpoints[i].TeleporterType == "SpacestationFixPosition") // 1.1.16
+                    if (nms.BaseContext.PlayerStateData.TeleportEndpoints[i].TeleporterType == "SpacestationFixPosition") // 1.1.16
                     {
                         string ss = discd + " (SS)";
                         if (!DiscList.Contains(ss))
@@ -1200,7 +1200,7 @@ namespace NMSCoordinates
             textBox20.Text = listBox2.Items.Count.ToString();
             listBox1.SelectedIndex = -1;
 
-            if (nms.PlayerStateData.OnOtherSideOfPortal == true)
+            if (nms.BaseContext.PlayerStateData.OnOtherSideOfPortal == true)
             {
                 textBox12.Text = "True";
             }
@@ -1230,9 +1230,9 @@ namespace NMSCoordinates
             var nms = GameSaveData.FromJson(json);
             try
             {
-                for (int i = 0; i < nms.PlayerStateData.PersistentPlayerBases.Length; i++)
+                for (int i = 0; i < nms.BaseContext.PlayerStateData.PersistentPlayerBases.Length; i++)
                 {
-                    string baseN = nms.PlayerStateData.PersistentPlayerBases[i].Name;
+                    string baseN = nms.BaseContext.PlayerStateData.PersistentPlayerBases[i].Name;
                     if (baseN != "")
                     {
                         string pb = baseN + " (PB)";
@@ -1272,9 +1272,9 @@ namespace NMSCoordinates
                     var nms = GameSaveData.FromJson(json);
                     try
                     {
-                        for (int i = 0; i < nms.PlayerStateData.TeleportEndpoints.Length; i++)
+                        for (int i = 0; i < nms.BaseContext.PlayerStateData.TeleportEndpoints.Length; i++)
                         {
-                            if (nms.PlayerStateData.TeleportEndpoints[i].Name.ToString() == si)
+                            if (nms.BaseContext.PlayerStateData.TeleportEndpoints[i].Name.ToString() == si)
                             {
                                 //JsonMapTeleportEndpoints(i);
                                 Destination dest = TeleportEndpoints(i, json, textBox3);
@@ -1326,9 +1326,9 @@ namespace NMSCoordinates
                     var nms = GameSaveData.FromJson(json);
                     try
                     {
-                        for (int i = 0; i < nms.PlayerStateData.TeleportEndpoints.Length; i++)
+                        for (int i = 0; i < nms.BaseContext.PlayerStateData.TeleportEndpoints.Length; i++)
                         {
-                            if (nms.PlayerStateData.TeleportEndpoints[i].Name.ToString() == si)
+                            if (nms.BaseContext.PlayerStateData.TeleportEndpoints[i].Name.ToString() == si)
                             {
                                 //JsonMapTeleportEndpoints(i);
                                 Destination dest = TeleportEndpoints(i, json, textBox3);
@@ -1378,9 +1378,9 @@ namespace NMSCoordinates
                     var nms = GameSaveData.FromJson(json);
                     try
                     {
-                        for (int i = 0; i < nms.PlayerStateData.PersistentPlayerBases.Length; i++)
+                        for (int i = 0; i < nms.BaseContext.PlayerStateData.PersistentPlayerBases.Length; i++)
                         {
-                            if (nms.PlayerStateData.PersistentPlayerBases[i].Name.ToString() == si)
+                            if (nms.BaseContext.PlayerStateData.PersistentPlayerBases[i].Name.ToString() == si)
                             {
                                 Destination dest = PersistentBases(i, json);
 
@@ -1878,7 +1878,7 @@ namespace NMSCoordinates
                         ////Check save file edits
                         var nms = GameSaveData.FromJson(json);
                         textBox12.Clear();
-                        textBox12.Text = nms.PlayerStateData.OnOtherSideOfPortal.ToString();
+                        textBox12.Text = nms.BaseContext.PlayerStateData.OnOtherSideOfPortal.ToString();
 
                         if (textBox12.Text == "False" || textBox12.Text == "false")
                         {
@@ -1915,9 +1915,9 @@ namespace NMSCoordinates
                     WriteSaveFB(progressBar4, textBox15, SelectedSaveSlot);
 
                     var nms = GameSaveData.FromJson(json);
-                    bool O5J = nms.PlayerStateData.TimeLastSpaceBattle == 0;
-                    bool Ebr = nms.PlayerStateData.WarpsLastSpaceBattle == 0;
-                    bool Exx = nms.PlayerStateData.ActiveSpaceBattleUA == 0;
+                    bool O5J = nms.BaseContext.PlayerStateData.TimeLastSpaceBattle == 0;
+                    bool Ebr = nms.BaseContext.PlayerStateData.WarpsLastSpaceBattle == 0;
+                    bool Exx = nms.BaseContext.PlayerStateData.ActiveSpaceBattleUA == 0;
 
                     if (O5J && Ebr && Exx)
                     {
@@ -1958,11 +1958,11 @@ namespace NMSCoordinates
             return same;
 
             //var nms = GameSaveData.FromJson(json);
-            //var pgalaxy = nms.PlayerStateData.UniverseAddress.RealityIndex.ToString();
-            //var pX = nms.PlayerStateData.UniverseAddress.GalacticAddress.VoxelX.ToString();
-            //var pY = nms.PlayerStateData.UniverseAddress.GalacticAddress.VoxelY.ToString();
-            //var pZ = nms.PlayerStateData.UniverseAddress.GalacticAddress.VoxelZ.ToString();
-            //var pSSI = nms.PlayerStateData.UniverseAddress.GalacticAddress.SolarSystemIndex.ToString();
+            //var pgalaxy = nms.BaseContext.PlayerStateData.UniverseAddress.RealityIndex.ToString();
+            //var pX = nms.BaseContext.PlayerStateData.UniverseAddress.GalacticAddress.VoxelX.ToString();
+            //var pY = nms.BaseContext.PlayerStateData.UniverseAddress.GalacticAddress.VoxelY.ToString();
+            //var pZ = nms.BaseContext.PlayerStateData.UniverseAddress.GalacticAddress.VoxelZ.ToString();
+            //var pSSI = nms.BaseContext.PlayerStateData.UniverseAddress.GalacticAddress.SolarSystemIndex.ToString();
 
             //checks to see if the current location is the same as stored (no move if same)
             //bool b = X == pX && Y == pY && Z == pZ && SSI == pSSI && pgalaxy == galaxy;
@@ -2015,9 +2015,9 @@ namespace NMSCoordinates
                 si = si.Replace(" (EB)", ""); //v1.1.16
                 si = si.Replace(" (SS)", "");
                 var nms = GameSaveData.FromJson(json);
-                for (int i = 0; i < nms.PlayerStateData.TeleportEndpoints.Length; i++)
+                for (int i = 0; i < nms.BaseContext.PlayerStateData.TeleportEndpoints.Length; i++)
                 {
-                    if (nms.PlayerStateData.TeleportEndpoints[i].Name.ToString() == si)
+                    if (nms.BaseContext.PlayerStateData.TeleportEndpoints[i].Name.ToString() == si)
                     {
                         dest = TeleportEndpoints(i, json);
                     }
@@ -2050,7 +2050,7 @@ namespace NMSCoordinates
                             //Read the new json and check portal interference state
                             var nms2 = GameSaveData.FromJson(json);
                             textBox12.Clear();
-                            textBox12.Text = nms2.PlayerStateData.OnOtherSideOfPortal.ToString();
+                            textBox12.Text = nms2.BaseContext.PlayerStateData.OnOtherSideOfPortal.ToString();
                             GetPlayerCoord();
 
                             progressBar1.Invoke((System.Action)(() => progressBar1.Value = 100));
@@ -2495,7 +2495,7 @@ namespace NMSCoordinates
                             //Read the new json and check portal interference state
                             var nms = GameSaveData.FromJson(json);
                             textBox12.Clear();
-                            textBox12.Text = nms.PlayerStateData.OnOtherSideOfPortal.ToString();
+                            textBox12.Text = nms.BaseContext.PlayerStateData.OnOtherSideOfPortal.ToString();
                             GetPlayerCoord();
 
                             progressBar3.Invoke((System.Action)(() => progressBar3.Value = 100));
@@ -3005,7 +3005,7 @@ namespace NMSCoordinates
                         //Read - Edit - Write Json save file for move player
                         var nms = GameSaveData.FromJson(json);
                         textBox12.Clear();
-                        textBox12.Text = nms.PlayerStateData.OnOtherSideOfPortal.ToString();
+                        textBox12.Text = nms.BaseContext.PlayerStateData.OnOtherSideOfPortal.ToString();
                         GetPlayerCoord();
 
                         progressBar4.Invoke((System.Action)(() => progressBar4.Value = 100));
@@ -3155,7 +3155,7 @@ namespace NMSCoordinates
         {
             //Take the list of current discoveries and add them to SSList for comparison to PrevSSlist
             GameSaveData nms = GameSaveData.FromJson(json);
-            int teleportArrayLength = nms.PlayerStateData.TeleportEndpoints.Length;
+            int teleportArrayLength = nms.BaseContext.PlayerStateData.TeleportEndpoints.Length;
 
             if (teleportArrayLength > 0)
             {
@@ -3174,7 +3174,7 @@ namespace NMSCoordinates
                 {
                     Destination dest = TeleportEndpoints(i, json);
 
-                    SSlist.Add("Slot_" + SelectedSaveSlot + "_Loc: " + nms.PlayerStateData.TeleportEndpoints[i].Name + " - G: " + dest.Galaxy + " - PC: " + dest.PortalCode + " -- GC: " + dest.GalacticCoordinate);
+                    SSlist.Add("Slot_" + SelectedSaveSlot + "_Loc: " + nms.BaseContext.PlayerStateData.TeleportEndpoints[i].Name + " - G: " + dest.Galaxy + " - PC: " + dest.PortalCode + " -- GC: " + dest.GalacticCoordinate);
 
                     progressBar2.PerformStep();
                 }
@@ -3848,9 +3848,9 @@ namespace NMSCoordinates
             JObject jObject = JsonConvert.DeserializeObject(jsonString) as JObject;
 
             // Select a nested property using a single string:
-            JToken TimeLastSpaceBattle = jObject.SelectToken("PlayerStateData.TimeLastSpaceBattle");
-            JToken WarpsLastSpaceBattle = jObject.SelectToken("PlayerStateData.WarpsLastSpaceBattle");
-            JToken ActiveSpaceBattleUa = jObject.SelectToken("PlayerStateData.ActiveSpaceBattleUA");
+            JToken TimeLastSpaceBattle = jObject.SelectToken("BaseContext.PlayerStateData.TimeLastSpaceBattle");
+            JToken WarpsLastSpaceBattle = jObject.SelectToken("BaseContext.PlayerStateData.WarpsLastSpaceBattle");
+            JToken ActiveSpaceBattleUa = jObject.SelectToken("BaseContext.PlayerStateData.ActiveSpaceBattleUA");
 
             // Update the value of the property: 
             TimeLastSpaceBattle.Replace(0);
@@ -3874,8 +3874,8 @@ namespace NMSCoordinates
             JObject jObject = JsonConvert.DeserializeObject(jsonString) as JObject;
 
             // Select a nested property using a single string:
-            JToken VisitedPortal = jObject.SelectToken("PlayerStateData.VisitedPortal.PortalSeed[0]");
-            JToken OnOtherSideOfPortal = jObject.SelectToken("PlayerStateData.OnOtherSideOfPortal");
+            JToken VisitedPortal = jObject.SelectToken("BaseContext.PlayerStateData.VisitedPortal.PortalSeed[0]");
+            JToken OnOtherSideOfPortal = jObject.SelectToken("BaseContext.PlayerStateData.OnOtherSideOfPortal");
 
             // Update the value of the property: 
             VisitedPortal.Replace(false);
@@ -3898,14 +3898,14 @@ namespace NMSCoordinates
             JObject jObject = JsonConvert.DeserializeObject(jsonString) as JObject;
 
             // Select a nested property using a single string:
-            JToken RealityIndex = jObject.SelectToken("PlayerStateData.UniverseAddress.RealityIndex");
-            JToken VoxelX = jObject.SelectToken("PlayerStateData.UniverseAddress.GalacticAddress.VoxelX");
-            JToken VoxelY = jObject.SelectToken("PlayerStateData.UniverseAddress.GalacticAddress.VoxelY");
-            JToken VoxelZ = jObject.SelectToken("PlayerStateData.UniverseAddress.GalacticAddress.VoxelZ");
-            JToken SolarSystemIndex = jObject.SelectToken("PlayerStateData.UniverseAddress.GalacticAddress.SolarSystemIndex");
-            JToken PlanetIndex = jObject.SelectToken("PlayerStateData.UniverseAddress.GalacticAddress.PlanetIndex");
-            JToken HomeRealityIteration = jObject.SelectToken("PlayerStateData.HomeRealityIteration");
-            JToken LastKnownPlayerState = jObject.SelectToken("SpawnStateData.LastKnownPlayerState");
+            JToken RealityIndex = jObject.SelectToken("BaseContext.PlayerStateData.UniverseAddress.RealityIndex");
+            JToken VoxelX = jObject.SelectToken("BaseContext.PlayerStateData.UniverseAddress.GalacticAddress.VoxelX");
+            JToken VoxelY = jObject.SelectToken("BaseContext.PlayerStateData.UniverseAddress.GalacticAddress.VoxelY");
+            JToken VoxelZ = jObject.SelectToken("BaseContext.PlayerStateData.UniverseAddress.GalacticAddress.VoxelZ");
+            JToken SolarSystemIndex = jObject.SelectToken("BaseContext.PlayerStateData.UniverseAddress.GalacticAddress.SolarSystemIndex");
+            JToken PlanetIndex = jObject.SelectToken("BaseContext.PlayerStateData.UniverseAddress.GalacticAddress.PlanetIndex");
+            JToken HomeRealityIteration = jObject.SelectToken("BaseContext.PlayerStateData.HomeRealityIteration");
+            JToken LastKnownPlayerState = jObject.SelectToken("BaseContext.SpawnStateData.LastKnownPlayerState");
 
             // Update the value of the property: 
             RealityIndex.Replace(dest.iGalaxy);

@@ -61,19 +61,19 @@ namespace NMSCoordinates
             var nms = GameSaveData.FromJson(json);
             Destination dest = new Destination
             {
-                Galaxy = nms.PlayerStateData.TeleportEndpoints[i].UniverseAddress.RealityIndex.ToString(),
-                X = nms.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.VoxelX.ToString(),
-                Y = nms.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.VoxelY.ToString(),
-                Z = nms.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.VoxelZ.ToString(),
-                SSI = nms.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.SolarSystemIndex.ToString(),
-                PI = nms.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.PlanetIndex.ToString(),
+                Galaxy = nms.BaseContext.PlayerStateData.TeleportEndpoints[i].UniverseAddress.RealityIndex.ToString(),
+                X = nms.BaseContext.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.VoxelX.ToString(),
+                Y = nms.BaseContext.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.VoxelY.ToString(),
+                Z = nms.BaseContext.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.VoxelZ.ToString(),
+                SSI = nms.BaseContext.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.SolarSystemIndex.ToString(),
+                PI = nms.BaseContext.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.PlanetIndex.ToString(),
 
-                iGalaxy = Convert.ToInt32(nms.PlayerStateData.TeleportEndpoints[i].UniverseAddress.RealityIndex),
-                iX = Convert.ToInt32(nms.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.VoxelX),
-                iY = Convert.ToInt32(nms.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.VoxelY),
-                iZ = Convert.ToInt32(nms.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.VoxelZ),
-                iSSI = Convert.ToInt32(nms.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.SolarSystemIndex),
-                iPI = Convert.ToInt32(nms.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.PlanetIndex)
+                iGalaxy = Convert.ToInt32(nms.BaseContext.PlayerStateData.TeleportEndpoints[i].UniverseAddress.RealityIndex),
+                iX = Convert.ToInt32(nms.BaseContext.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.VoxelX),
+                iY = Convert.ToInt32(nms.BaseContext.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.VoxelY),
+                iZ = Convert.ToInt32(nms.BaseContext.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.VoxelZ),
+                iSSI = Convert.ToInt32(nms.BaseContext.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.SolarSystemIndex),
+                iPI = Convert.ToInt32(nms.BaseContext.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.PlanetIndex)
             };
 
             dest.LongHex = CoordCalculations.VoxelToHex(dest.iGalaxy, dest.iPI, dest.iX, dest.iY, dest.iZ, dest.iSSI);
@@ -90,19 +90,19 @@ namespace NMSCoordinates
             var nms = GameSaveData.FromJson(json);
             Destination dest = new Destination
             {
-                Galaxy = nms.PlayerStateData.TeleportEndpoints[i].UniverseAddress.RealityIndex.ToString(),
-                X = nms.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.VoxelX.ToString(),
-                Y = nms.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.VoxelY.ToString(),
-                Z = nms.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.VoxelZ.ToString(),
-                SSI = nms.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.SolarSystemIndex.ToString(),
-                PI = nms.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.PlanetIndex.ToString(),
+                Galaxy = nms.BaseContext.PlayerStateData.TeleportEndpoints[i].UniverseAddress.RealityIndex.ToString(),
+                X = nms.BaseContext.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.VoxelX.ToString(),
+                Y = nms.BaseContext.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.VoxelY.ToString(),
+                Z = nms.BaseContext.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.VoxelZ.ToString(),
+                SSI = nms.BaseContext.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.SolarSystemIndex.ToString(),
+                PI = nms.BaseContext.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.PlanetIndex.ToString(),
 
-                iGalaxy = Convert.ToInt32(nms.PlayerStateData.TeleportEndpoints[i].UniverseAddress.RealityIndex),
-                iX = Convert.ToInt32(nms.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.VoxelX),
-                iY = Convert.ToInt32(nms.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.VoxelY),
-                iZ = Convert.ToInt32(nms.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.VoxelZ),
-                iSSI = Convert.ToInt32(nms.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.SolarSystemIndex),
-                iPI = Convert.ToInt32(nms.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.PlanetIndex)
+                iGalaxy = Convert.ToInt32(nms.BaseContext.PlayerStateData.TeleportEndpoints[i].UniverseAddress.RealityIndex),
+                iX = Convert.ToInt32(nms.BaseContext.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.VoxelX),
+                iY = Convert.ToInt32(nms.BaseContext.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.VoxelY),
+                iZ = Convert.ToInt32(nms.BaseContext.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.VoxelZ),
+                iSSI = Convert.ToInt32(nms.BaseContext.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.SolarSystemIndex),
+                iPI = Convert.ToInt32(nms.BaseContext.PlayerStateData.TeleportEndpoints[i].UniverseAddress.GalacticAddress.PlanetIndex)
             };
 
             dest.LongHex = CoordCalculations.VoxelToHex(dest.iGalaxy, dest.iPI, dest.iX, dest.iY, dest.iZ, dest.iSSI);
@@ -117,7 +117,7 @@ namespace NMSCoordinates
         {
             //lookup info from the Json hg file            
             var nms = GameSaveData.FromJson(json);
-            string basehex = nms.PlayerStateData.PersistentPlayerBases[i].GalacticAddress;
+            string basehex = nms.BaseContext.PlayerStateData.PersistentPlayerBases[i].GalacticAddress;
             Destination dest = HexToAll(basehex);
 
             return dest;            
@@ -128,8 +128,8 @@ namespace NMSCoordinates
             var nms = GameSaveData.FromJson(json);
             Player player = new Player
             {
-                Galaxy = nms.PlayerStateData.UniverseAddress.RealityIndex.ToString(),
-                iGalaxy = Convert.ToInt32(nms.PlayerStateData.UniverseAddress.RealityIndex)
+                Galaxy = nms.BaseContext.PlayerStateData.UniverseAddress.RealityIndex.ToString(),
+                iGalaxy = Convert.ToInt32(nms.BaseContext.PlayerStateData.UniverseAddress.RealityIndex)
             };
 
             return player;
@@ -140,19 +140,19 @@ namespace NMSCoordinates
             var nms = GameSaveData.FromJson(json);
             Player player = new Player
             {
-                Galaxy = nms.PlayerStateData.UniverseAddress.RealityIndex.ToString(),
-                X = nms.PlayerStateData.UniverseAddress.GalacticAddress.VoxelX.ToString(),
-                Y = nms.PlayerStateData.UniverseAddress.GalacticAddress.VoxelY.ToString(),
-                Z = nms.PlayerStateData.UniverseAddress.GalacticAddress.VoxelZ.ToString(),
-                SSI = nms.PlayerStateData.UniverseAddress.GalacticAddress.SolarSystemIndex.ToString(),
-                PI = nms.PlayerStateData.UniverseAddress.GalacticAddress.PlanetIndex.ToString(),
+                Galaxy = nms.BaseContext.PlayerStateData.UniverseAddress.RealityIndex.ToString(),
+                X = nms.BaseContext.PlayerStateData.UniverseAddress.GalacticAddress.VoxelX.ToString(),
+                Y = nms.BaseContext.PlayerStateData.UniverseAddress.GalacticAddress.VoxelY.ToString(),
+                Z = nms.BaseContext.PlayerStateData.UniverseAddress.GalacticAddress.VoxelZ.ToString(),
+                SSI = nms.BaseContext.PlayerStateData.UniverseAddress.GalacticAddress.SolarSystemIndex.ToString(),
+                PI = nms.BaseContext.PlayerStateData.UniverseAddress.GalacticAddress.PlanetIndex.ToString(),
 
-                iGalaxy = Convert.ToInt32(nms.PlayerStateData.UniverseAddress.RealityIndex),
-                iX = Convert.ToInt32(nms.PlayerStateData.UniverseAddress.GalacticAddress.VoxelX),
-                iY = Convert.ToInt32(nms.PlayerStateData.UniverseAddress.GalacticAddress.VoxelY),
-                iZ = Convert.ToInt32(nms.PlayerStateData.UniverseAddress.GalacticAddress.VoxelZ),
-                iSSI = Convert.ToInt32(nms.PlayerStateData.UniverseAddress.GalacticAddress.SolarSystemIndex),
-                iPI = Convert.ToInt32(nms.PlayerStateData.UniverseAddress.GalacticAddress.PlanetIndex)
+                iGalaxy = Convert.ToInt32(nms.BaseContext.PlayerStateData.UniverseAddress.RealityIndex),
+                iX = Convert.ToInt32(nms.BaseContext.PlayerStateData.UniverseAddress.GalacticAddress.VoxelX),
+                iY = Convert.ToInt32(nms.BaseContext.PlayerStateData.UniverseAddress.GalacticAddress.VoxelY),
+                iZ = Convert.ToInt32(nms.BaseContext.PlayerStateData.UniverseAddress.GalacticAddress.VoxelZ),
+                iSSI = Convert.ToInt32(nms.BaseContext.PlayerStateData.UniverseAddress.GalacticAddress.SolarSystemIndex),
+                iPI = Convert.ToInt32(nms.BaseContext.PlayerStateData.UniverseAddress.GalacticAddress.PlanetIndex)
             };
 
             player.LongHex = CoordCalculations.VoxelToHex(player.iGalaxy, player.iPI, player.iX, player.iY, player.iZ, player.iSSI);
