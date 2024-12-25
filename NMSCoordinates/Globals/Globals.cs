@@ -1,4 +1,7 @@
-﻿using NMSCoordinates.LocationData;
+﻿using Newtonsoft.Json.Linq;
+using NMSCoordinates.LocationData;
+using NMSCoordinates.SaveData;
+using NMSCoordinates.SaveDataOld;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -10,8 +13,12 @@ namespace NMSCoordinates
 {
     public partial class Globals
     {
+        public static bool IsNewSaveFormat { get; private set; }
+
         public static void AppendLine(TextBox source, string value)
         {
+            if (source == null) return; // Safely handle null TextBox
+
             //My neat little textbox handler
             if (source.Text.Length == 0)
                 source.Text = value;
@@ -50,6 +57,45 @@ namespace NMSCoordinates
             else
             {
                 return "Unknown";
+            }
+        }        
+        public static class SaveFormatDetector
+        {
+            public static bool IsNewSaveFormat(string json)
+            {
+                try
+                {
+                    var jsonObject = JObject.Parse(json);
+
+                    // Check for a unique property in the new save format
+                    if (jsonObject["BaseContext"] != null)
+                        return true;
+
+                    // Default to old format if nothing specific to the new format is detected
+                    return false;
+                }
+                catch
+                {
+                    // If parsing fails, assume it's not the new save format
+                    return false;
+                }
+            }
+        }
+        public static class SaveFileParser
+        {
+            public static dynamic ParseSaveData(string json)
+            {
+                // Detect and set save format
+                Globals.IsNewSaveFormat = SaveFormatDetector.IsNewSaveFormat(json);
+
+                if (Globals.IsNewSaveFormat)
+                {
+                    return GameSaveData.FromJson(json); // New save format
+                }
+                else
+                {
+                    return GameSaveDataOld.FromJson(json); // Old save format
+                }
             }
         }
         public static string GalaxyLookup(string galaxy)

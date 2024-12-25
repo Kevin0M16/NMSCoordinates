@@ -18,6 +18,8 @@ using NMSCoordinates.LocationData;
 using static NMSCoordinates.Coordinates;
 //using libNOM.map;
 using NMSSaveManager;
+using static NMSCoordinates.Globals;
+using NMSCoordinates.SaveDataOld;
 
 /**********************************************************\
 |                                                          |
@@ -44,6 +46,8 @@ namespace NMSCoordinates
         SaveModified f7 = new SaveModified();
 
         private List<string> _changedFiles = new List<string>();
+        private HashSet<string> _displayedPopups = new HashSet<string>();
+        private readonly object _popupLock = new object();
 
         public string NMSCVersion;
         public string GamePath;
@@ -803,24 +807,43 @@ namespace NMSCoordinates
                 */
                 try
                 {
-                    // looks up and then displays the game mode
-                    var nms = GameSaveData.FromJson(json);
+                    // Detect save format and parse JSON
+                    dynamic nms = SaveFileParser.ParseSaveData(json);
 
-                    if (nms.BaseContext.PlayerStateData.DifficultyState != null)
+                    if (Globals.IsNewSaveFormat)
                     {
-                        label28.Text = nms.BaseContext.PlayerStateData.DifficultyState.Preset.DifficultyPresetType;
-                        label31.Text = nms.CommonStateData.SaveName;
-                        label41.Text = nms.BaseContext.PlayerStateData.SaveSummary;
+                        // Handle new save format
+                        if (nms.BaseContext.PlayerStateData.DifficultyState != null)
+                        {
+                            label28.Text = nms.BaseContext.PlayerStateData.DifficultyState.Preset.DifficultyPresetType;
+                            label31.Text = nms.CommonStateData.SaveName;
+                            label41.Text = nms.BaseContext.PlayerStateData.SaveSummary;
+                        }
+                        else
+                        {
+                            int gamemodeint = Convert.ToInt32(nms.Version);
+                            label28.Text = Globals.GameModeLookupInt(gamemodeint);
+                        }
                     }
                     else
                     {
-                        int gamemodeint = Convert.ToInt32(nms.Version);
-                        label28.Text = Globals.GameModeLookupInt(gamemodeint);
+                        // Handle old save format
+                        if (nms.PlayerStateData.DifficultyState != null)
+                        {
+                            label28.Text = nms.PlayerStateData.DifficultyState.Preset.DifficultyPresetType;
+                            label31.Text = nms.PlayerStateData.SaveName; // Adjust as per old format structure
+                            label41.Text = nms.PlayerStateData.SaveSummary; // Adjust as per old format structure
+                        }
+                        else
+                        {
+                            int gamemodeint = Convert.ToInt32(nms.Version);
+                            label28.Text = Globals.GameModeLookupInt(gamemodeint);
+                        }
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    Globals.AppendLine(textBox17, "Problem loading json! ERROR [6]" + selected);
+                    Globals.AppendLine(textBox17, $"Problem loading json! ERROR [6] {selected} Exception: {ex.Message}");
                     return;
                 }
                 progressBar2.Invoke((System.Action)(() => progressBar2.Value = 100));
@@ -829,25 +852,29 @@ namespace NMSCoordinates
         }
         private async Task BackupLoc(string path)
         {
-            //Backup all locations to a new locbackup file
-            GameSaveData nms = GameSaveData.FromJson(json);
-            int teleportArrayLength = nms.BaseContext.PlayerStateData.TeleportEndpoints.Length;
+            // Backup all locations to a new locbackup file
+            dynamic nms = SaveFileParser.ParseSaveData(json);
+
+            // Use global save format detection to access teleport endpoints
+            dynamic teleportEndpoints = Globals.IsNewSaveFormat 
+                ? nms.BaseContext.PlayerStateData.TeleportEndpoints 
+                : nms.PlayerStateData.TeleportEndpoints;
+
+            int teleportArrayLength = teleportEndpoints.Length;
 
             if (teleportArrayLength > 0)
             {
                 tabControl1.SelectedTab = tabPage1;
                 await Task.Delay(300);
-                // Set Minimum to 1 to represent the first file being copied.
+
+                // Configure progress bar
                 progressBar2.Minimum = 1;
-                // Set Maximum to the total number of files to copy.
                 progressBar2.Maximum = teleportArrayLength;
-                // Set the initial value of the ProgressBar.
                 progressBar2.Value = 1;
-                // Set the Step property to a value of 1 to represent each file being copied.
                 progressBar2.Step = 1;
-                // Display the ProgressBar control.
                 progressBar2.Visible = true;
 
+                // Create new location JSON structure
                 SavedLocationData sdata = Globals.CreateNewLocationJson(locVersion, teleportArrayLength, 0);
                 List<LocationArray> basis = new List<LocationArray>();
 
@@ -857,7 +884,7 @@ namespace NMSCoordinates
 
                     basis.Add(new LocationArray()
                     {
-                        Name = GetTeleportEndPointName(i, nms),
+                        Name = GetTeleportEndPointName(i, teleportEndpoints),
                         Details = new Details()
                         {
                             DateTime = DateTime.Now.ToString("MM-dd-yyyy HH:mm"),
@@ -876,17 +903,17 @@ namespace NMSCoordinates
                 progressBar2.Visible = false;
                 progressBar2.Maximum = 100;
 
+                // Save the locations data to a backup file
                 sdata.Locations.TeleportEndpoints = basis.ToArray();
-
-                //Make a unique path name for the locbackup file and create file
                 string path2 = Globals.MakeUniqueLoc(path, SelectedSaveSlot);
                 var backuplist = LocationData.Serialize.ToJson(sdata);
                 File.WriteAllText(path2, backuplist);
 
+                // Notify user and reload UI
                 MessageBox.Show("ALL Locations Backed up \n\n\r Open in Coordinate Share Tab", "Confirmation", MessageBoxButtons.OK);
                 LoadTxt();
-
                 tabControl1.SelectedTab = tabPage3;
+
                 if (File.Exists(path2))
                 {
                     listBox4.SelectedItem = Path.GetFileName(path2);
@@ -1080,133 +1107,134 @@ namespace NMSCoordinates
             }
         }
         */
-        private static string GetTeleportEndPointName(int i, GameSaveData nms)
+        private static string GetTeleportEndPointName(int i, dynamic nms)
         {
+            // Determine the correct endpoint based on the global save format
+            dynamic endpoint = Globals.IsNewSaveFormat 
+                ? nms.BaseContext.PlayerStateData.TeleportEndpoints[i] 
+                : nms.PlayerStateData.TeleportEndpoints[i];
+
             List<string> nameList = new List<string>();
-            string discd = nms.BaseContext.PlayerStateData.TeleportEndpoints[i].Name;
+            string discd = endpoint.Name ?? "Unknown";
 
-            if (string.IsNullOrEmpty(nms.BaseContext.PlayerStateData.TeleportEndpoints[i].Name))
+            if (string.IsNullOrEmpty(endpoint.Name))
             {
-                string bl = discd + "None";
-                nameList.Add(bl);
+                nameList.Add($"{discd}None");
             }
-            if (nms.BaseContext.PlayerStateData.TeleportEndpoints[i].TeleporterType == "Spacestation")
+            if (endpoint.TeleporterType == "Spacestation")
             {
-                string ss = discd + " (SS)";
-
+                string ss = $"{discd} (SS)";
                 if (!nameList.Contains(ss))
                     nameList.Add(ss);
             }
-            if (nms.BaseContext.PlayerStateData.TeleportEndpoints[i].TeleporterType == "Base")
+            if (endpoint.TeleporterType == "Base")
             {
-                string bl = discd + " (B)";
-
+                string bl = $"{discd} (B)";
                 if (!nameList.Contains(bl))
                     nameList.Add(bl);
             }
-            if (nms.BaseContext.PlayerStateData.TeleportEndpoints[i].TeleporterType == "ExternalBase")
+            if (endpoint.TeleporterType == "ExternalBase")
             {
-                string bl = discd + " (EB)";
-
+                string bl = $"{discd} (EB)";
                 if (!nameList.Contains(bl))
                     nameList.Add(bl);
             }
-            if (nms.BaseContext.PlayerStateData.TeleportEndpoints[i].TeleporterType == "SpacestationFixPosition" || nms.BaseContext.PlayerStateData.TeleportEndpoints[i].TeleporterType == "SpacestationFixwMC")
+            if (endpoint.TeleporterType == "SpacestationFixPosition" || endpoint.TeleporterType == "SpacestationFixwMC")
             {
-                string ss = discd + " (SS)";
-
+                string ss = $"{discd} (SS)";
                 if (!nameList.Contains(ss))
                     nameList.Add(ss);
-            }            
-            if (nameList.Count == 1)
-            {
-                return nameList[0];
             }
-            else
+
+            return nameList.Count == 1 ? nameList[0] : "";
+        }
+        private static string GetTeleportEndPointName(dynamic endpoint)
+        {
+            var nameSet = new HashSet<string>();
+            string discd = endpoint.Name ?? "Unknown";
+
+            if (string.IsNullOrEmpty(endpoint.Name))
             {
-                return "";
-            }            
+                nameSet.Add($"{discd}None");
+            }
+            if (endpoint.TeleporterType == "Spacestation")
+            {
+                nameSet.Add($"{discd} (SS)");
+            }
+            if (endpoint.TeleporterType == "Base")
+            {
+                nameSet.Add($"{discd} (B)");
+            }
+            if (endpoint.TeleporterType == "ExternalBase")
+            {
+                nameSet.Add($"{discd} (EB)");
+            }
+            if (endpoint.TeleporterType == "SpacestationFixPosition" || endpoint.TeleporterType == "SpacestationFixwMC")
+            {
+                nameSet.Add($"{discd} (SS)");
+            }
+
+            return nameSet.Count == 1 ? nameSet.First() : string.Empty;
         }
         private void LoadTeleportEndpoints()
         {
-            //Method to load all location discovered in listbox1
-            //DiscList.Clear();
             listBox1.Items.Clear();
             listBox2.Items.Clear();
             ClearTextBoxes();
 
-            var nms = GameSaveData.FromJson(json);
             try
             {
-                for (int i = 0; i < nms.BaseContext.PlayerStateData.TeleportEndpoints.Length; i++)
-                {
-                    string name = GetTeleportEndPointName(i, nms);
-                    
-                    if (name.Contains("(SS)"))
-                        listBox2.Items.Add(name);
+                // Parse save data
+                dynamic nms = SaveFileParser.ParseSaveData(json);
 
-                    if (name.Contains("(B)") || name.Contains("(EB)"))
-                        listBox1.Items.Add(name);
+                // Determine the teleport endpoints and portal status based on save format
+                dynamic teleportEndpoints = Globals.IsNewSaveFormat
+                    ? nms.BaseContext?.PlayerStateData?.TeleportEndpoints
+                    : nms.PlayerStateData?.TeleportEndpoints;
+
+                bool onOtherSideOfPortal = Globals.IsNewSaveFormat
+                    ? nms.BaseContext?.PlayerStateData?.OnOtherSideOfPortal ?? false
+                    : nms.PlayerStateData?.OnOtherSideOfPortal ?? false;
+
+                if (teleportEndpoints == null)
+                {
+                    Globals.AppendLine(textBox17, "** Code 113 ** No teleport endpoints found.");
+                    return;
                 }
 
-                /*
-                for (int i = 0; i < nms.BaseContext.PlayerStateData.TeleportEndpoints.Length; i++)
+                foreach (var endpoint in teleportEndpoints)
                 {
-                    string discd = nms.BaseContext.PlayerStateData.TeleportEndpoints[i].Name;
+                    try
+                    {
+                        string name = GetTeleportEndPointName(endpoint);
 
-                    if (nms.BaseContext.PlayerStateData.TeleportEndpoints[i].TeleporterType == "Spacestation")
-                    {
-                        string ss = discd + " (SS)";
-                        DiscList.Add(ss);
-                        listBox2.Items.Add(ss);
-                    }
-                    if (nms.BaseContext.PlayerStateData.TeleportEndpoints[i].TeleporterType == "Base") // v1.1.16
-                    {
-                        string bl = discd + " (B)";
-                        DiscList.Add(bl);
-                        listBox1.Items.Add(bl);
-                    }
-                    if (nms.BaseContext.PlayerStateData.TeleportEndpoints[i].TeleporterType == "ExternalBase") // v1.1.16
-                    {
-                        string bl = discd + " (EB)";
-                        DiscList.Add(bl);
-                        listBox1.Items.Add(bl);
-                    }
-                }
-                for (int i = 0; i < nms.BaseContext.PlayerStateData.TeleportEndpoints.Length; i++)
-                {
-                    string discd = nms.BaseContext.PlayerStateData.TeleportEndpoints[i].Name;
-
-                    if (nms.BaseContext.PlayerStateData.TeleportEndpoints[i].TeleporterType == "SpacestationFixPosition") // 1.1.16
-                    {
-                        string ss = discd + " (SS)";
-                        if (!DiscList.Contains(ss))
+                        if (string.IsNullOrEmpty(name))
                         {
-                            DiscList.Add(ss);
-                            listBox2.Items.Add(ss);
-                        }                       
+                            //Globals.AppendLine(textBox17, "** Warning ** Empty or invalid teleport endpoint name.");
+                            continue;
+                        }
+
+                        if (name.Contains("(SS)"))
+                            listBox2.Items.Add(name);
+
+                        if (name.Contains("(B)") || name.Contains("(EB)"))
+                            listBox1.Items.Add(name);
                     }
-                }*/
+                    catch (Exception endpointEx)
+                    {
+                        Globals.AppendLine(textBox17, $"** Warning ** Failed to process endpoint: {endpointEx.Message}");
+                    }
+                }
 
+                // Update portal status
+                textBox12.Text = onOtherSideOfPortal ? "True" : "False";
+                textBox19.Text = listBox1.Items.Count.ToString();
+                textBox20.Text = listBox2.Items.Count.ToString();
+                listBox1.SelectedIndex = -1;
             }
-            catch
+            catch (Exception ex)
             {
-                Globals.AppendLine(textBox17, "** Code 111 **");
-                return;
-            }
-            
-            //listBox1.DataSource = DiscList; //Removed v1.1.11
-            textBox19.Text = listBox1.Items.Count.ToString();
-            textBox20.Text = listBox2.Items.Count.ToString();
-            listBox1.SelectedIndex = -1;
-
-            if (nms.BaseContext.PlayerStateData.OnOtherSideOfPortal == true)
-            {
-                textBox12.Text = "True";
-            }
-            else
-            {
-                textBox12.Text = "False";
+                Globals.AppendLine(textBox17, $"** Code 111 ** Exception: {ex.Message}");
             }
         }
         private void ListBox1_KeyUp(object sender, KeyEventArgs e)
@@ -1227,7 +1255,7 @@ namespace NMSCoordinates
         private void LoadPersistentPlayerBases()
         {
             //Future use to add Persistent Bases to a Listbox
-            var nms = GameSaveData.FromJson(json);
+            dynamic nms = SaveFileParser.ParseSaveData(json);
             try
             {
                 for (int i = 0; i < nms.BaseContext.PlayerStateData.PersistentPlayerBases.Length; i++)
@@ -1257,80 +1285,50 @@ namespace NMSCoordinates
         */
         private void ListBox1_MouseClick(object sender, EventArgs e)
         {
-            //When a location is clicked on listbox1, get all the info
+            // Handle mouse click on listBox1
             listBox2.SelectedIndex = -1;
-            try
-            {
-                string si = listBox1.GetItemText(listBox1.SelectedItem);
-
-                if (!string.IsNullOrEmpty(si))
-                {
-                    //object selecteditem = listBox1.SelectedItem;
-                    //string si = selecteditem.ToString();
-                    si = si.Replace(" (B)", "");
-                    si = si.Replace(" (EB)", ""); //v1.1.16
-                    var nms = GameSaveData.FromJson(json);
-                    try
-                    {
-                        for (int i = 0; i < nms.BaseContext.PlayerStateData.TeleportEndpoints.Length; i++)
-                        {
-                            if (nms.BaseContext.PlayerStateData.TeleportEndpoints[i].Name.ToString() == si)
-                            {
-                                //JsonMapTeleportEndpoints(i);
-                                Destination dest = TeleportEndpoints(i, json, textBox3);
-
-                                ClearTextBoxes();
-
-                                textBox4.Text = dest.Galaxy;
-                                textBox5.Text = dest.X;
-                                textBox6.Text = dest.Y;
-                                textBox7.Text = dest.Z;
-                                textBox8.Text = dest.SSI;
-                                textBox9.Text = dest.PI;
-                                textBox10.Text = dest.GalaxyName;
-                                textBox30.Text = dest.DistanceToCenter;
-
-                                ShowGlyphs(dest.PortalCode);
-
-                                Globals.AppendLine(textBox1, dest.GalacticCoordinate);
-                                Globals.AppendLine(textBox2, dest.PortalCode);
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        Globals.AppendLine(textBox17, "** Code 51l1 **");
-                        return;
-                    }
-                }
-            }
-            catch
-            {
-                Globals.AppendLine(textBox17, "** Code 5l1 **");
-                return;
-            }
+            HandleListBoxClick(listBox1, " (B)", " (EB)");
         }
         private void ListBox2_MouseClick(object sender, EventArgs e)
         {
-            //When a location is clicked on listbox2, get all the info
+            // Handle mouse click on listBox2
             listBox1.SelectedIndex = -1;
+            HandleListBoxClick(listBox2, " (SS)");
+        }
+        private void HandleListBoxClick(ListBox listBox, params string[] suffixesToRemove)
+        {
             try
             {
-                string si = listBox2.GetItemText(listBox2.SelectedItem);
+                string si = listBox.GetItemText(listBox.SelectedItem);
 
                 if (!string.IsNullOrEmpty(si))
                 {
-                    //object selecteditem = listBox2.SelectedItem;
-                    //string si = selecteditem.ToString();
-                    si = si.Replace(" (SS)", "");
-                    var nms = GameSaveData.FromJson(json);
+                    // Remove specified suffixes from the selected item text
+                    foreach (var suffix in suffixesToRemove)
+                    {
+                        si = si.Replace(suffix, "");
+                    }
+
+                    // Parse save data
+                    dynamic nms = SaveFileParser.ParseSaveData(json);
+
+                    // Determine teleport endpoints based on save format
+                    dynamic teleportEndpoints = Globals.IsNewSaveFormat
+                        ? nms.BaseContext?.PlayerStateData?.TeleportEndpoints
+                        : nms.PlayerStateData?.TeleportEndpoints;
+
+                    if (teleportEndpoints == null)
+                    {
+                        Globals.AppendLine(textBox17, "** Code 113 ** No teleport endpoints found.");
+                        return;
+                    }
+
                     try
                     {
-                        for (int i = 0; i < nms.BaseContext.PlayerStateData.TeleportEndpoints.Length; i++)
+                        for (int i = 0; i < teleportEndpoints.Length; i++)
                         {
-                            if (nms.BaseContext.PlayerStateData.TeleportEndpoints[i].Name.ToString() == si)
+                            if (teleportEndpoints[i].Name.ToString() == si)
                             {
-                                //JsonMapTeleportEndpoints(i);
                                 Destination dest = TeleportEndpoints(i, json, textBox3);
 
                                 ClearTextBoxes();
@@ -1348,72 +1346,22 @@ namespace NMSCoordinates
 
                                 Globals.AppendLine(textBox1, dest.GalacticCoordinate);
                                 Globals.AppendLine(textBox2, dest.PortalCode);
+
+                                return;
                             }
                         }
                     }
-                    catch
+                    catch (Exception ex)
                     {
-                        Globals.AppendLine(textBox17, "** Code 51l2 **");
+                        Globals.AppendLine(textBox17, $"** Code 51 ** Exception while processing teleport endpoint: {ex.Message}");
                         return;
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                Globals.AppendLine(textBox17, "** Code 5l2 **");
-                return;
+                Globals.AppendLine(textBox17, $"** Code 5 ** Exception while handling list box click: {ex.Message}");
             }
-            /*
-            listBox1.SelectedIndex = -1;
-            try
-            {
-                string si = listBox2.GetItemText(listBox2.SelectedItem);
-                if (!string.IsNullOrEmpty(si))
-                {
-                    //object selecteditem = listBox2.SelectedItem;
-                    //string si = selecteditem.ToString();                    
-                    //si = si.Replace(" (SS)", "");
-                    si = si.Replace("Not Named (PB)", "");
-                    si = si.Replace(" (PB)", "");
-                    var nms = GameSaveData.FromJson(json);
-                    try
-                    {
-                        for (int i = 0; i < nms.BaseContext.PlayerStateData.PersistentPlayerBases.Length; i++)
-                        {
-                            if (nms.BaseContext.PlayerStateData.PersistentPlayerBases[i].Name.ToString() == si)
-                            {
-                                Destination dest = PersistentBases(i, json);
-
-                                ClearTextBoxes();
-
-                                textBox4.Text = dest.Galaxy;
-                                textBox5.Text = dest.X;
-                                textBox6.Text = dest.Y;
-                                textBox7.Text = dest.Z;
-                                textBox8.Text = dest.SSI;
-                                textBox9.Text = dest.PI;
-                                textBox10.Text = dest.GalaxyName;
-                                textBox30.Text = dest.DistanceToCenter;
-
-                                ShowGlyphs(dest.PortalCode);
-                                Globals.AppendLine(textBox1, dest.GalacticCoordinate);
-                                Globals.AppendLine(textBox2, dest.PortalCode);
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        Globals.AppendLine(textBox17, "** Code 51l2 **");
-                        return;
-                    }
-                }
-            }
-            catch
-            {
-                Globals.AppendLine(textBox17, "** Code 5l2 **");
-                return;
-            }
-            */
         }
         private void ShowPGlyphs(string pc)
         {
@@ -1784,7 +1732,7 @@ namespace NMSCoordinates
                 Button2_Click(this, new EventArgs());
             }
         }
-        public void BackUpSaveSlot(TextBox tb, int slot, bool msg)
+        public void BackUpSaveSlot(int slot, bool msg, TextBox tb = null)
         {
             //Backup a single save slot Method
             if (SelectedSaveSlot >= 1 && SelectedSaveSlot <= 15)
@@ -1853,48 +1801,44 @@ namespace NMSCoordinates
         {
             //backup a single save slot
             if (comboBox1.GetItemText(comboBox1.SelectedItem) != "")
-                BackUpSaveSlot(textBox17, SelectedSaveSlot, true);
+                BackUpSaveSlot(SelectedSaveSlot, true, textBox17);
             else
                 MessageBox.Show("Please select a save slot!", "Alert");
         }
         private void Button3_Click(object sender, EventArgs e)
         {
-            //Clear Interference Button
-            if (SelectedSaveSlot >= 1 && SelectedSaveSlot <= 15 && textBox12.Text != "")
+            // Clear Portal Interference Button
+            if (SelectedSaveSlot >= 1 && SelectedSaveSlot <= 15 && !string.IsNullOrEmpty(textBox12.Text))
             {
-                if (textBox12.Text == "False" || textBox12.Text == "false")
+                if (textBox12.Text.Equals("False", StringComparison.OrdinalIgnoreCase))
                 {
                     MessageBox.Show("No Portal Interference Found!", "Alert", MessageBoxButtons.OK);
                     return;
                 }
-                else
+
+                DialogResult dialogResult = MessageBox.Show("Clear Portal Interference?", "Portal Interference", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
                 {
-                    DialogResult dialogResult = MessageBox.Show("Clear Portal Interference ? ", "Portal Interference", MessageBoxButtons.YesNo);
-                    if (dialogResult == DialogResult.Yes)
+                    // Read - Edit - Write JSON save file for portal
+                    WriteSavePortal(progressBar1, SelectedSaveSlot, textBox27);
+
+                    // Reload JSON to verify changes
+                    dynamic nms = SaveFileParser.ParseSaveData(json);
+                    bool onOtherSideOfPortal = Globals.IsNewSaveFormat
+                        ? nms.BaseContext?.PlayerStateData?.OnOtherSideOfPortal ?? false
+                        : nms.PlayerStateData?.OnOtherSideOfPortal ?? false;
+
+                    textBox12.Text = onOtherSideOfPortal.ToString();
+
+                    if (!onOtherSideOfPortal)
                     {
-                        //Read - Edit - Write Json save file for portal
-                        WriteSavePortal(progressBar1, textBox27, SelectedSaveSlot);
-
-                        ////Check save file edits
-                        var nms = GameSaveData.FromJson(json);
-                        textBox12.Clear();
-                        textBox12.Text = nms.BaseContext.PlayerStateData.OnOtherSideOfPortal.ToString();
-
-                        if (textBox12.Text == "False" || textBox12.Text == "false")
-                        {
-                            progressBar1.Invoke((System.Action)(() => progressBar1.Value = 100));
-                            progressBar1.Visible = false;
-
-                            MessageBox.Show("Portal Interference removal successful!", "Confirmation", MessageBoxButtons.OK);
-                        }
-                        else
-                        {
-                            MessageBox.Show("Portal Interference Problem!", "Error");
-                        }
+                        progressBar1.Invoke((System.Action)(() => progressBar1.Value = 100));
+                        progressBar1.Visible = false;
+                        MessageBox.Show("Portal Interference removal successful!", "Confirmation", MessageBoxButtons.OK);
                     }
-                    else if (dialogResult == DialogResult.No)
+                    else
                     {
-                        return;
+                        MessageBox.Show("Portal Interference Problem!", "Error");
                     }
                 }
             }
@@ -1905,21 +1849,30 @@ namespace NMSCoordinates
         }
         private void Button14_Click(object sender, EventArgs e)
         {
-            //Freighter Battle Button
+            // Trigger Freighter Battle Button
             if (SelectedSaveSlot >= 1 && SelectedSaveSlot <= 15)
             {
-                DialogResult dialogResult = MessageBox.Show("Trigger a Freighter Battle ? ", "Freighter Battle", MessageBoxButtons.YesNo);
+                DialogResult dialogResult = MessageBox.Show("Trigger a Freighter Battle?", "Freighter Battle", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
-                    //Read - Edit - Write Json save file for portal
-                    WriteSaveFB(progressBar4, textBox15, SelectedSaveSlot);
+                    // Read - Edit - Write JSON save file for freighter battle
+                    WriteSaveFB(progressBar4, SelectedSaveSlot, textBox15);
 
-                    var nms = GameSaveData.FromJson(json);
-                    bool O5J = nms.BaseContext.PlayerStateData.TimeLastSpaceBattle == 0;
-                    bool Ebr = nms.BaseContext.PlayerStateData.WarpsLastSpaceBattle == 0;
-                    bool Exx = nms.BaseContext.PlayerStateData.ActiveSpaceBattleUA == 0;
+                    // Reload JSON to verify changes
+                    dynamic nms = SaveFileParser.ParseSaveData(json);
+                    bool timeLastSpaceBattle = Globals.IsNewSaveFormat
+                        ? nms.BaseContext?.PlayerStateData?.TimeLastSpaceBattle == 0
+                        : nms.PlayerStateData?.TimeLastSpaceBattle == 0;
 
-                    if (O5J && Ebr && Exx)
+                    bool warpsLastSpaceBattle = Globals.IsNewSaveFormat
+                        ? nms.BaseContext?.PlayerStateData?.WarpsLastSpaceBattle == 0
+                        : nms.PlayerStateData?.WarpsLastSpaceBattle == 0;
+
+                    bool activeSpaceBattleUA = Globals.IsNewSaveFormat
+                        ? nms.BaseContext?.PlayerStateData?.ActiveSpaceBattleUA == 0
+                        : nms.PlayerStateData?.ActiveSpaceBattleUA == 0;
+
+                    if (timeLastSpaceBattle && warpsLastSpaceBattle && activeSpaceBattleUA)
                     {
                         progressBar4.Invoke((System.Action)(() => progressBar4.Value = 100));
                         progressBar4.Visible = false;
@@ -1931,10 +1884,6 @@ namespace NMSCoordinates
                     {
                         MessageBox.Show("Freighter Battle Problem!", "Error");
                     }
-                }
-                else if (dialogResult == DialogResult.No)
-                {
-                    return;
                 }
             }
             else
@@ -1988,11 +1937,14 @@ namespace NMSCoordinates
             //Move Player button on Base and Space Station tab
             try
             {
+                // Validate save slot
                 if (SelectedSaveSlot < 1 || SelectedSaveSlot > 15)
                 {
                     MessageBox.Show("Please select a save slot!", "Confirmation", MessageBoxButtons.OK);
                     return;
                 }
+
+                // Validate location selection
                 if (listBox1.SelectedIndex < 0 && listBox2.SelectedIndex < 0)
                 {
                     MessageBox.Show("Please select a location!", "Confirmation", MessageBoxButtons.OK);
@@ -2007,80 +1959,103 @@ namespace NMSCoordinates
                     return;
                 }
 
-                Destination dest = new Destination();
+                // Clean the selected location string
+                si = si.Replace(" (B)", "").Replace(" (EB)", "").Replace(" (SS)", "");
 
-                //object selecteditem = listBox1.SelectedItem;
-                //string si = selecteditem.ToString();
-                si = si.Replace(" (B)", "");
-                si = si.Replace(" (EB)", ""); //v1.1.16
-                si = si.Replace(" (SS)", "");
-                var nms = GameSaveData.FromJson(json);
-                for (int i = 0; i < nms.BaseContext.PlayerStateData.TeleportEndpoints.Length; i++)
-                {
-                    if (nms.BaseContext.PlayerStateData.TeleportEndpoints[i].Name.ToString() == si)
-                    {
-                        dest = TeleportEndpoints(i, json);
-                    }
-                }
+                // Parse save data
+                dynamic nms = SaveFileParser.ParseSaveData(json);
 
-                if (dest.GalaxyName == "")
+                // Determine teleport endpoints
+                dynamic teleportEndpoints = Globals.IsNewSaveFormat
+                    ? nms.BaseContext?.PlayerStateData?.TeleportEndpoints
+                    : nms.PlayerStateData?.TeleportEndpoints;
+
+                if (teleportEndpoints == null)
                 {
-                    MessageBox.Show("Something went wrong! ERROR [51]", "Error", MessageBoxButtons.OK);
+                    MessageBox.Show("Something went wrong! ERROR [52: TeleportEndpoints missing]", "Error", MessageBoxButtons.OK);
                     return;
                 }
 
-                if (!string.IsNullOrEmpty(listBox1.GetItemText(listBox1.SelectedItem)) || !string.IsNullOrEmpty(listBox2.GetItemText(listBox2.SelectedItem)))
+                Destination dest = new Destination();
+
+                // Find the matching teleport endpoint
+                for (int i = 0; i < teleportEndpoints.Length; i++)
                 {
-                    DialogResult dialogResult = MessageBox.Show("Move Player to: " + listBox1.GetItemText(listBox1.SelectedItem) + listBox2.GetItemText(listBox2.SelectedItem) + " ? ", "Fast Travel", MessageBoxButtons.YesNo);
-                    if (dialogResult == DialogResult.Yes)
+                    if (teleportEndpoints[i].Name?.ToString() == si)
                     {
-                        if (dest.Galaxy != "" && dest.X != "" && dest.Y != "" && dest.Z != "" && dest.SSI != "")
-                        {
-                            //Check if location is the same as cuurent
-                            if (CheckForSameLoc(dest))
-                            {
-                                MessageBox.Show("Same as Current location!", "Alert");
-                                return;
-                            }
-                            Globals.AppendLine(textBox27, "Move Player to: Galaxy (" + dest.Galaxy + ") X:" + dest.X + " Y:" + dest.Y + " Z:" + dest.Z + " SSI:" + dest.SSI);
-                        
-                            //Read - Edit - Write Json save file for move player
-                            WriteSaveMove(SelectedSaveSlot, dest, progressBar1, textBox27);
-
-                            //Read the new json and check portal interference state
-                            var nms2 = GameSaveData.FromJson(json);
-                            textBox12.Clear();
-                            textBox12.Text = nms2.BaseContext.PlayerStateData.OnOtherSideOfPortal.ToString();
-                            GetPlayerCoord();
-
-                            progressBar1.Invoke((System.Action)(() => progressBar1.Value = 100));
-                            progressBar1.Visible = false;
-
-                            //set the last write time box
-                            textBox26.Clear();
-                            FileInfo hgfile = new FileInfo(hgFilePath);
-                            Globals.AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
-
-                            MessageBox.Show("Player moved successfully! \r\n\r\n Reload Save in game.", "Confirmation", MessageBoxButtons.OK);
-                        }
-                        else
-                        {
-                            MessageBox.Show("Please click a location!", "Confirmation", MessageBoxButtons.OK);
-                        }
-                    }
-                    else if (dialogResult == DialogResult.No)
-                    {
-                        return;
+                        dest = TeleportEndpoints(i, json);
+                        break;
                     }
                 }
-                else
+
+                if (string.IsNullOrEmpty(dest.GalaxyName))
                 {
-                    MessageBox.Show("Please click a location!", "Confirmation", MessageBoxButtons.OK);
+                    MessageBox.Show("Something went wrong! ERROR [51: Invalid destination]", "Error", MessageBoxButtons.OK);
+                    return;
+                }
+
+                // Confirm location move
+                DialogResult dialogResult = MessageBox.Show(
+                    $"Move Player to: {listBox1.GetItemText(listBox1.SelectedItem)} {listBox2.GetItemText(listBox2.SelectedItem)}?",
+                    "Fast Travel",
+                    MessageBoxButtons.YesNo);
+
+                if (dialogResult == DialogResult.Yes)
+                {
+                    // Ensure all destination properties are valid
+                    if (!string.IsNullOrEmpty(dest.Galaxy) && !string.IsNullOrEmpty(dest.X) &&
+                        !string.IsNullOrEmpty(dest.Y) && !string.IsNullOrEmpty(dest.Z) &&
+                        !string.IsNullOrEmpty(dest.SSI))
+                    {
+                        // Check if the destination is the same as the current location
+                        if (CheckForSameLoc(dest))
+                        {
+                            MessageBox.Show("Same as current location!", "Alert");
+                            return;
+                        }
+
+                        // Validate coordinates
+                        if (CoordCalculations.CoordinateOutOfRange(dest.GalacticCoordinate))
+                        {
+                            MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
+                            return;
+                        }
+
+                        Globals.AppendLine(textBox27, $"Move Player to: Galaxy ({dest.Galaxy}) X:{dest.X} Y:{dest.Y} Z:{dest.Z} SSI:{dest.SSI}");
+
+                        // Read, edit, and write JSON save file for player movement
+                        WriteSaveMove(SelectedSaveSlot, dest, progressBar1, textBox27);
+
+                        // Reload JSON and update UI
+                        dynamic nms2 = SaveFileParser.ParseSaveData(json);
+                        bool onOtherSideOfPortal = Globals.IsNewSaveFormat
+                            ? nms2.BaseContext?.PlayerStateData?.OnOtherSideOfPortal ?? false
+                            : nms2.PlayerStateData?.OnOtherSideOfPortal ?? false;
+
+                        textBox12.Clear();
+                        textBox12.Text = onOtherSideOfPortal.ToString();
+                        GetPlayerCoord();
+
+                        // Update progress bar
+                        progressBar1.Invoke((System.Action)(() => progressBar1.Value = 100));
+                        progressBar1.Visible = false;
+
+                        // Update last write time
+                        textBox26.Clear();
+                        FileInfo hgFile = new FileInfo(hgFilePath);
+                        Globals.AppendLine(textBox26, $"{hgFile.LastWriteTime.ToShortDateString()} {hgFile.LastWriteTime.ToLongTimeString()}");
+
+                        MessageBox.Show("Player moved successfully! \r\n\r\n Reload save in game.", "Confirmation", MessageBoxButtons.OK);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Please click a location!", "Confirmation", MessageBoxButtons.OK);
+                    }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                Globals.AppendLine(textBox27, "Invalid Coordinates!");
+                Globals.AppendLine(textBox27, $"Invalid Coordinates! Exception: {ex.Message}");
             }
         }
         private void BackupALLSaveFilesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2423,111 +2398,101 @@ namespace NMSCoordinates
         }
         private void Button8_Click(object sender, EventArgs e)
         {
-            //Move player button share coordinate tab
+            // Move player button on the share coordinate tab
             try
             {
-                if (!string.IsNullOrEmpty(listBox3.GetItemText(listBox3.SelectedItem)) && !string.IsNullOrEmpty(locjson))
-                {
-                    if (SelectedSaveSlot < 1 || SelectedSaveSlot > 15)
-                    {
-                        MessageBox.Show("Please select a save slot!", "Confirmation", MessageBoxButtons.OK);
-                        return;
-                    }
-
-                    DialogResult dialogResult = MessageBox.Show("Move Player? ", "Fast Travel", MessageBoxButtons.YesNo);
-                    if (dialogResult == DialogResult.Yes)
-                    {
-                        //grabs the galactic coordinate
-                        var loc = SavedLocationData.FromJson(locjson);
-                        var basehx = loc.Locations.TeleportEndpoints[listBox3.SelectedIndex].Details.LongHex;
-                        Destination dest = HexToAll(basehx);
-
-                        //var gal = loc.Locations.TeleportEndpoints[listBox3.SelectedIndex].Details.Galaxy;
-                        //var gc = loc.Locations.TeleportEndpoints[listBox3.SelectedIndex].Details.GalacticCoords;                        
-
-                        if (string.IsNullOrEmpty(basehx))
-                        {
-                            DialogResult dialogResult2 = MessageBox.Show("Something went wrong! \r\n\nSelected line has errors. \r\n\nWould you like to Delete the Line?", "Fast Travel", MessageBoxButtons.YesNo);
-                            if (dialogResult2 == DialogResult.Yes)
-                            {
-                                DeleteLocationRecordToolStripMenuItem_Click(this, new EventArgs());
-                                return;
-                            }
-                            else if (dialogResult2 == DialogResult.No)
-                            {
-                                return;
-                            }                                                       
-                        }
-
-                        //string[] value = gc.Split(':');
-
-                        //Only take 4 digits from the last array so can add notes GC: 0000:0000:0000:[0000] A:B:C:D
-                        //string A = value[0].Trim();
-                        //string B = value[1].Trim();
-                        //string C = value[2].Trim();
-                        //string D = value[3].Trim().Substring(0, 4);
-
-                        //Validate Coordinates
-                        if (CoordCalculations.ValidateCoord(dest.GalacticCoordinate))
-                        {
-                            MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
-                            return;
-                        }
-
-                        //Sets x,y,z,ssi ix,iy,iz,issi from given ABCD
-                        //Destination dest = GalacticToVoxel(gal, A, B, C, D, textBox13);
-
-                        Globals.AppendLine(textBox13, "Galaxy: " + dest.Galaxy + " -- X:" + dest.X + " -- Y:" + dest.Y + " -- Z:" + dest.Z + " -- SSI:" + dest.SSI);
-                        
-                        if (dest.Galaxy != "" && dest.X != "" && dest.Y != "" && dest.Z != "" && dest.SSI != "") // && SelectedSaveSlot >= 1 && SelectedSaveSlot <= 5)
-                        {
-                            //Check if location is the same as cuurent
-                            if (CheckForSameLoc(dest))
-                            {
-                                MessageBox.Show("Same as Current location!", "Alert");
-                                return;
-                            }
-                            Globals.AppendLine(textBox13, "Move Player to: Galaxy (" + dest.Galaxy + ") X:" + dest.X + " Y:" + dest.Y + " Z:" + dest.Z + " SSI:" + dest.SSI);
-
-                            //Read - Edit - Write Json save file for move player
-                            WriteSaveMove(SelectedSaveSlot, dest, progressBar3, textBox13);
-
-                            //Read the new json and check portal interference state
-                            var nms = GameSaveData.FromJson(json);
-                            textBox12.Clear();
-                            textBox12.Text = nms.BaseContext.PlayerStateData.OnOtherSideOfPortal.ToString();
-                            GetPlayerCoord();
-
-                            progressBar3.Invoke((System.Action)(() => progressBar3.Value = 100));
-                            progressBar3.Visible = false;
-
-                            //set the last write time box
-                            textBox26.Clear();
-                            FileInfo hgfile = new FileInfo(hgFilePath);
-                            Globals.AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
-
-                            MessageBox.Show("Player moved successfully! \r\n\r\n Reload Save in game.", "Confirmation", MessageBoxButtons.OK);
-                        }
-                        else
-                        {
-                            //MessageBox.Show("Please select a save slot!", "Confirmation", MessageBoxButtons.OK);
-                            MessageBox.Show("Something went wrong!", "Alert", MessageBoxButtons.OK);
-                        }
-                    }
-                    else if (dialogResult == DialogResult.No)
-                    {
-                        return;
-                    }
-                }
-                else
+                if (string.IsNullOrEmpty(listBox3.GetItemText(listBox3.SelectedItem)) || string.IsNullOrEmpty(locjson))
                 {
                     Globals.AppendLine(textBox13, "Please load and select a location!");
                     MessageBox.Show("Please load and select a location!", "Alert");
+                    return;
+                }
+
+                if (SelectedSaveSlot < 1 || SelectedSaveSlot > 15)
+                {
+                    MessageBox.Show("Please select a save slot!", "Confirmation", MessageBoxButtons.OK);
+                    return;
+                }
+
+                DialogResult dialogResult = MessageBox.Show("Move Player?", "Fast Travel", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    // Parse saved location data
+                    var loc = SavedLocationData.FromJson(locjson);
+                    var basehx = loc.Locations.TeleportEndpoints[listBox3.SelectedIndex].Details.LongHex;
+                    Destination dest = HexToAll(basehx);
+
+                    // Check if LongHex is valid
+                    if (string.IsNullOrEmpty(basehx))
+                    {
+                        DialogResult dialogResult2 = MessageBox.Show(
+                            "Something went wrong! \r\n\nSelected line has errors. \r\n\nWould you like to delete the line?",
+                            "Fast Travel",
+                            MessageBoxButtons.YesNo);
+
+                        if (dialogResult2 == DialogResult.Yes)
+                        {
+                            DeleteLocationRecordToolStripMenuItem_Click(this, new EventArgs());
+                        }
+                        return;
+                    }
+
+                    // Validate coordinates
+                    if (CoordCalculations.CoordinateOutOfRange(dest.GalacticCoordinate))
+                    {
+                        MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
+                        return;
+                    }
+
+                    Globals.AppendLine(textBox13, $"Galaxy: {dest.Galaxy} -- X: {dest.X} -- Y: {dest.Y} -- Z: {dest.Z} -- SSI: {dest.SSI}");
+
+                    // Ensure destination properties are valid
+                    if (!string.IsNullOrEmpty(dest.Galaxy) && !string.IsNullOrEmpty(dest.X) &&
+                        !string.IsNullOrEmpty(dest.Y) && !string.IsNullOrEmpty(dest.Z) &&
+                        !string.IsNullOrEmpty(dest.SSI))
+                    {
+                        // Check if the destination is the same as the current location
+                        if (CheckForSameLoc(dest))
+                        {
+                            MessageBox.Show("Same as Current location!", "Alert");
+                            return;
+                        }
+
+                        Globals.AppendLine(textBox13, $"Move Player to: Galaxy ({dest.Galaxy}) X:{dest.X} Y:{dest.Y} Z:{dest.Z} SSI:{dest.SSI}");
+
+                        // Read, edit, and write JSON save file for player movement
+                        WriteSaveMove(SelectedSaveSlot, dest, progressBar3, textBox13);
+
+                        // Reload JSON and update UI
+                        dynamic nms = SaveFileParser.ParseSaveData(json);
+                        bool onOtherSideOfPortal = Globals.IsNewSaveFormat
+                            ? nms.BaseContext?.PlayerStateData?.OnOtherSideOfPortal ?? false
+                            : nms.PlayerStateData?.OnOtherSideOfPortal ?? false;
+
+                        textBox12.Clear();
+                        textBox12.Text = onOtherSideOfPortal.ToString();
+                        GetPlayerCoord();
+
+                        // Update progress bar
+                        progressBar3.Invoke((System.Action)(() => progressBar3.Value = 100));
+                        progressBar3.Visible = false;
+
+                        // Update last write time
+                        textBox26.Clear();
+                        FileInfo hgFile = new FileInfo(hgFilePath);
+                        Globals.AppendLine(textBox26, $"{hgFile.LastWriteTime.ToShortDateString()} {hgFile.LastWriteTime.ToLongTimeString()}");
+
+                        MessageBox.Show("Player moved successfully! \r\n\r\n Reload Save in game.", "Confirmation", MessageBoxButtons.OK);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Something went wrong!", "Alert", MessageBoxButtons.OK);
+                    }
                 }
             }
-            catch
-            {                
-                Globals.AppendLine(textBox13, "Invalid Coordinates!");
+            catch (Exception ex)
+            {
+                Globals.AppendLine(textBox13, $"Invalid Coordinates! Exception: {ex.Message}");
             }
         }
         private void DeleteLocationRecordToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2902,122 +2867,100 @@ namespace NMSCoordinates
         }
         private void Button11_Click(object sender, EventArgs e)
         {
-            //Move player button on Manual Travel Tab
+            // Move player button on Manual Travel Tab
             try
             {
+                // Validate if the player location is set
                 if (string.IsNullOrEmpty(textBox14.Text))
                 {
                     MessageBox.Show("Cannot locate player!", "Alert");
                     return;
                 }
 
+                // Validate selected save slot
                 if (SelectedSaveSlot < 1 || SelectedSaveSlot > 15)
                 {
                     MessageBox.Show("Please select a save slot!", "Confirmation", MessageBoxButtons.OK);
                     return;
                 }
 
-                //Validate galaxy
-                if (comboBox3.SelectedIndex > 255 || comboBox3.SelectedIndex == -1) //selectedindex 0-255 = galaxy 1-256
+                // Validate selected galaxy
+                if (comboBox3.SelectedIndex > 255 || comboBox3.SelectedIndex == -1)
                 {
                     MessageBox.Show("Invalid Galaxy!", "Alert");
                     return;
                 }
-                    
-                //removes all spaces
-                string inputcoord = textBox14.Text.Replace(" ", "");
 
-                //if invalid format
-                if (inputcoord.Replace(":", "").Length < 16 | inputcoord.Replace(":", "").Length > 16 | inputcoord.Length < 16)
+                // Prepare and validate coordinates
+                string inputCoord = textBox14.Text.Replace(" ", "");
+                if (inputCoord.Replace(":", "").Length != 16)
                 {
                     MessageBox.Show("Invalid Coordinate Input!", "Alert");
                     return;
                 }
 
-                //Validate Coordinates
-                if (CoordCalculations.ValidateCoord(inputcoord))
+                if (CoordCalculations.CoordinateOutOfRange(inputCoord))
                 {
                     MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
                     return;
                 }
 
-                int selectedindex = comboBox3.SelectedIndex;
-                //Destination dest = new Destination();
+                // Convert coordinates to destination object
+                int selectedGalaxyIndex = comboBox3.SelectedIndex;
+                GalacticCoordinates galacticCoordinates = GetGalacticCoordHex(inputCoord);
+                Destination dest = GalacticToVoxel(
+                    selectedGalaxyIndex,
+                    galacticCoordinates.HexX,
+                    galacticCoordinates.HexY,
+                    galacticCoordinates.HexZ,
+                    galacticCoordinates.HexSSI,
+                    textBox15);
 
-                GalacticCoordinates gac = GetGalacticCoordHex(inputcoord);
-                Destination dest = GalacticToVoxel(selectedindex, gac.HexX, gac.HexY, gac.HexZ, gac.HexSSI, textBox15);
-
-                ////if format 0000:0000:0000:0000 A:B:C:D
-                //if (t2.Contains(":") && t2.Length == 19)
-                //{
-                //    string[] value = t2.Replace(" ", "").Split(':');
-                //    string A = value[0].Trim();
-                //    string B = value[1].Trim();
-                //    string C = value[2].Trim();
-                //    string D = value[3].Trim();
-
-                //    //Validate Coordinates
-                //    if (CoordCalculations.ValidateCoord(t2))
-                //    {
-                //        MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
-                //        return;
-                //    }
-
-                //    //sets x,y,z,ssi ix,iy,iz,issi from given ABCD
-                //    dest = GalacticToVoxel(selectedindex, A, B, C, D, textBox15);
-                //}
-
-                ////if format 0000000000000000
-                //if (t2.Length == 16 && !t2.Contains(":"))
-                //{
-                //    //0000 0000 0000 0000  XXXX:YYYY:ZZZZ:SSIX  A B C D
-                //    string A = t2.Substring(t2.Length - 16, 4);
-                //    string B = t2.Substring(t2.Length - 12, 4);
-                //    string C = t2.Substring(t2.Length - 8, 4);
-                //    string D = t2.Substring(t2.Length - 4, 4);
-
-                //    //Validate Coordinates
-                //    if (CoordCalculations.ValidateCoord(A, B, C, D))
-                //    {
-                //        MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
-                //        return;
-                //    }
-
-                //    //sets x,y,z,ssi ix,iy,iz,issi from given ABCD
-                //    dest = GalacticToVoxel(selectedindex, A, B, C, D, textBox15);
-                //}
-
-                if (dest.Galaxy != "" && dest.X != "" && dest.Y != "" && dest.Z != "" && dest.SSI != "")
+                // Ensure the destination properties are valid
+                if (!string.IsNullOrEmpty(dest.Galaxy) && !string.IsNullOrEmpty(dest.X) &&
+                    !string.IsNullOrEmpty(dest.Y) && !string.IsNullOrEmpty(dest.Z) &&
+                    !string.IsNullOrEmpty(dest.SSI))
                 {
-                    DialogResult dialogResult = MessageBox.Show("Move Player? ", "Fast Travel", MessageBoxButtons.YesNo);
+                    // Confirm moving the player
+                    DialogResult dialogResult = MessageBox.Show("Move Player?", "Fast Travel", MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.Yes)
                     {
-                        //Check if location is the same as cuurent
+                        // Check if destination is the same as the current location
                         if (CheckForSameLoc(dest))
                         {
                             MessageBox.Show("Same as Current location!", "Alert");
                             return;
                         }
-                        Globals.AppendLine(textBox15, "Move Player to: Galaxy (" + dest.Galaxy + ") X:" + dest.X + " Y:" + dest.Y + " Z:" + dest.Z + " SSI:" + dest.SSI);
 
+                        Globals.AppendLine(
+                            textBox15,
+                            $"Move Player to: Galaxy ({dest.Galaxy}) X:{dest.X} Y:{dest.Y} Z:{dest.Z} SSI:{dest.SSI}");
+
+                        // Write the move to the save file
                         WriteSaveMove(SelectedSaveSlot, dest, progressBar4, textBox15);
 
-                        //Read - Edit - Write Json save file for move player
-                        var nms = GameSaveData.FromJson(json);
+                        // Reload JSON and update portal interference state
+                        dynamic nms = SaveFileParser.ParseSaveData(json);
+                        bool onOtherSideOfPortal = Globals.IsNewSaveFormat
+                            ? nms.BaseContext?.PlayerStateData?.OnOtherSideOfPortal ?? false
+                            : nms.PlayerStateData?.OnOtherSideOfPortal ?? false;
+
                         textBox12.Clear();
-                        textBox12.Text = nms.BaseContext.PlayerStateData.OnOtherSideOfPortal.ToString();
+                        textBox12.Text = onOtherSideOfPortal.ToString();
                         GetPlayerCoord();
 
+                        // Update progress bar
                         progressBar4.Invoke((System.Action)(() => progressBar4.Value = 100));
                         progressBar4.Visible = false;
 
-                        //set the last write time box
+                        // Update last write time
                         textBox26.Clear();
-                        FileInfo hgfile = new FileInfo(hgFilePath);
-                        Globals.AppendLine(textBox26, hgfile.LastWriteTime.ToShortDateString() + " " + hgfile.LastWriteTime.ToLongTimeString());
+                        FileInfo hgFile = new FileInfo(hgFilePath);
+                        Globals.AppendLine(
+                            textBox26,
+                            $"{hgFile.LastWriteTime.ToShortDateString()} {hgFile.LastWriteTime.ToLongTimeString()}");
 
                         MessageBox.Show("Player moved successfully! \r\n\r\n Reload Save in game.", "Confirmation", MessageBoxButtons.OK);
-
                     }
                     else if (dialogResult == DialogResult.No)
                     {
@@ -3031,11 +2974,11 @@ namespace NMSCoordinates
                     return;
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 textBox15.Clear();
                 comboBox3.SelectedIndex = -1;
-                Globals.AppendLine(textBox15, "Incorrect Coordinate Input!");
+                Globals.AppendLine(textBox15, $"Incorrect Coordinate Input! Exception: {ex.Message}");
             }
         }
         private void TabControl1_Selected(object sender, TabControlEventArgs e)
@@ -3153,38 +3096,42 @@ namespace NMSCoordinates
         }
         private void CheckSS()
         {
-            //Take the list of current discoveries and add them to SSList for comparison to PrevSSlist
-            GameSaveData nms = GameSaveData.FromJson(json);
-            int teleportArrayLength = nms.BaseContext.PlayerStateData.TeleportEndpoints.Length;
+            // Take the list of current discoveries and add them to SSList for comparison to PrevSSList
+            dynamic nms = SaveFileParser.ParseSaveData(json);
 
-            if (teleportArrayLength > 0)
-            {
-                // Set Minimum to 1 to represent the first file being copied.
-                progressBar2.Minimum = 1;
-                // Set Maximum to the total number of files to copy.
-                progressBar2.Maximum = teleportArrayLength;
-                // Set the initial value of the ProgressBar.
-                progressBar2.Value = 1;
-                // Set the Step property to a value of 1 to represent each file being copied.
-                progressBar2.Step = 1;
-                // Display the ProgressBar control.
-                progressBar2.Visible = true;
+            // Determine teleport endpoints dynamically based on the save format
+            dynamic teleportEndpoints = Globals.IsNewSaveFormat
+                ? nms.BaseContext?.PlayerStateData?.TeleportEndpoints
+                : nms.PlayerStateData?.TeleportEndpoints;
 
-                for (int i = 0; i < teleportArrayLength; i++)
-                {
-                    Destination dest = TeleportEndpoints(i, json);
-
-                    SSlist.Add("Slot_" + SelectedSaveSlot + "_Loc: " + nms.BaseContext.PlayerStateData.TeleportEndpoints[i].Name + " - G: " + dest.Galaxy + " - PC: " + dest.PortalCode + " -- GC: " + dest.GalacticCoordinate);
-
-                    progressBar2.PerformStep();
-                }
-                progressBar2.Visible = false;
-                progressBar2.Maximum = 100;
-            }
-            else
+            if (teleportEndpoints == null || teleportEndpoints.Length == 0)
             {
                 return;
             }
+
+            // Set up the progress bar
+            progressBar2.Minimum = 1;
+            progressBar2.Maximum = teleportEndpoints.Length;
+            progressBar2.Value = 1;
+            progressBar2.Step = 1;
+            progressBar2.Visible = true;
+
+            // Iterate through teleport endpoints
+            for (int i = 0; i < teleportEndpoints.Length; i++)
+            {
+                Destination dest = TeleportEndpoints(i, json);
+
+                string endpointName = teleportEndpoints[i].Name ?? "Unknown";
+
+                SSlist.Add(
+                    $"Slot_{SelectedSaveSlot}_Loc: {endpointName} - G: {dest.Galaxy} - PC: {dest.PortalCode} -- GC: {dest.GalacticCoordinate}");
+
+                progressBar2.PerformStep();
+            }
+
+            // Reset the progress bar
+            progressBar2.Visible = false;
+            progressBar2.Maximum = 100;
         }
         private void SetPrevSS()
         {
@@ -3454,7 +3401,7 @@ namespace NMSCoordinates
         }
         private void FileSystemWatcher1_Changed(object sender, FileSystemEventArgs e)
         {
-            //Watch for changes in hg files
+            // Watch for changes in hg files
             List<string> list = new List<string>();
 
             foreach (KeyValuePair<int, string> item in comboBox1.Items)
@@ -3473,8 +3420,18 @@ namespace NMSCoordinates
                     _changedFiles.Add(e.FullPath);
                 }
 
-                //if changes detected, show form7 files changed externally
-                //SaveModified f7 = new SaveModified();
+                // Ensure only one popup per file change
+                lock (_popupLock)
+                {
+                    if (_displayedPopups.Contains(e.Name))
+                    {
+                        return; // Skip if already displayed
+                    }
+
+                    _displayedPopups.Add(e.Name);
+                }
+
+                // If changes detected, show the popup form
                 f7.Show();
 
                 var selected = comboBox2.SelectedItem;
@@ -3487,25 +3444,18 @@ namespace NMSCoordinates
                     tabControl1.SelectedTab = tabPage1;
                 }
 
-                /*
-                if (f7.SaveChanged == true)
+                // Remove from displayed popups after a delay
+                System.Timers.Timer popupTimer = new System.Timers.Timer(60000) { AutoReset = false }; // Clear popup flag after 1 minute
+                popupTimer.Elapsed += (popupTimerSender, popupTimerArgs) =>
                 {
-                    var selected = comboBox2.SelectedItem;
-                    ClearAll();
-                    LoadCmbx();
-                    comboBox2.SelectedItem = selected;                 
-                    ComboBox2_SelectionChangeCommitted(this, new EventArgs());
-                    if (tabControl1.SelectedTab == tabPage4)
+                    lock (_popupLock)
                     {
-                        tabControl1.SelectedTab = tabPage1; //added v1.1.11
-                    }                        
-                }
-                else
-                {
-                    Globals.AppendLine(textBox17, "Not Viewing the latest save!");
-                }
-                */
+                        _displayedPopups.Remove(e.Name);
+                    }
+                };
+                popupTimer.Start();
 
+                // Remove file from changed list after a delay
                 System.Timers.Timer timer = new System.Timers.Timer(1000) { AutoReset = false };
                 timer.Elapsed += (timerElapsedSender, timerElapsedArgs) =>
                 {
@@ -3636,12 +3586,12 @@ namespace NMSCoordinates
             get { return progressBar2; }
             //set { progressBar2; }
         }
-        private void WriteSaveFB(ProgressBar pb, TextBox tb, int saveslot)
+        private void WriteSaveFB(ProgressBar pb, int saveslot, TextBox tb = null)
         {
             //Main method for writing a change for a freighter battle
             fileSystemWatcher1.EnableRaisingEvents = false;
 
-            BackUpSaveSlot(tb, saveslot, false);
+            BackUpSaveSlot(saveslot, false, tb);
             //DecryptSave(saveslot);
             EditSaveFB(pb);
             //CreateNewSave(out json, modSave, ufmodSave, true);
@@ -3653,12 +3603,12 @@ namespace NMSCoordinates
 
             fileSystemWatcher1.EnableRaisingEvents = true;
         }
-        private void WriteSavePortal(ProgressBar pb, TextBox tb, int saveslot)
+        private void WriteSavePortal(ProgressBar pb, int saveslot, TextBox tb = null)
         {
             //Main method for writing a change in portal status
             fileSystemWatcher1.EnableRaisingEvents = false;
 
-            BackUpSaveSlot(tb, saveslot, false);
+            BackUpSaveSlot(saveslot, false, tb);
             //DecryptSave(saveslot);
             EditSavePortal(pb);
             //CreateNewSave(out json, modSave, ufmodSave, true);
@@ -3670,12 +3620,12 @@ namespace NMSCoordinates
 
             fileSystemWatcher1.EnableRaisingEvents = true;
         }
-        private void WriteSaveMove(int saveslot, Destination dest, ProgressBar pb, TextBox tb)
+        private void WriteSaveMove(int saveslot, Destination dest, ProgressBar pb, TextBox tb = null)
         {
             //Main method for writing a player move
             fileSystemWatcher1.EnableRaisingEvents = false;
 
-            BackUpSaveSlot(tb, saveslot, false);
+            BackUpSaveSlot(saveslot, false, tb);
             //DecryptSave(saveslot);
             EditSaveMove(dest, pb, tb);
             //CreateNewSave(out json, modSave, ufmodSave, true);
@@ -3840,24 +3790,27 @@ namespace NMSCoordinates
         private void EditSaveFB(ProgressBar pb)
         {
             pb.Visible = true;
-            pb.Invoke((System.Action)(() => pb.Value = 5)); //progressBar1.Value = 5));
+            pb.Invoke((System.Action)(() => pb.Value = 5));
 
             string jsonString = json;
 
-            // Convert the JSON string to a JObject:
+            // Convert the JSON string to a JObject
             JObject jObject = JsonConvert.DeserializeObject(jsonString) as JObject;
 
-            // Select a nested property using a single string:
-            JToken TimeLastSpaceBattle = jObject.SelectToken("BaseContext.PlayerStateData.TimeLastSpaceBattle");
-            JToken WarpsLastSpaceBattle = jObject.SelectToken("BaseContext.PlayerStateData.WarpsLastSpaceBattle");
-            JToken ActiveSpaceBattleUa = jObject.SelectToken("BaseContext.PlayerStateData.ActiveSpaceBattleUA");
+            // Determine JSON paths based on the save format
+            string basePath = Globals.IsNewSaveFormat ? "BaseContext.PlayerStateData" : "PlayerStateData";
 
-            // Update the value of the property: 
-            TimeLastSpaceBattle.Replace(0);
-            WarpsLastSpaceBattle.Replace(0);
-            ActiveSpaceBattleUa.Replace(0);
+            // Select properties dynamically
+            JToken TimeLastSpaceBattle = jObject.SelectToken($"{basePath}.TimeLastSpaceBattle");
+            JToken WarpsLastSpaceBattle = jObject.SelectToken($"{basePath}.WarpsLastSpaceBattle");
+            JToken ActiveSpaceBattleUa = jObject.SelectToken($"{basePath}.ActiveSpaceBattleUA");
 
-            // Convert the JObject back to a string:
+            // Update the values
+            TimeLastSpaceBattle?.Replace(0);
+            WarpsLastSpaceBattle?.Replace(0);
+            ActiveSpaceBattleUa?.Replace(0);
+
+            // Convert the JObject back to a string and write to file
             string updatedJsonString = jObject.ToString();
             File.WriteAllText(modSave, updatedJsonString);
 
@@ -3866,65 +3819,72 @@ namespace NMSCoordinates
         private void EditSavePortal(ProgressBar pb)
         {
             pb.Visible = true;
-            pb.Invoke((System.Action)(() => pb.Value = 5)); //progressBar1.Value = 5));
+            pb.Invoke((System.Action)(() => pb.Value = 5));
 
             string jsonString = json;
 
-            // Convert the JSON string to a JObject:
+            // Convert the JSON string to a JObject
             JObject jObject = JsonConvert.DeserializeObject(jsonString) as JObject;
 
-            // Select a nested property using a single string:
-            JToken VisitedPortal = jObject.SelectToken("BaseContext.PlayerStateData.VisitedPortal.PortalSeed[0]");
-            JToken OnOtherSideOfPortal = jObject.SelectToken("BaseContext.PlayerStateData.OnOtherSideOfPortal");
+            // Determine JSON paths based on the save format
+            string basePath = Globals.IsNewSaveFormat ? "BaseContext.PlayerStateData" : "PlayerStateData";
 
-            // Update the value of the property: 
-            VisitedPortal.Replace(false);
-            OnOtherSideOfPortal.Replace(false);
+            // Select properties dynamically
+            JToken VisitedPortal = jObject.SelectToken($"{basePath}.VisitedPortal.PortalSeed[0]");
+            JToken OnOtherSideOfPortal = jObject.SelectToken($"{basePath}.OnOtherSideOfPortal");
 
-            // Convert the JObject back to a string:
+            // Update the values
+            VisitedPortal?.Replace(false);
+            OnOtherSideOfPortal?.Replace(false);
+
+            // Convert the JObject back to a string and write to file
             string updatedJsonString = jObject.ToString();
             File.WriteAllText(modSave, updatedJsonString);
 
             pb.Invoke((System.Action)(() => pb.Value = 60));
         }
-        private void EditSaveMove(Destination dest, ProgressBar pb, TextBox tb) //string json)
+        private void EditSaveMove(Destination dest, ProgressBar pb, TextBox tb = null)
         {
             pb.Visible = true;
-            pb.Invoke((System.Action)(() => pb.Value = 5)); //progressBar1.Value = 5));
+            pb.Invoke((System.Action)(() => pb.Value = 5));
 
             string jsonString = json;
 
-            // Convert the JSON string to a JObject:
+            // Convert the JSON string to a JObject
             JObject jObject = JsonConvert.DeserializeObject(jsonString) as JObject;
 
-            // Select a nested property using a single string:
-            JToken RealityIndex = jObject.SelectToken("BaseContext.PlayerStateData.UniverseAddress.RealityIndex");
-            JToken VoxelX = jObject.SelectToken("BaseContext.PlayerStateData.UniverseAddress.GalacticAddress.VoxelX");
-            JToken VoxelY = jObject.SelectToken("BaseContext.PlayerStateData.UniverseAddress.GalacticAddress.VoxelY");
-            JToken VoxelZ = jObject.SelectToken("BaseContext.PlayerStateData.UniverseAddress.GalacticAddress.VoxelZ");
-            JToken SolarSystemIndex = jObject.SelectToken("BaseContext.PlayerStateData.UniverseAddress.GalacticAddress.SolarSystemIndex");
-            JToken PlanetIndex = jObject.SelectToken("BaseContext.PlayerStateData.UniverseAddress.GalacticAddress.PlanetIndex");
-            JToken HomeRealityIteration = jObject.SelectToken("BaseContext.PlayerStateData.HomeRealityIteration");
-            JToken LastKnownPlayerState = jObject.SelectToken("BaseContext.SpawnStateData.LastKnownPlayerState");
+            // Determine JSON paths based on the save format
+            string basePath = Globals.IsNewSaveFormat ? "BaseContext.PlayerStateData" : "PlayerStateData";
+            string spawnStatePath = Globals.IsNewSaveFormat ? "BaseContext.SpawnStateData" : "SpawnStateData";
 
-            // Update the value of the property: 
-            RealityIndex.Replace(dest.iGalaxy);
-            VoxelX.Replace(dest.iX);
-            VoxelY.Replace(dest.iY);
-            VoxelZ.Replace(dest.iZ);
-            SolarSystemIndex.Replace(dest.iSSI);
-            PlanetIndex.Replace(dest.iPI);
-            HomeRealityIteration.Replace(dest.iGalaxy);
-            LastKnownPlayerState.Replace("InShip");
+            // Select properties dynamically
+            JToken RealityIndex = jObject.SelectToken($"{basePath}.UniverseAddress.RealityIndex");
+            JToken VoxelX = jObject.SelectToken($"{basePath}.UniverseAddress.GalacticAddress.VoxelX");
+            JToken VoxelY = jObject.SelectToken($"{basePath}.UniverseAddress.GalacticAddress.VoxelY");
+            JToken VoxelZ = jObject.SelectToken($"{basePath}.UniverseAddress.GalacticAddress.VoxelZ");
+            JToken SolarSystemIndex = jObject.SelectToken($"{basePath}.UniverseAddress.GalacticAddress.SolarSystemIndex");
+            JToken PlanetIndex = jObject.SelectToken($"{basePath}.UniverseAddress.GalacticAddress.PlanetIndex");
+            JToken HomeRealityIteration = jObject.SelectToken($"{basePath}.HomeRealityIteration");
+            JToken LastKnownPlayerState = jObject.SelectToken($"{spawnStatePath}.LastKnownPlayerState");
 
-            // Convert the JObject back to a string:
+            // Update the values
+            RealityIndex?.Replace(dest.iGalaxy);
+            VoxelX?.Replace(dest.iX);
+            VoxelY?.Replace(dest.iY);
+            VoxelZ?.Replace(dest.iZ);
+            SolarSystemIndex?.Replace(dest.iSSI);
+            PlanetIndex?.Replace(dest.iPI);
+            HomeRealityIteration?.Replace(dest.iGalaxy);
+            LastKnownPlayerState?.Replace("InShip");
+
+            // Convert the JObject back to a string and write to file
             string updatedJsonString = jObject.ToString();
             File.WriteAllText(modSave, updatedJsonString);
 
             pb.Invoke((System.Action)(() => pb.Value = 60));
 
             Globals.AppendLine(tb, "Player Move Data: ");
-            Globals.AppendLine(tb, dest.Galaxy + " " + dest.X + " " + dest.Y + " " + dest.Z + " " + dest.iSSI + " " + dest.PI + " " + "InShip");
+            Globals.AppendLine(tb, $"{dest.Galaxy} {dest.X} {dest.Y} {dest.Z} {dest.iSSI} {dest.PI} InShip");
             pb.Invoke((System.Action)(() => pb.Value = 70));
         }
         private void Button15_Click(object sender, EventArgs e)

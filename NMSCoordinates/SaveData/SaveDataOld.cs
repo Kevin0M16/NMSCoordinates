@@ -202,12 +202,12 @@ namespace NMSCoordinates.SaveDataOld
 
     public partial class GameSaveDataOld
     {
-        public static GameSaveDataOld FromJson(string json) => JsonConvert.DeserializeObject<GameSaveDataOld>(json, NMSCoordinates.SaveData.Converter.Settings);
+        public static GameSaveDataOld FromJson(string json) => JsonConvert.DeserializeObject<GameSaveDataOld>(json, NMSCoordinates.SaveDataOld.Converter.Settings);
     }
 
     public static class Serialize
     {
-        public static string ToJson(this GameSaveDataOld self) => JsonConvert.SerializeObject(self, NMSCoordinates.SaveData.Converter.Settings);
+        public static string ToJson(this GameSaveDataOld self) => JsonConvert.SerializeObject(self, NMSCoordinates.SaveDataOld.Converter.Settings);
     }
 
     internal static class Converter
