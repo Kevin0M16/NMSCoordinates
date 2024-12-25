@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## v2.3 (DEC 25 2024)
+- Update for NMS 5.x compatibility, keeping previous NMS 4.0 compatibility.
+  
 ## v2.2 (NOV 4 2022)
 - Update for NMS 4.0 compatibility and save names, difficulty
 - Added new features for locations management. Merge, delete, open, etc.
