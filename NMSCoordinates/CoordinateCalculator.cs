@@ -441,7 +441,7 @@ namespace NMSCoordinates
                     }
 
                     //Validate Coordinate
-                    if (CoordCalculations.ValidateCoord(gc))
+                    if (CoordCalculations.CoordinateOutOfRange(gc))
                     {
                         MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
                         Clear();
@@ -586,7 +586,7 @@ namespace NMSCoordinates
                     Destination dest = HexToAll(basehx, textBox7);
 
                     //Validate Coordinates
-                    if (CoordCalculations.ValidateCoord(dest.GalacticCoordinate))
+                    if (CoordCalculations.CoordinateOutOfRange(dest.GalacticCoordinate))
                     {
                         MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
                         Clear();
@@ -659,7 +659,7 @@ namespace NMSCoordinates
                     Destination dest = HexToAll(basehx, textBox7);
 
                     //Validate Coordinates
-                    if (CoordCalculations.ValidateCoord(dest.GalacticCoordinate))
+                    if (CoordCalculations.CoordinateOutOfRange(dest.GalacticCoordinate))
                     {
                         MessageBox.Show("Invalid Coordinates! Out of Range!", "Alert");
                         Clear();
@@ -834,7 +834,7 @@ namespace NMSCoordinates
         {
             if (textBox2.Text != "")
             {
-                f1 = (NMSCoordinatesMain)Application.OpenForms["Form1"];
+                f1 = (NMSCoordinatesMain)Application.OpenForms["NMSCoordinatesMain"];
                 if (!f1.TextBoxPerm == true)
                 {
                     f1.TextBoxValue = textBox2.Text;

@@ -2,20 +2,19 @@
 //
 // To parse this JSON data, add NuGet 'Newtonsoft.Json' then do:
 //
-//    using QuickType;
+//    using NMSCoordinates.SaveData;
 //
-//    var nms = Nms.FromJson(jsonString);
+//    var gameSaveData = GameSaveData.FromJson(jsonString);
+
+using System;
+using System.Collections.Generic;
+
+using System.Globalization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace NMSCoordinates.SaveData
 {
-    using System;
-    using System.Collections.Generic;
-
-    using System.Globalization;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
-    using NMSCoordinates.Properties;
-
     public partial class GameSaveData
     {
         [JsonProperty("Version")]
@@ -23,6 +22,21 @@ namespace NMSCoordinates.SaveData
 
         [JsonProperty("Platform")]
         public string Platform { get; set; }
+
+        [JsonProperty("ActiveContext")]
+        public string ActiveContext { get; set; }
+
+        [JsonProperty("CommonStateData")]
+        public CommonStateData CommonStateData { get; set; }
+
+        [JsonProperty("BaseContext")]
+        public BaseContext BaseContext { get; set; }
+    }
+
+    public partial class BaseContext
+    {
+        [JsonProperty("GameMode")]
+        public long GameMode { get; set; }
 
         [JsonProperty("PlayerStateData")]
         public PlayerStateData PlayerStateData { get; set; }
@@ -42,26 +56,122 @@ namespace NMSCoordinates.SaveData
         [JsonProperty("HomeRealityIteration")]
         public long HomeRealityIteration { get; set; }
 
-        [JsonProperty("SaveName")]
-        public string SaveName { get; set; }
-
         [JsonProperty("SaveSummary")]
         public string SaveSummary { get; set; }
 
         [JsonProperty("DifficultyState")]
         public DifficultyState DifficultyState { get; set; }
 
-        [JsonProperty("TeleportEndpoints")]
-        public TeleportEndpoints[] TeleportEndpoints { get; set; }
+        [JsonProperty("TimeStamp")]
+        public long TimeStamp { get; set; }
 
-        [JsonProperty("OnOtherSideOfPortal")]
-        public bool OnOtherSideOfPortal { get; set; }
+        [JsonProperty("SpawnGrave")]
+        public bool SpawnGrave { get; set; }
 
-        [JsonProperty("VisitedPortal")]
-        public VisitedPortal VisitedPortal { get; set; }
+        [JsonProperty("SpaceGrave")]
+        public bool SpaceGrave { get; set; }
 
-        [JsonProperty("PersistentPlayerBases")]
-        public PersistentPlayerBases[] PersistentPlayerBases { get; set; }
+        [JsonProperty("PostMissionIndex")]
+        public long PostMissionIndex { get; set; }
+
+        [JsonProperty("CurrentMissionID")]
+        public string CurrentMissionId { get; set; }
+
+        [JsonProperty("CurrentMissionSeed")]
+        public long CurrentMissionSeed { get; set; }
+
+        [JsonProperty("PreviousMissionID")]
+        public string PreviousMissionId { get; set; }
+
+        [JsonProperty("PreviousMissionSeed")]
+        public long PreviousMissionSeed { get; set; }
+
+        [JsonProperty("MissionVersion")]
+        public long MissionVersion { get; set; }
+
+        [JsonProperty("Health")]
+        public long Health { get; set; }
+
+        [JsonProperty("ShipHealth")]
+        public long ShipHealth { get; set; }
+
+        [JsonProperty("Shield")]
+        public long Shield { get; set; }
+
+        [JsonProperty("ShipShield")]
+        public long ShipShield { get; set; }
+
+        [JsonProperty("Energy")]
+        public long Energy { get; set; }
+
+        [JsonProperty("Units")]
+        public long Units { get; set; }
+
+        [JsonProperty("Nanites")]
+        public long Nanites { get; set; }
+
+        [JsonProperty("Specials")]
+        public long Specials { get; set; }
+
+        [JsonProperty("TimeAlive")]
+        public long TimeAlive { get; set; }
+
+        [JsonProperty("MarkerStack")]
+        public dynamic[] MarkerStack { get; set; }
+
+        [JsonProperty("NewMPMarkerStack")]
+        public dynamic[] NewMpMarkerStack { get; set; }
+
+        [JsonProperty("SurveyedEventPositions")]
+        public dynamic[] SurveyedEventPositions { get; set; }
+
+        [JsonProperty("NextSurveyedEventPositionIndex")]
+        public long NextSurveyedEventPositionIndex { get; set; }
+
+        [JsonProperty("LastCheckedForStatResetsTime")]
+        public long LastCheckedForStatResetsTime { get; set; }
+
+        [JsonProperty("FirstSpawnPosition")]
+        public double[] FirstSpawnPosition { get; set; }
+
+        [JsonProperty("AtlasStationAdressData")]
+        public UniverseAddress[] AtlasStationAdressData { get; set; }
+
+        [JsonProperty("NewAtlasStationAdressData")]
+        public UniverseAddress[] NewAtlasStationAdressData { get; set; }
+
+        [JsonProperty("VisitedAtlasStationsData")]
+        public dynamic[] VisitedAtlasStationsData { get; set; }
+
+        [JsonProperty("FirstAtlasStationDiscovered")]
+        public bool FirstAtlasStationDiscovered { get; set; }
+
+        [JsonProperty("CompletedAtlasAddresses")]
+        public UniverseAddress[] CompletedAtlasAddresses { get; set; }
+
+        [JsonProperty("ProgressionLevel")]
+        public long ProgressionLevel { get; set; }
+
+        [JsonProperty("ProcTechIndex")]
+        public long ProcTechIndex { get; set; }
+
+        [JsonProperty("IsNew")]
+        public bool IsNew { get; set; }
+
+        [JsonProperty("UseSmallerBlackholeJumps")]
+        public bool UseSmallerBlackholeJumps { get; set; }
+
+        [JsonProperty("UsedEntitlements")]
+        public dynamic[] UsedEntitlements { get; set; }
+
+        [JsonProperty("PlanetPositions")]
+        public long[][] PlanetPositions { get; set; }
+
+        [JsonProperty("PlanetSeeds")]
+        public Seed[][] PlanetSeeds { get; set; }
+
+        [JsonProperty("PrimaryPlanet")]
+        public long PrimaryPlanet { get; set; }
 
         [JsonProperty("TimeLastSpaceBattle")]
         public long TimeLastSpaceBattle { get; set; }
@@ -72,11 +182,113 @@ namespace NMSCoordinates.SaveData
         [JsonProperty("ActiveSpaceBattleUA")]
         public long ActiveSpaceBattleUA { get; set; }
 
+        [JsonProperty("ActiveSpaceBattleLevel")]
+        public long ActiveSpaceBattleLevel { get; set; }
+
         [JsonProperty("TimeLastMiniStation")]
         public long TimeLastMiniStation { get; set; }
 
         [JsonProperty("WarpsLastMiniStation")]
         public long WarpsLastMiniStation { get; set; }
+
+        [JsonProperty("MiniStationUA")]
+        public string MiniStationUA { get; set; }
+
+        [JsonProperty("AnomalyPositionOverride")]
+        public long[] AnomalyPositionOverride { get; set; }
+
+        [JsonProperty("GameStartAddress1")]
+        public UniverseAddress GameStartAddress1 { get; set; }
+
+        [JsonProperty("GameStartAddress2")]
+        public UniverseAddress GameStartAddress2 { get; set; }
+
+        [JsonProperty("FirstShipPosition")]
+        public double[] FirstShipPosition { get; set; }
+
+        [JsonProperty("HazardTimeAlive")]
+        public long HazardTimeAlive { get; set; }
+
+        [JsonProperty("RevealBlackHoles")]
+        public bool RevealBlackHoles { get; set; }
+
+        [JsonProperty("CurrentFreighterHomeSystemSeed")]
+        public Seed[] CurrentFreighterHomeSystemSeed { get; set; }
+
+        [JsonProperty("FreighterLastSpawnTime")]
+        public long FreighterLastSpawnTime { get; set; }
+
+        [JsonProperty("FreighterUniverseAddress")]
+        public UniverseAddress FreighterUniverseAddress { get; set; }
+
+        [JsonProperty("FreighterDismissed")]
+        public bool FreighterDismissed { get; set; }
+
+        [JsonProperty("PersistentPlayerBases")]
+        public PersistentPlayerBase[] PersistentPlayerBases { get; set; }
+
+        [JsonProperty("TeleportEndpoints")]
+        public OtherSideOfPortalReturnBase[] TeleportEndpoints { get; set; }
+
+        [JsonProperty("PrimaryShip")]
+        public long PrimaryShip { get; set; }
+
+        [JsonProperty("PlayerFreighterName")]
+        public string PlayerFreighterName { get; set; }
+
+        [JsonProperty("StartGameShipPosition")]
+        public double[] StartGameShipPosition { get; set; }
+
+        [JsonProperty("LastPortal")]
+        public dynamic[] LastPortal { get; set; }
+
+        [JsonProperty("VisitedPortal")]
+        public VisitedPortal VisitedPortal { get; set; }
+
+        [JsonProperty("KnownPortalRunes")]
+        public long KnownPortalRunes { get; set; }
+
+        [JsonProperty("OnOtherSideOfPortal")]
+        public bool OnOtherSideOfPortal { get; set; }
+
+        [JsonProperty("OtherSideOfPortalReturnBase")]
+        public OtherSideOfPortalReturnBase OtherSideOfPortalReturnBase { get; set; }
+
+        [JsonProperty("PortalMarkerPosition_Local")]
+        public long[] PortalMarkerPositionLocal { get; set; }
+
+        [JsonProperty("PortalMarkerPosition_Offset")]
+        public long[] PortalMarkerPositionOffset { get; set; }
+
+        [JsonProperty("LastKnownDay")]
+        public long LastKnownDay { get; set; }
+
+        [JsonProperty("SunTimer")]
+        public long SunTimer { get; set; }
+
+        [JsonProperty("MultiplayerLobbyID")]
+        public long MultiplayerLobbyId { get; set; }
+
+        [JsonProperty("MultiplayerUA")]
+        public UniverseAddress MultiplayerUa { get; set; }
+
+        [JsonProperty("MultiplayerSpawn")]
+        public SpawnStateData MultiplayerSpawn { get; set; }
+
+        [JsonProperty("RepairTechBuffer")]
+        public dynamic[] RepairTechBuffer { get; set; }
+
+        [JsonProperty("MultiplayerPrivileges")]
+        public long MultiplayerPrivileges { get; set; }
+
+        [JsonProperty("LastUABeforePortalWarp")]
+        public string LastUaBeforePortalWarp { get; set; }
+
+        [JsonProperty("StoryPortalSeed")]
+        public long StoryPortalSeed { get; set; }
+
+        [JsonProperty("GalaxyWaypoints")]
+        public dynamic[] GalaxyWaypoints { get; set; }
     }
 
     public partial class UniverseAddress
@@ -86,23 +298,6 @@ namespace NMSCoordinates.SaveData
 
         [JsonProperty("GalacticAddress")]
         public GalacticAddress GalacticAddress { get; set; }
-    }
-    public partial class DifficultyState
-    {
-        [JsonProperty("Preset")]
-        public UsedPreset Preset { get; set; }
-
-        [JsonProperty("EasiestUsedPreset")]
-        public UsedPreset EasiestUsedPreset { get; set; }
-
-        [JsonProperty("HardestUsedPreset")]
-        public UsedPreset HardestUsedPreset { get; set; }
-
-    }
-    public partial class UsedPreset
-    {
-        [JsonProperty("DifficultyPresetType")]
-        public string DifficultyPresetType { get; set; }
     }
 
     public partial class GalacticAddress
@@ -123,36 +318,67 @@ namespace NMSCoordinates.SaveData
         public long PlanetIndex { get; set; }
     }
 
-    public partial class VisitedPortal
+    public partial class DifficultyState
     {
-        [JsonProperty("PortalSeed")]
-        public PortalSeed[] PortalSeed { get; set; }
+        [JsonProperty("Preset")]
+        public Preset Preset { get; set; }
 
-        [JsonProperty("LastPortalUA")]
-        public string LastPortalUA { get; set; }
+        [JsonProperty("EasiestUsedPreset")]
+        public Preset EasiestUsedPreset { get; set; }
 
-        [JsonProperty("IsStoryPortal")]
-        public bool IsStoryPortal { get; set; }
+        [JsonProperty("HardestUsedPreset")]
+        public Preset HardestUsedPreset { get; set; }
     }
 
-    public partial struct PortalSeed
+    public partial class Preset
     {
-        public bool? Bool;
-        public string String;
-
-        public static implicit operator PortalSeed(bool Bool) => new PortalSeed { Bool = Bool };
-        public static implicit operator PortalSeed(string String) => new PortalSeed { String = String };
+        [JsonProperty("DifficultyPresetType")]
+        public string DifficultyPresetType { get; set; }
     }
 
-    public partial class PersistentPlayerBases
+    public partial class SpawnStateData
     {
-        [JsonProperty("GalacticAddress")]
-        public string GalacticAddress { get; set; }
+        [JsonProperty("PlayerPositionInSystem")]
+        public double[] PlayerPositionInSystem { get; set; }
 
-        [JsonProperty("Name")]
-        public string Name { get; set; }
+        [JsonProperty("PlayerTransformAt")]
+        public double[] PlayerTransformAt { get; set; }
+
+        [JsonProperty("PlayerDeathRespawnPositionInSystem")]
+        public double[] PlayerDeathRespawnPositionInSystem { get; set; }
+
+        [JsonProperty("PlayerDeathRespawnTransformAt")]
+        public double[] PlayerDeathRespawnTransformAt { get; set; }
+
+        [JsonProperty("ShipPositionInSystem")]
+        public double[] ShipPositionInSystem { get; set; }
+
+        [JsonProperty("ShipTransformAt")]
+        public double[] ShipTransformAt { get; set; }
+
+        [JsonProperty("LastKnownPlayerState")]
+        public string LastKnownPlayerState { get; set; }
+
+        [JsonProperty("FreighterPositionInSystem")]
+        public long[] FreighterPositionInSystem { get; set; }
+
+        [JsonProperty("FreighterTransformAt")]
+        public long[] FreighterTransformAt { get; set; }
+
+        [JsonProperty("FreighterTransformUp")]
+        public long[] FreighterTransformUp { get; set; }
+
+        [JsonProperty("AbandonedFreighterPositionInSystem")]
+        public long[] AbandonedFreighterPositionInSystem { get; set; }
+
+        [JsonProperty("AbandonedFreighterTransformAt")]
+        public long[] AbandonedFreighterTransformAt { get; set; }
+
+        [JsonProperty("AbandonedFreighterTransformUp")]
+        public long[] AbandonedFreighterTransformUp { get; set; }
     }
-    public partial class TeleportEndpoints
+
+    public partial class OtherSideOfPortalReturnBase
     {
         [JsonProperty("UniverseAddress")]
         public UniverseAddress UniverseAddress { get; set; }
@@ -171,33 +397,177 @@ namespace NMSCoordinates.SaveData
 
         [JsonProperty("CalcWarpOffset")]
         public bool CalcWarpOffset { get; set; }
+
+        [JsonProperty("IsFeatured")]
+        public bool IsFeatured { get; set; }
     }
 
-    public partial class SpawnStateData
+    public partial class PersistentPlayerBase
     {
-        [JsonProperty("PlayerPositionInSystem")]
-        public double[] PlayerPositionInSystem { get; set; }
+        [JsonProperty("BaseVersion")]
+        public long BaseVersion { get; set; }
 
-        [JsonProperty("PlayerTransformAt")]
-        public double[] PlayerTransformAt { get; set; }
+        [JsonProperty("OriginalBaseVersion")]
+        public long OriginalBaseVersion { get; set; }
 
-        [JsonProperty("ShipPositionInSystem")]
-        public double[] ShipPositionInSystem { get; set; }
+        [JsonProperty("GalacticAddress")]
+        public string GalacticAddress { get; set; }
 
-        [JsonProperty("ShipTransformAt")]
-        public double[] ShipTransformAt { get; set; }
+        [JsonProperty("Position")]
+        public double[] Position { get; set; }
 
-        [JsonProperty("LastKnownPlayerState")]
-        public string LastKnownPlayerState { get; set; }
+        [JsonProperty("Forward")]
+        public double[] Forward { get; set; }
 
-        [JsonProperty("FreighterPositionInSystem")]
-        public double[] FreighterPositionInSystem { get; set; }
+        [JsonProperty("UserData")]
+        public long UserData { get; set; }
 
-        [JsonProperty("FreighterTransformAt")]
-        public double[] FreighterTransformAt { get; set; }
+        [JsonProperty("LastUpdateTimestamp")]
+        public long LastUpdateTimestamp { get; set; }
 
-        [JsonProperty("FreighterTransformUp")]
-        public double[] FreighterTransformUp { get; set; }
+        [JsonProperty("Objects")]
+        public Object[] Objects { get; set; }
+
+        [JsonProperty("RID")]
+        public string Rid { get; set; }
+
+        [JsonProperty("Owner")]
+        public Owner Owner { get; set; }
+
+        [JsonProperty("Name")]
+        public string Name { get; set; }
+
+        [JsonProperty("BaseType")]
+        public BaseType BaseType { get; set; }
+
+        [JsonProperty("LastEditedById")]
+        public string LastEditedById { get; set; }
+
+        [JsonProperty("LastEditedByUsername")]
+        public string LastEditedByUsername { get; set; }
+
+        [JsonProperty("ScreenshotAt")]
+        public double[] ScreenshotAt { get; set; }
+
+        [JsonProperty("ScreenshotPos")]
+        public double[] ScreenshotPos { get; set; }
+
+        [JsonProperty("GameMode")]
+        public GameMode GameMode { get; set; }
+
+        [JsonProperty("Difficulty")]
+        public Difficulty Difficulty { get; set; }
+
+        [JsonProperty("PlatformToken")]
+        public string PlatformToken { get; set; }
+
+        [JsonProperty("IsReported")]
+        public bool IsReported { get; set; }
+
+        [JsonProperty("IsFeatured")]
+        public bool IsFeatured { get; set; }
+
+        [JsonProperty("AutoPowerSetting")]
+        public AutoPowerSetting AutoPowerSetting { get; set; }
+    }
+
+    public partial class AutoPowerSetting
+    {
+        [JsonProperty("BaseAutoPowerSetting")]
+        public string BaseAutoPowerSetting { get; set; }
+    }
+
+    public partial class BaseType
+    {
+        [JsonProperty("PersistentBaseTypes")]
+        public string PersistentBaseTypes { get; set; }
+    }
+
+    public partial class Difficulty
+    {
+        [JsonProperty("DifficultyPreset")]
+        public Preset DifficultyPreset { get; set; }
+
+        [JsonProperty("PersistentBaseDifficultyFlags")]
+        public long PersistentBaseDifficultyFlags { get; set; }
+    }
+
+    public partial class GameMode
+    {
+        [JsonProperty("PresetGameMode")]
+        public string PresetGameMode { get; set; }
+    }
+
+    public partial class Object
+    {
+        [JsonProperty("Timestamp")]
+        public long Timestamp { get; set; }
+
+        [JsonProperty("ObjectID")]
+        public string ObjectId { get; set; }
+
+        [JsonProperty("UserData")]
+        public long UserData { get; set; }
+
+        [JsonProperty("Position")]
+        public double[] Position { get; set; }
+
+        [JsonProperty("Up")]
+        public double[] Up { get; set; }
+
+        [JsonProperty("At")]
+        public double[] At { get; set; }
+
+        [JsonProperty("Message")]
+        public string Message { get; set; }
+    }
+
+    public partial class Owner
+    {
+        [JsonProperty("LID")]
+        public string Lid { get; set; }
+
+        [JsonProperty("UID")]
+        public string Uid { get; set; }
+
+        [JsonProperty("USN")]
+        public string Usn { get; set; }
+
+        [JsonProperty("PTK")]
+        public string Ptk { get; set; }
+
+        [JsonProperty("TS")]
+        public long Ts { get; set; }
+    }
+
+    public partial class VisitedPortal
+    {
+        [JsonProperty("PortalSeed")]
+        public Seed[] PortalSeed { get; set; }
+
+        [JsonProperty("LastPortalUA")]
+        public string LastPortalUa { get; set; }
+
+        [JsonProperty("IsStoryPortal")]
+        public bool IsStoryPortal { get; set; }
+    }
+
+    public partial class CommonStateData
+    {
+        [JsonProperty("SaveName")]
+        public string SaveName { get; set; }
+
+        [JsonProperty("TotalPlayTime")]
+        public long TotalPlayTime { get; set; }
+    }
+
+    public partial struct Seed
+    {
+        public bool? Bool;
+        public string String;
+
+        public static implicit operator Seed(bool Bool) => new Seed { Bool = Bool };
+        public static implicit operator Seed(string String) => new Seed { String = String };
     }
 
     public partial class GameSaveData
@@ -214,15 +584,51 @@ namespace NMSCoordinates.SaveData
     {
         public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
         {
-            NullValueHandling = NullValueHandling.Ignore,
-            MissingMemberHandling = MissingMemberHandling.Ignore,
-            Formatting = Formatting.None,
             MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
             DateParseHandling = DateParseHandling.None,
             Converters =
             {
+                SeedConverter.Singleton,
                 new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
             },
         };
+    }
+
+    internal class SeedConverter : JsonConverter
+    {
+        public override bool CanConvert(Type t) => t == typeof(Seed) || t == typeof(Seed?);
+
+        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
+        {
+            switch (reader.TokenType)
+            {
+                case JsonToken.Boolean:
+                    var boolValue = serializer.Deserialize<bool>(reader);
+                    return new Seed { Bool = boolValue };
+                case JsonToken.String:
+                case JsonToken.Date:
+                    var stringValue = serializer.Deserialize<string>(reader);
+                    return new Seed { String = stringValue };
+            }
+            throw new Exception("Cannot unmarshal type Seed");
+        }
+
+        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
+        {
+            var value = (Seed)untypedValue;
+            if (value.Bool != null)
+            {
+                serializer.Serialize(writer, value.Bool.Value);
+                return;
+            }
+            if (value.String != null)
+            {
+                serializer.Serialize(writer, value.String);
+                return;
+            }
+            throw new Exception("Cannot marshal type Seed");
+        }
+
+        public static readonly SeedConverter Singleton = new SeedConverter();
     }
 }
