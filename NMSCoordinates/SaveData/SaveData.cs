@@ -78,13 +78,13 @@ namespace NMSCoordinates.SaveData
         public string CurrentMissionId { get; set; }
 
         [JsonProperty("CurrentMissionSeed")]
-        public long CurrentMissionSeed { get; set; }
+        public Seed CurrentMissionSeed { get; set; }
 
         [JsonProperty("PreviousMissionID")]
         public string PreviousMissionId { get; set; }
 
         [JsonProperty("PreviousMissionSeed")]
-        public long PreviousMissionSeed { get; set; }
+        public Seed PreviousMissionSeed { get; set; }
 
         [JsonProperty("MissionVersion")]
         public long MissionVersion { get; set; }
@@ -267,7 +267,7 @@ namespace NMSCoordinates.SaveData
         public long SunTimer { get; set; }
 
         [JsonProperty("MultiplayerLobbyID")]
-        public long MultiplayerLobbyId { get; set; }
+        public Seed MultiplayerLobbyId { get; set; }
 
         [JsonProperty("MultiplayerUA")]
         public UniverseAddress MultiplayerUa { get; set; }
@@ -285,7 +285,7 @@ namespace NMSCoordinates.SaveData
         public string LastUaBeforePortalWarp { get; set; }
 
         [JsonProperty("StoryPortalSeed")]
-        public long StoryPortalSeed { get; set; }
+        public Seed StoryPortalSeed { get; set; }
 
         [JsonProperty("GalaxyWaypoints")]
         public dynamic[] GalaxyWaypoints { get; set; }
@@ -565,9 +565,11 @@ namespace NMSCoordinates.SaveData
     {
         public bool? Bool;
         public string String;
+        public long? Number;  // Add support for numeric values
 
         public static implicit operator Seed(bool Bool) => new Seed { Bool = Bool };
         public static implicit operator Seed(string String) => new Seed { String = String };
+        public static implicit operator Seed(long Number) => new Seed { Number = Number };
     }
 
     public partial class GameSaveData
@@ -609,8 +611,12 @@ namespace NMSCoordinates.SaveData
                 case JsonToken.Date:
                     var stringValue = serializer.Deserialize<string>(reader);
                     return new Seed { String = stringValue };
+                case JsonToken.Integer:
+                    var numberValue = serializer.Deserialize<long>(reader);
+                    return new Seed { Number = numberValue };
+                default:
+                    throw new Exception($"Cannot unmarshal type Seed. Unexpected token type: {reader.TokenType}");
             }
-            throw new Exception("Cannot unmarshal type Seed");
         }
 
         public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
@@ -626,7 +632,12 @@ namespace NMSCoordinates.SaveData
                 serializer.Serialize(writer, value.String);
                 return;
             }
-            throw new Exception("Cannot marshal type Seed");
+            if (value.Number != null)
+            {
+                serializer.Serialize(writer, value.Number.Value);
+                return;
+            }
+            throw new Exception("Cannot marshal type Seed: no value set");
         }
 
         public static readonly SeedConverter Singleton = new SeedConverter();

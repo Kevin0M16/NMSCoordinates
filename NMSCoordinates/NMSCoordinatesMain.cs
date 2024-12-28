@@ -130,7 +130,7 @@ namespace NMSCoordinates
             InitializeComponent();
             
             //Set Version here
-            NMSCVersion = "2.3"; //"v2.3";
+            NMSCVersion = "2.3.1"; //"v2.3.1";
             label29.Text = "Version " + NMSCVersion;
             
             glyphDict = Globals.Glyphs();

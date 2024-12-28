@@ -24,6 +24,10 @@ You can clear portal interference while traveling through a portal, fast travel 
 |Manual Travel|Fast Travel|
 |<a href="http://www.youtube.com/watch?feature=player_embedded&v=ceSFVl9LFtI" target="_blank"><img src="http://img.youtube.com/vi/ceSFVl9LFtI/0.jpg" alt="Video" width="520" height="300" border="10" /></a>|<a href="http://www.youtube.com/watch?feature=player_embedded&v=Vx1xGk2TMIo" target="_blank"><img src="http://img.youtube.com/vi/Vx1xGk2TMIo/0.jpg" alt="Video" width="520" height="300" border="10" /></a>|
 -->
+
+## v2.3.1 (DEC 28 2024)
+- Fix for incorrect json propery type.
+  
 ## v2.3 (DEC 25 2024)
 - Update for NMS 5.x compatibility, keeping previous NMS 4.0 compatibility.
   

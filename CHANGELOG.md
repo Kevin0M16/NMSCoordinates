@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## v2.3.1 (DEC 28 2024)
+- Fix for incorrect json propery type.
+  
 ## v2.3 (DEC 25 2024)
 - Update for NMS 5.x compatibility, keeping previous NMS 4.0 compatibility.
   
