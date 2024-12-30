@@ -26,7 +26,7 @@ You can clear portal interference while traveling through a portal, fast travel 
 -->
 ## v2.3.2 (DEC 30 2024)
 - Fix for backup all locations feature.
-- 
+  
 ## v2.3.1 (DEC 28 2024)
 - Fix for incorrect json property type.
   
