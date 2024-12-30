@@ -130,7 +130,7 @@ namespace NMSCoordinates
             InitializeComponent();
             
             //Set Version here
-            NMSCVersion = "2.3.1"; //"v2.3.1";
+            NMSCVersion = "2.3.2"; //"v2.3.2";
             label29.Text = "Version " + NMSCVersion;
             
             glyphDict = Globals.Glyphs();
@@ -1107,12 +1107,10 @@ namespace NMSCoordinates
             }
         }
         */
-        private static string GetTeleportEndPointName(int i, dynamic nms)
+        private static string GetTeleportEndPointName(int i, dynamic teleportEndpoints)
         {
-            // Determine the correct endpoint based on the global save format
-            dynamic endpoint = Globals.IsNewSaveFormat 
-                ? nms.BaseContext.PlayerStateData.TeleportEndpoints[i] 
-                : nms.PlayerStateData.TeleportEndpoints[i];
+            // Get the specific endpoint at index i
+            dynamic endpoint = teleportEndpoints[i];
 
             List<string> nameList = new List<string>();
             string discd = endpoint.Name ?? "Unknown";
